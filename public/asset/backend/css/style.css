@@ -1,0 +1,105 @@
+body.hide-sidebar:not(.show-sidebar) #menu {
+    margin-left: -250px;
+    transition: margin-left 0.3s;
+}
+
+body.hide-sidebar:not(.show-sidebar) #wrapper {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+}
+
+body.page-small #menu {
+    margin-left: -250px;
+    transition: margin-left 0.3s;
+}
+
+body.page-small #wrapper {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+}
+
+body.page-small.show-sidebar #menu {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+}
+
+body.show-sidebar #wrapper {
+    margin-left: 250px;
+    transition: margin-left 0.3s;
+}
+
+#header {
+    background: #fff;
+    display: block;
+    height: 63px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 99;
+    margin-left: 250px;
+    border-bottom: 1px solid #e2e8f0
+}
+
+
+body.hide-sidebar #header,
+body.page-small #header {
+    margin-left: 0
+}
+
+
+.components li>a.active {
+    color: inherit; 
+    
+}
+
+.components>li {
+    color: #fff;
+    background: black;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 63px
+}
+.components>li>a {
+    color: #334155;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 63px
+}
+
+/*sidebar*/
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    transition: width 0.3s;
+    overflow-x: hidden;
+}
+
+.sidebar.collapsed {
+    width: 60px; /* Change to desired collapsed width */
+}
+
+.sidebar-header {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.components {
+    padding: 20px 0;
+}
+
+.components li {
+    padding: 10px 20px;
+}
+
+.components li a {
+    color: #333;
+    text-decoration: none;
+}
+
+
+

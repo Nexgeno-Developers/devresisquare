@@ -1,12 +1,11 @@
+html, body{
+    height: 100%;
+}
 body.hide-sidebar:not(.show-sidebar) #menu {
     margin-left: -250px;
     transition: margin-left 0.3s;
 }
 
-body.hide-sidebar:not(.show-sidebar) #wrapper {
-    margin-left: 0;
-    transition: margin-left 0.3s;
-}
 
 body.page-small #menu {
     margin-left: -250px;
@@ -23,8 +22,8 @@ body.page-small.show-sidebar #menu {
     transition: margin-left 0.3s;
 }
 
-body.show-sidebar #wrapper {
-    margin-left: 250px;
+ #wrapper {
+    margin-left: 40px;
     transition: margin-left 0.3s;
 }
 
@@ -32,18 +31,11 @@ body.show-sidebar #wrapper {
     background: #fff;
     display: block;
     height: 63px;
-    margin: 0;
+    margin: 0 30px;
     padding: 0;
     position: relative;
     z-index: 99;
-    margin-left: 250px;
     border-bottom: 1px solid #e2e8f0
-}
-
-
-body.hide-sidebar #header,
-body.page-small #header {
-    margin-left: 0
 }
 
 
@@ -53,8 +45,7 @@ body.page-small #header {
 }
 
 .components>li {
-    color: #fff;
-    background: black;
+    color: #000;
     padding-top: 20px;
     padding-bottom: 20px;
     height: 63px
@@ -65,16 +56,24 @@ body.page-small #header {
     padding-bottom: 20px;
     height: 63px
 }
+.components>li:hover {
+    color: #fff;
+    background-color: #000;
+    cursor: pointer;
+}
+.components>li:hover a {
+    color: #fff;
+}
 
 /*sidebar*/
 .sidebar {
-    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     width: 250px;
     transition: width 0.3s;
     overflow-x: hidden;
+    background-color: #F1F5F9;
 }
 
 .sidebar.collapsed {
@@ -101,7 +100,45 @@ body.page-small #header {
     text-decoration: none;
 }
 
+/* ========================================
+              Basics
+==========================================*/
+.w_full{
+    width: 100%;
+}
+.h_full{
+    height: 100%;
+}
 
+.flex{
+    display: flex;
+}
+.block{
+    display: block;
+}
+.justify_start{
+    justify-items: start;
+}
+
+.justify_around{
+    justify-content: space-around;
+}
+.justify_between{
+    justify-content: space-between;
+}
+.justify_evenly{
+    justify-content: space-evenly;
+}
+.items_center{
+    align-items: center;
+}
+.items_start{
+    align-items: start;
+}
+
+.gap_8{ gap: 8px; }
+.gap_16{ gap: 16px; }
+.gap_32{ gap: 32px; }
 
 
 /* ========================================
@@ -116,4 +153,27 @@ Alerts
     bottom: 12px;
     right: 12px;
     z-index: 999;
+}
+
+
+
+
+/* ========================================
+Header
+==========================================*/
+
+.navbar .toggle_icon{
+    cursor: pointer;
+}
+
+.navbar .rs_logo{
+    margin-right: 40px;
+}
+
+
+
+
+.main_wrapper{
+    height: 94%;
+    display: flex;
 }

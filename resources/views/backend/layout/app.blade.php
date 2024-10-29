@@ -10,6 +10,12 @@
 </head>
 
 <body class="show-sidebar">
+    <div id="header">
+        <div class="hide-menu tw-ml-1">
+            
+          @include('backend.partials.navbar')
+          </div>
+    </div>
     @if (session('success'))
         <div class="alert_wrapper">
             <!-- Display success message -->
@@ -38,17 +44,14 @@
             @endif
         </div>
     @endif
-    <div id="header">
-        <div class="hide-menu tw-ml-1"><i class="fa fa-align-left"></i>Toggle side bar</div>
-        @include('backend.partials.navbar')
+    
+    <div class="main_wrapper">
+        @include('backend.partials.aside')
+
+        <div id="wrapper" class="main-content mt-4">
+            @yield('content')
+        </div>
     </div>
-
-    @include('backend.partials.aside')
-
-    <div id="wrapper" class="main-content container mt-4">
-        @yield('content')
-    </div>
-
     <!-- Use asset() to generate the correct URL for JS files -->
     <script src="{{ asset('asset/js/jquery.min.js') }}"></script>
     <script src="{{ asset('asset/js/jquery.dataTables.min.js') }}"></script>

@@ -5,33 +5,27 @@ use App\Http\Controllers\Backend\AuthenticateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PropertyController;
 
-// Authentication
+// Login Routes
+Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
+Route::post('/login', [AuthenticateController::class, 'login'])->name('backend.login.post');
+Route::get('/logout', [AuthenticateController::class, 'logout'])->name('backend.logout');
+
+// Redirect / to login page if not authenticated
 Route::get('/', function () {
-    return redirect(route('backend.login'));
+    return redirect()->route('backend.login');
 });
 
-// Redirect to the login page if accessing /admin without authentication
-Route::get('/admin', function () {
-    return redirect(route('backend.login'));
+Route::middleware('auth')->group(function () {
+    // Dashboard Route
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('backend.dashboard');
+
+    // Property Routes with 'admin/properties' prefix
+    Route::prefix('admin/properties')->name('admin.properties.')->group(function () {
+        Route::get('/', [PropertyController::class, 'index'])->name('index');
+        Route::get('/create', [PropertyController::class, 'create'])->name('create');
+        Route::post('/store', [PropertyController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [PropertyController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [PropertyController::class, 'update'])->name('update');
+        Route::post('/delete/{id}', [PropertyController::class, 'destroy'])->name('delete');
+    });
 });
-
-// Login routes
-Route::get('/admin/login', [AuthenticateController::class, 'index'])->name('backend.login');
-Route::post('/admin/login', [AuthenticateController::class, 'login'])->name('backend.login.post');
-Route::get('/admin/logout', [AuthenticateController::class, 'logout'])->name('backend.logout');
-
-
-Route::group(['middleware' => 'auth', 'prefix' => 'properties'], function () {
-    Route::get('/', [PropertyController::class, 'index'])->name('admin.properties.index');
-    Route::get('/create', [PropertyController::class, 'create'])->name('admin.properties.create'); // Add this line
-    Route::post('/store', [PropertyController::class, 'store'])->name('admin.properties.store');
-    Route::get('/edit/{id}', [PropertyController::class, 'edit'])->name('admin.properties.edit'); // Use {id} for property ID
-    Route::post('/update/{id}', [PropertyController::class, 'update'])->name('admin.properties.update'); // Update route
-    Route::post('/delete/{id}', [PropertyController::class, 'destroy'])->name('admin.properties.delete'); // Delete route
-});
-
-
-// Dashboard route
-// Route::group(['middleware' => 'auth'], function () {
-//     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('backend.dashboard');
-// });

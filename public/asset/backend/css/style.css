@@ -49,12 +49,16 @@ body.page-small #header {
 
 .components li>a.active {
     color: inherit; 
-    
+    background-color: black;
+}
+.components li {
+    display: block;
+    width: 100%;
 }
 
 .components>li {
     color: #fff;
-    background: black;
+    /* background: black; */
     padding-top: 20px;
     padding-bottom: 20px;
     height: 63px

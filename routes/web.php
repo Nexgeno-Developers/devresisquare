@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Backend\AuthenticateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Auth\AuthController;
 
@@ -18,9 +19,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', [FrontendController::class, 'index'])->name('home');
 });
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('backend.dashboard');
 });
 // Optional: Redirect from '/admin' to the login page if not authenticated
-// Route::get('/admin', function () {
-//     return redirect(route('backend.login'));
-// });
+Route::get('/admin', function () {
+    return redirect(route('backend.login'));
+});

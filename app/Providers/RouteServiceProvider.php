@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    // Correct the namespace to match the controller directory structure
+    protected $namespace = 'App\Http\Controllers'; 
+
     /**
      * The path to your application's "home" route.
      *
@@ -29,17 +32,14 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            // Route::middleware('api')
-            //     ->prefix('api')
-            //     ->group(base_path('routes/api.php'));
-
             Route::middleware('web')
+                ->namespace($this->namespace . '\Frontend') // Assuming Frontend controllers are in App\Http\Controllers\Frontend
                 ->group(base_path('routes/web.php'));
 
             Route::prefix('admin')
-                ->middleware(['web', 'auth'])
-                ->namespace($this->namespace)
-                ->group(base_path('routes/backend.php'));                
+                ->middleware(['web'])
+                ->namespace($this->namespace . '\Backend') // Assuming Backend controllers are in App\Http\Controllers\Backend
+                ->group(base_path('routes/backend.php'));
         });
     }
 }

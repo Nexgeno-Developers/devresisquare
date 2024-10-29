@@ -1,4 +1,4 @@
-<aside id="menu" class="bg-light sidebar">
+<aside id="menu" class="sidebar">
     <div class="sidebar-header">
         <h4>Admin Menu</h4>
     </div>

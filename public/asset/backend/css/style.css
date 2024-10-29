@@ -30,12 +30,12 @@ body.page-small.show-sidebar #menu {
 #header {
     background: #fff;
     display: block;
-    height: 63px;
-    margin: 0 30px;
-    padding: 0;
     position: relative;
     z-index: 99;
     border-bottom: 1px solid #e2e8f0
+}
+#header .top_header{
+    padding: 12px 30px;
 }
 
 
@@ -147,6 +147,23 @@ Header
 
 .navbar .toggle_icon{
     cursor: pointer;
+}
+.navbar .toggle_icon_wrapper{
+    position: relative;
+}
+
+.navbar .toggle_icon_wrapper:hover::after {
+    content: 'Toggle Side Menu';
+    position: absolute;
+    top: 34px;
+    left: 2px;
+    background: #000000d1;
+    color: #fff;
+    z-index: 99999999;
+    width: max-content;
+    height: max-content;
+    padding: 12px 14px;
+    border-radius: 6px;
 }
 
 .navbar .rs_logo{

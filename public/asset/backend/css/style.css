@@ -103,3 +103,17 @@ body.page-small #header {
 
 
 
+
+/* ========================================
+Alerts
+==========================================*/
+
+.alert_wrapper{
+    display: flex;
+    gap: 3px;
+    flex-direction: column;
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 999;
+}

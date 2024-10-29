@@ -46,15 +46,11 @@ body.page-small.show-sidebar #menu {
 
 .components>li {
     color: #000;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    height: 63px
+    padding: 20px;
 }
 .components>li>a {
     color: #334155;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    height: 63px
+    text-decoration: none;
 }
 .components>li:hover {
     color: #fff;
@@ -85,19 +81,6 @@ body.page-small.show-sidebar #menu {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.components {
-    padding: 20px 0;
-}
-
-.components li {
-    padding: 10px 20px;
-}
-
-.components li a {
-    color: #333;
-    text-decoration: none;
 }
 
 /* ========================================

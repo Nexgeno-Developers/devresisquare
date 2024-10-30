@@ -4,12 +4,10 @@
 <div class="d-flex justify-content-between mb-3">
     <h1>Properties</h1>
     <div>
-        <button id="quick-add-btn" class="btn btn-primary">Quick Add Property</button>
-        <a href="{{ route('admin.properties.create') }}" class="btn btn-secondary">Add Property</a>
+        <a id="quick-add-btn" href="{{ route('admin.properties.create') }}" class="btn btn-primary">Quick Add Property</a>
+        <a href="{{ route('admin.properties.create') }}?stepform" class="btn btn-secondary">Add Property</a>
     </div>
 </div>
-
-
 
 <!-- Properties DataTable -->
 <table id="properties-table" class="table table-striped">
@@ -49,10 +47,6 @@
 <script>
     $(document).ready(function() {
         $('#properties-table').DataTable();
-        
-        $('#quick-add-btn').on('click', function() {
-            $('#quick-add-form').toggle();
-        });
     });
 
     function showOptions(button) {

@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('backend.dashboard');
 
     // Property Routes with 'admin/properties' prefix
-    Route::prefix('admin/properties')->name('admin.properties.')->group(function () {
+    Route::prefix('properties')->name('admin.properties.')->group(function () {
         Route::get('/', [PropertyController::class, 'index'])->name('index');
         Route::get('/create', [PropertyController::class, 'create'])->name('create');
         Route::post('/store', [PropertyController::class, 'store'])->name('store');

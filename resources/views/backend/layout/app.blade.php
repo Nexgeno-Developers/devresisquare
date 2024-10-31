@@ -7,6 +7,7 @@
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/toastr.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('asset/css/main-style.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/backend/css/style.css') }}" rel="stylesheet">
 </head>
 

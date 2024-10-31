@@ -4,48 +4,40 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col left_inner_menu">
+            <h5>Add New Property</h5>
             <ul class="nav flex-column stepformcomponents">
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 1 ? 'active' : '' }}" href="#" data-step="1">Step
-                        1</a>
+                    <a class="nav-link {{ session('current_step') == 1 ? 'active' : '' }} selected" href="#" data-step="1">Property Type</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 2 ? 'active' : '' }}" href="#" data-step="2">Step
-                        2</a>
+                    <a class="nav-link {{ session('current_step') == 2 ? 'active' : '' }} active" href="#" data-step="2">PropertyAddress</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 3 ? 'active' : '' }}" href="#" data-step="3">Step
-                        3</a>
+                    <a class="nav-link {{ session('current_step') == 3 ? 'active' : '' }}" href="#" data-step="3">Property Information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 4 ? 'active' : '' }}" href="#" data-step="4">Step
-                        4</a>
+                    <a class="nav-link {{ session('current_step') == 4 ? 'active' : '' }}" href="#" data-step="4">Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 5 ? 'active' : '' }}" href="#" data-step="5">Step
-                        5</a>
+                    <a class="nav-link {{ session('current_step') == 5 ? 'active' : '' }}" href="#" data-step="5">Features</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 6 ? 'active' : '' }}" href="#" data-step="6">Step
-                        6</a>
+                    <a class="nav-link {{ session('current_step') == 6 ? 'active' : '' }}" href="#" data-step="6">Pricing</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 7 ? 'active' : '' }}" href="#" data-step="7">Step
-                        7</a>
+                    <a class="nav-link {{ session('current_step') == 7 ? 'active' : '' }}" href="#" data-step="7">EPC</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 8 ? 'active' : '' }}" href="#" data-step="8">Step
-                        8</a>
+                    <a class="nav-link {{ session('current_step') == 8 ? 'active' : '' }}" href="#" data-step="8">Media</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 9 ? 'active' : '' }}" href="#" data-step="9">Step
-                        9</a>
+                    <a class="nav-link {{ session('current_step') == 9 ? 'active' : '' }}" href="#" data-step="9">Responsibility</a>
                 </li>
             </ul>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-10 steps_content">
             @include('backend.properties.form_components.step' . session('current_step', 1))  <!-- Default to step 1 -->
         </div>
     </div>

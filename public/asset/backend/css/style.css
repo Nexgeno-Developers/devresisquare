@@ -28,6 +28,11 @@ body.show-sidebar #menu {
     margin-left: 40px;
     width: calc(100% - 30%);
     transition: margin-left 0.3s;
+    height: 100%;
+}
+#wrapper .container-fluid,
+#wrapper .container-fluid .row{
+    height: 100%;
 }
 
 #header {
@@ -113,75 +118,6 @@ body.show-sidebar #menu {
     align-items: center;
 }
 
-/* ========================================
-              Basics
-==========================================*/
-.w_full {
-    width: 100%;
-}
-
-.h_full {
-    height: 100%;
-}
-
-.flex {
-    display: flex;
-}
-
-.block {
-    display: block;
-}
-
-.justify_start {
-    justify-items: start;
-}
-
-.justify_around {
-    justify-content: space-around;
-}
-
-.justify_between {
-    justify-content: space-between;
-}
-
-.justify_evenly {
-    justify-content: space-evenly;
-}
-
-.items_center {
-    align-items: center;
-}
-
-.items_start {
-    align-items: start;
-}
-
-.gap_8 {
-    gap: 8px;
-}
-
-.gap_16 {
-    gap: 16px;
-}
-
-.gap_32 {
-    gap: 32px;
-}
-
-
-/* ========================================
-Alerts
-==========================================*/
-
-.alert_wrapper {
-    display: flex;
-    gap: 3px;
-    flex-direction: column;
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    z-index: 999;
-}
 
 
 /* ========================================
@@ -217,4 +153,68 @@ Header
 .main_wrapper {
     height: 94%;
     display: flex;
+}
+
+/* ========================================
+          Left Menu
+==========================================*/
+
+
+#wrapper:has(.left_inner_menu) {
+    margin-left: 0;
+    margin-top: 0 !important;
+}
+.left_inner_menu{
+    background-color: var(--primary-color);
+    padding: 16px;
+    width: fit-content;
+}
+.left_inner_menu h5{
+    color: #fff;
+    font-weight: 300;
+}
+
+.left_inner_menu ul li>a{
+    color: var(--primary-color-disable);
+    position: relative;
+    padding-left: 24px;
+}
+.left_inner_menu ul li>a.active{
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+.left_inner_menu ul li>a.selected{
+    color: #fff;
+}
+.left_inner_menu ul li>a:hover{
+    color: #fff;
+}
+
+.left_inner_menu ul li>a::before{
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    border: 1px solid var(--primary-color-disable);
+    position: absolute;
+    left: 0;
+    top: 12px;
+}
+
+.left_inner_menu ul li>a.active::before{
+    border: 1px solid #fff;
+    background-color: var(--secondary-color);
+}
+.left_inner_menu ul li>a.selected::before{
+    border: 1px solid #fff;
+}
+
+
+/* ========================================
+          Steps
+==========================================*/
+
+.steps_content{
+    padding-left: 40px;
+    padding-top: 40px ;
 }

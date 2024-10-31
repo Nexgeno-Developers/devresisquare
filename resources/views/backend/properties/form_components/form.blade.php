@@ -2,50 +2,69 @@
 @extends('backend.layout.app')
 
 @section('content')
+@php
+function getStepName($step) {
+    $stepNames = [
+        1 => 'Property Address',
+        2 => 'Property Type',
+        3 => 'Property Information',
+        4 => 'Current Status',
+        5 => 'Features',
+        6 => 'Price',
+        7 => 'Valid EPC',
+        8 => 'Media',
+        9 => 'Responsibility',
+    ];
+
+    return $stepNames[$step] ?? 'Unknown Step';
+}
+@endphp
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <ul class="nav flex-column stepformcomponents">
+        <div class="stepformcomponents">
+                @for ($i = 1; $i <= 9; $i++)
+                    <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
+                        <input class="form-check-input" type="radio" name="step" id="step{{ $i }}" value="{{ $i }}" {{ session('current_step') == $i ? 'checked' : '' }}>
+                        <label class="form-check-label {{ session('current_step') == $i ? 'active' : '' }}" for="step{{ $i }}">
+                            {{ getStepName($i) }}
+                        </label>
+                    </div>
+                @endfor
+            </div>
+            <!-- <ul class="nav flex-column stepformcomponents">
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 1 ? 'active' : '' }}" href="#" data-step="1">Step
-                        1</a>
+                    <a class="nav-link {{ session('current_step') == 1 ? 'active' : '' }}" href="#" data-step="1">Property Address</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 2 ? 'active' : '' }}" href="#" data-step="2">Step
-                        2</a>
+                    <a class="nav-link {{ session('current_step') == 2 ? 'active' : '' }}" href="#" data-step="2">Property Type</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 3 ? 'active' : '' }}" href="#" data-step="3">Step
-                        3</a>
+                    <a class="nav-link {{ session('current_step') == 3 ? 'active' : '' }}" href="#" data-step="3">Property Information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 4 ? 'active' : '' }}" href="#" data-step="4">Step
-                        4</a>
+                    <a class="nav-link {{ session('current_step') == 4 ? 'active' : '' }}" href="#" data-step="4">Current Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 5 ? 'active' : '' }}" href="#" data-step="5">Step
-                        5</a>
+                    <a class="nav-link {{ session('current_step') == 5 ? 'active' : '' }}" href="#" data-step="5">Features</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 6 ? 'active' : '' }}" href="#" data-step="6">Step
-                        6</a>
+                    <a class="nav-link {{ session('current_step') == 6 ? 'active' : '' }}" href="#" data-step="6">Price</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 7 ? 'active' : '' }}" href="#" data-step="7">Step
-                        7</a>
+                    <a class="nav-link {{ session('current_step') == 7 ? 'active' : '' }}" href="#" data-step="7">Valid EPC</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 8 ? 'active' : '' }}" href="#" data-step="8">Step
-                        8</a>
+                    <a class="nav-link {{ session('current_step') == 8 ? 'active' : '' }}" href="#" data-step="8">Media</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('current_step') == 9 ? 'active' : '' }}" href="#" data-step="9">Step
-                        9</a>
+                    <a class="nav-link {{ session('current_step') == 9 ? 'active' : '' }}" href="#" data-step="9">Responsibility</a>
                 </li>
-            </ul>
+            </ul> -->
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-10 render_blade">
             @include('backend.properties.form_components.step' . session('current_step', 1))  <!-- Default to step 1 -->
         </div>
     </div>
@@ -96,7 +115,7 @@
 
         // Add the step number to the FormData
         formData.append('step', step);
-        formData.append('_token', '{{ csrf_token() }}'); // Add CSRF token
+        // formData.append('_token', '{{-- csrf_token() --}}'); // Add CSRF token
 
         // AJAX call to send form data
         $.ajax({
@@ -106,7 +125,7 @@
             processData: false, // Prevent jQuery from automatically transforming the data into a query string
             contentType: false, // Let the browser set the content type
             success: function (response) {
-                $('.col-md-9').html(response);
+                $('.render_blade').html(response);
             },
             error: function (jqXHR) {
                 if (jqXHR.status === 422) {
@@ -118,7 +137,27 @@
             }
         });
     }
+    function renderStep(step) {
+        const form_step_render_url = '{{ route('admin.properties.step', ':step') }}'.replace(':step', step);
 
+            // Make an AJAX call to load the Blade view for the selected step
+            $.ajax({
+                url: form_step_render_url, // Adjust the URL to match your routing
+                method: 'GET', // Use GET to fetch the view
+                success: function (response) {
+                    $('.render_blade').html(response); // Load the response into the render_blade div
+                },
+                error: function () {
+                    toastr.error('Unable to load step. Please try again.', 'Error');
+                }
+            });
+        }
+
+        // Handle radio button change
+        $('input[name="step"]').change(function () {
+            const selectedStep = $(this).val();
+            renderStep(selectedStep); // Render the corresponding Blade view
+        });
         // Handle step navigation using .nav-link
         // $('.nav-link').click(function (e) {
         //     e.preventDefault();

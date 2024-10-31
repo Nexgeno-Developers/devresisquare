@@ -1,4 +1,4 @@
-<aside id="menu" class="bg-light sidebar">
+<aside id="menu" class="sidebar bg-light sidebar">
 
 
     <div class="sidebar-header">
@@ -6,18 +6,31 @@
     </div>
     <ul class="list-unstyled components">
         <li>
-            <a class="active" href="{{ route('backend.dashboard') }}">Dashboard</a>
+            <a class="{{ request()->routeIs('backend.dashboard') ? 'active' : '' }}"
+                href="{{ route('backend.dashboard') }}">Dashboard</a>
+        </li>
         <li>
-            <a href="#propertiesSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Properties</a>
-            <ul class="collapse list-unstyled" id="propertiesSubmenu">
+            <a href="#propertiesSubmenu" data-bs-toggle="collapse"
+                aria-expanded="{{ request()->routeIs('admin.properties.index') || request()->routeIs('admin.properties.create') ? 'true' : 'false' }}"
+                class="dropdown-toggle {{ request()->routeIs('admin.properties.index') || request()->routeIs('admin.properties.create') ? 'active' : '' }}">Properties</a>
+            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('admin.properties.index') || request()->routeIs('admin.properties.create') ? 'show' : '' }}"
+                id="propertiesSubmenu">
                 <li>
-                    <a href="{{ route('admin.properties.index') }}">View Properties</a>
+                    <a class="{{ request()->routeIs('admin.properties.index') ? 'active' : '' }}"
+                        href="{{ route('admin.properties.index') }}">View Properties</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.properties.create') }}">Add Property</a>
+                    <a class="{{ request()->routeIs('admin.properties.create') ? 'active' : '' }}"
+                        href="{{ route('admin.properties.create') }}">Quick Add Property</a>
                 </li>
+                <li>
+                    <a class="{{ request()->routeIs('admin.properties.create') && request()->query('stepform') ? 'active' : '' }}"
+                        href="{{ route('admin.properties.create') }}?stepform">Add Property</a>
+                </li>
+
             </ul>
         </li>
+
         <li>
             <a href="#">Users</a>
         </li>

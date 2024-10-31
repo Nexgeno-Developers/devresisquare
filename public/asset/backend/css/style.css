@@ -113,6 +113,29 @@ body.show-sidebar #menu {
     align-items: center;
 }
 
+.sidebar li .nav-second-level li a {
+    padding: 7px 10px 7px 33px;
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-top: 0
+}
+
+.sidebar li .nav-second-level a .menu-icon {
+    margin-right: 8px
+}
+
+.sidebar li .nav-second-level li a.active {
+    color: #fff!important;
+    border-radius: 15px;
+    background-color: #2b65e8;
+    display: inline-block;
+    padding: 5px 12px;
+    margin: 8px 0 8px 20px
+}
+
+.sidebar li .nav-second-level li a.active .menu-icon {
+    color: #fff
+}
 /* ========================================
               Basics
 ==========================================*/

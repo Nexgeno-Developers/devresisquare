@@ -257,3 +257,9 @@ input[type="radio"]:checked+label::before {
 .rs_steps .steps_wrapper .form-group{
     gap: 6px;
 }
+
+
+
+.rs_upload_btn label[for="video_url"]{
+    display: none;
+}

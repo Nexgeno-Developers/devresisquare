@@ -24,13 +24,19 @@
 
         <div class="form-group">
             <label>Does the property have gas?</label>
-            <div>
-                <input type="radio" name="is_gas" value="yes" {{ old('is_gas') == 'yes' ? 'checked' : '' }}> Yes
-                <input type="radio" name="is_gas" value="no" {{ old('is_gas') == 'no' ? 'checked' : '' }}> No
+            <div class="rs_radio_btns">
+                <div>
+                    <input type="radio" name="is_gas" value="0" {{ old('is_gas') == 'no' ? 'checked' : '' }} /> 
+                    <label for="is_gas" > No</label>
+                </div>
+                <div>
+                    <input type="radio" name="is_gas" value="1" {{ old('is_gas') == 'yes' ? 'checked' : '' }} /> 
+                    <label for="is_gas" > Yes</label>
+                </div>
+                @error('is_gas')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
-            @error('is_gas')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
         </div>
         <div class="row">
             <div class="col-12 col-md-6">

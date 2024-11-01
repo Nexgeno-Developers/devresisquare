@@ -9,16 +9,19 @@
     <label class="main_title">Property Type</label>
     <div class="steps_wrapper">
         <div class="form-group">
-            <div>
-                <input type="radio" name="property_type" value="sales"
-                    {{ (session('property_type') == 'sales' || $property->property_type == 'sales') ? 'checked' : '' }}
-                    required> Sales
-                <input type="radio" name="property_type" value="lettings"
-                    {{ (session('property_type') == 'lettings' || $property->property_type == 'lettings') ? 'checked' : '' }}
-                    required> Lettings
-                <input type="radio" name="property_type" value="both"
-                    {{ (session('property_type') == 'both' || $property->property_type == 'both') ? 'checked' : '' }}
-                    required> Both
+            <div class="rs_radio_btns">
+                <div>
+                    <input type="radio" name="property_type" value="sales" {{ (session('property_type') == 'sales' || $property->property_type == 'sales') ? 'checked' : '' }} required /> 
+                    <label for="property_type" >Sales </label>
+                </div>
+                <div>
+                    <input type="radio"ty_me="property_type" value="lettings" {{ (session('property_type') == 'lettings' || $property->property_type == 'lettings') ? 'checked' : '' }} required /> 
+                    <label for="property_type"> Lettings </label>
+                </div>
+                <div>
+                    <input type="radio" name="property_type" value="both" {{ (session('property_type') == 'both' || $property->property_type == 'both') ? 'checked' : '' }} required /> 
+                    <label for="property_type"> Both </label>
+                </div>
             </div>
             @error('property_type')
             <div class="text-danger">{{ $message }}</div>
@@ -27,13 +30,15 @@
 
         <div class="form-group">
             <label>Transaction Type</label>
-            <div>
-                <input type="radio" name="transaction_type" value="residential"
-                    {{ (session('transaction_type') == 'residential' || $property->transaction_type == 'residential') ? 'checked' : '' }}
-                    required> Residential
-                <input type="radio" name="transaction_type" value="commercial"
-                    {{ (session('transaction_type') == 'commercial' || $property->transaction_type == 'commercial') ? 'checked' : '' }}
-                    required> Commercial
+            <div class="rs_radio_btns">
+                <div>
+                    <input type="radio" name="transaction_type" value="residential" {{ (session('transaction_type') == 'residential' || $property->transaction_type == 'residential') ? 'checked' : '' }} required /> 
+                    <label for="transaction_type" > Residential</label>
+                </div>
+                <div>
+                    <input type="radio" name="transaction_type" value="commercial" {{ (session('transaction_type') == 'commercial' || $property->transaction_type == 'commercial') ? 'checked' : '' }} required />
+                    <label for="transaction_type" > Commercial</label>
+                </div>
             </div>
             @error('transaction_type')
             <div class="text-danger">{{ $message }}</div>
@@ -42,19 +47,23 @@
 
         <div class="form-group">
             <label>Specific Property Type</label>
-            <div>
-                <input type="radio" name="specific_property_type" value="appartment"
-                    {{ (session('specific_property_type') == 'appartment' || $property->specific_property_type == 'appartment') ? 'checked' : '' }}
-                    required> Appartment
-                <input type="radio" name="specific_property_type" value="flat"
-                    {{ (session('specific_property_type') == 'flat' || $property->specific_property_type == 'flat') ? 'checked' : '' }}
-                    required> Flat
-                <input type="radio" name="specific_property_type" value="bunglow"
-                    {{ (session('specific_property_type') == 'bunglow' || $property->specific_property_type == 'bunglow') ? 'checked' : '' }}
-                    required> Bunglow
-                <input type="radio" name="specific_property_type" value="house"
-                    {{ (session('specific_property_type') == 'house' || $property->specific_property_type == 'house') ? 'checked' : '' }}
-                    required> House
+            <div class="rs_radio_btns">
+                <div>
+                    <input type="radio" name="specific_property_type" value="appartment" {{ (session('specific_property_type') == 'appartment' || $property->specific_property_type == 'appartment') ? 'checked' : '' }} required> 
+                    <label for="specific_property_type" > Appartment</label>
+                </div>
+                <div>
+                    <input type="radio" name="specific_property_type" value="flat" {{ (session('specific_property_type') == 'flat' || $property->specific_property_type == 'flat') ? 'checked' : '' }} required> 
+                    <label for="specific_property_type" > Flat</label>
+                </div>
+                <div>
+                    <input type="radio" name="specific_property_type" value="bunglow" {{ (session('specific_property_type') == 'bunglow' || $property->specific_property_type == 'bunglow') ? 'checked' : '' }} required> 
+                    <label for="specific_property_type" > Bunglow</label>
+                </div>
+                <div>
+                    <input type="radio" name="specific_property_type" value="house" {{ (session('specific_property_type') == 'house' || $property->specific_property_type == 'house') ? 'checked' : '' }} required> 
+                    <label for="specific_property_type" > House</label>
+                </div>
             </div>
             @error('specific_property_type')
                 <div class="text-danger">{{ $message }}</div>

@@ -166,8 +166,95 @@ Radio Buttons
 .rs_radio_btns{
     display: flex;
     gap: 42px;
+    flex-wrap: wrap;
+    row-gap: 8px;
+}
+.rs_radio_btns>div{
+    display: flex;
+    gap: 8px;
 }
 
+.rs_radio_btns input[type='radio']+label:hover{
+    color: var(--secondary);
+}
+
+.rs_radio_btns input[type='radio']::before {
+    width: 18px;
+    height: 18px;
+    border-radius: 15px;
+    top: 2px;
+    left: -1px;
+    position: relative;
+    background-color: var(--white);
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid var(--primary-400);
+}
+
+.rs_radio_btns input[type='radio']:checked::before {
+    width: 18px;
+    height: 18px;
+    border-radius: 15px;
+    top: 2px;
+    left: -1px;
+    position: relative;
+    background-color: var(--primary);
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid var(--primary);
+}
+
+.rs_radio_btns input[type="radio"]:checked+label{
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* ----------- Radio Square buttons ------------ */
+.radio_bts_square{
+    display: flex;
+    gap: 8px;
+
+}
+.radio_bts_square input[type="radio"] {
+    display: none;
+}
+.radio_bts_square label{
+    cursor: pointer;
+}
+.radio_bts_square label{
+    border: 1px solid var(--primary);
+    border-radius: 3px;
+    padding: 10px 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+}
+.radio_bts_square label:hover,
+.radio_bts_square input[type="radio"]:checked+label{
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/* ========================================
+File upload
+==========================================*/
+.rs_upload_btn input[type="file"] {
+    display: none;
+}
+
+.rs_upload_btn label{
+    border: 2px dotted var(--primary-400);
+    border-radius: 5px;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
 
 /* ========================================
 scrollbar

@@ -27,5 +27,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [PropertyController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [PropertyController::class, 'update'])->name('update');
         Route::post('/delete/{id}', [PropertyController::class, 'destroy'])->name('delete');
+        Route::get('/step/{step}', [PropertyController::class, 'getStepView'])->name('step');
     });
 });

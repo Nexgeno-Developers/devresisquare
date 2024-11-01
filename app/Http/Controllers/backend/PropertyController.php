@@ -21,20 +21,31 @@ class PropertyController
     }
     public function store(Request $request)
     {
+        // Ensure the user ID is stored in the session
+        if (!session()->has('user_id')) {
+            $request->session()->put('user_id', Auth::id());
+        }
+        $request->session()->put('current_step', $request->step);
+        
         // Validate data based on the current step
         if ($request->has('step')) {
             // Validate the request data
             $validatedData = $request->validate($this->getValidationRules($request->step));
     
-            // Store data in session
+            // Store data in session excluding token and step
             $request->session()->put($request->except('_token', 'step'));
     
+            $userId = $request->session()->get('user_id'); // Retrieve the user ID from the session
+    
+            // Get property_id from the session or request
+            $property_id = $request->session()->get('property_id', $request->property_id);
+    
             // Check if property_id is provided in the request
-            if ($request->has('property_id')) {
-                $property = Property::find($request->property_id);
+            if ($property_id) {
+                $property = Property::find($property_id);
                 if ($property) {
                     // Log the data before updating
-                    \Log::info('Updating property with ID ' . $request->property_id, $validatedData);
+                    \Log::info('Updating property with ID ' . $property_id, $validatedData);
                     $property->update($validatedData);
                 }
             } else {
@@ -42,7 +53,7 @@ class PropertyController
                 if ($request->step == 1) {
                     // Log the data before creation
                     \Log::info('Creating new property', $validatedData);
-                    $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id()]));
+                    $property = Property::create(array_merge($validatedData, ['added_by' => $userId]));
                     $request->session()->put('property_id', $property->id);
                 }
             }
@@ -55,7 +66,11 @@ class PropertyController
         }
     }
     
-
+    
+    public function getStepView($step)
+    {
+        return view('backend.properties.form_components.step' . $step); // Return the corresponding Blade view
+    }
 
     // public function store(Request $request)
     // {
@@ -149,76 +164,68 @@ class PropertyController
                     'bedroom' => 'required|string',
                     'bathroom' => 'required|string',
                     'reception' => 'required|string',
-                    
+                    'parking' => 'required|boolean',
+                    'balcony' => 'required|boolean',
+                    'garden' => 'required|boolean',
+                    'service' => 'required|string',
+                    'collecting_rent' => 'required|boolean',
+                    'floor' => 'required|string',
+                    'square_feet' => 'nullable|numeric|min:1',
+                    'square_meter' => 'nullable|numeric|min:1',
+                    'aspects' => 'required|string',
                 ];
             case 4:
                 return [
-                    'service' => 'nullable|string',
-                    'price' => 'required|numeric',
+                    'current_status' => 'required|string',
+                    'status_description' => 'nullable|string',
                     'available_from' => 'required|date',
-                    'start_date' => 'nullable|date',
-                    'end_date' => 'nullable|date',
-                    'status' => 'nullable|string',
+                    'market_on' => 'required',
+                    // 'market_on' => 'required|array',
+                    // 'market_on.*' => 'in:resisquare,rightmove,zoopla,onthemarket',
                 ];
             case 5:
                 return [
-                    'bedroom' => 'required|string',
-                    'bathroom' => 'required|string',
-                    'reception' => 'required|string',
-                    'service' => 'nullable|string',
-                    'price' => 'required|numeric',
-                    'available_from' => 'required|date',
-                    'start_date' => 'nullable|date',
-                    'end_date' => 'nullable|date',
-                    'status' => 'nullable|string',
+                    'furniture' => 'array|nullable',
+                    // 'furniture.*' => 'in:Furnished,Unfurnished,Flexible',
+                    'kitchen' => 'array|nullable',
+                    // 'kitchen.*' => 'in:Undercounter refrigerator without freezer,Dishwasher,Gas oven,Gas hob,Washing machine,Dryer,Electric hob,Electric oven,Washer,Washer Dryer,Undercounter refrigerator with freezer,Tall refrigerator with freezer',
+                    'heating_cooling' => 'array|nullable',
+                    // 'heating_cooling.*' => 'in:Air conditioning,Underfloor heating,Electric,Gas,Central heating,Comfort cooling,Portable heater',
+                    'safety' => 'array|nullable',
+                    // 'safety.*' => 'in:External CCTV Intruder alarm system,Smoke alarm,Carbon monoxide detector,Window locks,Security key lock',
+                    'other' => 'array|nullable',
+                    // 'other.*' => 'in:Roof Garden,Business Centre,Concierge,Lift,Pets Allowed,Pets Allowed With Licence,TV,Fireplace,Wood flooring,Double glazing,Not suitable for wheelchair users,Gym,None',
                 ];
             case 6:
                 return [
-                    'bedroom' => 'required|string',
-                    'bathroom' => 'required|string',
-                    'reception' => 'required|string',
-                    'service' => 'nullable|string',
                     'price' => 'required|numeric',
-                    'available_from' => 'required|date',
-                    'start_date' => 'nullable|date',
-                    'end_date' => 'nullable|date',
-                    'status' => 'nullable|string',
+                    'ground_rent' => 'nullable|numeric',
+                    'service_charge' => 'nullable|numeric',
+                    'annual_council_tax' => 'nullable|numeric',
+                    'council_tax_band' => 'nullable|string|max:50',
+                    'listing_sale_price' => 'nullable|numeric',
+                    'tenure' => 'required',
+                    'length_of_lease' => 'nullable|integer',
                 ];
             case 7:
                 return [
-                    'bedroom' => 'required|string',
-                    'bathroom' => 'required|string',
-                    'reception' => 'required|string',
-                    'service' => 'nullable|string',
-                    'price' => 'required|numeric',
-                    'available_from' => 'required|date',
-                    'start_date' => 'nullable|date',
-                    'end_date' => 'nullable|date',
-                    'status' => 'nullable|string',
+                    'epc_rating' => 'required',
+                    'is_gas' => 'required   ',
                 ];
             case 8:
                 return [
-                    'bedroom' => 'required|string',
-                    'bathroom' => 'required|string',
-                    'reception' => 'required|string',
-                    'service' => 'nullable|string',
-                    'price' => 'required|numeric',
-                    'available_from' => 'required|date',
-                    'start_date' => 'nullable|date',
-                    'end_date' => 'nullable|date',
-                    'status' => 'nullable|string',
+                    'photos.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For multiple photos
+                    'floor_plan' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For the floor plan
+                    'view_360' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For 360 view
+                    'video_url' => 'nullable|max:255', // For the video URL
+                    // 'video_url' => 'nullable|url|max:255', // For the video URL
                 ];
             case 9:
                 return [
-                    'bedroom' => 'required|string',
-                    'bathroom' => 'required|string',
-                    'reception' => 'required|string',
-                    'service' => 'nullable|string',
-                    'price' => 'required|numeric',
-                    'available_from' => 'required|date',
-                    'start_date' => 'nullable|date',
-                    'end_date' => 'nullable|date',
-                    'status' => 'nullable|string',
+                    'designation' => 'required',
+                    'branch' => 'required',
+                    'commission_percentage' => 'required',
+                    'commission_amount' => 'required',
                 ];
             default:
                 return [];

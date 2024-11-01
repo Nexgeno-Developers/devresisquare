@@ -7,7 +7,8 @@
     <label class="main_title">Media</label>
 
     <div class="steps_wrapper" data-step-name="Media" data-step-number="8" data-step-title="Media">
-        <div class="form-group">
+        <div class="form-group rs_upload_btn">
+            <h5 class="sub_title mt-4">Photos</h5>
             <label for="photos">Upload Photos</label>
             <input type="file" name="photos[]" id="photos" class="form-control" multiple>
             @error('photos.*')
@@ -15,7 +16,8 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group rs_upload_btn">
+            <h5 class="sub_title mt-4">Floor Plan</h5>
             <label for="floor_plan">Upload Floor Plan</label>
             <input type="file" name="floor_plan" id="floor_plan" class="form-control">
             @error('floor_plan')
@@ -23,7 +25,8 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group rs_upload_btn">
+            <h5 class="sub_title mt-4">306 View</h5>
             <label for="view_360">Upload 360 View</label>
             <input type="file" name="view_360" id="view_360" class="form-control">
             @error('view_360')
@@ -31,7 +34,8 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group rs_upload_btn">
+            <h5 class="sub_title mt-4">Video URL</h5>
             <label for="video_url">Video URL</label>
             <input type="url" name="video_url" id="video_url" class="form-control" value="{{ old('video_url') }}">
             @error('video_url')

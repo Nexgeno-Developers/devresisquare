@@ -8,10 +8,19 @@
     <label class="main_title">Property Type</label>
     <div class="steps_wrapper">
         <div class="form-group">
-            <div>
-                <input type="radio" name="property_type" value="sales" {{ old('property_type') == 'sales' ? 'checked' : '' }}> Sales
-                <input type="radio" name="property_type" value="lettings" {{ old('property_type') == 'lettings' ? 'checked' : '' }}> Lettings
-                <input type="radio" name="property_type" value="both" {{ old('property_type') == 'both' ? 'checked' : '' }}> Both
+            <div class="rs_radio_btns">
+                <div>
+                    <input type="radio" name="property_type" value="sales" {{ old('property_type') == 'sales' ? 'checked' : '' }} /> 
+                    <label for="property_type" >Sales </label>
+                </div>
+                <div>
+                    <input type="radio" name="property_type" value="lettings" {{ old('property_type') == 'lettings' ? 'checked' : '' }} /> 
+                    <label for="property_type"> Lettings </label>
+                </div>
+                <div>
+                    <input type="radio" name="property_type" value="both" {{ old('property_type') == 'both' ? 'checked' : '' }} /> 
+                    <label for="property_type"> Both </label>
+                </div>
             </div>
             @error('property_type')
                 <div class="text-danger">{{ $message }}</div>
@@ -19,9 +28,15 @@
         </div>
         <div class="form-group">
             <label>Transaction Type</label>
-            <div>
-                <input type="radio" name="transaction_type" value="residential" {{ old('transaction_type') == 'residential' ? 'checked' : '' }}> Residential
-                <input type="radio" name="transaction_type" value="commercial" {{ old('transaction_type') == 'commercial' ? 'checked' : '' }}> Commercial
+            <div class="rs_radio_btns">
+                <div>
+                    <input type="radio" name="transaction_type" value="residential" {{ old('transaction_type') == 'residential' ? 'checked' : '' }} /> 
+                    <label for="transaction_type" > Residential</label>
+                </div>
+                <div>
+                    <input type="radio" name="transaction_type" value="commercial" {{ old('transaction_type') == 'commercial' ? 'checked' : '' }} />
+                    <label for="transaction_type" > Commercial</label>
+                </div>
             </div>
             @error('transaction_type')
                 <div class="text-danger">{{ $message }}</div>
@@ -29,11 +44,23 @@
         </div>
         <div class="form-group">
             <label>Specific Property Type</label>
-            <div>
-                <input type="radio" name="specific_property_type" value="appartment" {{ old('specific_property_type') == 'appartment' ? 'checked' : '' }}> Appartment
-                <input type="radio" name="specific_property_type" value="flat" {{ old('specific_property_type') == 'flat' ? 'checked' : '' }}> Flat
-                <input type="radio" name="specific_property_type" value="bunglow" {{ old('specific_property_type') == 'bunglow' ? 'checked' : '' }}> Bunglow
-                <input type="radio" name="specific_property_type" value="house" {{ old('specific_property_type') == 'house' ? 'checked' : '' }}> House
+            <div class="rs_radio_btns">
+                <div>
+                    <input type="radio" name="specific_property_type" value="appartment" {{ old('specific_property_type') == 'appartment' ? 'checked' : '' }}> 
+                    <label for="specific_property_type" > Appartment</label>
+                </div>
+                <div>
+                    <input type="radio" name="specific_property_type" value="flat" {{ old('specific_property_type') == 'flat' ? 'checked' : '' }}> 
+                    <label for="specific_property_type" > Flat</label>
+                </div>
+                <div>
+                    <input type="radio" name="specific_property_type" value="bunglow" {{ old('specific_property_type') == 'bunglow' ? 'checked' : '' }}> 
+                    <label for="specific_property_type" > Bunglow</label>
+                </div>
+                <div>
+                    <input type="radio" name="specific_property_type" value="house" {{ old('specific_property_type') == 'house' ? 'checked' : '' }}> 
+                    <label for="specific_property_type" > House</label>
+                </div>
             </div>
             @error('specific_property_type')
                 <div class="text-danger">{{ $message }}</div>

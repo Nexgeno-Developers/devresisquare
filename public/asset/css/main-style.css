@@ -173,35 +173,6 @@ Radio Buttons
     display: flex;
     gap: 8px;
 }
-/* .rs_radio_btns input[type="radio"] {
-    display: none;
-} */
- /* .rs_radio_btns input[type="radio"]+label{
-    cursor: pointer;
-} */
-/*
-.rs_radio_btns label{
-    position: relative;
-    padding-left: 24px;
-}
-.rs_radio_btns label:hover{
-    color: var(--secondary);
-}
-.rs_radio_btns label::before {
-    content: '';
-    display: inline-block;
-    border: 1px solid var(--primary-500);
-    border-radius:100% ;
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 4px;
-    left: 0;
-}
-
-.rs_radio_btns input[type="radio"]:checked label::before {
-    background-color: var(--primary);
-} */
 
 .rs_radio_btns input[type='radio']+label:hover{
     color: var(--secondary);

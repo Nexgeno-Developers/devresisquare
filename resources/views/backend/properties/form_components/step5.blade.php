@@ -101,6 +101,13 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-secondary previous-step" data-previous-step="4">Previous</button>
-    <button type="button" class="btn btn-primary next-step" data-next-step="6">Next</button>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="4">Previous</button>
+        </div>
+        <div class="col-12 col-md-6">
+            <button type="button" class="btn btn-primary w-100 next-step" data-next-step="6">Next</button>
+    </div> 
+    
+    
 </form>

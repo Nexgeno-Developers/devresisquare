@@ -39,8 +39,15 @@
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <button type="button" class="btn btn-secondary previous-step w-100" data-previous-step="1" data-current-step="2">Previous</button>
+            </div>
+            <div class="col-12 col-md-6">
+                <button type="button" class="btn btn-primary next-step w-100" data-next-step="3" data-current-step="2">Next</button>
+            </div>
+        </div> 
+        
+        
     </div>
-
-    <button type="button" class="btn btn-secondary previous-step" data-previous-step="1" data-current-step="2">Previous</button>
-    <button type="button" class="btn btn-primary next-step" data-next-step="3" data-current-step="2">Next</button>
 </form>

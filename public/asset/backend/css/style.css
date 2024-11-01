@@ -40,7 +40,7 @@ body.show-sidebar #menu {
     display: block;
     position: relative;
     z-index: 99;
-    border-bottom: 1px solid #e2e8f0
+    border-bottom: 1px solid var(--primary-200);
 }
 
 #header .top_header {
@@ -209,36 +209,35 @@ Header
     display: none;
   }
 
-  input[type="radio"]:checked+label {
+input[type="radio"]:checked+label {
     color: var(--secondary-color);
     font-weight: 500;
-  }
-  input[type="radio"]:checked+label::before {
+}
+input[type="radio"]:checked+label::before {
     border: 1px solid var(--white);
     background-color: var(--secondary-color);
-  }
+}
 
-  .left_inner_menu .stepformcomponents .form-check.selected label {
+.left_inner_menu .stepformcomponents .form-check.selected label {
     color: var(--white);
-  }
-  .left_inner_menu .stepformcomponents .form-check label:hover {
+}
+.left_inner_menu .stepformcomponents .form-check label:hover {
     color: var(--white);
-  }
+}
 
-  .left_inner_menu .stepformcomponents .form-check label:hover::before {
+.left_inner_menu .stepformcomponents .form-check label:hover::before {
     border: 1px solid var(--white);
-  }
-  .left_inner_menu .stepformcomponents .form-check.selected label::before {
+}
+.left_inner_menu .stepformcomponents .form-check.selected label::before {
     border: 1px solid var(--white);
-  }
+}
 
 /* ========================================
           Steps
 ==========================================*/
 /* Add property */
 .rs_steps{
-    padding-left: 40px;
-    padding-top: 40px ;
+    padding: 40px;
 }
 
 .rs_steps .main_title{
@@ -246,8 +245,15 @@ Header
     font-weight: 500;
     margin-bottom: 32px;
 }
-.rs_steps .steps_wrapper{
+.rs_steps .steps_wrapper,
+.rs_steps .steps_wrapper .form-group{
     display: flex;
     flex-direction: column;
+}
+
+.rs_steps .steps_wrapper{
     gap: 22px;
+}
+.rs_steps .steps_wrapper .form-group{
+    gap: 6px;
 }

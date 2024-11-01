@@ -58,9 +58,13 @@ body{
 /* ========================================
               Over write
 ==========================================*/
+.btn{
+    height: 48px;
+}
 .btn:hover {
     background-color: var(--primary-bg-dark);
     border-color: var(--primary-bg-dark);
+    border: unset;
 }
 .btn-primary {
     --bs-btn-color: #fff;
@@ -77,6 +81,7 @@ body{
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: var(--primary-bg);
     --bs-btn-disabled-border-color: var(--primary-bg);
+    border: unset;
 }
 
 
@@ -154,6 +159,16 @@ Alerts
     right: 12px;
     z-index: 999;
 }
+
+/* ========================================
+Radio Buttons
+==========================================*/
+.rs_radio_btns{
+    display: flex;
+    gap: 42px;
+}
+
+
 /* ========================================
 scrollbar
 ==========================================*/

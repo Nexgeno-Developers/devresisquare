@@ -81,14 +81,18 @@ class PropertyController
     }
 
 
-    public function getStepView($step)
+    public function getStepView($step, Request $request)
     {
+        // Get property_id from the session or request
+        $property_id = $request->session()->get('property_id', $request->property_id);
+        $property = Property::find($property_id);
+
         // Get the total number of steps dynamically
         $totalSteps = $this->getTotalSteps();
 
         // Check if the step is valid
         if ($step > 0 && $step <= $totalSteps) {
-            return view('backend.properties.form_components.step' . $step); // Return the corresponding Blade view
+            return view('backend.properties.form_components.step' . $step, compact('property')); // Return the corresponding Blade view
         } else {
             // Return a view with an error message if the step is invalid
             return view('backend.properties.form_components.error', ['message' => 'Invalid step.']);

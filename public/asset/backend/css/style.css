@@ -183,7 +183,7 @@ Header
 .left_inner_menu .stepformcomponents label{
     color: var(--primary-color-disable);
     position: relative;
-    padding-left: 24px;
+    padding-left: 28px;
 }
 .left_inner_menu .stepformcomponents label::before{
     content: '';

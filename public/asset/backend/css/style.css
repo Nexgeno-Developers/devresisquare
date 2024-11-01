@@ -28,6 +28,11 @@ body.show-sidebar #menu {
     margin-left: 40px;
     width: calc(100% - 30%);
     transition: margin-left 0.3s;
+    height: 100%;
+}
+#wrapper .container-fluid,
+#wrapper .container-fluid .row{
+    height: 100%;
 }
 
 #header {
@@ -113,98 +118,6 @@ body.show-sidebar #menu {
     align-items: center;
 }
 
-.sidebar li .nav-second-level li a {
-    padding: 7px 10px 7px 33px;
-    color: #cbd5e1;
-    font-size: 14px;
-    margin-top: 0
-}
-
-.sidebar li .nav-second-level a .menu-icon {
-    margin-right: 8px
-}
-
-.sidebar li .nav-second-level li a.active {
-    color: #fff!important;
-    border-radius: 15px;
-    background-color: #2b65e8;
-    display: inline-block;
-    padding: 5px 12px;
-    margin: 8px 0 8px 20px
-}
-
-.sidebar li .nav-second-level li a.active .menu-icon {
-    color: #fff
-}
-/* ========================================
-              Basics
-==========================================*/
-.w_full {
-    width: 100%;
-}
-
-.h_full {
-    height: 100%;
-}
-
-.flex {
-    display: flex;
-}
-
-.block {
-    display: block;
-}
-
-.justify_start {
-    justify-items: start;
-}
-
-.justify_around {
-    justify-content: space-around;
-}
-
-.justify_between {
-    justify-content: space-between;
-}
-
-.justify_evenly {
-    justify-content: space-evenly;
-}
-
-.items_center {
-    align-items: center;
-}
-
-.items_start {
-    align-items: start;
-}
-
-.gap_8 {
-    gap: 8px;
-}
-
-.gap_16 {
-    gap: 16px;
-}
-
-.gap_32 {
-    gap: 32px;
-}
-
-
-/* ========================================
-Alerts
-==========================================*/
-
-.alert_wrapper {
-    display: flex;
-    gap: 3px;
-    flex-direction: column;
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    z-index: 999;
-}
 
 
 /* ========================================
@@ -240,4 +153,90 @@ Header
 .main_wrapper {
     height: 94%;
     display: flex;
+}
+
+/* ========================================
+          Left Menu
+==========================================*/
+
+
+#wrapper:has(.left_inner_menu) {
+    margin-left: 0;
+    margin-top: 0 !important;
+}
+.left_inner_menu{
+    background-color: var(--primary-color);
+    padding: 16px;
+    max-width: 240px;
+}
+.left_inner_menu h5{
+    color: #fff;
+    font-weight: 300;
+    margin-bottom: 32px;
+}
+
+.left_inner_menu .stepformcomponents{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.left_inner_menu .stepformcomponents label{
+    color: var(--primary-color-disable);
+    position: relative;
+    padding-left: 24px;
+}
+.left_inner_menu .stepformcomponents label::before{
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    border: 1px solid var(--primary-color-disable);
+    position: absolute;
+    left: 0;
+    top: 4px;
+}
+.left_inner_menu .stepformcomponents .form-check{
+    padding: 0;
+}
+.left_inner_menu .stepformcomponents .form-check,
+.left_inner_menu .stepformcomponents .form-check input,
+.left_inner_menu .stepformcomponents .form-check label
+{
+    cursor: pointer;
+}
+
+.left_inner_menu .stepformcomponents input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"]:checked+label {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+  input[type="radio"]:checked+label::before {
+    border: 1px solid #fff;
+    background-color: var(--secondary-color);
+  }
+
+  .left_inner_menu .stepformcomponents .form-check.selected label {
+    color: #fff;
+  }
+  .left_inner_menu .stepformcomponents .form-check label:hover {
+    color: #fff;
+  }
+
+  .left_inner_menu .stepformcomponents .form-check label:hover::before {
+    border: 1px solid #fff;
+  }
+  .left_inner_menu .stepformcomponents .form-check.selected label::before {
+    border: 1px solid #fff;
+  }
+
+/* ========================================
+          Steps
+==========================================*/
+
+.steps_content{
+    padding-left: 40px;
+    padding-top: 40px ;
 }

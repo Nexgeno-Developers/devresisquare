@@ -22,7 +22,8 @@ function getStepName($step) {
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col left_inner_menu">
+            <h5>Add New Property</h5>
         <div class="stepformcomponents">
                 @for ($i = 1; $i <= 9; $i++)
                     <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
@@ -64,7 +65,7 @@ function getStepName($step) {
             </ul> -->
         </div>
 
-        <div class="col-md-10 render_blade">
+        <div class="col-md-9 render_blade">
             @include('backend.properties.form_components.step' . session('current_step', 1))  <!-- Default to step 1 -->
         </div>
     </div>

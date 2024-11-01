@@ -1,8 +1,10 @@
 <!-- resources/views/backend/properties/form_components/step5.blade.php -->
-<form id="property-form-step-5" method="POST" action="{{ route('admin.properties.store') }}">
+<form id="property-form-step-5" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
     <input type="hidden" name="property_id" value="{{ session('property_id') ?? old('property_id') }}">
+
+    <label class="main_title">Features</label>
 
     <div class="property-form-data-attribute" data-step-name="Features" data-step-number="5" data-step-title="Features"></div>
         <h3>Features</h3>

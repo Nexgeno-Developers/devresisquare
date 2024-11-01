@@ -1,8 +1,10 @@
 <!-- resources/views/backend/properties/form_components/step7.blade.php -->
-<form id="property-form-step-7" method="POST" action="{{ route('admin.properties.store') }}">
+<form id="property-form-step-7" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
     <input type="hidden" name="property_id" value="{{ session('property_id') ?? old('property_id') }}">
+
+    <label class="main_title">Valid EPC</label>
 
     <div class="property-form-data-attribute" data-step-name="Valid EPC" data-step-number="7" data-step-title="Valid EPC"></div>
     

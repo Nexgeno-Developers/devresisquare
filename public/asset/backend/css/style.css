@@ -36,7 +36,7 @@ body.show-sidebar #menu {
 }
 
 #header {
-    background: #fff;
+    background: var(--white);
     display: block;
     position: relative;
     z-index: 99;
@@ -52,7 +52,7 @@ body.show-sidebar #menu {
 }
 
 .components li>a.active {
-    color: #fff;
+    color: var(--white);
     cursor: pointer;
 }
 
@@ -66,7 +66,7 @@ body.show-sidebar #menu {
 }
 
 .stepformcomponents li>a.active {
-    color: #fff;
+    color: var(--white);
     cursor: pointer;
 }
 
@@ -76,7 +76,7 @@ body.show-sidebar #menu {
 }
 
 .components>li {
-    color: #000;
+    color: var(--primary-color);
     padding: 20px;
 }
 
@@ -86,13 +86,13 @@ body.show-sidebar #menu {
 }
 
 .components>li:hover {
-    color: #fff;
-    background-color: #000;
+    color: var(--white);
+    background-color: var(--primary-color);
     cursor: pointer;
 }
 
 .components>li:hover a {
-    color: #fff;
+    color: var(--white);
 }
 
 /*sidebar*/
@@ -103,7 +103,7 @@ body.show-sidebar #menu {
     width: 250px;
     transition: width 0.3s;
     overflow-x: hidden;
-    background-color: #F1F5F9;
+    background-color: var(--primary-100) !important;
 }
 
 .sidebar.collapsed {
@@ -138,7 +138,7 @@ Header
     top: 34px;
     left: 2px;
     background: #000000d1;
-    color: #fff;
+    color: var(--white);
     z-index: 99999999;
     width: max-content;
     height: max-content;
@@ -170,7 +170,7 @@ Header
     max-width: 240px;
 }
 .left_inner_menu h5{
-    color: #fff;
+    color: var(--white);
     font-weight: 300;
     margin-bottom: 32px;
 }
@@ -214,29 +214,40 @@ Header
     font-weight: 500;
   }
   input[type="radio"]:checked+label::before {
-    border: 1px solid #fff;
+    border: 1px solid var(--white);
     background-color: var(--secondary-color);
   }
 
   .left_inner_menu .stepformcomponents .form-check.selected label {
-    color: #fff;
+    color: var(--white);
   }
   .left_inner_menu .stepformcomponents .form-check label:hover {
-    color: #fff;
+    color: var(--white);
   }
 
   .left_inner_menu .stepformcomponents .form-check label:hover::before {
-    border: 1px solid #fff;
+    border: 1px solid var(--white);
   }
   .left_inner_menu .stepformcomponents .form-check.selected label::before {
-    border: 1px solid #fff;
+    border: 1px solid var(--white);
   }
 
 /* ========================================
           Steps
 ==========================================*/
-
-.steps_content{
+/* Add property */
+.rs_steps{
     padding-left: 40px;
     padding-top: 40px ;
+}
+
+.rs_steps .main_title{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 32px;
+}
+.rs_steps .steps_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
 }

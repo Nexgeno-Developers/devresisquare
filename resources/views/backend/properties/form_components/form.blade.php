@@ -23,7 +23,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col left_inner_menu">
             <div class="stepformcomponents">
                 @for ($i = 1; $i <= 9; $i++)
                     <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">

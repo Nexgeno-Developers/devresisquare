@@ -65,7 +65,7 @@ function getStepName($step) {
             </ul> -->
         </div>
 
-        <div class="col-md-10 render_blade">
+        <div class="col-md-9 render_blade">
             @include('backend.properties.form_components.step' . session('current_step', 1))  <!-- Default to step 1 -->
         </div>
     </div>

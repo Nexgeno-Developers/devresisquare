@@ -167,30 +167,25 @@ Header
 .left_inner_menu{
     background-color: var(--primary-color);
     padding: 16px;
-    width: fit-content;
+    max-width: 240px;
 }
 .left_inner_menu h5{
     color: #fff;
     font-weight: 300;
+    margin-bottom: 32px;
 }
 
-.left_inner_menu ul li>a{
+.left_inner_menu .stepformcomponents{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.left_inner_menu .stepformcomponents label{
     color: var(--primary-color-disable);
     position: relative;
     padding-left: 24px;
 }
-.left_inner_menu ul li>a.active{
-    color: var(--secondary-color);
-    font-weight: 500;
-}
-.left_inner_menu ul li>a.selected{
-    color: #fff;
-}
-.left_inner_menu ul li>a:hover{
-    color: #fff;
-}
-
-.left_inner_menu ul li>a::before{
+.left_inner_menu .stepformcomponents label::before{
     content: '';
     width: 16px;
     height: 16px;
@@ -198,17 +193,44 @@ Header
     border: 1px solid var(--primary-color-disable);
     position: absolute;
     left: 0;
-    top: 12px;
+    top: 4px;
+}
+.left_inner_menu .stepformcomponents .form-check{
+    padding: 0;
+}
+.left_inner_menu .stepformcomponents .form-check,
+.left_inner_menu .stepformcomponents .form-check input,
+.left_inner_menu .stepformcomponents .form-check label
+{
+    cursor: pointer;
 }
 
-.left_inner_menu ul li>a.active::before{
+.left_inner_menu .stepformcomponents input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"]:checked+label {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+  input[type="radio"]:checked+label::before {
     border: 1px solid #fff;
     background-color: var(--secondary-color);
-}
-.left_inner_menu ul li>a.selected::before{
-    border: 1px solid #fff;
-}
+  }
 
+  .left_inner_menu .stepformcomponents .form-check.selected label {
+    color: #fff;
+  }
+  .left_inner_menu .stepformcomponents .form-check label:hover {
+    color: #fff;
+  }
+
+  .left_inner_menu .stepformcomponents .form-check label:hover::before {
+    border: 1px solid #fff;
+  }
+  .left_inner_menu .stepformcomponents .form-check.selected label::before {
+    border: 1px solid #fff;
+  }
 
 /* ========================================
           Steps

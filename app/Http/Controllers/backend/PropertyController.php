@@ -22,24 +22,24 @@ class PropertyController
     public function store(Request $request)
     {
         // Ensure the user ID is stored in the session
-        if (!session()->has('user_id')) {
-            $request->session()->put('user_id', Auth::id());
-        }
+        // if (!session()->has('user_id')) {
+        //     $request->session()->put('user_id', Auth::id());
+        // }
         $request->session()->put('current_step', $request->step);
-        
+
         // Validate data based on the current step
         if ($request->has('step')) {
             // Validate the request data
             $validatedData = $request->validate($this->getValidationRules($request->step));
-    
+
             // Store data in session excluding token and step
             $request->session()->put($request->except('_token', 'step'));
-    
-            $userId = $request->session()->get('user_id'); // Retrieve the user ID from the session
-    
+
+            //$userId = $request->session()->get('user_id'); // Retrieve the user ID from the session
+
             // Get property_id from the session or request
             $property_id = $request->session()->get('property_id', $request->property_id);
-    
+
             // Check if property_id is provided in the request
             if ($property_id) {
                 $property = Property::find($property_id);
@@ -53,23 +53,62 @@ class PropertyController
                 if ($request->step == 1) {
                     // Log the data before creation
                     \Log::info('Creating new property', $validatedData);
-                    $property = Property::create(array_merge($validatedData, ['added_by' => $userId]));
+                    $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id()]));
+                    // $property = Property::create(array_merge($validatedData, ['added_by' => $userId]));
                     $request->session()->put('property_id', $property->id);
                 }
             }
-    
+
+            // Get total number of steps
+            $totalSteps = $this->getTotalSteps();
+
+            // Check if the current step is the last one
+            if ($request->step >= $totalSteps) {
+                // Final submission handling
+                // Flush all session data except specified keys in one line
+                $this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
+                return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
+            }
+
             // Load the next step view
-            return view('backend.properties.form_components.step' . ($request->step + 1));
+            // return view('backend.properties.form_components.step' . ($request->step + 1));
+            // return view('backend.properties.form_components.step' . ($request->step + 1))->withInput();
+            return view('backend.properties.form_components.step' . ($request->step + 1), compact('property'));
         } else {
-            // Handle final submission when no step is present
-            return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
+            // If no step is present, return a message (optional)
+            return response()->json(['message' => 'Invalid step.']);
         }
     }
-    
-    
+
+
     public function getStepView($step)
     {
-        return view('backend.properties.form_components.step' . $step); // Return the corresponding Blade view
+        // Get the total number of steps dynamically
+        $totalSteps = $this->getTotalSteps();
+
+        // Check if the step is valid
+        if ($step > 0 && $step <= $totalSteps) {
+            return view('backend.properties.form_components.step' . $step); // Return the corresponding Blade view
+        } else {
+            // Return a view with an error message if the step is invalid
+            return view('backend.properties.form_components.error', ['message' => 'Invalid step.']);
+        }
+    }
+
+    private function getTotalSteps()
+    {
+        // Specify the directory where your Blade files for steps are located
+        $stepsDirectory = resource_path('views/backend/properties/form_components');
+
+        // Get all Blade files in the directory that start with 'step' and count them
+        return count(glob($stepsDirectory . '/step*.blade.php'));
+    }
+
+    private function flushSessionExcept(array $exceptKeys)
+    {
+        $sessionData = session()->only($exceptKeys);
+        session()->flush();
+        session()->put($sessionData);
     }
 
     // public function store(Request $request)

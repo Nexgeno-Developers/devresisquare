@@ -259,6 +259,23 @@ input[type="radio"]:checked+label::before {
 }
 
 /* ========================================
+          Steps Price
+==========================================*/
+
+.price_input_wrapper{
+    position: relative;
+}
+.price_input_wrapper .pound_sign{
+    position: absolute;
+    left: 10px;
+    top: 7px;
+}
+.price_input_wrapper input{
+    padding-left: 26px;
+}
+
+
+/* ========================================
           Steps Media Upload
 ==========================================*/
 

@@ -26,12 +26,12 @@
             <label>Does the property have gas?</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="is_gas" value="0" {{ old('is_gas') == 'no' ? 'checked' : '' }} /> 
-                    <label for="is_gas" > No</label>
+                    <input type="radio" name="is_gas" id="is_gas_no" value="0" {{ old('is_gas') == 'no' ? 'checked' : '' }} /> 
+                    <label for="is_gas_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="is_gas" value="1" {{ old('is_gas') == 'yes' ? 'checked' : '' }} /> 
-                    <label for="is_gas" > Yes</label>
+                    <input type="radio" name="is_gas" id="is_gas_yes" value="1" {{ old('is_gas') == 'yes' ? 'checked' : '' }} /> 
+                    <label for="is_gas_yes" > Yes</label>
                 </div>
                 @error('is_gas')
                     <div class="text-danger">{{ $message }}</div>

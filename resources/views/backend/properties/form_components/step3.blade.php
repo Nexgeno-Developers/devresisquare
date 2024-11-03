@@ -61,12 +61,12 @@
             <label>Parking</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="parking" value="0" {{ old('parking') == '0' ? 'checked' : '' }} /> 
-                    <label for="parking" > No</label>
+                    <input type="radio" name="parking" id="parking_no" value="0" {{ old('parking') == '0' ? 'checked' : '' }} /> 
+                    <label for="parking_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="parking" value="1" {{ old('parking') == '1' ? 'checked' : '' }} /> 
-                    <label for="parking" > Yes</label>
+                    <input type="radio" name="parking" id="parking_yes" value="1" {{ old('parking') == '1' ? 'checked' : '' }} /> 
+                    <label for="parking_yes" > Yes</label>
                 </div>
                 @error('parking')
                     <div class="text-danger">{{ $message }}</div>
@@ -78,12 +78,12 @@
             <label>Balcony</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="balcony" value="0" {{ old('balcony') == '0' ? 'checked' : '' }} /> 
-                    <label for="balcony" > No</label>
+                    <input type="radio" name="balcony" id="balcony_no" value="0" {{ old('balcony') == '0' ? 'checked' : '' }} /> 
+                    <label for="balcony_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="balcony" value="1" {{ old('balcony') == '1' ? 'checked' : '' }} /> 
-                    <label for="balcony" > Yes</label>
+                    <input type="radio" name="balcony" id="balcony_yes" value="1" {{ old('balcony') == '1' ? 'checked' : '' }} /> 
+                    <label for="balcony_yes" > Yes</label>
                 </div>
                 @error('balcony')
                     <div class="text-danger">{{ $message }}</div>
@@ -96,12 +96,12 @@
             <label>Garden</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="garden" value="0" {{ old('garden') == '0' ? 'checked' : '' }} /> 
-                    <label for="garden" > No</label>
+                    <input type="radio" name="garden" id="garden_no" value="0" {{ old('garden') == '0' ? 'checked' : '' }} /> 
+                    <label for="garden_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="garden" value="1" {{ old('garden') == '1' ? 'checked' : '' }} /> 
-                    <label for="garden" > Yes</label>
+                    <input type="radio" name="garden" id="garden_yes" value="1" {{ old('garden') == '1' ? 'checked' : '' }} /> 
+                    <label for="garden_yes" > Yes</label>
                 </div>
                 @error('garden')
                     <div class="text-danger">{{ $message }}</div>
@@ -125,12 +125,12 @@
             <label>Collecting Rent</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="collecting_rent" value="0" {{ old('collecting_rent') == '0' ? 'checked' : '' }} /> 
-                    <label for="collecting_rent" > No</label>
+                    <input type="radio" name="collecting_rent" id="collecting_rent_no" value="0" {{ old('collecting_rent') == '0' ? 'checked' : '' }} /> 
+                    <label for="collecting_rent_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="collecting_rent" value="1" {{ old('collecting_rent') == '1' ? 'checked' : '' }} /> 
-                    <label for="collecting_rent" > Yes</label>
+                    <input type="radio" name="collecting_rent" id="collecting_rent_yes" value="1" {{ old('collecting_rent') == '1' ? 'checked' : '' }} /> 
+                    <label for="collecting_rent_yes" > Yes</label>
                 </div>
                 @error('collecting_rent')
                     <div class="text-danger">{{ $message }}</div>

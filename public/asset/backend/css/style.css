@@ -325,3 +325,25 @@ input[type="radio"]:checked+label::before {
 .rs_upload_btn label[for="video_url"]{
     display: none;
 }
+
+
+/* ========================================
+          quick add property
+==========================================*/
+
+.qap_breadcrumb{
+    display: flex;
+    gap: 8px;
+}
+.qap_breadcrumb input{
+    display: none;
+}
+.qap_breadcrumb .form-check{
+    padding: unset;
+}
+.qap_breadcrumb label::after{
+    content: '/';
+}
+.qap_breadcrumb .form-check:last-child label::after{
+    content: '';
+}

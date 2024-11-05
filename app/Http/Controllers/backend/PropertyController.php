@@ -19,6 +19,12 @@ class PropertyController
     {
         return view('backend.properties.create'); // Return the create property view
     }
+
+    // show quick form
+    public function quick()
+    {
+        return view('backend.properties.quick'); // Return the create property view
+    }
     public function store(Request $request)
     {
         // Ensure the user ID is stored in the session

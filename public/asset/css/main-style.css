@@ -286,6 +286,37 @@ Radio Buttons
     color: var(--white);
 }
 
+/* ----------- Radio Square buttons for icon ------------ */
+.radio_bts_square_icon{
+    display: flex;
+    gap: 12px;
+}
+.radio_bts_square_icon input[type="radio"] {
+    display: none;
+}
+.radio_bts_square_icon label{
+    cursor: pointer;
+}
+.radio_bts_square_icon label{
+    border: 1px solid var(--primary);
+    border-radius: 3px;
+    padding: 10px 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    flex-direction: column;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+    
+}
+.radio_bts_square_icon label:hover,
+.radio_bts_square_icon input[type="radio"]:checked+label{
+    border: 1px solid var(--secondary);
+    color: var(--secondary);
+    box-shadow: unset;
+}
+
 /* ========================================
 File upload
 ==========================================*/

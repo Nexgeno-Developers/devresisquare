@@ -5,7 +5,7 @@
         <div class="col-md-6 col-12 left_col">
             <div class="left_content_wrapper">
                 <div class="left_content_img">
-                    <img src="{{ asset('asset/images/svg/building.svg') }}" alt="">
+                    <img src="{{ asset('asset/images/svg/building.svg') }}" alt="Property Name">
                 </div>
                 <div class="left_title">
                     What is your<br/> <span class="secondary-color">property</span>  name?

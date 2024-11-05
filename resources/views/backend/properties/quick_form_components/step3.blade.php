@@ -43,7 +43,6 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-50" data-next-step="2" data-current-step="1">Next</button>
                 </div>
             </form>
         </div>

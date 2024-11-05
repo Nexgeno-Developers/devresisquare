@@ -30,5 +30,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/step/{step}', [PropertyController::class, 'getStepView'])->name('step');
         
         Route::get('/quick-create', [PropertyController::class, 'quick'])->name('quick');
+        Route::get('/quick_step/{step}', [PropertyController::class, 'getQuickStepView'])->name('quick_step');
     });
 });

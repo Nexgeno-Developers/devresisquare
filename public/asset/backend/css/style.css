@@ -347,3 +347,53 @@ input[type="radio"]:checked+label::before {
 .qap_breadcrumb .form-check:last-child label::after{
     content: '';
 }
+
+
+.quick_add_property{
+    min-height: 500px;
+}
+
+.quick_add_property .left_col{
+    padding-right: 40px;
+    border-right: 1px solid var(--primary-300);
+}
+.quick_add_property .left_col .left_content_wrapper {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+.quick_add_property .left_col .left_content_wrapper .left_content_img{
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.quick_add_property .left_col .left_content_wrapper .left_title{
+    font-size: 46px;
+    text-align: right;
+}
+.quick_add_property .left_col .left_content_wrapper .left_title span{
+    font-weight: 500;
+}
+    
+
+
+.quick_add_property .right_col{
+    padding-left: 40px;
+}
+.quick_add_property .right_col .right_content_wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    height: 100%;
+}
+.quick_add_property .right_col .right_content_wrapper label{
+    font-size: 18px;
+    font-weight: 400;
+}

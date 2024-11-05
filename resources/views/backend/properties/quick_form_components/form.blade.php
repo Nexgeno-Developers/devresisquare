@@ -19,7 +19,7 @@
 @endphp
 
 <div class="">
-    <h4>Quick Add Property</h4>
+    <h4 class="mb-4">Quick Add Property</h4>
     <div class="qap_breadcrumb">
         @for ($i = 1; $i <= 6; $i++)
             <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">

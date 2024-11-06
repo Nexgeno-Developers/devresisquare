@@ -25,15 +25,20 @@ class PropertyController
         // if (!session()->has('user_id')) {
         //     $request->session()->put('user_id', Auth::id());
         // }
-        $request->session()->put('current_step', $request->step);
+        $request->session()->put('current_step', $request->step + 1);
 
         // Validate data based on the current step
         if ($request->has('step')) {
             // Validate the request data
             $validatedData = $request->validate($this->getValidationRules($request->step));
 
-            // Store data in session excluding token and step
-            $request->session()->put($request->except('_token', 'step'));
+            // Convert market_on to JSON if it's an array
+            if ($request->has('market_on') && is_array($request->market_on)) {
+                $validatedData['market_on'] = json_encode($request->market_on);  // Serialize the array to JSON
+            }
+
+            // Store all data in session excluding token and step
+            //$request->session()->put($request->except('_token', 'step'));
 
             //$userId = $request->session()->get('user_id'); // Retrieve the user ID from the session
 

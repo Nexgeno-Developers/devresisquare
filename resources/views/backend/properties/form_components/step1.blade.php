@@ -2,7 +2,7 @@
 <form id="property-form-step-1" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
-    <input type="hidden" name="property_id" value="{{ session('property_id') ?? old('property_id') }}">
+    <input type="hidden" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
     <label class="main_title">Property Address</label>
 
     <div class="steps_wrapper">

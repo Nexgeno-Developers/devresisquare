@@ -3,34 +3,30 @@
 
 @section('content')
 @php
-    function getStepName($step)
-    {
-        $stepNames = [
-            1 => 'Property Address',
-            2 => 'Property Type',
-            3 => 'Property Information',
-            4 => 'Current Status',
-            5 => 'Features',
-            6 => 'Price',
-            7 => 'Valid EPC',
-            8 => 'Media',
-            9 => 'Responsibility',
-        ];
-
-        return $stepNames[$step] ?? 'Unknown Step';
-    }
+    $stepNames = [
+        1 => 'Property Address',
+        2 => 'Property Type',
+        3 => 'Property Information',
+        4 => 'Current Status',
+        5 => 'Features',
+        6 => 'Price',
+        7 => 'Valid EPC',
+        8 => 'Media',
+        9 => 'Responsibility',
+    ];
 @endphp
 
 <div class="container-fluid">
     <div class="row">
         <div class="col left_inner_menu">
             <div class="stepformcomponents">
-                @for ($i = 1; $i <= 9; $i++)
+                @for ($i = 1; $i <= count($stepNames); $i++)
                     <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
-                        <input class="form-check-input" type="radio" name="step" id="step{{ $i }}" value="{{ $i }}" {{ session('current_step') == $i ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="step" id="step{{ $i }}" value="{{ $i }}" 
+                    {{ session('current_step') == $i ||  $i == 1 ? 'checked' : '' }}>
                         <label class="form-check-label {{ session('current_step') == $i ? 'active' : '' }}"
                             for="step{{ $i }}">
-                            {{ getStepName($i) }}
+                            {{ $stepNames[$i] ?? 'Unknown Step'}}
                         </label>
                     </div>
                 @endfor

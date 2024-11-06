@@ -11,15 +11,21 @@
     <div class="steps_wrapper">
         <div class="form-group">
             <label for="price">Sale Price</label>
-            <input type="text" name="price" id="price" class="form-control" value="{{ old('price') }}">
-            @error('price')
+            <div class="price_input_wrapper">
+                <div class="pound_sign">£</div>
+                <input type="text" name="price" id="price" class="form-control" value="{{ old('price') }}">
+            </div>
+                @error('price')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
             <label for="ground_rent">Ground Rent</label>
-            <input type="text" name="ground_rent" id="ground_rent" class="form-control" value="{{ old('ground_rent') }}">
+            <div class="price_input_wrapper">
+                <div class="pound_sign">£</div>
+                <input type="text" name="ground_rent" id="ground_rent" class="form-control" value="{{ old('ground_rent') }}">
+            </div>
             @error('ground_rent')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -27,7 +33,10 @@
 
         <div class="form-group">
             <label for="service_charge">Service Charge</label>
-            <input type="text" name="service_charge" id="service_charge" class="form-control" value="{{ old('service_charge') }}">
+            <div class="price_input_wrapper">
+                <div class="pound_sign">£</div>
+                <input type="text" name="service_charge" id="service_charge" class="form-control" value="{{ old('service_charge') }}">
+            </div>
             @error('service_charge')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -35,7 +44,10 @@
 
         <div class="form-group">
             <label for="annual_council_tax">Annual Council Tax</label>
-            <input type="text" name="annual_council_tax" id="annual_council_tax" class="form-control" value="{{ old('annual_council_tax') }}">
+            <div class="price_input_wrapper">
+                <div class="pound_sign">£</div>
+                <input type="text" name="annual_council_tax" id="annual_council_tax" class="form-control" value="{{ old('annual_council_tax') }}">
+            </div>
             @error('annual_council_tax')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -43,7 +55,10 @@
 
         <div class="form-group">
             <label for="council_tax_band">Council Tax Band</label>
-            <input type="text" name="council_tax_band" id="council_tax_band" class="form-control" value="{{ old('council_tax_band') }}">
+            <div class="price_input_wrapper">
+                <div class="pound_sign">£</div>
+                <input type="text" name="council_tax_band" id="council_tax_band" class="form-control" value="{{ old('council_tax_band') }}">
+            </div>
             @error('council_tax_band')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -51,7 +66,10 @@
 
         <div class="form-group">
             <label for="listing_sale_price">Listing Sale Price</label>
-            <input type="text" name="listing_sale_price" id="listing_sale_price" class="form-control" value="{{ old('listing_sale_price') }}">
+            <div class="price_input_wrapper">
+                <div class="pound_sign">£</div>
+                <input type="text" name="listing_sale_price" id="listing_sale_price" class="form-control" value="{{ old('listing_sale_price') }}">
+            </div>
             @error('listing_sale_price')
                 <div class="text-danger">{{ $message }}</div>
             @enderror

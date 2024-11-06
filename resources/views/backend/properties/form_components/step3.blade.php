@@ -11,13 +11,13 @@
         <div class="form-group">
             <label>Bedrooms</label>
             <div class="radio_bts_square">
-                <input type="radio" name="bedroom" value="studio" {{ old('bedroom') == 'studio' ? 'checked' : '' }}> <label for="bedroom">Studio </label>
-                <input type="radio" name="bedroom" value="1" {{ old('bedroom') == '1' ? 'checked' : '' }}> <label for="bedroom">1 </label>
-                <input type="radio" name="bedroom" value="2" {{ old('bedroom') == '2' ? 'checked' : '' }}> <label for="bedroom">2 </label>
-                <input type="radio" name="bedroom" value="3" {{ old('bedroom') == '3' ? 'checked' : '' }}> <label for="bedroom">3 </label>
-                <input type="radio" name="bedroom" value="4" {{ old('bedroom') == '4' ? 'checked' : '' }}> <label for="bedroom">4 </label>
-                <input type="radio" name="bedroom" value="5" {{ old('bedroom') == '5' ? 'checked' : '' }}> <label for="bedroom">5 </label>
-                <input type="radio" name="bedroom" value="6+" {{ old('bedroom') == '6+' ? 'checked' : '' }}> <label for="bedroom">6+ </label>
+                <input type="radio" name="bedroom" id="bedroomStudio" value="studio" {{ old('bedroom') == 'studio' ? 'checked' : '' }}> <label for="bedroomStudio">Studio </label>
+                <input type="radio" name="bedroom" id="bedroom1" value="1" {{ old('bedroom') == '1' ? 'checked' : '' }}> <label for="bedroom1">1 </label>
+                <input type="radio" name="bedroom" id="bedroom2" value="2" {{ old('bedroom') == '2' ? 'checked' : '' }}> <label for="bedroom2">2 </label>
+                <input type="radio" name="bedroom" id="bedroom3" value="3" {{ old('bedroom') == '3' ? 'checked' : '' }}> <label for="bedroom3">3 </label>
+                <input type="radio" name="bedroom" id="bedroom4" value="4" {{ old('bedroom') == '4' ? 'checked' : '' }}> <label for="bedroom4">4 </label>
+                <input type="radio" name="bedroom" id="bedroom5" value="5" {{ old('bedroom') == '5' ? 'checked' : '' }}> <label for="bedroom5">5 </label>
+                <input type="radio" name="bedroom" id="bedroom6" value="6+" {{ old('bedroom') == '6+' ? 'checked' : '' }}> <label for="bedroom6">6+ </label>
             </div>
             @error('bedroom')
                 <div class="text-danger">{{ $message }}</div>
@@ -26,12 +26,12 @@
         <div class="form-group">
             <label>Bathrooms</label>
             <div class="radio_bts_square">
-                <input type="radio" name="bathroom" value="1" {{ old('bathroom') == '1' ? 'checked' : '' }}> <label for="bathrrom">1 </label>
-                <input type="radio" name="bathroom" value="2" {{ old('bathroom') == '2' ? 'checked' : '' }}> <label for="bathrrom">2 </label>
-                <input type="radio" name="bathroom" value="3" {{ old('bathroom') == '3' ? 'checked' : '' }}> <label for="bathrrom">3 </label>
-                <input type="radio" name="bathroom" value="4" {{ old('bathroom') == '4' ? 'checked' : '' }}> <label for="bathrrom">4 </label>
-                <input type="radio" name="bathroom" value="5" {{ old('bathroom') == '5' ? 'checked' : '' }}> <label for="bathrrom">5 </label>
-                <input type="radio" name="bathroom" value="6+" {{ old('bathroom') == '6+' ? 'checked' : '' }}> <label for="bathrrom">6+ </label>
+                <input type="radio" name="bathroom" id="bathroom1" value="1" {{ old('bathroom') == '1' ? 'checked' : '' }}> <label for="bathroom1">1 </label>
+                <input type="radio" name="bathroom" id="bathroom2" value="2" {{ old('bathroom') == '2' ? 'checked' : '' }}> <label for="bathroom2">2 </label>
+                <input type="radio" name="bathroom" id="bathroom3" value="3" {{ old('bathroom') == '3' ? 'checked' : '' }}> <label for="bathroom3">3 </label>
+                <input type="radio" name="bathroom" id="bathroom4" value="4" {{ old('bathroom') == '4' ? 'checked' : '' }}> <label for="bathroom4">4 </label>
+                <input type="radio" name="bathroom" id="bathroom5" value="5" {{ old('bathroom') == '5' ? 'checked' : '' }}> <label for="bathroom4">5</label>
+                <input type="radio" name="bathroom" id="bathroom6" value="6+" {{ old('bathroom') == '6+' ? 'checked' : '' }}> <label for="bathrrom6">6+ </label>
             </div>
             @error('bathroom')
                 <div class="text-danger">{{ $message }}</div>
@@ -40,18 +40,18 @@
         <div class="form-group">
             <label>Reception Rooms</label>
             <div class="radio_bts_square">
-                <input type="radio" name="reception" value="1" {{ old('reception') == '1' ? 'checked="checked"' : '' }} /> 
-                <label for="reception"> 1 </label>
-                <input type="radio" name="reception" value="2" {{ old('reception') == '2' ? 'checked="checked"' : '' }} /> 
-                <label for="reception"> 2 </label>
-                <input type="radio" name="reception" value="3" {{ old('reception') == '3' ? 'checked="checked"' : '' }} /> 
-                <label for="reception"> 3 </label>
-                <input type="radio" name="reception" value="4" {{ old('reception') == '4' ? 'checked="checked"' : '' }} /> 
-                <label for="reception"> 4 </label>
-                <input type="radio" name="reception" value="5" {{ old('reception') == '5' ? 'checked="checked"' : '' }} /> 
-                <label for="reception"> 5 </label>
-                <input type="radio" name="reception" value="6+" {{ old('reception') == '6+' ? 'checked="checked"' : '' }} /> 
-                <label for="reception">6+</label>
+                <input type="radio" name="reception" id="reception1" value="1" {{ old('reception') == '1' ? 'checked="checked"' : '' }} /> 
+                <label for="reception1"> 1 </label>
+                <input type="radio" name="reception" id="reception2" value="2" {{ old('reception') == '2' ? 'checked="checked"' : '' }} /> 
+                <label for="reception2"> 2 </label>
+                <input type="radio" name="reception" id="reception3" value="3" {{ old('reception') == '3' ? 'checked="checked"' : '' }} /> 
+                <label for="reception3"> 3 </label>
+                <input type="radio" name="reception" id="reception4" value="4" {{ old('reception') == '4' ? 'checked="checked"' : '' }} /> 
+                <label for="reception4"> 4 </label>
+                <input type="radio" name="reception" id="reception5" value="5" {{ old('reception') == '5' ? 'checked="checked"' : '' }} /> 
+                <label for="reception5"> 5 </label>
+                <input type="radio" name="reception" id="reception6" value="6+" {{ old('reception') == '6+' ? 'checked="checked"' : '' }} /> 
+                <label for="reception6">6+</label>
             </div>
             @error('reception')
                 <div class="text-danger">{{ $message }}</div>
@@ -61,12 +61,12 @@
             <label>Parking</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="parking" value="0" {{ old('parking') == '0' ? 'checked' : '' }} /> 
-                    <label for="parking" > No</label>
+                    <input type="radio" name="parking" id="parking_no" value="0" {{ old('parking') == '0' ? 'checked' : '' }} /> 
+                    <label for="parking_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="parking" value="1" {{ old('parking') == '1' ? 'checked' : '' }} /> 
-                    <label for="parking" > Yes</label>
+                    <input type="radio" name="parking" id="parking_yes" value="1" {{ old('parking') == '1' ? 'checked' : '' }} /> 
+                    <label for="parking_yes" > Yes</label>
                 </div>
                 @error('parking')
                     <div class="text-danger">{{ $message }}</div>
@@ -78,12 +78,12 @@
             <label>Balcony</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="balcony" value="0" {{ old('balcony') == '0' ? 'checked' : '' }} /> 
-                    <label for="balcony" > No</label>
+                    <input type="radio" name="balcony" id="balcony_no" value="0" {{ old('balcony') == '0' ? 'checked' : '' }} /> 
+                    <label for="balcony_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="balcony" value="1" {{ old('balcony') == '1' ? 'checked' : '' }} /> 
-                    <label for="balcony" > Yes</label>
+                    <input type="radio" name="balcony" id="balcony_yes" value="1" {{ old('balcony') == '1' ? 'checked' : '' }} /> 
+                    <label for="balcony_yes" > Yes</label>
                 </div>
                 @error('balcony')
                     <div class="text-danger">{{ $message }}</div>
@@ -96,12 +96,12 @@
             <label>Garden</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="garden" value="0" {{ old('garden') == '0' ? 'checked' : '' }} /> 
-                    <label for="garden" > No</label>
+                    <input type="radio" name="garden" id="garden_no" value="0" {{ old('garden') == '0' ? 'checked' : '' }} /> 
+                    <label for="garden_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="garden" value="1" {{ old('garden') == '1' ? 'checked' : '' }} /> 
-                    <label for="garden" > Yes</label>
+                    <input type="radio" name="garden" id="garden_yes" value="1" {{ old('garden') == '1' ? 'checked' : '' }} /> 
+                    <label for="garden_yes" > Yes</label>
                 </div>
                 @error('garden')
                     <div class="text-danger">{{ $message }}</div>
@@ -125,12 +125,12 @@
             <label>Collecting Rent</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="collecting_rent" value="0" {{ old('collecting_rent') == '0' ? 'checked' : '' }} /> 
-                    <label for="collecting_rent" > No</label>
+                    <input type="radio" name="collecting_rent" id="collecting_rent_no" value="0" {{ old('collecting_rent') == '0' ? 'checked' : '' }} /> 
+                    <label for="collecting_rent_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="collecting_rent" value="1" {{ old('collecting_rent') == '1' ? 'checked' : '' }} /> 
-                    <label for="collecting_rent" > Yes</label>
+                    <input type="radio" name="collecting_rent" id="collecting_rent_yes" value="1" {{ old('collecting_rent') == '1' ? 'checked' : '' }} /> 
+                    <label for="collecting_rent_yes" > Yes</label>
                 </div>
                 @error('collecting_rent')
                     <div class="text-danger">{{ $message }}</div>

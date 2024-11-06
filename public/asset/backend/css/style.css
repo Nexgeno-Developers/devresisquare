@@ -258,7 +258,69 @@ input[type="radio"]:checked+label::before {
     gap: 6px;
 }
 
+/* ========================================
+          Steps Price
+==========================================*/
 
+.price_input_wrapper{
+    position: relative;
+}
+.price_input_wrapper .pound_sign{
+    position: absolute;
+    left: 10px;
+    top: 7px;
+}
+.price_input_wrapper input{
+    padding-left: 26px;
+}
+
+
+/* ========================================
+          Steps Media Upload
+==========================================*/
+
+.media_wrapper{
+    display: flex;
+    gap: 24px;
+}
+.media_wrapper .media_content{
+    display: flex;
+}
+.media_wrapper .media_content .image_wrapper{
+    display: flex;
+    gap: 24px;
+}
+.media_wrapper .media_content .image_wrapper .media_images{
+    width: 200px;
+    height: 200px;
+    overflow:hidden;
+    border: 1px solid var(--primary-300);
+    border-radius: 5px;
+    position: relative;
+}
+.media_wrapper .media_content .image_wrapper .media_images .delete_image{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary);
+    opacity: .5;
+    border-radius: 100%;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.media_wrapper .media_content .image_wrapper .media_images .delete_image svg{
+    fill: var(--white);
+}
+.media_wrapper .media_content .image_wrapper .media_images img{
+    object-fit: cover;
+    object-position: center;
+    width:100%;
+    height:100%; 
+}
 
 .rs_upload_btn label[for="video_url"]{
     display: none;

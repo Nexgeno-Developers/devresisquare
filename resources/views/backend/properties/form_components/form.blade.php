@@ -63,7 +63,12 @@
         </div>
 
         <div class="col-md-4 render_blade">
-            @include('backend.properties.form_components.step' . (session('current_step', 1)), ['property' => $property])
+            @if (isset($property))
+                @include('backend.properties.form_components.step' . (session('current_step', 1)), ['property' => $property])
+            @else
+                {{-- Handle the case where $property is not set, if needed --}}
+                @include('backend.properties.form_components.step' . (session('current_step', 1)))
+            @endif
         </div>
 
     </div>
@@ -113,11 +118,18 @@
                 }
             });
         }
-
+        // Define the URL based on the condition if $property exists
+        @php
+            $formStepRenderUrl = isset($property)
+                ? route('admin.properties.step', ['step' => ':step', 'property_id' => $property->id])
+                : route('admin.properties.step', ['step' => ':step']);
+        @endphp
         // Function to render the view for a specific step
         function renderStep(step) {
-            // const formStepRenderUrl = '{{ route("admin.properties.step", ":step") }}'.replace(':step', step);
-            const formStepRenderUrl = '{{ route("admin.properties.step", ["step" => ":step", "property_id" => $property->id]) }}'.replace(':step', step);
+            // Replace ':step' with the actual step in the URL
+            const formStepRenderUrl = '{{ $formStepRenderUrl }}'.replace(':step', step);
+            // const formStepRenderUrl = '{{-- route("admin.properties.step", ":step") --}}'.replace(':step', step);
+            //const formStepRenderUrl = '{{-- route("admin.properties.step", ["step" => ":step", "property_id" => $property->id]) --}}'.replace(':step', step);
             $.ajax({
                 url: formStepRenderUrl,
                 method: 'GET',

@@ -416,4 +416,11 @@ input[type="radio"]:checked+label::before {
     height: 80px;
 
 }
+.quick_add_property .thanks_page .left_content_wrapper .left_title{
+    font-size: 46px;
+    text-align: center;
+}
+.quick_add_property .thanks_page .left_content_wrapper .thanks_img{
+    text-align: center;
+}
 

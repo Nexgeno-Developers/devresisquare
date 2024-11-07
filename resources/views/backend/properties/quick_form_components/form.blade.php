@@ -35,7 +35,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 render_blade">
-                @include('backend.properties.quick_form_components.step' . session('current_step', 4))  <!-- Default to step 1 -->
+                @include('backend.properties.quick_form_components.step' . session('current_step', 6))  <!-- Default to step 1 -->
             </div>
         </div>
     </div>

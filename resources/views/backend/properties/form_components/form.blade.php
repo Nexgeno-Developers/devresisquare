@@ -63,8 +63,9 @@
         </div>
 
         <div class="col-md-4 render_blade">
-            @include('backend.properties.form_components.step' . session('current_step', 1))  <!-- Default to step 1 -->
+            @include('backend.properties.form_components.step' . (session('current_step', 1)), ['property' => $property])
         </div>
+
     </div>
 </div>
 @endsection
@@ -115,8 +116,8 @@
 
         // Function to render the view for a specific step
         function renderStep(step) {
-            const formStepRenderUrl = '{{ route("admin.properties.step", ":step") }}'.replace(':step', step);
-
+            // const formStepRenderUrl = '{{ route("admin.properties.step", ":step") }}'.replace(':step', step);
+            const formStepRenderUrl = '{{ route("admin.properties.step", ["step" => ":step", "property_id" => $property->id]) }}'.replace(':step', step);
             $.ajax({
                 url: formStepRenderUrl,
                 method: 'GET',

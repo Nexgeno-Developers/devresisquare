@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes; // Import SoftDeletes
 
 class Property extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     // Define the fillable properties
     protected $fillable = [
@@ -58,7 +59,15 @@ class Property extends Model
         'branch',
         'commission_percentage',
         'commission_amount',
+        'step',
         'added_by',
+    ];
+    protected $casts = [
+        'market_on' => 'array',
+        'photos' => 'array',
+        'floor_plan' => 'array',
+        'view_360' => 'array',
+        'video_url' => 'array',
     ];
 
     // protected static function booted()

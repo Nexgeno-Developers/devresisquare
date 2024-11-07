@@ -146,6 +146,11 @@ class PropertyController
         $property = Property::findOrFail($id); // Fetch property by ID
         return view('backend.properties.edit', compact('property'));
     }
+    public function view($id)
+    {
+        $property = Property::findOrFail($id); // Fetch property by ID
+        return view('backend.properties.view', compact('property'));
+    }
 
     public function update(Request $request, $id)
     {
@@ -180,14 +185,54 @@ class PropertyController
     public function destroy($id)
     {
         $property = Property::findOrFail($id);
-
+        // Optionally, check if the property is already deleted
+        if ($property->trashed()) {
+            return redirect()->route('admin.properties.index')->with('error', 'This property is already deleted.');
+        }
         // Use soft delete
         $property->deleted_by = Auth::id(); // Set the user who deleted the property
         $property->save(); // Save changes
         $property->delete(); // Perform the soft delete
+        $response = [
+            'status' => true,
+            'message' => 'Property Deleted successfully!',
+        ];
 
-        return redirect()->route('admin.properties.index')->with('success', 'Property deleted successfully.');
+        return response()->json($response);
+        //return redirect()->route('admin.properties.index')->with('success', 'Property deleted successfully.');
     }
+
+    public function showSoftDeletedProperties()
+    {
+        $properties = Property::onlyTrashed()->get(); // Fetch only soft-deleted properties
+
+        return view('backend.properties.deleted', compact('properties'));
+    }
+
+
+    public function restore($id)
+    {
+        $property = Property::withTrashed()->findOrFail($id);
+        $property->restore();
+
+        $response = [
+            'status' => true,
+            'message' => 'Property restored successfully!',
+        ];
+
+        return redirect()->route('admin.properties.index')->with('success', $response['message']);
+
+        //return redirect()->route('admin.properties.index')->with('success', 'Property restored successfully.');
+    }
+
+    public function bulkRestore(Request $request)
+    {
+        $propertyIds = $request->input('property_ids');
+        Property::withTrashed()->whereIn('id', $propertyIds)->restore();
+
+        return redirect()->route('admin.properties.index')->with('success', 'Selected properties restored successfully.');
+    }
+
 
     private function getValidationRules($step)
     {

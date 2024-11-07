@@ -27,7 +27,10 @@
                     <a class="{{ request()->routeIs('admin.properties.create') && request()->query('stepform') ? 'active' : '' }}"
                         href="{{ route('admin.properties.create') }}?stepform">Add Property</a>
                 </li>
-
+                <li>
+                    <a class="{{ request()->routeIs('admin.properties.soft_deleted') ? 'active' : '' }}"
+                        href="{{ route('admin.properties.soft_deleted') }}">Soft Deleted Properties</a>
+                </li>
             </ul>
         </li>
 

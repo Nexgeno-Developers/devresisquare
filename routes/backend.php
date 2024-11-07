@@ -28,5 +28,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/update/{id}', [PropertyController::class, 'update'])->name('update');
         Route::post('/delete/{id}', [PropertyController::class, 'destroy'])->name('delete');
         Route::get('/step/{step}', [PropertyController::class, 'getStepView'])->name('step');
+        
+        Route::get('/quick-create', [PropertyController::class, 'quick'])->name('quick');
+        Route::get('/quick_step/{step}', [PropertyController::class, 'getQuickStepView'])->name('quick_step');
     });
 });

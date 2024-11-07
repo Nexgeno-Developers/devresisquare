@@ -2,7 +2,7 @@
 <form id="property-form-step-8" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}" enctype="multipart/form-data">
     @csrf
     <!-- Hidden field for property ID with isset check -->
-    <input type="hidden" name="property_id" value="{{ session('property_id') ?? old('property_id') }}">
+    <input type="hidden" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
 
     <label class="main_title">Media</label>
 
@@ -123,10 +123,10 @@
 
         <div class="row">
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="7">Previous</button>
+                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="7" data-current-step="8">Previous</button>
             </div>
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-primary w-100 next-step" data-next-step="9">Next</button>
+                <button type="button" class="btn btn-primary w-100 next-step" data-next-step="9" data-current-step="8">Next</button>
         </div> 
     </div> 
 </form>

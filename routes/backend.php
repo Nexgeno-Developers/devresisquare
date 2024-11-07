@@ -24,12 +24,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [PropertyController::class, 'index'])->name('index');
         Route::get('/create', [PropertyController::class, 'create'])->name('create');
         Route::post('/store', [PropertyController::class, 'store'])->name('store');
+        Route::get('/view/{id}', [PropertyController::class, 'view'])->name('view');
         Route::get('/edit/{id}', [PropertyController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [PropertyController::class, 'update'])->name('update');
         Route::post('/delete/{id}', [PropertyController::class, 'destroy'])->name('delete');
         Route::get('/step/{step}', [PropertyController::class, 'getStepView'])->name('step');
-        
-        Route::get('/quick-create', [PropertyController::class, 'quick'])->name('quick');
-        Route::get('/quick_step/{step}', [PropertyController::class, 'getQuickStepView'])->name('quick_step');
+        Route::get('/deleted', [PropertyController::class, 'showSoftDeletedProperties'])->name('soft_deleted');
+        Route::post('/restore/{id}', [PropertyController::class, 'restore'])->name('restore');
+        Route::post('/bulk-restore', [PropertyController::class, 'bulkRestore'])->name('bulk-restore');
     });
 });

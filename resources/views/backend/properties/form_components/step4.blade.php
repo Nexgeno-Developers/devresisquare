@@ -2,7 +2,7 @@
 <form id="property-form-step-4" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
-    <input type="hidden" name="property_id" value="{{ session('property_id') ?? old('property_id') }}">
+    <input type="hidden" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
     
     <label class="main_title">Current Status</label>
 
@@ -12,10 +12,11 @@
         <div class="form-group">
             <label for="current_status">Current Status</label>
             <select name="current_status" id="current_status" class="form-control">
-                <option value="north" {{ old('current_status') == 'north' ? 'selected' : '' }}>North</option>
-                <option value="south" {{ old('current_status') == 'south' ? 'selected' : '' }}>South</option>
-                <option value="west" {{ old('current_status') == 'west' ? 'selected' : '' }}>West</option>
-                <option value="east" {{ old('current_status') == 'east' ? 'selected' : '' }}>East</option>
+                <option value="for sale" {{ (isset($property) && $property->current_status == 'for sale') ? 'selected' : ''  }}>For Sale</option>
+                <option value="under offer" {{ (isset($property) && $property->current_status == 'under offer') ? 'selected' : ''  }}>Under Offer</option>
+                <option value="sold STC" {{ (isset($property) && $property->current_status == 'sold STC') ? 'selected' : '' }}>Sold STC</option>
+                <option value="available" {{ (isset($property) && $property->current_status == 'available') ? 'selected' : ''  }}>Available</option>
+                <option value="let agreed" {{ (isset($property) && $property->current_status == 'let agreed') ? 'selected' : ''  }}>Let Agreed</option>
             </select>
             @error('current_status')
                 <div class="text-danger">{{ $message }}</div>
@@ -24,7 +25,7 @@
 
         <div class="form-group">
             <label for="status_description">Description</label>
-            <textarea name="status_description" id="status_description" class="form-control">{{ old('status_description') }}</textarea>
+            <textarea name="status_description" id="status_description" class="form-control">{{ isset($property) && $property->status_description ? $property->status_description : '' }}</textarea>
             @error('status_description')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -32,11 +33,12 @@
 
         <div class="form-group">
             <label for="available_from">Date of Availability</label>
-            <input type="date" name="available_from" id="available_from" class="form-control" value="{{ old('available_from') }}">
+            <input type="date" name="available_from" id="available_from" class="form-control" value="{{ isset($property) && $property->available_from ? $property->available_from : '' }}">
             @error('available_from')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
+
 
         <div class="form-group">
             <label for="market_on">Market On</label>
@@ -53,10 +55,10 @@
 
         <div class="row">
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="3">Previous</button>
+                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="3" data-current-step="4">Previous</button>
             </div>
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-primary w-100 next-step" data-next-step="5">Next</button>
+                <button type="button" class="btn btn-primary w-100 next-step" data-next-step="5" data-current-step="4">Next</button>
         </div> 
     </div> 
 

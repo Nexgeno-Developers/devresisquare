@@ -2,7 +2,7 @@
 <form id="property-form-step-9" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
-    <input type="hidden" name="property_id" value="{{ session('property_id') ?? old('property_id') }}">
+    <input type="hidden" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
 
     <label class="main_title">Responsibility</label>
 
@@ -63,10 +63,10 @@
 
         <div class="row">
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="8">Previous</button>
+                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="8" data-current-step="9">Previous</button>
             </div>
             <div class="col-12 col-md-6">
-                <button type="submit" class="btn btn-primary w-100 last-step-submit">Submit</button>
+                <button type="submit" class="btn btn-primary w-100 last-step-submit" data-current-step="9">Submit</button>
         </div> 
     </div> 
 

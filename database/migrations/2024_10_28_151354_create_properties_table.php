@@ -30,13 +30,13 @@ return new class extends Migration {
             $table->string('service')->nullable();
             $table->string('collecting_rent')->nullable();
             $table->string('floor')->nullable();
-            $table->integer('square_feet')->nullable();
-            $table->decimal('square_meter', 8, 2)->nullable();
+            $table->decimal('square_feet', 10, 4)->nullable();
+            $table->decimal('square_meter', 10, 4)->nullable();
             $table->string('aspects')->nullable();
             $table->string('current_status')->nullable();
             $table->text('status_description')->nullable();
             $table->date('available_from')->nullable();
-            $table->date('market_on')->nullable();
+            $table->json('market_on')->nullable();
             $table->string('furniture')->nullable();
             $table->string('kitchen')->nullable();
             $table->text('other')->nullable();
@@ -58,7 +58,7 @@ return new class extends Migration {
             $table->string('branch')->nullable();
             $table->decimal('commission_percentage', 5, 2)->nullable();
             $table->decimal('commission_amount', 10, 2)->nullable();
-            
+            $table->integer('step')->nullable();         
             $table->foreignId('added_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->softDeletes();
@@ -103,6 +103,7 @@ return new class extends Migration {
     }
 
     protected $casts = [
+        'market_on' => 'array',
         'photos' => 'array',
         'floor_plan' => 'array',
         'view_360' => 'array',

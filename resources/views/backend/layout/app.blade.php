@@ -18,36 +18,37 @@
             @include('backend.partials.navbar')
         </div>
     </div>
-    <div class="alert_wrapper">
-        <!-- Display success message -->
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <!-- Display error message -->
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <!-- Display validation errors -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </div>
     <div class="main_wrapper">
         @include('backend.partials.aside')
 
         <div id="wrapper" class="main-content mt-4">
+            <div class="alert_wrapper">
+                <!-- Display success message -->
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <!-- Display error message -->
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <!-- Display validation errors -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
+
             @yield('content')
         </div>
     </div>

@@ -405,4 +405,15 @@ input[type="radio"]:checked+label::before {
     width: 350px;
     height: 100%;
 }
-    
+.quick_add_property .right_col .radio_bts_square{
+    flex-wrap: wrap;
+    width: 290px;
+    gap: 24px;
+
+}
+.quick_add_property .right_col .radio_bts_square label{
+    width: 80px;
+    height: 80px;
+
+}
+

@@ -17,6 +17,9 @@ class PropertyController
     // Show the form for creating a new property.
     public function create()
     {
+        // Remove only the 'current_step' from session
+        //session()->forget('current_step');
+        session()->put('current_step', 1);
         return view('backend.properties.create'); // Return the create property view
     }
 

@@ -13,7 +13,7 @@
 
 <body class="show-sidebar">
     <div id="header">
-        <div class="hide-menu top_header tw-ml-1">
+        <div class="top_header tw-ml-1">
 
             @include('backend.partials.navbar')
         </div>

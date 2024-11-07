@@ -19,6 +19,12 @@ class PropertyController
     {
         return view('backend.properties.create'); // Return the create property view
     }
+
+    // show quick form
+    public function quick()
+    {
+        return view('backend.properties.quick'); // Return the create property view
+    }
     public function store(Request $request)
     {
         // Ensure the user ID is stored in the session
@@ -101,6 +107,24 @@ class PropertyController
         } else {
             // Return a view with an error message if the step is invalid
             return view('backend.properties.form_components.error', ['message' => 'Invalid step.']);
+        }
+    }
+
+    public function getQuickStepView($step, Request $request)
+    {
+        // Get property_id from the session or request
+        $property_id = $request->session()->get('property_id', $request->property_id);
+        $property = Property::find($property_id);
+
+        // Get the total number of steps dynamically
+        $totalSteps = $this->getTotalSteps();
+
+        // Check if the step is valid
+        if ($step > 0 && $step <= $totalSteps) {
+            return view('backend.properties.quick.form_components.step' . $step, compact('property')); // Return the corresponding Blade view
+        } else {
+            // Return a view with an error message if the step is invalid
+            return view('backend.properties.quick.form_components.error', ['message' => 'Invalid step.']);
         }
     }
 

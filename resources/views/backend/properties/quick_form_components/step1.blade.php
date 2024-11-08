@@ -1,4 +1,4 @@
-<!-- resources/views/backend/properties/form_components/step1.blade.php -->
+<!-- resources/views/backend/properties/quick_form_components/step1.blade.php -->
 
 <div class="container-fluid mt-4 quick_add_property">
     <div class="row">
@@ -8,26 +8,29 @@
                     <img src="{{ asset('asset/images/svg/building.svg') }}" alt="Property Name">
                 </div>
                 <div class="left_title">
-                    What is your<br/> <span class="secondary-color">property</span>  name?
+                    What is your<br /> <span class="secondary-color">property</span> name?
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-12 right_col">
             <div class="right_content_wrapper">
-                <form id="property-form-step-1"  method="POST" action="{{ route('admin.properties.store') }}">
+                <form id="property-form-step-1" method="POST" action="{{ route('admin.properties.quick_store') }}">
                     @csrf
+                    <input type="hidden" name="property_id"
+                        value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">                    
+                    <div class="right_content_wrapper" data-step-name="Property Name" data-step-number="1"></div>
                     <div class="form-group">
-                        <label for="line_1" class="mb-2">Give a name to your property</label>
-                        <input required type="text" name="line_1" id="line_1" class="form-control" value="{{ session('line_1') }}">
-                        @error('line_1')
+                        <label for="prop_name">Property Name</label>
+                        <input required type="text" name="prop_name" id="prop_name" class="form-control"
+                            value="{{ (isset($property) && $property->prop_name) ? $property->prop_name : '' }}">
+                        @error('prop_name')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-50" data-next-step="2" data-current-step="1">Next</button>
+                    <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-50" data-next-step="2"
+                        data-current-step="1">Next</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-

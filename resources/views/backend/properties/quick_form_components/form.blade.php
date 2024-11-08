@@ -1,7 +1,4 @@
 <!-- resources/views/backend/properties/form_components/form.blade.php -->
-@extends('backend.layout.app')
-
-@section('content')
 @php
     function getBreadcrumb($step)
     {
@@ -9,9 +6,8 @@
             1 => 'Property name',
             2 => 'Property Address',
             3 => 'Property Type',
-            4 => 'Property Information',
-            5 => 'Rooms',
-            6 => 'Price',
+            4 => 'Rooms',
+            5 => 'Price',
         ];
 
         return $breadcrumb[$step] ?? 'Unknown Step';
@@ -21,11 +17,10 @@
 <div class="">
     <h4 class="mb-4">Quick Add Property</h4>
     <div class="qap_breadcrumb">
-        @for ($i = 1; $i <= 6; $i++)
+        @for ($i = 1; $i <= 5; $i++)
             <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
                 <input class="form-check-input" type="radio" name="step" id="step{{ $i }}" value="{{ $i }}" {{ session('current_step') == $i ? 'checked' : '' }}>
-                <label class="form-check-label {{ session('current_step') == $i ? 'active' : '' }}"
-                    for="step{{ $i }}">
+                <label class="form-check-label {{ session('current_step') == $i ? 'active' : '' }}" for="step{{ $i }}">
                     {{ getBreadcrumb($i) }}
                 </label>
             </div>
@@ -40,9 +35,6 @@
         </div>
     </div>
 </div>
-@endsection
-
-
 
 @section('page.scripts')
 <script>
@@ -69,7 +61,7 @@
             formData.append('step', step);
 
             $.ajax({
-                url: '{{ route("admin.properties.store") }}',
+                url: '{{ route("admin.properties.quick_store") }}',
                 method: 'POST',
                 data: formData,
                 processData: false,
@@ -112,13 +104,38 @@
 
             handleStepChange(currentStep, targetStep);
         });
-        
+
         // Handle radio button change
         $('input[name="step"]').change(function () {
             const selectedStep = $(this).val();
             renderStep(selectedStep); // Render the corresponding Blade view
         });
 
+        // Handle Next and Previous button clicks
+        $(document).on('click', '.propertyType', function (e) {
+            e.preventDefault();
+            const currentStep3 = $('.next-step').data('current-step');
+            const targetStep4 = $('.next-step').data('next-step');
+
+            handleStepChange(currentStep3, targetStep4);
+        });
+        // Function to check if both Bedrooms and Reception Rooms have been selected
+        function checkSelectionsAndSubmit() {
+            const bedroomSelected = $('input[name="bedroom"]:checked').val();
+            const receptionSelected = $('input[name="reception"]:checked').val();
+
+            // If both Bedrooms and Reception Rooms are selected, submit the form
+            if (bedroomSelected && receptionSelected) {
+                const currentStep3 = $('.next-step').data('current-step');
+                const targetStep4 = $('.next-step').data('next-step');
+
+                handleStepChange(currentStep3, targetStep4);
+            }
+        }
+
+        // Event listeners for Bedrooms and Reception Rooms radio buttons, class-based with delegation
+        $(document).on('click', '.bedroom-radio', checkSelectionsAndSubmit);
+        $(document).on('click', '.reception-radio', checkSelectionsAndSubmit);
     });
 
 </script>

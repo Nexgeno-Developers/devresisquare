@@ -63,6 +63,7 @@
     <script src="{{ asset('asset/backend/js/style.js') }}"></script>
     <!-- <script src="{{ asset('asset/js/dataTables.bootstrap5.min.js') }}"></script> -->
     @yield('page.scripts') 
+    @yield('quickstepform.scripts') 
     <script>
         $(document).ready(function () {
             @if(session('error'))

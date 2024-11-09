@@ -40,6 +40,8 @@ class Property extends Model
         'market_on',
         'furniture',
         'kitchen',
+        'heating_cooling',
+        'safety',
         'other',
         'price',
         'ground_rent',

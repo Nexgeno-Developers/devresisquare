@@ -302,6 +302,7 @@ input[type="radio"]:checked+label::before {
 
 .media_wrapper{
     display: flex;
+    align-items: center;
     gap: 24px;
 }
 .media_wrapper .media_content{
@@ -309,6 +310,7 @@ input[type="radio"]:checked+label::before {
 }
 .media_wrapper .media_content .image_wrapper{
     display: flex;
+    align-items: center;
     gap: 24px;
 }
 .media_wrapper .media_content .image_wrapper .media_images{

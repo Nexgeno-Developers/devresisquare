@@ -47,27 +47,24 @@ body.show-sidebar #menu {
     padding: 12px 30px;
 }
 
-.components li.sidebar-list-item:has(a.active) {
-    background-color: black;
-}
 
-.components li.sidebar-list-item>a.active {
-    color: var(--white);
+/* ========================================
+          Sdebar
+==========================================*/
+
+.sidebar-list-item.submenu_wrapper:has(a.active) {
+    background-color: var(--primary-300);
+    color: var(--black);
     cursor: pointer;
+}
+.sidebar-list-item.submenu_wrapper:has(a.active)>a {
+    background-color: var(--primary);
+    color: var(--white);
 }
 
 .components li.sidebar-list-item {
     display: block;
     width: 100%;
-}
-
-.stepformcomponents li.sidebar-list-item:has(a.active) {
-    background-color: black;
-}
-
-.stepformcomponents li.sidebar-list-item>a.active {
-    color: var(--white);
-    cursor: pointer;
 }
 
 .stepformcomponents li.sidebar-list-item {
@@ -76,24 +73,15 @@ body.show-sidebar #menu {
 }
 
 .components>li.sidebar-list-item {
-    color: var(--primary-color);
+    /* color: var(--primary-color); */
     padding: 12px 20px;
 }
 
 .components>li.sidebar-list-item>a {
-    color: #334155;
+    color: var(--primary);
     text-decoration: none;
 }
 
-.components>li.sidebar-list-item:hover {
-    color: var(--white);
-    background-color: var(--primary-color);
-    cursor: pointer;
-}
-
-.components>li.sidebar-list-item:hover a {
-    color: var(--white);
-}
 
 /*sidebar*/
 .sidebar {
@@ -118,6 +106,36 @@ body.show-sidebar #menu {
     align-items: center;
 }
 
+.sidebar-list-item.submenu_wrapper{
+    padding: 0 !important;
+}
+.sidebar-list-item.submenu_wrapper a{
+    padding: 8px 16px !important;
+    display: block;
+}
+.sidebar-list-item.submenu_wrapper a.active{
+    padding: 8px 16px !important;
+    display: block;
+}
+ul#propertiesSubmenu li.sidebar-sub-list-item a{
+    text-decoration: none;
+    color: var(--primary);
+    padding-left: 20px !important;
+}
+ul#propertiesSubmenu li.sidebar-sub-list-item:hover{
+    background-color: var(--primary-200);
+    color: var(--primary);
+}
+ul#propertiesSubmenu li.sidebar-sub-list-item:hover a{
+    color: var(--primary);
+}
+
+.components li.sidebar-list-item .logout_btn{
+    padding: 0;
+    text-decoration: none;
+    color: var(--black);
+    height: unset;
+}
 
 
 /* ========================================
@@ -155,32 +173,7 @@ Header
     display: flex;
 }
 
-/* ========================================
-          Sdebar
-==========================================*/
-.sidebar-list-item.submenu_wrapper{
-    padding: 0 !important;
-}
-.sidebar-list-item.submenu_wrapper a{
-    padding: 8px 16px !important;
-    display: block;
-}
-/* 
-ul#propertiesSubmenu li.sidebar-sub-list-item{
-    padding: 12px 16px;
-} */
-ul#propertiesSubmenu li.sidebar-sub-list-item a{
-    text-decoration: none;
-    color: var(--white);
-    padding-left: 20px !important;
-}
-ul#propertiesSubmenu li.sidebar-sub-list-item:hover{
-    background-color: var(--primary-200);
-    color: var(--primary);
-}
-ul#propertiesSubmenu li.sidebar-sub-list-item:hover a{
-    color: var(--primary);
-}
+
 
 /* ========================================
           Left Menu

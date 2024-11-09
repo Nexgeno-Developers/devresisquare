@@ -53,25 +53,28 @@ class PropertyController
 
             // Get property_id from the session or request
             $property_id = $request->session()->get('property_id', $request->property_id);
-
             // Check if property_id is provided in the request
             if ($property_id) {
                 $property = Property::find($property_id);
                 if ($property) {
                     // Log the data before updating
                     \Log::info('Updating property with ID ' . $property_id, $validatedData);
+                    $validatedData['step'] = $request->step;
                     $property->update($validatedData);
+                    session()->forget('property_id');
                 }
             } else {
                 // Create new property only on the first step
                 if ($request->step == 1) {
                     // Log the data before creation
                     \Log::info('Creating new property', $validatedData);
-                    $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id()]));
+                    $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'step' => $request->step]));
                     // $property = Property::create(array_merge($validatedData, ['added_by' => $userId]));
-                    $request->session()->put('property_id', $property->id);
                 }
             }
+
+            // Handle the multiple image uploads for photos, floor plans, 360 views, etc.
+            $this->handleImageUploads($request, $property);
 
             // Get total number of steps
             $totalSteps = $this->getTotalSteps();
@@ -110,14 +113,14 @@ class PropertyController
                     // Log the data before updating
                     \Log::info('Updating property with ID ' . $property_id, $validatedData);
                     //update step
-                    $validatedData['step'] = $request->step;
+                    $validatedData['quick_step'] = $request->step;
                     $property->update($validatedData);
                 }
             } else {
                 // Create new property only empty property id
                 if (empty($property_id)) {
                     \Log::info('Creating new property', $validatedData);
-                    $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'step' => $request->step]));
+                    $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'quick_step' => $request->step]));
                     $request->session()->put('property_id', $property->id);
                 }
             }
@@ -129,7 +132,7 @@ class PropertyController
             if ($request->step >= $totalSteps) {
                 // Flush all session data except specified keys in one line
                 $this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
-                
+
                 // Final submission handling
                 return view('backend.properties.quick_form_components.thankyou');
                 //return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
@@ -338,7 +341,7 @@ class PropertyController
             case 3:
                 return [
                     'specific_property_type' => 'required|string',
-                                        
+
                 ];
             case 4:
                 return [
@@ -347,9 +350,9 @@ class PropertyController
                 ];
             case 5:
                 return [
-                   'price' => 'required|numeric',
-                   'available_from' => 'required|date',
-                ];            
+                    'price' => 'required|numeric',
+                    'available_from' => 'required|date',
+                ];
             default:
                 return [];
         }
@@ -444,4 +447,41 @@ class PropertyController
                 return [];
         }
     }
+    private function handleImageUploads(Request $request, $property)
+    {
+        // Handle photos upload
+        if ($request->hasFile('photos')) {
+            $photos = $request->file('photos');
+            $photoPaths = [];
+
+            foreach ($photos as $photo) {
+                $photoPath = $photo->store('property_photos', 'public');  // Save to public disk
+                $photoPaths[] = $photoPath;
+            }
+
+            // Store the paths in the property or media table, depending on your DB structure
+            //$property->photos = json_encode($photoPaths);  // Assuming the `photos` column is a JSON field
+            $property->photos = $photoPaths;
+            $property->save();
+        }
+
+        // Handle floor plan upload
+        if ($request->hasFile('floor_plan')) {
+            $floorPlan = $request->file('floor_plan');
+            $floorPlanPath = $floorPlan->store('property_floor_plans', 'public');
+            $property->floor_plan = $floorPlanPath;
+            $property->save();
+        }
+
+        // Handle 360 view upload
+        if ($request->hasFile('view_360')) {
+            $view360 = $request->file('view_360');
+            $view360Path = $view360->store('property_360_views', 'public');
+            $property->view_360 = $view360Path;
+            $property->save();
+        }
+    }
+
+
+
 }

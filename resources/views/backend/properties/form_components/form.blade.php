@@ -22,7 +22,7 @@
             <div class="stepformcomponents">
                 @for ($i = 1; $i <= count($stepNames); $i++)
                     <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
-                    <input class="form-check-input" type="radio" name="step" id="step{{ $i }}" value="{{ $i }}" 
+                    <input class="form-check-input" type="radio" name="step" data-property-id="" id="step{{ $i }}" value="{{ $i }}" 
                     {{ session('current_step') == $i ||  $i == 1 ? 'checked' : '' }}>
                         <label class="form-check-label {{ session('current_step') == $i ? 'active' : '' }}"
                             for="step{{ $i }}">
@@ -98,7 +98,22 @@
         function sendFormData(step) {
             const formData = new FormData($('#property-form-step-' + step)[0]);
             formData.append('step', step);
+            // Add property_id to the form data if it doesn't already exist
+            const propertyId = $('#property_id').val();  // Get the property_id from the hidden input
+            let propertyIdExists = false;
 
+            // Check if property_id already exists in the formData
+            for (let [key, value] of formData.entries()) {
+                if (key === 'property_id') {
+                    propertyIdExists = true;
+                    break;
+                }
+            }
+
+            // Append property_id only if it doesn't exist already
+            if (propertyId && !propertyIdExists) {
+                formData.append('property_id', propertyId);
+            }
             $.ajax({
                 url: '{{ route("admin.properties.store") }}',
                 method: 'POST',
@@ -126,15 +141,31 @@
         @endphp
         // Function to render the view for a specific step
         function renderStep(step) {
+            // Get property_id from the hidden input field if available
+            const propertyId = $('#property_id').val();
             // Replace ':step' with the actual step in the URL
-            const formStepRenderUrl = '{{ $formStepRenderUrl }}'.replace(':step', step);
+            let formStepRenderUrl = '{{ $formStepRenderUrl }}'.replace(':step', step);
             // const formStepRenderUrl = '{{-- route("admin.properties.step", ":step") --}}'.replace(':step', step);
             //const formStepRenderUrl = '{{-- route("admin.properties.step", ["step" => ":step", "property_id" => $property->id]) --}}'.replace(':step', step);
+            
+            // Append property_id to the URL if it exists
+            if (propertyId) {
+                formStepRenderUrl += `?property_id=${propertyId}`;
+            }
+            
             $.ajax({
                 url: formStepRenderUrl,
                 method: 'GET',
                 success: function (response) {
                     $('.render_blade').html(response);
+
+                    // find id="property_id" and put the propertyId
+                    // Find the hidden input field for property_id in the newly rendered step
+                    const newPropertyId = $('#property_id').val();
+                    // If property_id is available, update the value in the newly loaded step
+                    if (newPropertyId) {
+                        $('#property_id').val(newPropertyId);
+                    }
                 },
                 error: function () {
                     toastr.error('Unable to load step. Please try again.', 'Error');

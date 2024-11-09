@@ -37,8 +37,11 @@ return new class extends Migration {
             $table->text('status_description')->nullable();
             $table->date('available_from')->nullable();
             $table->json('market_on')->nullable();
+            $table->json('features')->nullable(); // Stores multiple photo URLs as JSON array
             $table->string('furniture')->nullable();
             $table->string('kitchen')->nullable();
+            $table->string('heating_cooling')->nullable();
+            $table->string('safety')->nullable();
             $table->text('other')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('ground_rent', 10, 2)->nullable();
@@ -59,6 +62,7 @@ return new class extends Migration {
             $table->decimal('commission_percentage', 5, 2)->nullable();
             $table->decimal('commission_amount', 10, 2)->nullable();
             $table->integer('step')->nullable();         
+            $table->integer('quick_step')->nullable();         
             $table->foreignId('added_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->softDeletes();

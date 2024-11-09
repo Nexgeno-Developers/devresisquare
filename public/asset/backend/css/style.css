@@ -47,51 +47,51 @@ body.show-sidebar #menu {
     padding: 12px 30px;
 }
 
-.components li:has(a.active) {
+.components li.sidebar-list-item:has(a.active) {
     background-color: black;
 }
 
-.components li>a.active {
+.components li.sidebar-list-item>a.active {
     color: var(--white);
     cursor: pointer;
 }
 
-.components li {
+.components li.sidebar-list-item {
     display: block;
     width: 100%;
 }
 
-.stepformcomponents li:has(a.active) {
+.stepformcomponents li.sidebar-list-item:has(a.active) {
     background-color: black;
 }
 
-.stepformcomponents li>a.active {
+.stepformcomponents li.sidebar-list-item>a.active {
     color: var(--white);
     cursor: pointer;
 }
 
-.stepformcomponents li {
+.stepformcomponents li.sidebar-list-item {
     display: block;
     width: 100%;
 }
 
-.components>li {
+.components>li.sidebar-list-item {
     color: var(--primary-color);
-    padding: 20px;
+    padding: 12px 20px;
 }
 
-.components>li>a {
+.components>li.sidebar-list-item>a {
     color: #334155;
     text-decoration: none;
 }
 
-.components>li:hover {
+.components>li.sidebar-list-item:hover {
     color: var(--white);
     background-color: var(--primary-color);
     cursor: pointer;
 }
 
-.components>li:hover a {
+.components>li.sidebar-list-item:hover a {
     color: var(--white);
 }
 
@@ -153,6 +153,33 @@ Header
 .main_wrapper {
     height: 94%;
     display: flex;
+}
+
+/* ========================================
+          Sdebar
+==========================================*/
+.sidebar-list-item.submenu_wrapper{
+    padding: 0 !important;
+}
+.sidebar-list-item.submenu_wrapper a{
+    padding: 8px 16px !important;
+    display: block;
+}
+/* 
+ul#propertiesSubmenu li.sidebar-sub-list-item{
+    padding: 12px 16px;
+} */
+ul#propertiesSubmenu li.sidebar-sub-list-item a{
+    text-decoration: none;
+    color: var(--white);
+    padding-left: 20px !important;
+}
+ul#propertiesSubmenu li.sidebar-sub-list-item:hover{
+    background-color: var(--primary-200);
+    color: var(--primary);
+}
+ul#propertiesSubmenu li.sidebar-sub-list-item:hover a{
+    color: var(--primary);
 }
 
 /* ========================================

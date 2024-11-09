@@ -1,4 +1,4 @@
-<!-- resources/views/backend/properties/form_components/step1.blade.php -->
+<!-- resources/views/backend/properties/quick_form_components/step3.blade.php -->
 
 <div class="container-fluid mt-4 quick_add_property">
     <div class="row">
@@ -8,45 +8,51 @@
                     <img src="{{ asset('asset/images/svg/pin.svg') }}" alt="Property Address">
                 </div>
                 <div class="left_title">
-                    What<br/> <span class="secondary-color">type of property</span><br/> do you have?
+                    What<br /> <span class="secondary-color">type of property</span><br /> do you have?
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-12 right_col">
-            <form id="property-form-step-1"  method="POST" action="{{ route('admin.properties.store') }}">
-                    <div class="right_content_wrapper" data-step-name="Property Address" data-step-number="1">
-                    @csrf
-                    <div class="form-group">
-                        <div class="radio_bts_square_icon">
-                            <input type="radio" name="propertyType" id="propertyTypeApartment" value="apartment" {{ old('propertyType') == '1' ? 'checked="checked"' : '' }} /> 
-                            <label for="propertyTypeApartment">
-                                <img src="{{ asset('asset/images/svg/apartment_600.svg') }}" alt="apartment">  
-                                Apartment  
-                            </label>
-                            <input type="radio" name="propertyType" id="propertyTypeFlat" value="flat" {{ old('propertyType') == '2' ? 'checked="checked"' : '' }} /> 
-                            <label for="propertyTypeFlat"> 
-                                <img src="{{ asset('asset/images/svg/flat_600.svg') }}" alt="flat">  
-                                Flat  
-                             </label>
-                            <input type="radio" name="propertyType" id="propertyTypeBungalow" value="bunglow" {{ old('propertyType') == '3' ? 'checked="checked"' : '' }} /> 
-                            <label for="propertyTypeBungalow"> 
-                                <img src="{{ asset('asset/images/svg/bungalow_600.svg') }}" alt="bungalow">  
-                                Bungalow  
-                             </label>
-                            <input type="radio" name="propertyType" id="propertyTypeHouse" value="house" {{ old('propertyType') == '4' ? 'checked="checked"' : '' }} /> 
-                            <label for="propertyTypeHouse"> 
-                                <img src="{{ asset('asset/images/svg/house_600.svg') }}" alt="house">  
-                                House  
-                             </label>
-                        </div>
-                        @error('reception')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+            <form id="property-form-step-3" method="POST" action="{{ route('admin.properties.quick_store') }}">
+                @csrf
+                <input type="hidden" name="property_id"
+                    value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
+                <div class="right_content_wrapper" data-step-name="Property type" data-step-number="3"></div>
+                <div class="form-group">
+                    <div class="radio_bts_square_icon">
+                        <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_appartment" value="appartment" {{ (isset($property) && $property->specific_property_type == 'appartment') ? 'checked' : '' }} required> 
+                        <label for="specific_property_type_appartment" >
+                            <img src="{{ asset('asset/images/svg/apartment_600.svg') }}" alt="apartment">
+                            Apartment
+                        </label>
+                        <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_flat" value="flat" {{ (isset($property) && $property->specific_property_type == 'flat') ? 'checked' : '' }} required> 
+                        <label for="specific_property_type_flat" >
+                            <img src="{{ asset('asset/images/svg/flat_600.svg') }}" alt="flat">
+                            Flat
+                        </label>
+                        <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_bunglow" value="bunglow" {{ (isset($property) && $property->specific_property_type == 'bunglow') ? 'checked' : '' }} required> 
+                        <label for="specific_property_type_bunglow" >
+                            <img src="{{ asset('asset/images/svg/bungalow_600.svg') }}" alt="bungalow">
+                            Bungalow
+                        </label>
+                        <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_house" value="house" {{ (isset($property) && $property->specific_property_type == 'house') ? 'checked' : '' }} required> 
+                        <label for="specific_property_type_house" >
+                            <img src="{{ asset('asset/images/svg/house_600.svg') }}" alt="house">
+                            House
+                        </label>
                     </div>
+                    @error('reception')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="d-flex d-none gap-3">
+                    <button type="button" class="btn btn-secondary previous-step mt-2 w-100" data-previous-step="2"
+                        data-current-step="3">Previous</button>
+                    <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-100" data-next-step="4"
+                        data-current-step="3">Next</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-

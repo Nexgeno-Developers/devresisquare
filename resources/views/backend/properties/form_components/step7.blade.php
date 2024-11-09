@@ -1,4 +1,10 @@
 <!-- resources/views/backend/properties/form_components/step7.blade.php -->
+@php
+if(isset($property)){
+    $epcRating = $property->epc_rating ?? '';
+    $isGas = $property->is_gas ?? '';
+}
+@endphp
 <form id="property-form-step-7" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
@@ -12,10 +18,10 @@
         <div class="form-group">
             <label for="epc_rating">EPC Rating</label>
             <select name="epc_rating" id="epc_rating" class="form-control">
-                <option value="A" {{ old('epc_rating') == 'A' ? 'selected' : '' }}>A</option>
-                <option value="B" {{ old('epc_rating') == 'B' ? 'selected' : '' }}>B</option>
-                <option value="C" {{ old('epc_rating') == 'C' ? 'selected' : '' }}>C</option>
-                <option value="D" {{ old('epc_rating') == 'D' ? 'selected' : '' }}>D</option>
+                <option value="A" {{ $epcRating == 'A' ? 'selected' : '' }}>A</option>
+                <option value="B" {{ $epcRating == 'B' ? 'selected' : '' }}>B</option>
+                <option value="C" {{ $epcRating == 'C' ? 'selected' : '' }}>C</option>
+                <option value="D" {{ $epcRating == 'D' ? 'selected' : '' }}>D</option>
             </select>
             @error('epc_rating')
                 <div class="text-danger">{{ $message }}</div>
@@ -26,11 +32,11 @@
             <label>Does the property have gas?</label>
             <div class="rs_radio_btns">
                 <div>
-                    <input type="radio" name="is_gas" id="is_gas_no" value="0" {{ old('is_gas') == 'no' ? 'checked' : '' }} /> 
+                    <input type="radio" name="is_gas" id="is_gas_no" value="0" {{ $isGas == '0' ? 'checked' : '' }} /> 
                     <label for="is_gas_no" > No</label>
                 </div>
                 <div>
-                    <input type="radio" name="is_gas" id="is_gas_yes" value="1" {{ old('is_gas') == 'yes' ? 'checked' : '' }} /> 
+                    <input type="radio" name="is_gas" id="is_gas_yes" value="1" {{ $isGas == '1' ? 'checked' : '' }} /> 
                     <label for="is_gas_yes" > Yes</label>
                 </div>
                 @error('is_gas')

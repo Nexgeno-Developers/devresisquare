@@ -13,6 +13,10 @@
         <div class="form-group rs_upload_btn">
             <h5 class="sub_title mt-4">Photos</h5>
             <div class="media_wrapper">
+                <div class="media_content">
+                    <div class="image_wrapper">
+                        <!-- Preview images will be dynamically added here -->
+                    </div>
                 <div class="media_upload">
                     <label for="photos">Upload Photos</label>
                     <input type="file" name="photos[]" id="photos" class="form-control" multiple accept="image/*"
@@ -21,16 +25,13 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="media_content">
-                    <div class="image_wrapper">
-                        <!-- Preview images will be dynamically added here -->
-                    </div>
-                </div>
+                
                 @if($property && $property->photos)
                     @foreach(json_decode($property->photos) as $photoPath)
                         <img src="{{ asset('storage/' . $photoPath) }}" alt="Uploaded Photo" width="100">
                     @endforeach
                 @endif
+            </div>
             </div>
         </div>
 

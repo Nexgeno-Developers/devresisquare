@@ -62,7 +62,7 @@
             </ul> -->
         </div>
 
-        <div class="col-md-4 render_blade">
+        <div class="col-lg-10 col-12 render_blade">
             @if (isset($property))
                 @include('backend.properties.form_components.step' . (session('current_step', 1)), ['property' => $property])
             @else

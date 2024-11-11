@@ -4,8 +4,8 @@
 <div class="d-flex justify-content-between mb-3">
     <h1>Properties</h1>
     <div>
-        <a id="quick-add-btn" href="{{ route('admin.properties.create') }}" class="btn btn-primary">Quick Add
-            Property</a>
+        <a id="quick-add-btn" href="{{ route('admin.properties.quick') }}" class="btn btn-primary">Quick Add Property</a>
+        <!-- <a id="quick-add-btn" href="{{ route('admin.properties.create') }}" class="btn btn-primary">Quick Add Property</a> -->
         <a href="{{ route('admin.properties.create') }}?stepform" class="btn btn-secondary">Add Property</a>
     </div>
 </div>

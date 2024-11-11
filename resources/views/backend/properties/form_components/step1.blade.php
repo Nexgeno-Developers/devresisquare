@@ -1,6 +1,6 @@
 <!-- resources/views/backend/properties/form_components/step1.blade.php -->
 <div class="row">
-<div class="col-lg-4 col-12">
+<div class="col-md-8">
 
     <form id="property-form-step-1" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf

@@ -18,7 +18,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col left_inner_menu">
+        <div class="col-3 left_inner_menu">
             <div class="stepformcomponents">
                 @for ($i = 1; $i <= count($stepNames); $i++)
                     <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
@@ -62,7 +62,7 @@
             </ul> -->
         </div>
 
-        <div class="col-lg-10 col-12 render_blade">
+        <div class="col-lg-9 col-12 render_blade">
             @if (isset($property))
                 @include('backend.properties.form_components.step' . (session('current_step', 1)), ['property' => $property])
             @else

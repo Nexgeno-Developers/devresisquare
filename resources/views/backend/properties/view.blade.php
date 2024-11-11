@@ -15,7 +15,8 @@
         </div>
         <div class="header_btns">
             <a class="btn btn-outline-primary edit_property" href="{{ route('admin.properties.edit', $property->id) }}">Edit Property</a>
-            <a id="quick-add-btn" href="{{ route('admin.properties.create') }}" class="btn btn-outline-primary">Quick Add Property</a>
+            <!-- <a id="quick-add-btn" href="{{ route('admin.properties.create') }}" class="btn btn-outline-primary">Quick Add Property</a> -->
+            <a id="quick-add-btn" href="{{ route('admin.properties.quick') }}" class="btn btn-outline-primary">Quick Add Property</a>
             <a href="{{ route('admin.properties.create') }}?stepform" class="btn btn-outline-secondary">Add Property</a>
         </div>
     </div>

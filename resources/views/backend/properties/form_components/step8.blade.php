@@ -17,39 +17,40 @@
                     <div class="image_wrapper">
                         <!-- Preview images will be dynamically added here -->
                     </div>
-                <div class="media_upload">
-                    <label for="photos">Upload Photos</label>
-                    <input type="file" name="photos[]" id="photos" class="form-control" multiple accept="image/*"
-                        onchange="previewMultipleImage(this)">
-                    @error('photos.*')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <div class="media_upload">
+                        <label for="photos">Upload Photos</label>
+                        <input type="file" name="photos[]" id="photos" class="form-control" multiple accept="image/*"
+                            onchange="previewMultipleImage(this)">
+                        @error('photos.*')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    @if($property && $property->photos)
+                        @foreach(json_decode($property->photos) as $photoPath)
+                            <img src="{{ asset('storage/' . $photoPath) }}" alt="Uploaded Photo" width="100">
+                        @endforeach
+                    @endif
                 </div>
-                
-                @if($property && $property->photos)
-                    @foreach(json_decode($property->photos) as $photoPath)
-                        <img src="{{ asset('storage/' . $photoPath) }}" alt="Uploaded Photo" width="100">
-                    @endforeach
-                @endif
-            </div>
             </div>
         </div>
 
         <div class="form-group rs_upload_btn">
             <h5 class="sub_title mt-4">Floor Plan</h5>
             <div class="media_wrapper">
-                <div class="media_upload">
-                    <label for="floor_plan">Upload Floor Plan Photos</label>
-                    <input type="file" name="floor_plan[]" id="floor_plan" class="form-control" multiple accept="image/*"
-                        onchange="previewMultipleImage(this)">
-                    @error('floor_plan.*')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
                 <div class="media_content">
                     <div class="image_wrapper">
                         <!-- Preview images will be dynamically added here -->
                     </div>
+                    <div class="media_upload">
+                        <label for="floor_plan">Upload Floor Plan Photos</label>
+                        <input type="file" name="floor_plan[]" id="floor_plan" class="form-control" multiple accept="image/*"
+                            onchange="previewMultipleImage(this)">
+                        @error('floor_plan.*')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
                 </div>
                 @if($property && $property->floor_plan)
                     @foreach(json_decode($property->floor_plan) as $floor_planPath)
@@ -62,17 +63,18 @@
         <div class="form-group rs_upload_btn">
             <h5 class="sub_title mt-4">View 360</h5>
             <div class="media_wrapper">
-                <div class="media_upload">
-                    <label for="view_360">Upload 360 View Photos</label>
-                    <input type="file" name="view_360[]" id="view_360" class="form-control" multiple accept="image/*"
-                        onchange="previewMultipleImage(this)">
-                    @error('view_360.*')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
+                
                 <div class="media_content">
                     <div class="image_wrapper">
                         <!-- Preview images will be dynamically added here -->
+                    </div>
+                    <div class="media_upload">
+                        <label for="view_360">Upload 360 View Photos</label>
+                        <input type="file" name="view_360[]" id="view_360" class="form-control" multiple accept="image/*"
+                            onchange="previewMultipleImage(this)">
+                        @error('view_360.*')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 @if($property && $property->view_360)

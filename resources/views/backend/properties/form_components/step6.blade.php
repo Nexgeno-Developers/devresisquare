@@ -10,6 +10,16 @@ if(isset($property)){
     $councilTaxBand = $property->council_tax_band ?? ''; 
     $tenure = $property->tenure ?? ''; 
     $lengthOfLease = $property->length_of_lease ?? ''; 
+}else{
+    $propertyType = '';
+    $propertyPrice = ''; 
+    $lettingPrice = ''; 
+    $groundRent = ''; 
+    $serviceCharge = ''; 
+    $annualCouncilTax = ''; 
+    $councilTaxBand = ''; 
+    $tenure = ''; 
+    $lengthOfLease = ''; 
 }
 @endphp
 
@@ -39,7 +49,7 @@ if(isset($property)){
         @endif
 
         <!-- Letting Price Input (Show only if type is letting or both) -->
-        @if($propertyType == 'letting' || $propertyType == 'both')
+        @if($propertyType == 'lettings' || $propertyType == 'both')
             <div class="form-group">
                 <label for="letting_price">Letting Price</label>
                 <div class="price_input_wrapper">

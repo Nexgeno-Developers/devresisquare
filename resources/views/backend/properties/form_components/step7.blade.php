@@ -3,6 +3,9 @@
 if(isset($property)){
     $epcRating = $property->epc_rating ?? '';
     $isGas = $property->is_gas ?? '';
+}else{
+    $epcRating = '';
+    $isGas = '';
 }
 @endphp
 <form id="property-form-step-7" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">

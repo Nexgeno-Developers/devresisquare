@@ -415,12 +415,12 @@ class PropertyController
                 ];
             case 6:
                 return [
-                    'price' => 'required|numeric',
+                    // 'price' => 'required|numeric',
+                    'letting_price' => 'nullable|numeric',
                     'ground_rent' => 'nullable|numeric',
                     'service_charge' => 'nullable|numeric',
                     'annual_council_tax' => 'nullable|numeric',
                     'council_tax_band' => 'nullable|string|max:50',
-                    'listing_sale_price' => 'nullable|numeric',
                     'tenure' => 'required',
                     'length_of_lease' => 'nullable|integer',
                 ];

@@ -67,7 +67,7 @@ function previewMultipleImage(input) {
         reader.onload = function (e) {
             // Create the container for each preview
             const mediaImagesDiv = document.createElement("div");
-            mediaImagesDiv.className = "media_images mt-2";
+            mediaImagesDiv.className = "media_images";
 
             // Create the delete button
             const deleteButtonDiv = document.createElement("div");

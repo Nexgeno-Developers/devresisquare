@@ -1,5 +1,8 @@
 <!-- resources/views/backend/properties/form_components/step1.blade.php -->
-<form id="property-form-step-1" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
+<div class="row">
+<div class="col-lg-4 col-12">
+
+    <form id="property-form-step-1" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
     <input type="hidden" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
@@ -51,5 +54,7 @@
         </div>
         <button type="button" class="btn btn-primary btn-sm next-step" data-next-step="2" data-current-step="1">Next</button>
     </div>
-</form>
+    </form>
+</div>
+</div>
 

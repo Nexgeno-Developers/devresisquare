@@ -59,7 +59,7 @@
     <script src="{{ asset('asset/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('asset/js/toastr.min.js') }}"></script>
     <script src="{{ asset('asset/js/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('asset/backend/js/init.js') }}"></script>
+    <script src="{{ asset('asset/backend/js/Init.js') }}"></script>
     <script src="{{ asset('asset/backend/js/style.js') }}"></script>
     <!-- <script src="{{ asset('asset/js/dataTables.bootstrap5.min.js') }}"></script> -->
     @yield('page.scripts') 

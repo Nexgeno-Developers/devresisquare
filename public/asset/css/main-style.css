@@ -337,6 +337,7 @@ File upload
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    text-align: center;
 }
 
 /* ========================================

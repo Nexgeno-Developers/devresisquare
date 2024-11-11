@@ -11,12 +11,13 @@
 
 
         <div class="form-group">
-            <label for="designation">Responsibility Designation</label>
-            <select name="designation" id="designation" class="form-control">
-                <option value="estate_agent" {{ old('designation') == 'estate_agent' ? 'selected' : '' }}>Estate Agent</option>
-                <option value="landlord" {{ old('designation') == 'landlord' ? 'selected' : '' }}>Landlord</option>
-                <option value="tenant" {{ old('designation') == 'tenant' ? 'selected' : '' }}>Tenant</option>
-                <option value="manager" {{ old('designation') == 'manager' ? 'selected' : '' }}>Manager</option>
+            <label for="designation">Designation</label>
+            <select name="designation" id="designation" class="form-control" required>
+                <option value="" disabled {{ (isset($property) && $property->designation == '') ? 'selected' : '' }}>Select a service</option>
+                <option value="estate_agent" {{ (isset($property) && $property->designation == 'estate_agent') ? 'selected' : '' }}>Estate Agent</option>
+                <option value="landlord" {{ (isset($property) && $property->designation == 'landlord') ? 'selected' : '' }}>Landlord</option>
+                <option value="tenant" {{ (isset($property) && $property->designation == 'tenant') ? 'selected' : '' }}>Tenant</option>
+                <option value="manager" {{ (isset($property) && $property->designation == 'manager') ? 'selected' : '' }}>Manager</option>
             </select>
             @error('designation')
                 <div class="text-danger">{{ $message }}</div>
@@ -25,25 +26,21 @@
 
         <div class="form-group">
             <label for="branch">Branch</label>
-            <select name="branch" id="branch" class="form-control">
-                <option value="estate_agent" {{ old('branch') == 'estate_agent' ? 'selected' : '' }}>Estate Agent</option>
-                <option value="landlord" {{ old('branch') == 'landlord' ? 'selected' : '' }}>Landlord</option>
-                <option value="tenant" {{ old('branch') == 'tenant' ? 'selected' : '' }}>Tenant</option>
-                <option value="manager" {{ old('branch') == 'manager' ? 'selected' : '' }}>Manager</option>
+            <select name="branch" id="branch" class="form-control" required>
+                <option value="" disabled {{ (isset($property) && $property->branch == '') ? 'selected' : '' }}>Select a service</option>
+                <option value="branch1" {{ (isset($property) && $property->branch == 'branch1') ? 'selected' : '' }}>Branch1</option>
+                <option value="branch2" {{ (isset($property) && $property->branch == 'branch2') ? 'selected' : '' }}>Branch2</option>
+                <option value="branch3" {{ (isset($property) && $property->branch == 'branch3') ? 'selected' : '' }}>Branch3</option>
+                <option value="branch4" {{ (isset($property) && $property->branch == 'branch4') ? 'selected' : '' }}>Branch4</option>
             </select>
             @error('branch')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-
+        
         <div class="form-group">
             <label for="commission_percentage">Commission (%)</label>
-            <select name="commission_percentage" id="commission_percentage" class="form-control">
-                <option value="5" {{ old('commission_percentage') == '5' ? 'selected' : '' }}>5%</option>
-                <option value="10" {{ old('commission_percentage') == '10' ? 'selected' : '' }}>10%</option>
-                <option value="15" {{ old('commission_percentage') == '15' ? 'selected' : '' }}>15%</option>
-                <option value="20" {{ old('commission_percentage') == '20' ? 'selected' : '' }}>20%</option>
-            </select>
+            <input required type="text" name="commission_percentage" id="commission_percentage" class="form-control" value="{{ (isset($property) && $property->commission_percentage) ? $property->commission_percentage : '' }}">
             @error('commission_percentage')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -51,12 +48,7 @@
 
         <div class="form-group">
             <label for="commission_amount">Commission (£)</label>
-            <select name="commission_amount" id="commission_amount" class="form-control">
-                <option value="100" {{ old('commission_amount') == '100' ? 'selected' : '' }}>£100</option>
-                <option value="200" {{ old('commission_amount') == '200' ? 'selected' : '' }}>£200</option>
-                <option value="300" {{ old('commission_amount') == '300' ? 'selected' : '' }}>£300</option>
-                <option value="400" {{ old('commission_amount') == '400' ? 'selected' : '' }}>£400</option>
-            </select>
+            <input required type="text" name="commission_amount" id="commission_amount" class="form-control" value="{{ (isset($property) && $property->commission_amount) ? $property->commission_amount : '' }}">
             @error('commission_amount')
                 <div class="text-danger">{{ $message }}</div>
             @enderror

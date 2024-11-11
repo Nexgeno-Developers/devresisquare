@@ -65,11 +65,11 @@ class Property extends Model
         'added_by',
     ];
     protected $casts = [
-        'market_on' => 'array',
-        'photos' => 'array',
-        'floor_plan' => 'array',
-        'view_360' => 'array',
-        'video_url' => 'array',
+        'market_on' => 'json',
+        'photos' => 'json',
+        'floor_plan' => 'json',
+        'view_360' => 'json',
+        // 'video_url' => 'array',
     ];
 
     // protected static function booted()

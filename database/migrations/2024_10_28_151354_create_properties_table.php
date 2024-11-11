@@ -56,7 +56,7 @@ return new class extends Migration {
             $table->json('photos')->nullable(); // Stores multiple photo URLs as JSON array
             $table->json('floor_plan')->nullable(); // Stores multiple floor plan URLs as JSON array
             $table->json('view_360')->nullable(); // Stores multiple 360-view URLs if needed
-            $table->json('video_url')->nullable(); // Stores multiple video URLs if needed            
+            $table->string('video_url', 255)->nullable(); // Stores multiple video URLs if needed            
             $table->string('designation')->nullable();
             $table->string('branch')->nullable();
             $table->decimal('commission_percentage', 5, 2)->nullable();
@@ -111,7 +111,7 @@ return new class extends Migration {
         'photos' => 'array',
         'floor_plan' => 'array',
         'view_360' => 'array',
-        'video_url' => 'array',
+        // 'video_url' => 'array',
     ];
     
 };

@@ -59,6 +59,7 @@ class PropertyController
                 if ($property) {
                     // Log the data before updating
                     \Log::info('Updating property with ID ' . $property_id, $validatedData);
+                    $validatedData['video_url'] = $request->video_url ?: null;
                     $validatedData['step'] = $request->step;
                     $property->update($validatedData);
                     session()->forget('property_id');
@@ -431,9 +432,9 @@ class PropertyController
             case 8:
                 return [
                     'photos.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For multiple photos
-                    'floor_plan' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For the floor plan
-                    'view_360' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For 360 view
-                    'video_url' => 'nullable|max:255', // For the video URL
+                    'floor_plan.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For the floor plan
+                    'view_360.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For 360 view
+                    'video_url' => 'nullable|url|max:255', // For the video URL
                     // 'video_url' => 'nullable|url|max:255', // For the video URL
                 ];
             case 9:
@@ -459,25 +460,38 @@ class PropertyController
                 $photoPaths[] = $photoPath;
             }
 
-            // Store the paths in the property or media table, depending on your DB structure
-            //$property->photos = json_encode($photoPaths);  // Assuming the `photos` column is a JSON field
-            $property->photos = $photoPaths;
+            // Store the paths as JSON in the photos column
+            $property->photos = json_encode($photoPaths);
             $property->save();
         }
 
-        // Handle floor plan upload
+        // Handle floor_plan photos upload
         if ($request->hasFile('floor_plan')) {
-            $floorPlan = $request->file('floor_plan');
-            $floorPlanPath = $floorPlan->store('property_floor_plans', 'public');
-            $property->floor_plan = $floorPlanPath;
+            $floor_planphotos = $request->file('floor_plan');
+            $floor_planphotoPaths = [];
+
+            foreach ($floor_planphotos as $photo) {
+                $floor_planphotoPath = $photo->store('property_floor_plans', 'public');  // Save to public disk
+                $floor_planphotoPaths[] = $floor_planphotoPath;
+            }
+
+            // Store the paths as JSON in the floor_plan column
+            $property->floor_plan = json_encode($floor_planphotoPaths);
             $property->save();
         }
 
-        // Handle 360 view upload
+        // Handle view_360 photos upload
         if ($request->hasFile('view_360')) {
-            $view360 = $request->file('view_360');
-            $view360Path = $view360->store('property_360_views', 'public');
-            $property->view_360 = $view360Path;
+            $view_360photos = $request->file('view_360');
+            $view_360photoPaths = [];
+
+            foreach ($view_360photos as $photo) {
+                $photoPath = $photo->store('property_360_views', 'public');  // Save to public disk
+                $view_360photoPaths[] = $photoPath;
+            }
+
+            // Store the paths as JSON in the view_360 column
+            $property->view_360 = json_encode($view_360photoPaths);
             $property->save();
         }
     }

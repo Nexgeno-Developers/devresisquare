@@ -145,11 +145,9 @@
             const propertyId = $('#property_id').val();
             // Replace ':step' with the actual step in the URL
             let formStepRenderUrl = '{{ $formStepRenderUrl }}'.replace(':step', step);
-            // const formStepRenderUrl = '{{-- route("admin.properties.step", ":step") --}}'.replace(':step', step);
-            //const formStepRenderUrl = '{{-- route("admin.properties.step", ["step" => ":step", "property_id" => $property->id]) --}}'.replace(':step', step);
-            
-            // Append property_id to the URL if it exists
-            if (propertyId) {
+
+            // Check if 'property_id' is already present in the URL
+            if (propertyId && !formStepRenderUrl.includes('property_id')) {
                 formStepRenderUrl += `?property_id=${propertyId}`;
             }
             
@@ -159,12 +157,9 @@
                 success: function (response) {
                     $('.render_blade').html(response);
 
-                    // find id="property_id" and put the propertyId
-                    // Find the hidden input field for property_id in the newly rendered step
-                    const newPropertyId = $('#property_id').val();
-                    // If property_id is available, update the value in the newly loaded step
-                    if (newPropertyId) {
-                        $('#property_id').val(newPropertyId);
+                    // Find id="property_id" and put the propertyId if it’s missing
+                    if (!$('#property_id').val()) {
+                        $('#property_id').val(propertyId);
                     }
                 },
                 error: function () {

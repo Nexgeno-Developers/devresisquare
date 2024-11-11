@@ -293,10 +293,11 @@ Radio Buttons
 /* ----------- Radio Square buttons for icon ------------ */
 .radio_bts_square_icon{
     display: flex;
-    gap: 12px;
+    /* gap: 12px; */
 }
 .radio_bts_square_icon input[type="radio"] {
-    display: none;
+    /* display: none; */
+    visibility: hidden;
 }
 .radio_bts_square_icon label{
     cursor: pointer;

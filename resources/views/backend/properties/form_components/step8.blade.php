@@ -85,7 +85,7 @@
         <div class="form-group rs_upload_btn">
             <h5 class="sub_title mt-4">Video URL</h5>
             <label for="video_url">Video URL</label>
-            <input type="url" name="video_url" id="video_url" class="form-control" value="{{ isset($property) && $property->video_url ?? $property->video_url }}">
+            <input type="url" name="video_url" id="video_url" class="form-control" value="{{ isset($property) && $property->video_url ? $property->video_url : '' }}">
             @error('video_url')
                 <div class="text-danger">{{ $message }}</div>
             @enderror

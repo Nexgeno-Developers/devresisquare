@@ -464,6 +464,7 @@ input[type="radio"]:checked+label::before {
           Responsive
 ==========================================*/
 
+/* Mobile */
 @media (min-width:480px)  {
 
     body.show-sidebar #menu{
@@ -480,6 +481,8 @@ input[type="radio"]:checked+label::before {
     }
 }
 
+
+/* Desktop large screen */
 @media (min-width:1281px) {
     body.show-sidebar #menu{
         display: block;
@@ -492,5 +495,21 @@ input[type="radio"]:checked+label::before {
 
     .left_inner_menu{
         display: flex;
+    }
+}
+
+/* Desktop  Medium screen */
+
+@media (max-width: 1800px) {
+    body.show-sidebar #menu{
+        width: 120px;
+    }
+    #menu .sidebar-list-item a{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #menu .sidebar-list-item a img{
+        width: 32px;
     }
 }

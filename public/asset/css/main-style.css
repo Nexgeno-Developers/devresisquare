@@ -197,6 +197,10 @@ a:hover {
 }
 
 
+hr{
+    border-bottom: 1px solid var(--primary-300);
+    margin: 16px 0;
+}
 
 /* ========================================
 Alerts
@@ -266,11 +270,11 @@ Radio Buttons
 /* ----------- Radio Square buttons ------------ */
 .radio_bts_square{
     display: flex;
-    /* gap: 8px; */
+    gap: 8px;
 
 }
 .radio_bts_square input[type="radio"] {
-    /* display: none; */
+    display: none;
     visibility: hidden;
 }
 .radio_bts_square label{
@@ -294,10 +298,10 @@ Radio Buttons
 /* ----------- Radio Square buttons for icon ------------ */
 .radio_bts_square_icon{
     display: flex;
-    /* gap: 12px; */
+    gap: 12px;
 }
 .radio_bts_square_icon input[type="radio"] {
-    /* display: none; */
+    display: none;
     visibility: hidden;
 }
 .radio_bts_square_icon label{

@@ -3,6 +3,9 @@
 @section('content')
 <div class="container">
     <h3>Deleted Properties</h3>
+    
+    <!-- Bulk Restore Button -->
+    <button type="button" id="bulkRestoreButton" class="float-end btn btn-primary">Restore Selected</button>
     <!-- Bulk restore form -->
     <form id="bulkRestoreForm" method="POST" action="{{ route('admin.properties.bulk-restore') }}">
         @csrf
@@ -42,13 +45,11 @@
         </tbody>
     </table>
 
-    <!-- Bulk Restore Button -->
-    <button type="button" id="bulkRestoreButton" class="btn btn-primary">Restore Selected</button>
 </div>
 
 @endsection
 
-@push('scripts')
+@section('page.scripts')
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -80,4 +81,4 @@
             });
         });
     </script>
-@endpush
+@endsection

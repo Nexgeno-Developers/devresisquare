@@ -319,7 +319,7 @@ class PropertyController
 
     public function bulkRestore(Request $request)
     {
-        $propertyIds = $request->input('property_ids');
+        $propertyIds = explode(',', $request->input('property_ids')); // Convert the string to an array
         Property::withTrashed()->whereIn('id', $propertyIds)->restore();
 
         return redirect()->route('admin.properties.index')->with('success', 'Selected properties restored successfully.');
@@ -331,31 +331,41 @@ class PropertyController
         switch ($step) {
             case 1:
                 return [
-                    'prop_name' => 'required|string|max:255',
-                ];
-            case 2:
-                return [
+                    // 'prop_name' => 'required|string|max:255',
                     'line_1' => 'required|string|max:255',
                     'line_2' => 'nullable|string|max:255',
                     'city' => 'required|string|max:100',
                     'country' => 'required|string|max:100',
                     'postcode' => 'required|string|max:20',
                 ];
+            case 2:
+                return [
+                    // 'line_1' => 'required|string|max:255',
+                    // 'line_2' => 'nullable|string|max:255',
+                    // 'city' => 'required|string|max:100',
+                    // 'country' => 'required|string|max:100',
+                    // 'postcode' => 'required|string|max:20',
+                    'specific_property_type' => 'required|string',
+                ];
             case 3:
                 return [
-                    'specific_property_type' => 'required|string',
+                    // 'specific_property_type' => 'required|string',
+                    'bedroom' => 'required|string',
+                    'reception' => 'required|string',
 
                 ];
             case 4:
                 return [
-                    'bedroom' => 'required|string',
-                    'reception' => 'required|string',
-                ];
-            case 5:
-                return [
+                    // 'bedroom' => 'required|string',
+                    // 'reception' => 'required|string',
                     'price' => 'required|numeric',
                     'available_from' => 'required|date',
                 ];
+            // case 5:
+            //     return [
+            //         // 'price' => 'required|numeric',
+            //         // 'available_from' => 'required|date',
+            //     ];
             default:
                 return [];
         }

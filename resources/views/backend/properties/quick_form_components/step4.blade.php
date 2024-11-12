@@ -1,14 +1,15 @@
-<!-- resources/views/backend/properties/quick_form_components/step4.blade.php -->
+<!-- resources/views/backend/properties/quick_form_components/step5.blade.php -->
 
 <div class="container-fluid mt-4 quick_add_property">
     <div class="row">
         <div class="col-md-6 col-12 left_col">
             <div class="left_content_wrapper">
                 <div class="left_content_img">
-                    <img src="{{ asset('asset/images/svg/sofa.svg') }}" alt="Property Address">
+                    <img src="{{ asset('asset/images/svg/pound.svg') }}" alt="Property Address">
                 </div>
                 <div class="left_title">
-                    How many <span class="secondary-color">rooms</span><br /> do you have?
+                    Property <span class="secondary-color">price</span><br /> and <span
+                        class="secondary-color">availability</span>
                 </div>
             </div>
         </div>
@@ -17,53 +18,28 @@
                 @csrf
                 <!-- Hidden field for property ID with isset check -->
                 <input type="hidden" id="property_id" class="property_id" name="property_id" value="{{ (isset($property) ? $property->id : '') }}"> 
-                <div class="right_content_wrapper" data-step-name="Property Address" data-step-number="4"></div>
-                <div class="">
-                    <div class="">Bedrooms</div>
-                    <div class="radio_bts_square">
-                        <input type="radio" class="bedroom-radio" name="bedroom" id="bedrooms1" value="1" {{ (isset($property) && $property->bedroom == '1') ? 'checked' : '' }} />
-                        <label for="bedrooms1"> 1 </label>
-                        <input type="radio" class="bedroom-radio" name="bedroom" id="bedrooms2" value="2" {{ (isset($property) && $property->bedroom == '2') ? 'checked' : '' }} />
-                        <label for="bedrooms2"> 2 </label>
-                        <input type="radio" class="bedroom-radio" name="bedroom" id="bedrooms3" value="3" {{ (isset($property) && $property->bedroom == '3') ? 'checked' : '' }} />
-                        <label for="bedrooms3"> 3 </label>
-                        <input type="radio" class="bedroom-radio" name="bedroom" id="bedrooms4" value="4" {{ (isset($property) && $property->bedroom == '4') ? 'checked' : '' }} />
-                        <label for="bedrooms4"> 4 </label>
-                        <input type="radio" class="bedroom-radio" name="bedroom" id="bedrooms5" value="5" {{ (isset($property) && $property->bedroom == '5') ? 'checked' : '' }} />
-                        <label for="bedrooms5"> 5 </label>
-                        <input type="radio" class="bedroom-radio" name="bedroom" id="bedrooms6" value="6+" {{ (isset($property) && $property->bedroom == '6+') ? 'checked' : '' }} />
-                        <label for="bedrooms6">6+</label>
+                <input type="hidden" name="step" value="4">
+                <div class="right_content_wrapper" data-step-name="Property Address" data-step-number="4">
+                    <div class="form-group">
+                        <label for="price">Sale Price</label>
+                        <div class="price_input_wrapper">
+                            <div class="pound_sign">£</div>
+                            <input type="text" name="price" id="price" class="form-control" value="{{ isset($property) && $property->price ? $property->price : '' }}" required>
+                        </div>
+                        @error('price')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('reception')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mt-4">
-                    <div class="">Reception Rooms</div>
-                    <div class="radio_bts_square">
-                        <input type="radio" class="reception-radio" name="reception" id="reception1" value="1" {{ (isset($property) && $property->reception == '1') ? 'checked' : '' }} />
-                        <label for="reception1"> 1 </label>
-                        <input type="radio" class="reception-radio" name="reception" id="reception2" value="2" {{ (isset($property) && $property->reception == '2') ? 'checked' : '' }} />
-                        <label for="reception2"> 2 </label>
-                        <input type="radio" class="reception-radio" name="reception" id="reception3" value="3" {{ (isset($property) && $property->reception == '3') ? 'checked' : '' }} />
-                        <label for="reception3"> 3 </label>
-                        <input type="radio" class="reception-radio" name="reception" id="reception4" value="4" {{ (isset($property) && $property->reception == '4') ? 'checked' : '' }} />
-                        <label for="reception4"> 4 </label>
-                        <input type="radio" class="reception-radio" name="reception" id="reception5" value="5" {{ (isset($property) && $property->reception == '5') ? 'checked' : '' }} />
-                        <label for="reception5"> 5 </label>
-                        <input type="radio" class="reception-radio" name="reception" id="reception6" value="6+" {{ (isset($property) && $property->reception == '6+') ? 'checked' : '' }} />
-                        <label for="reception6">6+</label>
+                    <div class="form-group">
+                        <label for="available_from">Date of Availability</label>
+                        <input type="date" name="available_from" id="available_from" class="form-control"
+                            value="{{ isset($property) && $property->available_from ? $property->available_from : '' }}" required>
+                        @error('available_from')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('reception')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
                 </div>
-                <div class="d-flex d-none gap-3">
-                    <button type="button" class="btn btn-secondary previous-step mt-2 w-100" data-previous-step="3"
-                        data-current-step="4">Previous</button>
-                    <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-100" data-next-step="5"
-                        data-current-step="4">Next</button>
-                </div>
+                <button type="submit" class="btn btn-primary margin-top-5 mt-5 w-100 last-step-submit" data-current-step="4">Submit</button>
             </form>
         </div>
     </div>

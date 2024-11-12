@@ -312,7 +312,8 @@ class PropertyController
             'message' => 'Property restored successfully!',
         ];
 
-        return redirect()->route('admin.properties.index')->with('success', $response['message']);
+        return back()->with('success', $response['message']);
+        //return redirect()->route('admin.properties.index')->with('success', $response['message']);
 
         //return redirect()->route('admin.properties.index')->with('success', 'Property restored successfully.');
     }

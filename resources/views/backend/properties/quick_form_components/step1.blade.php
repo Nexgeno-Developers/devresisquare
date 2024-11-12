@@ -18,7 +18,6 @@
                     @csrf
                     <input type="hidden" name="property_id"
                         value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">                    
-                    <div class="right_content_wrapper" data-step-name="Property Name" data-step-number="1"></div>
                     <div class="form-group">
                         <label for="prop_name">Property Name</label>
                         <input required type="text" name="prop_name" id="prop_name" class="form-control"

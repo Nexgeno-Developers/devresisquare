@@ -17,33 +17,34 @@
                 @csrf
                 <input type="hidden" name="property_id"
                     value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
-                <div class="right_content_wrapper" data-step-name="Property type" data-step-number="3"></div>
-                <div class="form-group">
-                    <div class="radio_bts_square_icon">
-                        <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_appartment" value="appartment" {{ (isset($property) && $property->specific_property_type == 'appartment') ? 'checked' : '' }} required> 
-                        <label for="specific_property_type_appartment" >
-                            <img src="{{ asset('asset/images/svg/apartment_600.svg') }}" alt="apartment">
-                            Apartment
-                        </label>
-                        <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_flat" value="flat" {{ (isset($property) && $property->specific_property_type == 'flat') ? 'checked' : '' }} required> 
-                        <label for="specific_property_type_flat" >
-                            <img src="{{ asset('asset/images/svg/flat_600.svg') }}" alt="flat">
-                            Flat
-                        </label>
-                        <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_bunglow" value="bunglow" {{ (isset($property) && $property->specific_property_type == 'bunglow') ? 'checked' : '' }} required> 
-                        <label for="specific_property_type_bunglow" >
-                            <img src="{{ asset('asset/images/svg/bungalow_600.svg') }}" alt="bungalow">
-                            Bungalow
-                        </label>
-                        <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_house" value="house" {{ (isset($property) && $property->specific_property_type == 'house') ? 'checked' : '' }} required> 
-                        <label for="specific_property_type_house" >
-                            <img src="{{ asset('asset/images/svg/house_600.svg') }}" alt="house">
-                            House
-                        </label>
+                <div class="right_content_wrapper" data-step-name="Property type" data-step-number="3">
+                    <div class="form-group">
+                        <div class="radio_bts_square_icon">
+                            <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_appartment" value="appartment" {{ (isset($property) && $property->specific_property_type == 'appartment') ? 'checked' : '' }} required> 
+                            <label for="specific_property_type_appartment" >
+                                <img src="{{ asset('asset/images/svg/apartment_600.svg') }}" alt="apartment">
+                                Apartment
+                            </label>
+                            <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_flat" value="flat" {{ (isset($property) && $property->specific_property_type == 'flat') ? 'checked' : '' }} required> 
+                            <label for="specific_property_type_flat" >
+                                <img src="{{ asset('asset/images/svg/flat_600.svg') }}" alt="flat">
+                                Flat
+                            </label>
+                            <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_bunglow" value="bunglow" {{ (isset($property) && $property->specific_property_type == 'bunglow') ? 'checked' : '' }} required> 
+                            <label for="specific_property_type_bunglow" >
+                                <img src="{{ asset('asset/images/svg/bungalow_600.svg') }}" alt="bungalow">
+                                Bungalow
+                            </label>
+                            <input type="radio" class="propertyType" name="specific_property_type" id="specific_property_type_house" value="house" {{ (isset($property) && $property->specific_property_type == 'house') ? 'checked' : '' }} required> 
+                            <label for="specific_property_type_house" >
+                                <img src="{{ asset('asset/images/svg/house_600.svg') }}" alt="house">
+                                House
+                            </label>
+                        </div>
+                        @error('reception')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('reception')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
                 </div>
 
                 <div class="d-flex d-none gap-3">

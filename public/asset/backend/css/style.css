@@ -504,10 +504,12 @@ input[type="radio"]:checked+label::before {
     body.show-sidebar #menu{
         width: 120px;
     }
+    #menu .sidebar-list-item a .sidebar-sub-list-item a,
     #menu .sidebar-list-item a{
         display: flex;
         flex-direction: column;
         align-items: center;
+        text-align: center;
     }
     #menu .sidebar-list-item a img{
         width: 32px;

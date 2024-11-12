@@ -197,6 +197,10 @@ a:hover {
 }
 
 
+hr{
+    border-bottom: 1px solid var(--primary-300);
+    margin: 16px 0;
+}
 
 /* ========================================
 Alerts

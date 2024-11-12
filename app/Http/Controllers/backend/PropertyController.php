@@ -52,7 +52,7 @@ class PropertyController
             //$userId = $request->session()->get('user_id'); // Retrieve the user ID from the session
 
             // Get property_id from the session or request
-            $property_id = $request->session()->get('property_id', $request->property_id);
+            $property_id =  $request->property_id;
             // Check if property_id is provided in the request
             if ($property_id) {
                 $property = Property::find($property_id);
@@ -84,7 +84,7 @@ class PropertyController
             if ($request->step >= $totalSteps) {
                 // Final submission handling
                 // Flush all session data except specified keys in one line
-                $this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
+                //$this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
                 return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
             }
 
@@ -116,13 +116,15 @@ class PropertyController
                     //update step
                     $validatedData['quick_step'] = $request->step;
                     $property->update($validatedData);
+                    // session()->forget('property_id');
                 }
             } else {
                 // Create new property only empty property id
                 if (empty($property_id)) {
                     \Log::info('Creating new property', $validatedData);
                     $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'quick_step' => $request->step]));
-                    $request->session()->put('property_id', $property->id);
+                    // $request->session()->put('property_id', $property->id);
+                    // session()->forget('property_id');
                 }
             }
 
@@ -132,7 +134,7 @@ class PropertyController
             // Check if the current step is the last one
             if ($request->step >= $totalSteps) {
                 // Flush all session data except specified keys in one line
-                $this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
+                //$this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
 
                 // Final submission handling
                 return view('backend.properties.quick_form_components.thankyou');
@@ -203,12 +205,12 @@ class PropertyController
         return count(glob($stepsDirectory . '/step*.blade.php'));
     }
 
-    private function flushSessionExcept(array $exceptKeys)
-    {
-        $sessionData = session()->only($exceptKeys);
-        session()->flush();
-        session()->put($sessionData);
-    }
+    // private function flushSessionExcept(array $exceptKeys)
+    // {
+    //     $sessionData = session()->only($exceptKeys);
+    //     session()->flush();
+    //     session()->put($sessionData);
+    // }
 
     // public function store(Request $request)
     // {
@@ -310,14 +312,15 @@ class PropertyController
             'message' => 'Property restored successfully!',
         ];
 
-        return redirect()->route('admin.properties.index')->with('success', $response['message']);
+        return back()->with('success', $response['message']);
+        //return redirect()->route('admin.properties.index')->with('success', $response['message']);
 
         //return redirect()->route('admin.properties.index')->with('success', 'Property restored successfully.');
     }
 
     public function bulkRestore(Request $request)
     {
-        $propertyIds = $request->input('property_ids');
+        $propertyIds = explode(',', $request->input('property_ids')); // Convert the string to an array
         Property::withTrashed()->whereIn('id', $propertyIds)->restore();
 
         return redirect()->route('admin.properties.index')->with('success', 'Selected properties restored successfully.');
@@ -329,31 +332,41 @@ class PropertyController
         switch ($step) {
             case 1:
                 return [
-                    'prop_name' => 'required|string|max:255',
-                ];
-            case 2:
-                return [
+                    // 'prop_name' => 'required|string|max:255',
                     'line_1' => 'required|string|max:255',
                     'line_2' => 'nullable|string|max:255',
                     'city' => 'required|string|max:100',
                     'country' => 'required|string|max:100',
                     'postcode' => 'required|string|max:20',
                 ];
+            case 2:
+                return [
+                    // 'line_1' => 'required|string|max:255',
+                    // 'line_2' => 'nullable|string|max:255',
+                    // 'city' => 'required|string|max:100',
+                    // 'country' => 'required|string|max:100',
+                    // 'postcode' => 'required|string|max:20',
+                    'specific_property_type' => 'required|string',
+                ];
             case 3:
                 return [
-                    'specific_property_type' => 'required|string',
+                    // 'specific_property_type' => 'required|string',
+                    'bedroom' => 'required|string',
+                    'reception' => 'required|string',
 
                 ];
             case 4:
                 return [
-                    'bedroom' => 'required|string',
-                    'reception' => 'required|string',
-                ];
-            case 5:
-                return [
+                    // 'bedroom' => 'required|string',
+                    // 'reception' => 'required|string',
                     'price' => 'required|numeric',
                     'available_from' => 'required|date',
                 ];
+            // case 5:
+            //     return [
+            //         // 'price' => 'required|numeric',
+            //         // 'available_from' => 'required|date',
+            //     ];
             default:
                 return [];
         }

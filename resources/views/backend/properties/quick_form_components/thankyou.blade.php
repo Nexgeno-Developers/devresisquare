@@ -2,6 +2,7 @@
 @extends('backend.layout.app')
 
 @section('content')
+
 <div class="container">
     <div class="container-fluid mt-4 quick_add_property">
         <div class="row">
@@ -19,4 +20,10 @@
         </div>
     </div>
 </div>
+<script>
+    setTimeout(function() {
+        window.location.href = "{{ route('admin.properties.index') }}";
+    }, 2000); // Redirects after 2 seconds (2000 ms)
+</script>
+
 @endsection

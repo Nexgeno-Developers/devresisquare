@@ -25,15 +25,19 @@
                 </li> -->
                 <li class="sidebar-sub-list-item">
                     <a class="{{ request()->routeIs('admin.properties.quick') ? 'active' : '' }}"
-                        href="{{ route('admin.properties.quick') }}">Quick Add Property</a>
+                        href="{{ route('admin.properties.quick') }}">Add Property</a>
                 </li>
-                <li class="sidebar-sub-list-item">
+                <!-- <li class="sidebar-sub-list-item">
+                    <a class="{{ request()->routeIs('admin.properties.quick') ? 'active' : '' }}"
+                        href="{{ route('admin.properties.quick') }}">Quick Add Property</a>
+                </li> -->
+                <!-- <li class="sidebar-sub-list-item">
                     <a class="{{ request()->routeIs('admin.properties.create') && request()->query('stepform') ? 'active' : '' }}"
                         href="{{ route('admin.properties.create') }}?stepform">Add Property</a>
-                </li>
+                </li> -->
                 <li class="sidebar-sub-list-item">
                     <a class="{{ request()->routeIs('admin.properties.soft_deleted') ? 'active' : '' }}"
-                        href="{{ route('admin.properties.soft_deleted') }}">Soft Deleted Properties</a>
+                        href="{{ route('admin.properties.soft_deleted') }}">Deleted Properties</a>
                 </li>
             </ul>
         </li>

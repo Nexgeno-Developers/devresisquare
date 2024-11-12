@@ -14,9 +14,10 @@
         </div>
         <div class="col-md-6 col-12 right_col">
             <form id="property-form-step-2" method="POST" action="{{ route('admin.properties.quick_store') }}">
-                <input type="hidden" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
-                <div class="right_content_wrapper" data-step-name="Property Address" data-step-number="2"></div>
                 @csrf
+                <!-- Hidden field for property ID with isset check -->
+                <input type="hidden" id="property_id" class="property_id" name="property_id" value="{{ (isset($property) ? $property->id : '') }}">
+                <div class="right_content_wrapper" data-step-name="Property Address" data-step-number="2"></div>
                 <div class="form-group">
                     <label for="line_1">Address Line 1</label>
                     <input required type="text" name="line_1" id="line_1" class="form-control"

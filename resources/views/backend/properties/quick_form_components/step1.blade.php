@@ -16,8 +16,8 @@
             <div class="right_content_wrapper">
                 <form id="property-form-step-1" method="POST" action="{{ route('admin.properties.quick_store') }}">
                     @csrf
-                    <input type="hidden" name="property_id"
-                        value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">                    
+                    <!-- Hidden field for property ID with isset check -->
+                    <input type="hidden" id="property_id" class="property_id" name="property_id" value="{{ (isset($property) ? $property->id : '') }}">                   
                     <div class="right_content_wrapper" data-step-name="Property Name" data-step-number="1"></div>
                     <div class="form-group">
                         <label for="prop_name">Property Name</label>

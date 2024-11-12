@@ -3,11 +3,15 @@
     function getBreadcrumb($step)
     {
         $breadcrumb = [
-            1 => 'Property name',
+            1 => 'Property Address',
+            2 => 'Property Type',
+            3 => 'Rooms',
+            4 => 'Price',
+            /*1 => 'Property name',
             2 => 'Property Address',
             3 => 'Property Type',
             4 => 'Rooms',
-            5 => 'Price',
+            5 => 'Price',*/
         ];
 
         return $breadcrumb[$step] ?? 'Unknown Step';
@@ -59,7 +63,22 @@
         function sendFormData(step) {
             const formData = new FormData($('#property-form-step-' + step)[0]);
             formData.append('step', step);
+            // Add property_id to the form data if it doesn't already exist
+            const propertyId = $('#property_id').val();  // Get the property_id from the hidden input
+            let propertyIdExists = false;
 
+            // Check if property_id already exists in the formData
+            for (let [key, value] of formData.entries()) {
+                if (key === 'property_id') {
+                    propertyIdExists = true;
+                    break;
+                }
+            }
+
+            // Append property_id only if it doesn't exist already
+            if (propertyId && !propertyIdExists) {
+                formData.append('property_id', propertyId);
+            }
             $.ajax({
                 url: '{{ route("admin.properties.quick_store") }}',
                 method: 'POST',
@@ -81,14 +100,36 @@
         }
 
         // Function to render the view for a specific step
+        // function renderStep(step) {
+        //     const formStepRenderUrl = '{{ route("admin.properties.quick_step", ":step") }}'.replace(':step', step);
+        // Define the URL based on the condition if $property exists
+        @php
+            $formStepRenderUrl = isset($property)
+                ? route('admin.properties.quick_step', ['step' => ':step', 'property_id' => $property->id])
+                : route('admin.properties.quick_step', ['step' => ':step']);
+        @endphp
+        // Function to render the view for a specific step
         function renderStep(step) {
-            const formStepRenderUrl = '{{ route("admin.properties.quick_step", ":step") }}'.replace(':step', step);
+            // Get property_id from the hidden input field if available
+            const propertyId = $('#property_id').val();
+            // Replace ':step' with the actual step in the URL
+            let formStepRenderUrl = '{{ $formStepRenderUrl }}'.replace(':step', step);
 
+            // Check if 'property_id' is already present in the URL
+            if (propertyId && !formStepRenderUrl.includes('property_id')) {
+                formStepRenderUrl += `?property_id=${propertyId}`;
+            }
+            
             $.ajax({
                 url: formStepRenderUrl,
                 method: 'GET',
                 success: function (response) {
                     $('.render_blade').html(response);
+
+                    // Find id="property_id" and put the propertyId if it’s missing
+                    if (!$('#property_id').val()) {
+                        $('#property_id').val(propertyId);
+                    }
                 },
                 error: function () {
                     toastr.error('Unable to load step. Please try again.', 'Error');

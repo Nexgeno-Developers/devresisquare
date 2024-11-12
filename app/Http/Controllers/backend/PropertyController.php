@@ -52,7 +52,7 @@ class PropertyController
             //$userId = $request->session()->get('user_id'); // Retrieve the user ID from the session
 
             // Get property_id from the session or request
-            $property_id = $request->session()->get('property_id', $request->property_id);
+            $property_id =  $request->property_id;
             // Check if property_id is provided in the request
             if ($property_id) {
                 $property = Property::find($property_id);
@@ -84,7 +84,7 @@ class PropertyController
             if ($request->step >= $totalSteps) {
                 // Final submission handling
                 // Flush all session data except specified keys in one line
-                $this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
+                //$this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
                 return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
             }
 
@@ -116,13 +116,15 @@ class PropertyController
                     //update step
                     $validatedData['quick_step'] = $request->step;
                     $property->update($validatedData);
+                    // session()->forget('property_id');
                 }
             } else {
                 // Create new property only empty property id
                 if (empty($property_id)) {
                     \Log::info('Creating new property', $validatedData);
                     $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'quick_step' => $request->step]));
-                    $request->session()->put('property_id', $property->id);
+                    // $request->session()->put('property_id', $property->id);
+                    // session()->forget('property_id');
                 }
             }
 
@@ -132,7 +134,7 @@ class PropertyController
             // Check if the current step is the last one
             if ($request->step >= $totalSteps) {
                 // Flush all session data except specified keys in one line
-                $this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
+                //$this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
 
                 // Final submission handling
                 return view('backend.properties.quick_form_components.thankyou');
@@ -203,12 +205,12 @@ class PropertyController
         return count(glob($stepsDirectory . '/step*.blade.php'));
     }
 
-    private function flushSessionExcept(array $exceptKeys)
-    {
-        $sessionData = session()->only($exceptKeys);
-        session()->flush();
-        session()->put($sessionData);
-    }
+    // private function flushSessionExcept(array $exceptKeys)
+    // {
+    //     $sessionData = session()->only($exceptKeys);
+    //     session()->flush();
+    //     session()->put($sessionData);
+    // }
 
     // public function store(Request $request)
     // {

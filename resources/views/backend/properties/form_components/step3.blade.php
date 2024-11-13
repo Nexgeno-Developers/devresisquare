@@ -154,21 +154,25 @@
             <label>Area</label>
             <div class="row">
                 <div class="col">
-                    <label>Square Feet</label>
-                    <input type="number" name="square_feet" class="form-control" placeholder="Square Feet" value="{{ (isset($property) && $property->square_feet != '') ? $property->square_feet : ''  }}" required>
-                    @error('square_feet')
-                    <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <div class="form-group">
+                        <label>Square Feet</label>
+                        <input type="number" name="square_feet" class="form-control" placeholder="Square Feet" value="{{ (isset($property) && $property->square_feet != '') ? $property->square_feet : ''  }}" required>
+                        @error('square_feet')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
                 <div class="col">
-                    <label>Square Meter</label>
-                    <input type="number" name="square_meter" class="form-control" placeholder="Square Meter" value="{{ (isset($property) && $property->square_meter != '') ? $property->square_meter : ''  }}" required>
-                    @error('square_meter')
-                    <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <div class="form-group">
+                        <label>Square Meter</label>
+                        <input type="number" name="square_meter" class="form-control" placeholder="Square Meter" value="{{ (isset($property) && $property->square_meter != '') ? $property->square_meter : ''  }}" required>
+                        @error('square_meter')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
             </div>
-        </div>
+        
 
         <div class="form-group">
             <label>Aspects</label>

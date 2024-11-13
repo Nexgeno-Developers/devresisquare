@@ -62,6 +62,7 @@ class Property extends Model
         'commission_percentage',
         'commission_amount',
         'step',
+        'quick_step',
         'added_by',
     ];
     protected $casts = [

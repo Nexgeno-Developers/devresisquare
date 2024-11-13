@@ -14,13 +14,16 @@
         8 => 'Media',
         9 => 'Responsibility',
     ];
+
+    // Determine the last enabled step based on $property->step or default to 1
+    $currentStep = isset($property->step) ? $property->step+1 : 1;
 @endphp
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-3 left_inner_menu">
             <div class="stepformcomponents">
-                @for ($i = 1; $i <= count($stepNames); $i++)
+                <!-- @for ($i = 1; $i <= count($stepNames); $i++)
                     <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
                     <input class="form-check-input" type="radio" name="step" data-property-id="" id="step{{ $i }}" value="{{ $i }}" 
                     {{ session('current_step') == $i ||  $i == 1 ? 'checked' : '' }}>
@@ -28,6 +31,20 @@
                             for="step{{ $i }}">
                             {{ $stepNames[$i] ?? 'Unknown Step'}}
                         </label>
+                    </div>
+                @endfor -->
+                @for ($i = 1; $i <= count($stepNames); $i++)
+                    <div class="form-check {{ $currentStep == $i ? 'active' : '' }}">
+                        <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="step" 
+                            id="step{{ $i }}" 
+                            value="{{ $i }}" 
+                            {{ $currentStep == $i || ($i == 1 && !$property) ? 'checked' : '' }}
+                            {{ $i <= $currentStep ? '' : 'disabled' }}>
+                        
+                        <label class="form-check-label {{ $currentStep == $i ? 'active' : '' }}" for="step{{ $i }}">{{ $stepNames[$i] ?? 'Unknown Step'}}</label>
                     </div>
                 @endfor
             </div>
@@ -64,10 +81,10 @@
 
         <div class="col-lg-9 col-12 render_blade">
             @if (isset($property))
-                @include('backend.properties.form_components.step' . (session('current_step', 1)), ['property' => $property])
+                @include('backend.properties.form_components.step' . ($currentStep), ['property' => $property])
             @else
                 {{-- Handle the case where $property is not set, if needed --}}
-                @include('backend.properties.form_components.step' . (session('current_step', 1)))
+                @include('backend.properties.form_components.step' . ($currentStep))
             @endif
         </div>
 
@@ -79,20 +96,30 @@
 <script>
     $(document).ready(function () {
         // General function to handle sending form data and navigating steps
-        function handleStepChange(currentStep, targetStep) {
-            // Validate the current step form (returns true if valid)
-            const isValid = initValidate('#property-form-step-' + currentStep);
-            if (isValid) {
-                // Send form data for current step before moving on
-                sendFormData(currentStep);
+        function handleStepChange(currentStep, targetStep, previous = null) {
 
-                // Update the active radio button to targetStep
+            // Check if navigating to a previous step
+            if (previous) {
+                // Render the previous step and update the radio button selection
+                renderStep(targetStep);
                 $('input[name="step"][value="' + targetStep + '"]').prop('checked', true);
+                return; // Exit early as no validation or data submission is needed for previous steps
+            }
 
-                // Render the form for the target step
-                // renderStep(targetStep);
+            // Validate the current step form only when moving forward
+            const isValid = initValidate('#property-form-step-' + currentStep);
+
+            // If validation passed, proceed to send data and update to the next step
+            if (isValid) {
+                // Send form data for current step before navigating to the target step
+                sendFormData(currentStep);
+                // Update the radio button selection to the target step
+                $('input[name="step"][value="' + targetStep + '"]').prop('checked', true);
+                // Enable the next step in the navigation
+                $('input[name="step"][value="' + targetStep + '"]').prop('disabled', false);
             }
         }
+
 
         // Function to send form data for a specific step
         function sendFormData(step) {
@@ -168,15 +195,22 @@
             });
         }
 
-        // Handle Next and Previous button clicks
-        $(document).on('click', '.next-step, .previous-step', function (e) {
+        // Handle Next button clicks
+        $(document).on('click', '.next-step', function(e) {
             e.preventDefault();
             const currentStep = $(this).data('current-step');
-            const targetStep = $(this).hasClass('next-step') ? $(this).data('next-step') : $(this).data('previous-step');
-
+            const targetStep = $(this).data('next-step');
             handleStepChange(currentStep, targetStep);
         });
-        
+
+        // Handle Previous button clicks
+        $(document).on('click', '.previous-step', function(e) {
+            e.preventDefault();
+            const currentStep = $(this).data('current-step');
+            const targetStep = $(this).data('previous-step');
+            handleStepChange(currentStep, targetStep, true);
+        });
+
         // Handle radio button change
         $('input[name="step"]').change(function () {
             const selectedStep = $(this).val();

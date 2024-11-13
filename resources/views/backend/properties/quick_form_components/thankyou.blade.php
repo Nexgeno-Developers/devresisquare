@@ -23,7 +23,7 @@
 <script>
     setTimeout(function() {
         window.location.href = "{{ route('admin.properties.index') }}";
-    }, 2000); // Redirects after 2 seconds (2000 ms)
+    }, 3000); // Redirects after 3 seconds (3000 ms)
 </script>
 
 @endsection

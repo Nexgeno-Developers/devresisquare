@@ -22,19 +22,35 @@ $breadcrumb = [
 ];
 return $breadcrumb[$step] ?? 'Unknown Step';
 }*/
+    // Determine the last enabled step based on $property->step or default to 1
+    $currentStep = isset($property->quick_step) ? $property->quick_step+1 : 1;
 @endphp
 
 <div class="">
     <h4 class="mb-4">Quick Add Property</h4>
     <div class="qap_breadcrumb">
-            @for ($i = 1; $i <= count($stepNames); $i++) 
-            <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
-                <input class="form-check-input" type="radio" name="step" data-property-id="" id="step{{ $i }}" value="{{ $i }}" {{ session('current_step') == $i || $i == 1 ? 'checked' : '' }}>
-                <label class="form-check-label {{ session('current_step') == $i ? 'active' : '' }}" for="step{{ $i }}">
-                    {{ $stepNames[$i] ?? 'Unknown Step'}}
-                </label>
-            </div>
-        @endfor
+            <!-- @for ($i = 1; $i <= count($stepNames); $i++) 
+                <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
+                    <input class="form-check-input" type="radio" name="step" data-property-id="" id="step{{ $i }}" value="{{ $i }}" {{ session('current_step') == $i || $i == 1 ? 'checked' : '' }}>
+                    <label class="form-check-label {{ session('current_step') == $i ? 'active' : '' }}" for="step{{ $i }}">
+                        {{ $stepNames[$i] ?? 'Unknown Step'}}
+                    </label>
+                </div>
+            @endfor -->
+            @for ($i = 1; $i <= count($stepNames); $i++)
+                <div class="form-check {{ $currentStep == $i ? 'active' : '' }}">
+                    <input 
+                        class="form-check-input" 
+                        type="radio" 
+                        name="step" 
+                        id="step{{ $i }}" 
+                        value="{{ $i }}" 
+                        {{ $currentStep == $i || ($i == 1 && !$property) ? 'checked' : '' }}
+                        {{ $i <= $currentStep ? '' : 'disabled' }}>
+                    
+                    <label class="form-check-label {{ $currentStep == $i ? 'active' : '' }}" for="step{{ $i }}">{{ $stepNames[$i] ?? 'Unknown Step'}}</label>
+                </div>
+            @endfor
     </div>
 
 <div class="container-fluid">
@@ -51,20 +67,29 @@ return $breadcrumb[$step] ?? 'Unknown Step';
 <script>
 $(document).ready(function() {
     // General function to handle sending form data and navigating steps
-    function handleStepChange(currentStep, targetStep) {
-        // Validate the current step form (returns true if valid)
-        const isValid = initValidate('#property-form-step-' + currentStep);
-        if (isValid) {
-            // Send form data for current step before moving on
-            sendFormData(currentStep);
-
-            // Update the active radio button to targetStep
+    function handleStepChange(currentStep, targetStep, previous = null) {
+        // Check if navigating to a previous step
+        if (previous) {
+            // Render the previous step and update the radio button selection
+            renderStep(targetStep);
             $('input[name="step"][value="' + targetStep + '"]').prop('checked', true);
+            return; // Exit early as no validation or data submission is needed for previous steps
+        }
 
-            // Render the form for the target step
-            // renderStep(targetStep);
+        // Validate the current step form only when moving forward
+        const isValid = initValidate('#property-form-step-' + currentStep);
+
+        // If validation passed, proceed to send data and update to the next step
+        if (isValid) {
+            // Send form data for current step before navigating to the target step
+            sendFormData(currentStep);
+            // Update the radio button selection to the target step
+            $('input[name="step"][value="' + targetStep + '"]').prop('checked', true);
+            // Enable the next step in the navigation
+            $('input[name="step"][value="' + targetStep + '"]').prop('disabled', false);
         }
     }
+
 
     // Function to send form data for a specific step
     function sendFormData(step) {
@@ -108,7 +133,7 @@ $(document).ready(function() {
 
     // Function to render the view for a specific step
     // function renderStep(step) {
-    //     const formStepRenderUrl = '{{ route("admin.properties.quick_step", ":step") }}'.replace(':step', step);
+    //     const formStepRenderUrl = '{{-- route("admin.properties.quick_step", ":step") --}}'.replace(':step', step);
     // Define the URL based on the condition if $property exists
     @php
     $formStepRenderUrl = isset($property) ?
@@ -144,14 +169,23 @@ $(document).ready(function() {
         });
     }
 
-    // Handle Next and Previous button clicks
-    $(document).on('click', '.next-step, .previous-step', function(e) {
+    // Handle Next button clicks
+    $(document).on('click', '.next-step', function(e) {
         e.preventDefault();
         const currentStep = $(this).data('current-step');
-        const targetStep = $(this).hasClass('next-step') ? $(this).data('next-step') : $(this).data(
-            'previous-step');
+        const targetStep = $(this).data('next-step');
 
         handleStepChange(currentStep, targetStep);
+    });
+
+    // Handle Previous button clicks
+    $(document).on('click', '.previous-step', function(e) {
+        e.preventDefault();
+        const currentStep = $(this).data('current-step');
+        const targetStep = $(this).data('previous-step');
+        const previous = true; 
+
+        handleStepChange(currentStep, targetStep, previous);
     });
 
     // Handle radio button change

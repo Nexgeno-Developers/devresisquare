@@ -17,9 +17,6 @@ class PropertyController
     // Show the form for creating a new property.
     public function create()
     {
-        // Remove only the 'current_step' from session
-        //session()->forget('current_step');
-        session()->put('current_step', 1);
         return view('backend.properties.create'); // Return the create property view
     }
 
@@ -34,7 +31,7 @@ class PropertyController
         // if (!session()->has('user_id')) {
         //     $request->session()->put('user_id', Auth::id());
         // }
-        $request->session()->put('current_step', $request->step + 1);
+        // $request->session()->put('current_step', $request->step + 1);
 
         // Validate data based on the current step
         if ($request->has('step')) {
@@ -62,7 +59,8 @@ class PropertyController
                     $validatedData['video_url'] = $request->video_url ?: null;
                     $validatedData['step'] = $request->step;
                     $property->update($validatedData);
-                    session()->forget('property_id');
+                    // session()->forget('property_id');
+                    // session()->forget('current_step');
                 }
             } else {
                 // Create new property only on the first step
@@ -70,6 +68,7 @@ class PropertyController
                     // Log the data before creation
                     \Log::info('Creating new property', $validatedData);
                     $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'step' => $request->step]));
+                    // session()->forget('current_step');
                     // $property = Property::create(array_merge($validatedData, ['added_by' => $userId]));
                 }
             }
@@ -121,8 +120,9 @@ class PropertyController
             } else {
                 // Create new property only empty property id
                 if (empty($property_id)) {
+                    $validatedData['quick_step'] = $request->step;
                     \Log::info('Creating new property', $validatedData);
-                    $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'quick_step' => $request->step]));
+                    $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id()]));
                     // $request->session()->put('property_id', $property->id);
                     // session()->forget('property_id');
                 }

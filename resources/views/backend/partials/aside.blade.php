@@ -21,13 +21,13 @@
             </a>
             <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('admin.properties.index') || request()->routeIs('admin.properties.quick') || request()->routeIs('admin.properties.create') ? 'show' : '' }}"
                 id="propertiesSubmenu">
-                {{-- <li class="sidebar-sub-list-item">
+                <li class="sidebar-sub-list-item">
                     <a class="{{ request()->routeIs('admin.properties.index') ? 'active' : '' }}"
                         href="{{ route('admin.properties.index') }}">
                         <img src="{{ asset('asset/images/svg/properties-view.svg') }}" alt="properties-view">
                         View Properties
                     </a>
-                </li> --}}
+                </li>
                 <!-- <li class="sidebar-sub-list-item">
                     <a class="{{ request()->routeIs('admin.properties.create') ? 'active' : '' }}"
                         href="{{ route('admin.properties.create') }}">Quick Add Property</a>

@@ -80,20 +80,32 @@
         </div>
 
         <div class="col-lg-9 col-12 render_blade">
-            @if (isset($property))
-                @include('backend.properties.form_components.step' . ($currentStep), ['property' => $property])
+            @if (isset($property) && isset($currentStep) && view()->exists('backend.properties.form_components.step' . $currentStep))
+                @include('backend.properties.form_components.step' . $currentStep, ['property' => $property])
             @else
-                {{-- Handle the case where $property is not set, if needed --}}
-                @include('backend.properties.form_components.step' . ($currentStep))
+                {{-- Handle the case where $property is not set or step is invalid --}}
+                @if (isset($currentStep) && view()->exists('backend.properties.form_components.step' . $currentStep))
+                    @include('backend.properties.form_components.step' . $currentStep)
+                @else
+                    {{-- Fallback or error message if the step is invalid --}}
+                    <p>Invalid step or property not found. Please try again.</p>
+                @endif
             @endif
         </div>
+
 
     </div>
 </div>
 @endsection
 
 @section('page.scripts')
+<script type="text/javascript">
+		$(document).ready(function() {
+			AIZ.plugins.aizUppy();
+		});
+	</script>
 <script>
+    
     $(document).ready(function () {
         // General function to handle sending form data and navigating steps
         function handleStepChange(currentStep, targetStep, previous = null) {
@@ -149,6 +161,9 @@
                 contentType: false,
                 success: function (response) {
                     $('.render_blade').html(response);
+                    if(step == 7){
+                        AIZ.uploader.previewGenerate();
+                    }
                 },
                 error: function (jqXHR) {
                     if (jqXHR.status === 422) {
@@ -183,7 +198,9 @@
                 method: 'GET',
                 success: function (response) {
                     $('.render_blade').html(response);
-
+                    if(step == 8){
+                        AIZ.uploader.previewGenerate();
+                    }
                     // Find id="property_id" and put the propertyId if it’s missing
                     if (!$('#property_id').val()) {
                         $('#property_id').val(propertyId);

@@ -1,6 +1,41 @@
 @extends('backend.layout.app')
 
 @section('content')
+@php 
+    $properties = [
+        [
+        'name' => '169-173 Portland Rd, Hove, East Sussex, BN3 5QJ',
+        'bed'=>'2',
+        'bath'=>'1',
+        'floor'=>'20',
+        'living'=>'2',
+        'type'=>'Apartment',
+        'available'=>'02/08/25',
+        'price'=>'3000',
+        ],
+        [
+        'name' => '456-854 Portland Rd, Hove, East Sussex, BN3 5QJ',
+        'bed'=>'2',
+        'bath'=>'2',
+        'floor'=>'5',
+        'living'=>'2',
+        'type'=>'Apartment',
+        'available'=>'02/08/25',
+        'price'=>'3000',
+        ],
+        [
+        'name' => '254-365 Portland Rd, Hove, East Sussex, BN3 5QJ',
+        'bed'=>'1',
+        'bath'=>'1',
+        'floor'=>'8',
+        'living'=>'2',
+        'type'=>'Apartment',
+        'available'=>'02/08/25',
+        'price'=>'3000',
+        ],
+    ];
+@endphp
+
 <div class="row">
     <div class="col-lg-5">
         <div class="pv_wrapper">
@@ -18,29 +53,20 @@
             </div>
             {{-- pv_header end --}}
             <div class="pv_card_wrapper">
-                {{-- @include('backend.components.property-h-card') --}}
+                {{-- Dev Note: if select property from list add class 'current' to property card --}}
+                @foreach ($properties as $property)
                 <x-backend.property-card 
                     class=""
-                    propertyName="169-173 Portland Rd, Hove, East Sussex, BN3 5QJ"
-                    bed="2" 
-                    bath="2" 
-                    floor="2" 
-                    living="2" 
-                    type="Apartment" 
-                    available="02/08/25" 
-                    price="3000"
+                    propertyName="{{$property['name']}}"
+                    bed="{{$property['bed']}}"
+                    bath="{{$property['bath']}}"
+                    floor="{{$property['floor']}}"
+                    living="{{$property['living']}}"
+                    type="{{$property['type']}}"
+                    available="{{$property['available']}}"
+                    price="{{$property['price']}}"
                 />
-                <x-backend.property-card 
-                    class=""
-                    propertyName="264-452 Portland Rd, Hove,  Sussex, BN3 5QJ"
-                    bed="3" 
-                    bath="2" 
-                    floor="6" 
-                    living="1" 
-                    type="Apartment" 
-                    available="02/08/26" 
-                    price="2840"
-                />
+                @endforeach
 
             </div>
             {{-- pv_card_wrapper end  --}}

@@ -593,6 +593,9 @@ input[type="radio"]:checked+label::before {
         border: 1px solid var(--primary-300);
         border-radius: 6px;
         padding: 6px;
+        &.current{
+            background-color: var(--primary-100);
+        }
 
         .pv_image{
             width: 14rem;

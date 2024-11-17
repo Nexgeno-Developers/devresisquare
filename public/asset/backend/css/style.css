@@ -543,7 +543,7 @@ input[type="radio"]:checked+label::before {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    height: calc(100% - 76px);
+    /* height: calc(100% - 76px); */
     .pv_header{
         display: flex;
         gap: 5px;
@@ -586,7 +586,7 @@ input[type="radio"]:checked+label::before {
 
         .pv_image{
             width: 14rem;
-            height: 9rem;
+            height: 10rem;
             overflow: hidden;
             border-radius: 6px;
 

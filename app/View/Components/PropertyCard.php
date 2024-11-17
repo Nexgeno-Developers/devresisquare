@@ -1,0 +1,32 @@
+<?php
+
+namespace App\View\Components;
+
+use Closure;
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
+
+class PropertyCard extends Component
+{
+    public $propertyName, $bed, $bath, $floor, $living, $price, $type, $available; 
+
+    public function __construct($propertyName, $bed, $bath, $floor, $living, $price, $type, $available) {
+         $this->propertyName = $propertyName; 
+         $this->bed = $bed; 
+         $this->bath = $bath; 
+         $this->bath = $bath; 
+         $this->floor = $floor; 
+         $this->living = $living; 
+         $this->price = $price; 
+         $this->type = $type; 
+         $this->available = $available; 
+        }
+
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
+    {
+        return view('backend.components.property-h-card');
+    }
+}

@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 
 class MainButton extends Component
 {
-    public $class, $name,;
+    public $class, $name;
     public function __construct( $class, $name)
     {
         $this->$class = $class;

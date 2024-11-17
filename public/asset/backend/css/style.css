@@ -77,8 +77,9 @@ body.show-sidebar #menu {
     z-index: 99999999;
     width: max-content;
     height: max-content;
-    padding: 12px 14px;
+    padding: 10px 12px;
     border-radius: 6px;
+    font-size: 14px;
 }
 
 /* ========================================
@@ -539,6 +540,15 @@ input[type="radio"]:checked+label::before {
 =================================================================================================
 =================================================================================================*/
 
+.pv_main_title{
+    font-weight: 500;
+    font-size: 18px
+}
+
+.pv_sub_title{
+    font-weight: 500;
+}
+
 .pv_wrapper{
     display: flex;
     flex-direction: column;
@@ -630,6 +640,121 @@ input[type="radio"]:checked+label::before {
         }
     }
 
+}
+
+
+/* -------------- Tabs --------------------- */
+
+.pv_detail_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .pv_tabs{
+        border-bottom: 1px solid var(--primary-300) ;
+        padding-bottom: 8px;
+        ul{
+            display: flex;
+            gap: 16px;
+            margin: 0;
+            padding: 0;
+            li{
+                list-style: none; 
+                cursor: pointer;
+
+                a{
+                    color: var(--primary-500);
+                    width: max-content;
+                    display: block;
+
+                    &:hover{
+                        color: var(--primary);
+                    }
+
+                    &.active{
+                        color: var(--primary);
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+
+    }
+    .pv_detail_content{
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        .pv_detail_header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .pv_content_detail{
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            .pvd_content_wrapper{
+                display: flex;
+                gap: 16px;
+                border-radius: 6px;
+        
+                .pv_image{
+                    width: 18rem;
+                    height: 12rem;
+                    overflow: hidden;
+                    border-radius: 6px;
+        
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+                }
+                .pv_content{
+        
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+        
+                    .pvc_poperty_name{
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+                    .rs_property_icons{
+                        .bed_icon.rs_tooltip:hover::after {
+                            content: 'Bedrooms';
+                        }
+                        .bath_icon.rs_tooltip:hover::after {
+                            content: 'Bathrooms';
+                        }
+                        .floors_icon.rs_tooltip:hover::after {
+                            content: 'Floor';
+                        }
+                        .living_icon.rs_tooltip:hover::after {
+                            content: 'Living Room';
+                        }
+                    }
+                    .pvc_price{
+                        span{
+                            font-size: 20px;
+                            font-weight: 500;
+                        }
+                    }
+                }
+            
+            }
+            .pvd_features{
+
+                .features_list_warpper{
+                    .features_list{
+
+                    }
+                }
+            }
+        }
+    }
 }
 
 

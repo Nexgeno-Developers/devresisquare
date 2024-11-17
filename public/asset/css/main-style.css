@@ -217,6 +217,12 @@ a:hover {
 .gap_32 {gap: 32px; }
 
 
+.border_bottom{
+    border-bottom: 1px solid var(--primary-300);
+    padding-bottom: 16px;
+    margin-bottom: 0;
+}
+
 hr{
     border-bottom: 1px solid var(--primary-300);
     margin: 16px 0;
@@ -225,6 +231,13 @@ hr{
 a{text-decoration: none; color: var(--primary);}
 a:hover{font-weight: 500;}
 
+ul{
+    list-style: none;
+    padding: 0;
+    li{
+        margin-bottom: 8px;
+    }
+}
 /* ========================================
 Alerts
 ==========================================*/

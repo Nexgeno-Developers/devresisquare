@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\backend;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -8,9 +8,10 @@ use Illuminate\View\Component;
 
 class PropertyCard extends Component
 {
-    public $propertyName, $bed, $bath, $floor, $living, $price, $type, $available; 
+    public $class, $propertyName, $bed, $bath, $floor, $living, $price, $type, $available; 
 
-    public function __construct($propertyName, $bed, $bath, $floor, $living, $price, $type, $available) {
+    public function __construct($class, $propertyName, $bed, $bath, $floor, $living, $price, $type, $available) {
+         $this->class = $class; 
          $this->propertyName = $propertyName; 
          $this->bed = $bed; 
          $this->bath = $bath; 

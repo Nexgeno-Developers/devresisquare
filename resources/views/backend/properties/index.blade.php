@@ -8,15 +8,21 @@
                 <div class="pv_title">Properties</div>
                 <div class="pv_search">search</div>
                 <div class="pv_btn">
-                    <a href="{{ route('admin.properties.quick') }}" class="btn btn-primary btn-sm" >
+                    {{-- <a href="{{ route('admin.properties.quick') }}" class="btn btn-primary btn-sm" >
                         Add Property
-                    </a>
+                    </a> --}}
+                    <x-backend.link-button 
+                        class=""
+                        name="Add Property"
+                        link="https"
+                    />
                 </div>
             </div>
             {{-- pv_header end --}}
             <div class="pv_card_wrapper">
                 {{-- @include('backend.components.property-h-card') --}}
-                <x-property-card 
+                <x-backend.property-card 
+                    class=""
                     propertyName="169-173 Portland Rd, Hove, East Sussex, BN3 5QJ"
                     bed="2" 
                     bath="2" 
@@ -26,7 +32,8 @@
                     available="02/08/25" 
                     price="3000"
                 />
-                <x-property-card 
+                <x-backend.property-card 
+                    class=""
                     propertyName="264-452 Portland Rd, Hove,  Sussex, BN3 5QJ"
                     bed="3" 
                     bath="2" 

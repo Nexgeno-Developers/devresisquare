@@ -1,3 +1,3 @@
-<a href="{{ $link }}" class="btn btn-primary btn-sm {{ $class }}" >
+<a href="{{ $link }}" class="btn btn_secondary btn-sm {{ $class }}"  {{ $onClick }}>
     {{ $name }}
 </a>

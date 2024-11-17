@@ -8,13 +8,11 @@
                 <div class="pv_title">Properties</div>
                 <div class="pv_search">search</div>
                 <div class="pv_btn">
-                    {{-- <a href="{{ route('admin.properties.quick') }}" class="btn btn-primary btn-sm" >
-                        Add Property
-                    </a> --}}
                     <x-backend.link-button 
                         class=""
                         name="Add Property"
-                        link="https"
+                        link="{{ route('admin.properties.quick') }}"
+                        onClick=""
                     />
                 </div>
             </div>

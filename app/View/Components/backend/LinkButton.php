@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class LinkButton extends Component
 {
-    public $class, $name, $link;
-    public function __construct( $class, $name, $link)
+    public $class, $name, $link, $onClick;
+    public function __construct( $class, $name, $link, $onClick = null)
     {
         $this->class = $class;
         $this->name = $name;
         $this->link = $link;
+        $this->onClick = $onClick;
     }
 
     /**

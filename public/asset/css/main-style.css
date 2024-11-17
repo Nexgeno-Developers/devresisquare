@@ -119,23 +119,53 @@ a.btn{
     border: unset;
 }
 .btn-primary {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: var(--primary-bg);
-    --bs-btn-border-color: var(--primary-bg);
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg:  var(--primary-bg-light);
-    --bs-btn-hover-border-color: var(--primary-bg-dark);
-    --bs-btn-focus-shadow-rgb: 49, 132, 253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--primary-bg-dark);
-    --bs-btn-active-border-color: var(--primary-bg-dark);
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: var(--primary-bg);
-    --bs-btn-disabled-border-color: var(--primary-bg);
+    --bs-btn-color: #fff !important;
+    --bs-btn-bg: var(--primary-bg) !important;
+    --bs-btn-border-color: var(--primary-bg) !important;
+    --bs-btn-hover-color: #fff !important;
+    --bs-btn-hover-bg:  var(--primary-bg-light) !important;
+    --bs-btn-hover-border-color: var(--primary-bg-dark) !important;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253 !important;
+    --bs-btn-active-color: #fff !important;
+    --bs-btn-active-bg: var(--primary-bg-dark) !important;
+    --bs-btn-active-border-color: var(--primary-bg-dark) !important;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+    --bs-btn-disabled-color: #fff !important;
+    --bs-btn-disabled-bg: var(--primary-bg) !important;
+    --bs-btn-disabled-border-color: var(--primary-bg) !important;
     border: unset;
 }
 
+.btn_secondary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--secondary-bg);
+    --bs-btn-border-color: var(--secondary-bg);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg:  var(--secondary-bg-light);
+    --bs-btn-hover-border-color: var(--secondary-bg-dark);
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--secondary-bg-dark);
+    --bs-btn-active-border-color: var(--secondary-bg-dark);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--secondary-bg);
+    --bs-btn-disabled-border-color: var(--secondary-bg);
+    border: unset;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-bg-dark) !important;
+    border-color: var(--secondary-bg-dark) !important;
+    border: unset !important;
+}
+
+
+.btn:first-child:active{
+    color: var(--white) !important;
+    background-color: var(--secondary-bg-dark) !important;
+    border-color: unset !important;
+}
 
 
 a:hover {

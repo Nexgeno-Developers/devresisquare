@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class LinkButton extends Component
+class OutlineLinkButton extends Component
 {
     public $class, $name, $link, $onClick;
     public function __construct( $class, $name, $link, $onClick = null)
@@ -22,6 +22,6 @@ class LinkButton extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('backend.components.common.link-button');
+        return view('backend.components.common.outline-link-button');
     }
 }

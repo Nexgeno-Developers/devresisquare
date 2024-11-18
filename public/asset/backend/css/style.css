@@ -28,12 +28,12 @@ body.show-sidebar #menu {
     margin-left: 40px;
     width: calc(100% - 30%);
     transition: margin-left 0.3s;
-    height: 100%;
+    height: calc(100% - 36px)
 }
 
 #wrapper .container-fluid,
 #wrapper .container-fluid .row {
-    height: 100%;
+    height: calc(100% - 36px)
 }
 
 #header {
@@ -48,6 +48,39 @@ body.show-sidebar #menu {
     padding: 12px 30px;
 }
 
+
+.rs_row{
+    display: flex;
+    gap: 16px;
+    .rs_col{
+        width: fit-content;
+    }
+}
+
+.rs_property_icons{
+    display: flex;
+    gap: 16px;
+}
+
+
+.rs_tooltip{
+    position: relative;
+}
+
+.rs_tooltip:hover::after {
+    content: '';
+    position: absolute;
+    top: 34px;
+    left: 2px;
+    background: #000000d1;
+    color: var(--white);
+    z-index: 99999999;
+    width: max-content;
+    height: max-content;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+}
 
 /* ========================================
           Sdebar
@@ -178,7 +211,7 @@ Header
 }
 
 .main_wrapper {
-    height: 94%;
+    height: calc(100% - 89px);
     display: flex;
 }
 
@@ -499,6 +532,239 @@ input[type="radio"]:checked+label::before {
 
 
 
+/* ==============================================================================================
+ ==============================================================================================
+
+                                      View Properties           
+
+=================================================================================================
+=================================================================================================*/
+
+.pv_main_title{
+    font-weight: 500;
+    font-size: 18px
+}
+
+.pv_sub_title{
+    font-weight: 500;
+}
+
+.pv_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* height: calc(100% - 76px); */
+    .pv_header{
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+        width: 100%;
+
+        .pv_title{
+            font-weight: 500;
+        }
+
+        .pv_btn a{
+            width: fit-content;
+            display: block;
+        }
+    }
+}
+
+
+
+.pv_card_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    cursor: pointer;
+
+    overflow-y: auto;
+    height: calc(100% - 107px);
+    padding-right: 6px;
+
+    :hover{
+        background-color: var(--primary-100);
+    }
+
+    .pv_content_wrapper{
+        display: flex;
+        gap: 16px;
+        border: 1px solid var(--primary-300);
+        border-radius: 6px;
+        padding: 6px;
+        &.current{
+            background-color: var(--primary-100);
+        }
+
+        .pv_image{
+            width: 14rem;
+            height: 10rem;
+            overflow: hidden;
+            border-radius: 6px;
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+        .pv_content{
+
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+
+            .pvc_poperty_name{
+                font-size: 18px;
+                font-weight: 600;
+            }
+            .rs_property_icons{
+                .bed_icon.rs_tooltip:hover::after {
+                    content: 'Bedrooms';
+                }
+                .bath_icon.rs_tooltip:hover::after {
+                    content: 'Bathrooms';
+                }
+                .floors_icon.rs_tooltip:hover::after {
+                    content: 'Floor';
+                }
+                .living_icon.rs_tooltip:hover::after {
+                    content: 'Living Room';
+                }
+            }
+            .pvc_price{
+                span{
+                    font-size: 20px;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+}
+
+
+/* -------------- Tabs --------------------- */
+
+.pv_detail_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .pv_tabs{
+        border-bottom: 1px solid var(--primary-300) ;
+        padding-bottom: 8px;
+        ul{
+            display: flex;
+            gap: 16px;
+            margin: 0;
+            padding: 0;
+            li{
+                list-style: none; 
+                cursor: pointer;
+
+                a{
+                    color: var(--primary-500);
+                    width: max-content;
+                    display: block;
+
+                    &:hover{
+                        color: var(--primary);
+                    }
+
+                    &.active{
+                        color: var(--primary);
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+
+    }
+    .pv_detail_content{
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        .pv_detail_header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .pv_content_detail{
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            .pvd_content_wrapper{
+                display: flex;
+                gap: 16px;
+                border-radius: 6px;
+        
+                .pv_image{
+                    width: 18rem;
+                    height: 12rem;
+                    overflow: hidden;
+                    border-radius: 6px;
+        
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+                }
+                .pv_content{
+        
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+        
+                    .pvc_poperty_name{
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+                    .rs_property_icons{
+                        .bed_icon.rs_tooltip:hover::after {
+                            content: 'Bedrooms';
+                        }
+                        .bath_icon.rs_tooltip:hover::after {
+                            content: 'Bathrooms';
+                        }
+                        .floors_icon.rs_tooltip:hover::after {
+                            content: 'Floor';
+                        }
+                        .living_icon.rs_tooltip:hover::after {
+                            content: 'Living Room';
+                        }
+                    }
+                    .pvc_price{
+                        span{
+                            font-size: 20px;
+                            font-weight: 500;
+                        }
+                    }
+                }
+            
+            }
+            .pvd_features{
+
+                .features_list_warpper{
+                    .features_list{
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
 /* ========================================
           Responsive
 ==========================================*/
@@ -529,7 +795,7 @@ input[type="radio"]:checked+label::before {
 
     #wrapper {
         margin-left: 40px;
-        width: calc(100% - 30%);
+        width: calc(100% - 303px)
     }
 
     .left_inner_menu {

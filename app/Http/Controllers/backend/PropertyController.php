@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PropertyController
 {
@@ -55,7 +56,7 @@ class PropertyController
                 $property = Property::find($property_id);
                 if ($property) {
                     // Log the data before updating
-                    \Log::info('Updating property with ID ' . $property_id, $validatedData);
+                    Log::info('Updating property with ID ' . $property_id, $validatedData);
                     $validatedData['video_url'] = $request->video_url ?: null;
                     $validatedData['step'] = $request->step;
                     $property->update($validatedData);
@@ -66,7 +67,7 @@ class PropertyController
                 // Create new property only on the first step
                 if ($request->step == 1) {
                     // Log the data before creation
-                    \Log::info('Creating new property', $validatedData);
+                    Log::info('Creating new property', $validatedData);
                     $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'step' => $request->step]));
                     // session()->forget('current_step');
                     // $property = Property::create(array_merge($validatedData, ['added_by' => $userId]));
@@ -111,7 +112,7 @@ class PropertyController
                 $property = Property::find($property_id);
                 if ($property) {
                     // Log the data before updating
-                    \Log::info('Updating property with ID ' . $property_id, $validatedData);
+                    Log::info('Updating property with ID ' . $property_id, $validatedData);
                     //update step
                     $validatedData['quick_step'] = $request->step;
                     $property->update($validatedData);
@@ -121,7 +122,7 @@ class PropertyController
                 // Create new property only empty property id
                 if (empty($property_id)) {
                     $validatedData['quick_step'] = $request->step;
-                    \Log::info('Creating new property', $validatedData);
+                    Log::info('Creating new property', $validatedData);
                     $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id()]));
                     // $request->session()->put('property_id', $property->id);
                     // session()->forget('property_id');
@@ -443,7 +444,7 @@ class PropertyController
                     'is_gas' => 'required   ',
                 ];
             case 8:
-                return [                    
+                return [
                     // Validate that 'photos' is a comma-separated list of integers (file IDs)
                     'photos' => 'nullable|string',  // The input is a string of IDs
                     'photos.*' => 'nullable|integer|exists:uploads,id', // Validate each ID
@@ -451,7 +452,7 @@ class PropertyController
                     // Validate that 'floor_plan' is a comma-separated list of integers (file IDs)
                     'floor_plan' => 'nullable|string',  // The input is a string of IDs
                     'floor_plan.*' => 'nullable|integer|exists:uploads,id', // Validate each ID
-                    
+
                     // Validate that 'view_360' is a comma-separated list of integers (file IDs)
                     'view_360' => 'nullable|string',  // The input is a string of IDs, we’ll split it into an array later
                     'view_360.*' => 'nullable|integer|exists:uploads,id', // Validate each ID
@@ -459,7 +460,7 @@ class PropertyController
                     // 'photos.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For multiple photos
                     // 'floor_plan.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For the floor plan
                     // 'view_360.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For 360 view
-                    'video_url' => 'nullable|url|max:255', // For the video URL                    
+                    'video_url' => 'nullable|url|max:255', // For the video URL
                 ];
             case 9:
                 return [

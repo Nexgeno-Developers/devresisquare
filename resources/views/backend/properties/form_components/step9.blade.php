@@ -37,7 +37,7 @@
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-        
+
         <div class="form-group">
             <label for="commission_percentage">Commission (%)</label>
             <input required type="text" name="commission_percentage" id="commission_percentage" class="form-control" value="{{ (isset($property) && $property->commission_percentage) ? $property->commission_percentage : '' }}">
@@ -48,7 +48,10 @@
 
         <div class="form-group">
             <label for="commission_amount">Commission (£)</label>
-            <input required type="text" name="commission_amount" id="commission_amount" class="form-control" value="{{ (isset($property) && $property->commission_amount) ? $property->commission_amount : '' }}">
+            <div class="price_input_wrapper">
+                <div class="pound_sign">£</div>
+                <input required type="text" name="commission_amount" id="commission_amount" class="form-control" value="{{ (isset($property) && $property->commission_amount) ? $property->commission_amount : '' }}">
+            </div>
             @error('commission_amount')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -60,7 +63,7 @@
             </div>
             <div class="col-12 col-md-6">
                 <button type="submit" class="btn btn-primary w-100 last-step-submit" data-current-step="9">Submit</button>
-        </div> 
-    </div> 
+        </div>
+    </div>
 
 </form>

@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="app-url" content="{{ getBaseURL() }}">
 	<meta name="file-base-url" content="{{ getFileBaseURL() }}">
-    
+
     <!-- Use asset() to generate the correct URL -->
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
@@ -98,8 +98,8 @@
         }
 	</script>
     <script src="{{ asset('asset/backend/js/aiz-core.js') }}"></script>
-    @yield('page.scripts') 
-    @yield('quickstepform.scripts') 
+    @yield('page.scripts')
+    @yield('quickstepform.scripts')
     <script>
         $(document).ready(function () {
             @if(session('error'))

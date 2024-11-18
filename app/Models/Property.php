@@ -67,9 +67,9 @@ class Property extends Model
     ];
     protected $casts = [
         'market_on' => 'json',
-        'photos' => 'json',
-        'floor_plan' => 'json',
-        'view_360' => 'json',
+        // 'photos' => 'json',
+        // 'floor_plan' => 'json',
+        // 'view_360' => 'json',
         // 'video_url' => 'array',
     ];
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Backend\AuthenticateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Backend\AizUploadController;
 
 // Group for web routes
 Route::group(['middleware' => 'web'], function () {
@@ -25,4 +26,23 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 // Optional: Redirect from '/admin' to the login page if not authenticated
 Route::get('/admin', function () {
     return redirect(route('backend.login'));
+});
+
+
+// AIZ Uploader
+Route::controller(AizUploadController::class)->group(function () {
+    Route::post('/aiz-uploader', 'show_uploader');
+    Route::post('/aiz-uploader/upload', 'upload');
+    Route::get('/aiz-uploader/get_uploaded_files', 'get_uploaded_files');
+    Route::post('/aiz-uploader/get_file_by_ids', 'get_preview_files');
+    Route::get('/aiz-uploader/download/{id}', 'attachment_download')->name('download_attachment');
+});
+
+// uploaded files
+Route::resource('/uploaded-files', AizUploadController::class);
+Route::controller(AizUploadController::class)->group(function () {
+    Route::any('/uploaded-files/file-info', 'file_info')->name('uploaded-files.info');
+    Route::get('/uploaded-files/destroy/{id}', 'destroy')->name('uploaded-files.destroy');
+    Route::post('/bulk-uploaded-files-delete', 'bulk_uploaded_files_delete')->name('bulk-uploaded-files-delete');
+    Route::get('/all-file', 'all_file');
 });

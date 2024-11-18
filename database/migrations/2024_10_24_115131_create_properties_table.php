@@ -53,9 +53,12 @@ return new class extends Migration {
             $table->integer('length_of_lease')->nullable();
             $table->string('epc_rating')->nullable();
             $table->boolean('is_gas')->nullable();
-            $table->json('photos')->nullable(); // Stores multiple photo URLs as JSON array
-            $table->json('floor_plan')->nullable(); // Stores multiple floor plan URLs as JSON array
-            $table->json('view_360')->nullable(); // Stores multiple 360-view URLs if needed
+            $table->string('photos', 2000)->nullable();
+            $table->string('floor_plan', 2000)->nullable();
+            $table->string('view_360', 2000)->nullable();   
+            // $table->json('photos')->nullable(); // Stores multiple photo URLs as JSON array
+            // $table->json('floor_plan')->nullable(); // Stores multiple floor plan URLs as JSON array
+            // $table->json('view_360')->nullable(); // Stores multiple 360-view URLs if needed
             $table->string('video_url', 255)->nullable(); // Stores multiple video URLs if needed            
             $table->string('designation')->nullable();
             $table->string('branch')->nullable();

@@ -46,3 +46,8 @@ Route::controller(AizUploadController::class)->group(function () {
     Route::post('/bulk-uploaded-files-delete', 'bulk_uploaded_files_delete')->name('bulk-uploaded-files-delete');
     Route::get('/all-file', 'all_file');
 });
+
+
+Route::get('/helper', function () {
+    return view('helper');
+});

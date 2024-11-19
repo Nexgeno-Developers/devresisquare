@@ -83,6 +83,28 @@ body.show-sidebar #menu {
 }
 
 /* ========================================
+          Common
+==========================================*/
+a, a:hover{text-decoration: none !important ;}
+
+.rs_search{
+    border: 1px solid var(--primary-200);
+    border-radius: 6px;
+    padding: 2px 16px;
+    display: flex;
+    align-items: center;
+    input{
+        border: unset;
+        &:focus,
+        &:focus-visible{
+            border: unset;
+            outline: unset;
+        }
+    }
+}
+
+
+/* ========================================
           Sdebar
 ==========================================*/
 

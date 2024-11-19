@@ -1,40 +1,6 @@
 @extends('backend.layout.app')
 
 @section('content')
-@php 
-    $properties = [
-        [
-        'name' => '169-173 Portland Rd, Hove, East Sussex, BN3 5QJ',
-        'bed'=>'2',
-        'bath'=>'1',
-        'floor'=>'20',
-        'living'=>'2',
-        'type'=>'Apartment',
-        'available'=>'02/08/25',
-        'price'=>'3000',
-        ],
-        [
-        'name' => '456-854 Portland Rd, Hove, East Sussex, BN3 5QJ',
-        'bed'=>'2',
-        'bath'=>'2',
-        'floor'=>'5',
-        'living'=>'2',
-        'type'=>'Apartment',
-        'available'=>'02/08/25',
-        'price'=>'3000',
-        ],
-        [
-        'name' => '254-365 Portland Rd, Hove, East Sussex, BN3 5QJ',
-        'bed'=>'1',
-        'bath'=>'1',
-        'floor'=>'8',
-        'living'=>'2',
-        'type'=>'Apartment',
-        'available'=>'02/08/25',
-        'price'=>'3000',
-        ],
-    ];
-@endphp
 
 <div class="row">
     <div class="col-lg-5">
@@ -57,13 +23,13 @@
                 @foreach ($properties as $property)
                 <x-backend.property-card 
                     class=""
-                    propertyName="{{$property['name']}}"
-                    bed="{{$property['bed']}}"
-                    bath="{{$property['bath']}}"
+                    propertyName="{{$property['prop_name'].' '.$property['line1'].' '.$property['line2'].' '.$property['city']}}"
+                    bed="{{$property['bedroom']}}"
+                    bath="{{$property['bathroom']}}"
                     floor="{{$property['floor']}}"
-                    living="{{$property['living']}}"
-                    type="{{$property['type']}}"
-                    available="{{$property['available']}}"
+                    living="{{$property['reception']}}"
+                    type="{{$property['property_type']}}"
+                    available="{{$property['available_from']}}"
                     price="{{$property['price']}}"
                 />
                 @endforeach
@@ -109,7 +75,7 @@
                         <x-backend.outline-link-button 
                             class=""
                             name="Edit Property"
-                            link="{{ route('admin.properties.quick') }}"
+                            link="{{ route('admin.properties.edit', ['id' => $property->id]) }}"
                             onClick=""
                         />
                     </div>

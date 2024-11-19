@@ -3,6 +3,10 @@
 
 <head>
     <title>Backend Dashboard</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+	<meta name="app-url" content="{{ getBaseURL() }}">
+	<meta name="file-base-url" content="{{ getFileBaseURL() }}">
+    
     <!-- Use asset() to generate the correct URL -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -10,6 +14,9 @@
     <link href="{{ asset('asset/css/toastr.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/main-style.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/backend/css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{{ asset('asset/backend/css/aiz-core.css') }}" rel="stylesheet">
+    <link href="{{ asset('asset/backend/css/vendors.css') }}" rel="stylesheet">
 </head>
 
 <body class="show-sidebar">
@@ -55,14 +62,43 @@
     </div>
 
     <!-- Use asset() to generate the correct URL for JS files -->
+
     <script src="{{ asset('asset/js/jquery.min.js') }}"></script>
+
     <script src="{{ asset('asset/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('asset/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('asset/js/toastr.min.js') }}"></script>
     <script src="{{ asset('asset/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('asset/backend/js/Init.js') }}"></script>
+    <script src="{{ asset('asset/backend/js/vendors.js') }}"></script>
     <script src="{{ asset('asset/backend/js/style.js') }}"></script>
     <!-- <script src="{{ asset('asset/js/dataTables.bootstrap5.min.js') }}"></script> -->
+    <script>
+    	var AIZ = AIZ || {};
+        AIZ.local = {
+            nothing_selected: 'Nothing selected',
+            nothing_found: 'Nothing found',
+            choose_file: 'Choose File',
+            file_selected: 'File selected',
+            files_selected: 'Files selected',
+            add_more_files: 'Add more files',
+            adding_more_files: 'Adding more files',
+            drop_files_here_paste_or: 'Drop files here, paste or',
+            browse: 'Browse',
+            upload_complete: 'Upload complete',
+            upload_paused: 'Upload paused',
+            resume_upload: 'Resume upload',
+            pause_upload: 'Pause upload',
+            retry_upload: 'Retry upload',
+            cancel_upload: 'Cancel upload',
+            uploading: 'Uploading',
+            processing: 'Processing',
+            complete: 'Complete',
+            file: 'File',
+            files: 'Files',
+        }
+	</script>
+    <script src="{{ asset('asset/backend/js/aiz-core.js') }}"></script>
     @yield('page.scripts') 
     @yield('quickstepform.scripts') 
     <script>

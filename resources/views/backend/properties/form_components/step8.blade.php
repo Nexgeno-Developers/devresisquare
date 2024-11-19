@@ -9,7 +9,8 @@
     <label class="main_title">Media</label>
 
     <div class="steps_wrapper" data-step-name="Media" data-step-number="8" data-step-title="Media">
-
+{{--
+<!-- old-code -->
         <div class="form-group rs_upload_btn">
             <h5 class="sub_title mt-4">Photos</h5>
             <div class="media_wrapper">
@@ -35,60 +36,75 @@
             </div>
         </div>
 
+        <!-- aiz-uploader  -->
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="signinSrEmail">Gallery Images</label>
+            <div class="col-md-8">
+                <div class="input-group" data-toggle="aizuploader" data-type="image" data-multiple="true">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text bg-soft-secondary font-weight-medium">Browse</div>
+                    </div>
+                    <div class="form-control file-amount">Choose File</div>
+                    <input id="sort-the-photo" type="hidden" name="photos" value="" class="selected-files">
+                </div>
+                <div id="sort-photo" class="file-preview box sm">
+                </div>
+            </div>
+        </div>
+
+--}}
+        <div class="form-group rs_upload_btn">
+            <h5 class="sub_title mt-4">Photos</h5>
+            <div class="media_wrapper">
+                <div class="input-group" data-toggle="aizuploader" data-type="image" data-multiple="true">
+                    <label class="col-form-label" for="signinSrEmail">Photos</label>
+                    <div class="d-none input-group-prepend">
+                        <div class="input-group-text bg-soft-secondary font-weight-medium">Browse</div>
+                    </div>
+                    <div class="d-none form-control file-amount">Choose File</div>
+                    <input id="sort-the-photo" type="hidden" name="photos" value="{{ isset($property) && isset($property->photos) ? $property->photos : '' }}" class="selected-files">
+                </div>
+                <div class="d-flex gap-3 file-preview box sm">
+                </div>
+            </div>
+        </div>
+
         <div class="form-group rs_upload_btn">
             <h5 class="sub_title mt-4">Floor Plan</h5>
             <div class="media_wrapper">
-                <div class="media_content">
-                    <div class="image_wrapper">
-                        <!-- Preview images will be dynamically added here -->
+                <div class="input-group" data-toggle="aizuploader" data-type="image" data-multiple="true">
+                    <label for="floor_plan">Upload Floor Plan Photos</label>
+                    <div class="d-none input-group-prepend">
+                        <div class="input-group-text bg-soft-secondary font-weight-medium">Browse</div>
                     </div>
-                    <div class="media_upload">
-                        <label for="floor_plan">Upload Floor Plan Photos</label>
-                        <input type="file" name="floor_plan[]" id="floor_plan" class="form-control" multiple accept="image/*"
-                            onchange="previewMultipleImage(this)">
-                        @error('floor_plan.*')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    
+                    <div class="d-none form-control file-amount">Choose File</div>
+                    <input id="sort-the-photo" type="hidden" name="floor_plan" value="{{ isset($property) && isset($property->floor_plan) ? $property->floor_plan : '' }}" class="selected-files">
                 </div>
-                @if($property && $property->floor_plan)
-                    @foreach(json_decode($property->floor_plan) as $floor_planPath)
-                        <img src="{{ asset('storage/' . $floor_planPath) }}" alt="Uploaded Photo" width="100">
-                    @endforeach
-                @endif
+                <div class="d-flex gap-3 file-preview box sm">
+                </div>
             </div>
         </div>
 
         <div class="form-group rs_upload_btn">
             <h5 class="sub_title mt-4">View 360</h5>
             <div class="media_wrapper">
-                
-                <div class="media_content">
-                    <div class="image_wrapper">
-                        <!-- Preview images will be dynamically added here -->
+                <div class="input-group" data-toggle="aizuploader" data-type="image" data-multiple="true">
+                    <label for="view_360">Upload 360 View Photos</label>
+                    <div class="d-none input-group-prepend">
+                        <div class="input-group-text bg-soft-secondary font-weight-medium">Browse</div>
                     </div>
-                    <div class="media_upload">
-                        <label for="view_360">Upload 360 View Photos</label>
-                        <input type="file" name="view_360[]" id="view_360" class="form-control" multiple accept="image/*"
-                            onchange="previewMultipleImage(this)">
-                        @error('view_360.*')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <div class="d-none form-control file-amount">Choose File</div>
+                    <input id="sort-the-photo" type="hidden" name="view_360" value="{{ isset($property) && isset($property->view_360) ? $property->view_360 : '' }}" class="selected-files">
                 </div>
-                @if($property && $property->view_360)
-                    @foreach(json_decode($property->view_360) as $view_360Path)
-                        <img src="{{ asset('storage/' . $view_360Path) }}" alt="Uploaded Photo" width="100">
-                    @endforeach
-                @endif
+                <div class="d-flex gap-3 file-preview box sm">
+                </div>
             </div>
         </div>
 
         <div class="form-group rs_upload_btn">
             <h5 class="sub_title mt-4">Video URL</h5>
             <label for="video_url">Video URL</label>
-            <input type="url" name="video_url" id="video_url" class="form-control" value="{{ isset($property) && $property->video_url ? $property->video_url : '' }}">
+            <input required type="url" name="video_url" id="video_url" class="form-control" value="{{ isset($property) && $property->video_url ? $property->video_url : '' }}">
             @error('video_url')
                 <div class="text-danger">{{ $message }}</div>
             @enderror

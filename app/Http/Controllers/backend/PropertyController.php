@@ -443,12 +443,23 @@ class PropertyController
                     'is_gas' => 'required   ',
                 ];
             case 8:
-                return [
-                    'photos.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For multiple photos
-                    'floor_plan.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For the floor plan
-                    'view_360.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For 360 view
-                    'video_url' => 'nullable|url|max:255', // For the video URL
-                    // 'video_url' => 'nullable|url|max:255', // For the video URL
+                return [                    
+                    // Validate that 'photos' is a comma-separated list of integers (file IDs)
+                    'photos' => 'nullable|string',  // The input is a string of IDs
+                    'photos.*' => 'nullable|integer|exists:uploads,id', // Validate each ID
+
+                    // Validate that 'floor_plan' is a comma-separated list of integers (file IDs)
+                    'floor_plan' => 'nullable|string',  // The input is a string of IDs
+                    'floor_plan.*' => 'nullable|integer|exists:uploads,id', // Validate each ID
+                    
+                    // Validate that 'view_360' is a comma-separated list of integers (file IDs)
+                    'view_360' => 'nullable|string',  // The input is a string of IDs, we’ll split it into an array later
+                    'view_360.*' => 'nullable|integer|exists:uploads,id', // Validate each ID
+
+                    // 'photos.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For multiple photos
+                    // 'floor_plan.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For the floor plan
+                    // 'view_360.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For 360 view
+                    'video_url' => 'nullable|url|max:255', // For the video URL                    
                 ];
             case 9:
                 return [

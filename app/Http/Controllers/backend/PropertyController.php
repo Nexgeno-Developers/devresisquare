@@ -298,7 +298,7 @@ class PropertyController
     public function showSoftDeletedProperties()
     {
         $properties = Property::onlyTrashed()->get(); // Fetch only soft-deleted properties
-
+        // flash("You don't have permission for deleting this!")->error();
         return view('backend.properties.deleted', compact('properties'));
     }
 
@@ -308,12 +308,13 @@ class PropertyController
         $property = Property::withTrashed()->findOrFail($id);
         $property->restore();
 
-        $response = [
-            'status' => true,
-            'message' => 'Property restored successfully!',
-        ];
-
-        return back()->with('success', $response['message']);
+        // $response = [
+        //     'status' => true,
+        //     'message' => 'Property restored successfully!',
+        // ];
+        flash("Restored successfully")->success();
+        return back();
+        // return back()->with('success', $response['message']);
         //return redirect()->route('admin.properties.index')->with('success', $response['message']);
 
         //return redirect()->route('admin.properties.index')->with('success', 'Property restored successfully.');

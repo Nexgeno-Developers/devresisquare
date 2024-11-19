@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Models\Upload;
-use Response;
-use Auth;
-use Storage;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-
 
 class AizUploadController
 {
     public function index(Request $request)
     {
+        $user = current_user();
 
-        $all_uploads = (auth()->user()->user_type == 'seller') ? Upload::where('user_id', auth()->user()->id) : Upload::query();
+        $all_uploads = ($user->user_type == 'seller') ? Upload::where('user_id', $user->id) : Upload::query();
         $search = null;
         $sort_by = null;
 
@@ -46,14 +46,15 @@ class AizUploadController
         $all_uploads = $all_uploads->paginate(60)->appends(request()->query());
 
 
-        return (auth()->user()->user_type == 'seller')
+        return ($user->user_type == 'seller')
             ? view('seller.uploads.index', compact('all_uploads', 'search', 'sort_by'))
             : view('backend.uploaded_files.index', compact('all_uploads', 'search', 'sort_by'));
     }
 
     public function create()
     {
-        return (auth()->user()->user_type == 'seller')
+        $user = current_user();
+        return ($user->user_type == 'seller')
             ? view('seller.uploads.create')
             : view('backend.uploaded_files.create');
     }
@@ -124,7 +125,7 @@ class AizUploadController
                         $upload->file_original_name .= "." . $arr[$i];
                     }
                 }
-                
+
                 // $path = $request->file('aiz_file')->store('uploads/all', 'local');
                 $path = $request->file('aiz_file')->store('uploads/all', 'public');
                 $size = $request->file('aiz_file')->getSize();
@@ -213,8 +214,8 @@ class AizUploadController
     public function destroy($id)
     {
         $upload = Upload::findOrFail($id);
-
-        if (auth()->user()->user_type == 'seller' && $upload->user_id != auth()->user()->id) {
+        $user = current_user();
+        if ($user->user_type == 'seller' && $upload->user_id != $user->id) {
             flash("You don't have permission for deleting this!")->error();
             return back();
         }
@@ -311,8 +312,8 @@ class AizUploadController
     public function file_info(Request $request)
     {
         $file = Upload::findOrFail($request['id']);
-
-        return (auth()->user()->user_type == 'seller')
+        $user = current_user();
+        return ($user->user_type == 'seller')
             ? view('seller.uploads.info', compact('file'))
             : view('backend.uploaded_files.info', compact('file'));
     }

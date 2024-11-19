@@ -98,6 +98,11 @@
         }
 	</script>
     <script src="{{ asset('asset/backend/js/aiz-core.js') }}"></script>
+    <script>
+        @foreach (session('flash_notification', collect())->toArray() as $message)
+            AIZ.plugins.notify('{{ $message['level'] }}', '{{ $message['message'] }}');
+        @endforeach
+    </script>
     @yield('page.scripts')
     @yield('quickstepform.scripts')
     <script>

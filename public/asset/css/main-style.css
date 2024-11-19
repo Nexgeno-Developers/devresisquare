@@ -118,7 +118,7 @@ a.btn{
     border-color: var(--primary-bg-dark);
     border: unset;
 }
-.btn-primary {
+.btn_primary {
     --bs-btn-color: #fff !important;
     --bs-btn-bg: var(--primary-bg) !important;
     --bs-btn-border-color: var(--primary-bg) !important;
@@ -154,7 +154,7 @@ a.btn{
     border: unset;
 }
 
-.btn-secondary:hover {
+.btn_secondary:hover {
     background-color: var(--secondary-bg-dark) !important;
     border-color: var(--secondary-bg-dark) !important;
     border: unset !important;

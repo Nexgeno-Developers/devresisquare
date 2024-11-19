@@ -13,12 +13,16 @@
                         placeholder="Search"
                         onclick=""
                     />
+                    
                 <div class="pv_btn">
-                    <x-backend.link-button 
+                    <x-backend.main-button
                         class=""
                         name="Add Property"
+                        type="secondary"
+                        size="sm"
+                        isLinkBtn={{false}}
                         link="{{ route('admin.properties.quick') }}"
-                        onClick=""
+                        onclick=""
                     />
                 </div>
             </div>
@@ -77,6 +81,16 @@
                             link="{{ route('admin.properties.quick') }}"
                             onClick=""
                         />
+                        <x-backend.main-button
+                            class=""
+                            name="Add Property"
+                            type="secondary"
+                            size="sm"
+                            isLinkBtn={{true}}
+                            link="{{ route('admin.properties.quick') }}"
+                            onclick=""
+                        />
+
                         <x-backend.outline-link-button 
                             class=""
                             name="Edit Property"

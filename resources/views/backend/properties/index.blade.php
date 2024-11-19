@@ -24,7 +24,7 @@
                 @foreach ($properties as $property)
                 <x-backend.property-card
                     class=""
-                    propertyName="{{$property['prop_name']}}"
+                    propertyName="{{$property['prop_name'].' '.$property['line1'].' '.$property['line2'].' '.$property['city']}}"
                     bed="{{$property['bedroom']}}"
                     bath="{{$property['bathroom']}}"
                     floor="{{$property['floor']}}"
@@ -77,7 +77,7 @@
                         <x-backend.outline-link-button
                             class=""
                             name="Edit Property"
-                            link="{{ route('admin.properties.quick') }}"
+                            link="{{ route('admin.properties.edit', ['id' => $property->id]) }}"
                             onClick=""
                         />
                     </div>

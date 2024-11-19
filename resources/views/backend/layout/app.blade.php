@@ -4,6 +4,7 @@
 <head>
     <title>Backend Dashboard</title>
     <!-- Use asset() to generate the correct URL -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/toastr.min.css') }}" rel="stylesheet">

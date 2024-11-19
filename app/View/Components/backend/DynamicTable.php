@@ -6,14 +6,13 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Table extends Component
+class DynamicTable extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
+    public $headers, $rows;
+    public function __construct(array $headers, array $rows)
     {
-        //
+        $this->headers = $headers;
+        $this->rows = $rows;
     }
 
     /**

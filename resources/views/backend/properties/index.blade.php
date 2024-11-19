@@ -66,7 +66,17 @@
                     <li> <a href="" class=""> Note </a></li>
                 </ul>
             </div>
-            <x-backend.table />
+            {{-- table  compoent start--}}
+            @php 
+                $headers = ['id','Name', 'Position', 'Phone', 'email', 'City']; 
+                $rows = [ 
+                    ['id' => 1, 'name'=> 'John Doe', 'postion'=>'Owner', 'phone'=> '456798462', 'email'=> 'john@example.com', 'city'=> 'London' ], 
+                    ['id' => 2, 'name'=> 'Jane Smith', 'postion'=>'Owner', 'phone'=> '974511268', 'email'=> 'jane@example.com', 'city'=> 'Mumbair' ], 
+                    ['id' => 3, 'name'=>  'Jack Johnson',  'postion'=>'Landlord','phone'=>  '14563278','email'=> 'jack@example.com', 'city'=> 'Canada' ], 
+                ];
+            @endphp
+            <x-backend.dynamic-table :headers="$headers" :rows="$rows" />
+            {{-- table  compoent end--}}
             <div class="pv_detail_content">
                 <div class="pv_detail_header">
                     <div class="pv_main_title">Property Detail</div>

@@ -103,6 +103,53 @@ a, a:hover{text-decoration: none !important ;}
     }
 }
 
+.table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+.rs_table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--primary-300);
+        text-align: left;
+    }
+    th {
+            background-color: var(--primary-100);
+        }
+        @media (max-width: 600px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+        th {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        tr {
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+        }
+        td {
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+        td:before {
+            content: attr(data-label);
+            position: absolute;
+            left: 10px;
+            font-weight: bold;
+        }
+    }
+}
+
+
+
 /* ========================================
           Sdebar
 ==========================================*/

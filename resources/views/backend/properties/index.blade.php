@@ -65,6 +65,7 @@
                     <li> <a href="" class=""> Note </a></li>
                 </ul>
             </div>
+            <x-backend.table />
             <div class="pv_detail_content">
                 <div class="pv_detail_header">
                     <div class="pv_main_title">Property Detail</div>

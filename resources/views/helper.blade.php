@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/main-style.css') }}" rel="stylesheet">
-    <link href="{{ asset('asset/css/backend/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('asset/backend/css/style.css') }}" rel="stylesheet">
     <title>Help Document</title>
 
     <style>
@@ -79,7 +79,7 @@
                 </blockquote>
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
-                        <div class="">
+                        <div class="" >
                             <h6>Primary Link Button</h6>
                             <x-backend.main-button
                                 class=""
@@ -89,9 +89,9 @@
                                 isOutline="{{false}}"
                                 isLinkBtn={{false}}
                                 link="https://#"
-                                onclick=""
+                                onClick="copyHtml()"
                             />
-                            <xmp>
+                            <xmp id="primary_btn">
                             < x-backend.main-button
                                 class=""
                                 name="Primary"
@@ -228,5 +228,40 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function copyHtml() { 
+            // Create a temporary element 
+            const tempElement = document.createElement('div');
+            tempElement.innerHTML = document.getElementById('primary_btn').innerHTML;
+
+            // Append the temporary element to the body
+            document.body.appendChild(tempElement);
+
+            // Select the content
+            if (document.createRange && window.getSelection) {
+                const range = document.createRange();
+                range.selectNodeContents(tempElement);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+                // Execute the copy command 
+                try {
+                    document.execCommand('copy');
+                    alert('HTML content copied!');
+                } catch (err) {
+                    alert('Unable to copy HTML content.');
+                }
+
+                // Cleanup
+                selection.removeAllRanges();
+            }
+            // Remove the temporary element
+            document.body.removeChild(tempElement);
+
+        } 
+        </script>
+        </script>
 </body>
 </html>

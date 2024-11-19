@@ -1,40 +1,7 @@
 @extends('backend.layout.app')
 
 @section('content')
-@php 
-    $properties = [
-        [
-        'name' => '169-173 Portland Rd, Hove, East Sussex, BN3 5QJ',
-        'bed'=>'2',
-        'bath'=>'1',
-        'floor'=>'20',
-        'living'=>'2',
-        'type'=>'Apartment',
-        'available'=>'02/08/25',
-        'price'=>'3000',
-        ],
-        [
-        'name' => '456-854 Portland Rd, Hove, East Sussex, BN3 5QJ',
-        'bed'=>'2',
-        'bath'=>'2',
-        'floor'=>'5',
-        'living'=>'2',
-        'type'=>'Apartment',
-        'available'=>'02/08/25',
-        'price'=>'3000',
-        ],
-        [
-        'name' => '254-365 Portland Rd, Hove, East Sussex, BN3 5QJ',
-        'bed'=>'1',
-        'bath'=>'1',
-        'floor'=>'8',
-        'living'=>'2',
-        'type'=>'Apartment',
-        'available'=>'02/08/25',
-        'price'=>'3000',
-        ],
-    ];
-@endphp
+
 
 <div class="row">
     <div class="col-lg-5">
@@ -43,7 +10,7 @@
                 <div class="pv_title">Properties</div>
                 <div class="pv_search">search</div>
                 <div class="pv_btn">
-                    <x-backend.link-button 
+                    <x-backend.link-button
                         class=""
                         name="Add Property"
                         link="{{ route('admin.properties.quick') }}"
@@ -55,15 +22,16 @@
             <div class="pv_card_wrapper">
                 {{-- Dev Note: if select property from list add class 'current' to property card --}}
                 @foreach ($properties as $property)
-                <x-backend.property-card 
+                <x-backend.property-card
                     class=""
-                    propertyName="{{$property['name']}}"
-                    bed="{{$property['bed']}}"
-                    bath="{{$property['bath']}}"
+                    propertyName="{{$property['prop_name']}}"
+                    bed="{{$property['bedroom']}}"
+                    bath="{{$property['bathroom']}}"
                     floor="{{$property['floor']}}"
-                    living="{{$property['living']}}"
-                    type="{{$property['type']}}"
-                    available="{{$property['available']}}"
+                    living="{{$property['reception']}}"
+                    {{-- living="{{$property['living']}}" --}}
+                    type="{{$property['property_type']}}"
+                    available="{{$property['available_from']}}"
                     price="{{$property['price']}}"
                 />
                 @endforeach
@@ -94,19 +62,19 @@
                 <div class="pv_detail_header">
                     <div class="pv_main_title">Property Detail</div>
                     <div class="pvdh_btns_wrapper">
-                        <x-backend.link-button 
+                        <x-backend.link-button
                             class=""
                             name="Add Tenancy"
                             link="{{ route('admin.properties.quick') }}"
                             onClick=""
                         />
-                        <x-backend.link-button 
+                        <x-backend.link-button
                             class=""
                             name="Add Offer"
                             link="{{ route('admin.properties.quick') }}"
                             onClick=""
                         />
-                        <x-backend.outline-link-button 
+                        <x-backend.outline-link-button
                             class=""
                             name="Edit Property"
                             link="{{ route('admin.properties.quick') }}"
@@ -115,7 +83,7 @@
                     </div>
                 </div>
                 <div class="pv_content_detail">
-                    
+
                     <div class="pvd_content_wrapper">
                         <div class="pv_image">
                             <img src="{{ asset('/asset/images/temp-property.webp') }}" alt="property">
@@ -158,7 +126,7 @@
                                 </div>
                             </div>
                             {{-- rs_row end  --}}
-                            
+
                         </div>
                         {{-- pv_content end  --}}
                     </div>

@@ -1,5 +1,8 @@
 <?php
 // app/helpers.php
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 if (!function_exists('getPoundSymbol')) {
     function getPoundSymbol()
@@ -14,7 +17,7 @@ if (!function_exists('uploaded_asset')) {
         $asset = Cache::rememberForever('uploaded_asset_'.$id , function() use ($id) {
             return \App\Models\Upload::find($id);
         });
-        
+
         if ($asset != null) {
             return $asset->external_link == null ? my_asset($asset->file_name) : $asset->external_link;
         }
@@ -89,3 +92,14 @@ if (!function_exists('getFileBaseURL')) {
     }
 }
 
+if (!function_exists('current_user')) {
+    /**
+     * Get the currently authenticated user.
+     *
+     * @return \App\Models\User|null
+     */
+    function current_user()
+    {
+        return \App\Models\User::find(Auth::id());
+    }
+}

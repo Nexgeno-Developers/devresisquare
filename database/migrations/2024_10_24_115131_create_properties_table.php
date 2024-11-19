@@ -34,15 +34,15 @@ return new class extends Migration {
             $table->decimal('square_meter', 10, 4)->nullable();
             $table->string('aspects')->nullable();
             $table->string('current_status')->nullable();
-            $table->text('status_description')->nullable();
+            $table->string('status_description',555)->nullable();
             $table->date('available_from')->nullable();
             $table->json('market_on')->nullable();
             $table->json('features')->nullable(); // Stores multiple photo URLs as JSON array
-            $table->string('furniture')->nullable();
-            $table->string('kitchen')->nullable();
-            $table->string('heating_cooling')->nullable();
-            $table->string('safety')->nullable();
-            $table->text('other')->nullable();
+            $table->string('furniture',555)->nullable();
+            $table->string('kitchen',555)->nullable();
+            $table->string('heating_cooling',555)->nullable();
+            $table->string('safety',555)->nullable();
+            $table->string('other',555)->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('ground_rent', 10, 2)->nullable();
             $table->decimal('service_charge', 10, 2)->nullable();
@@ -55,23 +55,23 @@ return new class extends Migration {
             $table->boolean('is_gas')->nullable();
             $table->string('photos', 2000)->nullable();
             $table->string('floor_plan', 2000)->nullable();
-            $table->string('view_360', 2000)->nullable();   
+            $table->string('view_360', 2000)->nullable();
             // $table->json('photos')->nullable(); // Stores multiple photo URLs as JSON array
             // $table->json('floor_plan')->nullable(); // Stores multiple floor plan URLs as JSON array
             // $table->json('view_360')->nullable(); // Stores multiple 360-view URLs if needed
-            $table->string('video_url', 255)->nullable(); // Stores multiple video URLs if needed            
+            $table->string('video_url', 255)->nullable(); // Stores multiple video URLs if needed
             $table->string('designation')->nullable();
             $table->string('branch')->nullable();
             $table->decimal('commission_percentage', 5, 2)->nullable();
             $table->decimal('commission_amount', 10, 2)->nullable();
-            $table->integer('step')->nullable();         
-            $table->integer('quick_step')->nullable();         
+            $table->integer('step')->nullable();
+            $table->integer('quick_step')->nullable();
             $table->foreignId('added_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });
-        
+
         // Schema::create('properties', function (Blueprint $table) {
         //     $table->id();
         //     $table->string('prop_name');
@@ -116,5 +116,5 @@ return new class extends Migration {
         'view_360' => 'array',
         // 'video_url' => 'array',
     ];
-    
+
 };

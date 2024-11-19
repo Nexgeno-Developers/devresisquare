@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('extension', 10)->nullable();
             $table->string('type', 15)->nullable();
             $table->string('external_link', 500)->nullable();
+            $table->softDeletes();
             $table->timestamps(); // Automatically adds created_at and updated_at
         });
     }

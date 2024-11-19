@@ -30,15 +30,16 @@
             <div class="pv_card_wrapper">
                 {{-- Dev Note: if select property from list add class 'current' to property card --}}
                 @foreach ($properties as $property)
-                <x-backend.property-card 
+                <x-backend.property-card
                     class=""
                     propertyName="{{$property['prop_name']}}"
                     bed="{{$property['bedroom']}}"
                     bath="{{$property['bathroom']}}"
                     floor="{{$property['floor']}}"
-                    living="{{$property['living']}}"
-                    type="{{$property['type']}}"
-                    available="{{$property['available']}}"
+                    living="{{$property['reception']}}"
+                    {{-- living="{{$property['living']}}" --}}
+                    type="{{$property['property_type']}}"
+                    available="{{$property['available_from']}}"
                     price="{{$property['price']}}"
                 />
                 @endforeach
@@ -70,13 +71,13 @@
                 <div class="pv_detail_header">
                     <div class="pv_main_title">Property Detail</div>
                     <div class="pvdh_btns_wrapper">
-                        <x-backend.link-button 
+                        <x-backend.link-button
                             class=""
                             name="Add Tenancy"
                             link="{{ route('admin.properties.quick') }}"
                             onClick=""
                         />
-                        <x-backend.link-button 
+                        <x-backend.link-button
                             class=""
                             name="Add Offer"
                             link="{{ route('admin.properties.quick') }}"
@@ -95,13 +96,13 @@
                         <x-backend.outline-link-button 
                             class=""
                             name="Edit Property"
-                            link="{{ route('admin.properties.quick') }}"
+                            link="{{ route('admin.properties.edit', ['id' => $property->id]) }}"
                             onClick=""
                         />
                     </div>
                 </div>
                 <div class="pv_content_detail">
-                    
+
                     <div class="pvd_content_wrapper">
                         <div class="pv_image">
                             <img src="{{ asset('/asset/images/temp-property.webp') }}" alt="property">
@@ -144,7 +145,7 @@
                                 </div>
                             </div>
                             {{-- rs_row end  --}}
-                            
+
                         </div>
                         {{-- pv_content end  --}}
                     </div>

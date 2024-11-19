@@ -85,6 +85,7 @@ body.show-sidebar #menu {
 /* ========================================
           Common
 ==========================================*/
+a, a:hover{text-decoration: none !important ;}
 
 .rs_search{
     border: 1px solid var(--primary-200);
@@ -768,14 +769,7 @@ input[type="radio"]:checked+label::before {
                 }
             
             }
-            .pvd_features{
-
-                .features_list_warpper{
-                    .features_list{
-
-                    }
-                }
-            }
+            
         }
     }
 }

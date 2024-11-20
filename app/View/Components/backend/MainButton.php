@@ -9,7 +9,7 @@ use Illuminate\View\Component;
 class MainButton extends Component
 {
     public $class, $name, $type, $size, $isOutline, $isLinkBtn, $link, $onClick;
-    public function __construct( $class, $name, $type = 'secondary', $size='sm', $isOutline=false, $isLinkBtn = false, $link = null, $onClick = null)
+    public function __construct($class=null, $name, $type = 'secondary', $size='sm', $isOutline=false, $isLinkBtn = false, $link = null, $onClick = null)
     {
         $this->class = $class;
         $this->name = $name;

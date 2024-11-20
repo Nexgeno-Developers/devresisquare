@@ -8,9 +8,9 @@ use Illuminate\View\Component;
 
 class PropertyCard extends Component
 {
-    public $class, $propertyName, $bed, $bath, $floor, $living, $price, $type, $available; 
+    public $class, $propertyName, $bed, $bath, $floor, $living, $price, $type, $available, $cardStyle; 
 
-    public function __construct($class, $propertyName, $bed, $bath, $floor, $living, $price, $type, $available) {
+    public function __construct($class=null, $propertyName, $bed, $bath, $floor, $living, $price, $type, $available, $cardStyle='horizontal') {
          $this->class = $class; 
          $this->propertyName = $propertyName; 
          $this->bed = $bed; 
@@ -21,6 +21,7 @@ class PropertyCard extends Component
          $this->price = $price; 
          $this->type = $type; 
          $this->available = $available; 
+         $this->cardStyle = $cardStyle;  // Vertical | Horizontal
         }
 
     /**

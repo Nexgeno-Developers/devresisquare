@@ -214,6 +214,7 @@
                                     type="Appartment"
                                     available="02/05/2025"
                                     price="6542"
+                                    cardStyle=""
                                 />
                             </div>
                             <blockquote>
@@ -227,6 +228,40 @@
                                 type="&#x2774;&#x2774; &#36;pproperty['property_type'] &#x2775;&#x2775;"
                                 available="&#x2774;&#x2774; &#36;pproperty['available_from'] &#x2775;&#x2775;"
                                 price="&#x2774;&#x2774; &#36;pproperty['price'] &#x2775;&#x2775;"
+                                cardStyle="" //for horizontal keep blank //
+                                /&gt;
+                           </blockquote>
+                        </div>
+                    </div>
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Property Vertical card</h6>
+                            <div class="pv_card_wrapper">
+                                <x-backend.property-card
+                                    class=""
+                                    propertyName="169-173 Portland Rd, Hove, East Sussex, BN3 5QJ"
+                                    bed="2"
+                                    bath="2"
+                                    floor="6"
+                                    living="1"
+                                    type="Appartment"
+                                    available="02/05/2025"
+                                    price="6542"
+                                    cardStyle="vertical"
+                                />
+                            </div>
+                            <blockquote>
+                            &lt;x-backend.property-card
+                                class=""
+                                propertyName="&#x2774;&#x2774; &#36;property['prop_name'] &#x2775;&#x2775;"
+                                bed="&#x2774;&#x2774; &#36;pproperty['bedroom'] &#x2775;&#x2775;"
+                                bath="&#x2774;&#x2774; &#36;pproperty['bathroom'] &#x2775;&#x2775;"
+                                floor="&#x2774;&#x2774; &#36;pproperty['floor'] &#x2775;&#x2775;"
+                                living="&#x2774;&#x2774; &#36;pproperty['reception'] &#x2775;&#x2775;"
+                                type="&#x2774;&#x2774; &#36;pproperty['property_type'] &#x2775;&#x2775;"
+                                available="&#x2774;&#x2774; &#36;pproperty['available_from'] &#x2775;&#x2775;"
+                                price="&#x2774;&#x2774; &#36;pproperty['price'] &#x2775;&#x2775;" 
+                                cardStyle="vertical" //for Vertical chnage only this //
                                 /&gt;
                            </blockquote>
                         </div>
@@ -235,13 +270,10 @@
             </div>
             <div class="h_section_wrapper" id="tables">
                 <h2>Tables</h2>
-                <blockquote>
-                    <p>"Headers" and "Rows" can be many by array data.</p>
-                </blockquote>
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
                         <div class="">
-                            <h6>Primary Link Button</h6>
+                            <h6>Responsive Table</h6>
                             {{-- table  compoent start--}}
                                 @php 
                                 $headers = ['id','Name', 'Position', 'Phone', 'email', 'City']; 
@@ -251,11 +283,7 @@
                                     ['id' => 3, 'name'=>  'Jack Johnson',  'postion'=>'Landlord','phone'=>  '14563278','email'=> 'jack@example.com', 'city'=> 'Canada' ], 
                                 ];
                             @endphp
-                            <x-backend.dynamic-table 
-                            :headers="$headers" 
-                            :rows="$rows" 
-                            class = ""
-                            />
+                            <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='' />
                             <blockquote>
                                 &lt;x-backend.dynamic-table 
                                     :headers="&#36;headers" 

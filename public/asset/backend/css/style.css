@@ -682,10 +682,18 @@ input[type="radio"]:checked+label::before {
 
     .pv_content_wrapper{
         display: flex;
+        flex-direction: row;
         gap: 16px;
         border: 1px solid var(--primary-300);
         border-radius: 6px;
         padding: 6px;
+        &.vertical_card{
+            flex-direction: column;
+            .pv_image{
+                width: unset;
+                height: unset;
+            }
+        }
         &.current{
             background-color: var(--primary-100);
         }

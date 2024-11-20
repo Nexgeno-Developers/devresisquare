@@ -1,4 +1,4 @@
-<table class="rs_table">
+<table class="rs_table {{ $class }}">
     <thead>
         <tr>
             @foreach($headers as $header)

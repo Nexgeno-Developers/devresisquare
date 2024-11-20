@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-5">
+    <div class="col-lg-5 col-12">
         <div class="pv_wrapper">
             <div class="pv_header">
                 <div class="pv_title">Properties</div>
@@ -20,7 +20,7 @@
                         name="Add Property"
                         type="secondary"
                         size="sm"
-                        isLinkBtn={{false}}
+                        isLinkBtn={{true}}
                         link="{{ route('admin.properties.quick') }}"
                         onclick=""
                     />
@@ -49,7 +49,7 @@
         </div>
         {{-- pv_wrapper end  --}}
     </div>
-    <div class="col-lg-7">
+    <div class="col-lg-7 col-12">
         <div class="pv_detail_wrapper">
             <div class="pv_tabs">
                 <ul>
@@ -93,15 +93,7 @@
                             link="{{ route('admin.properties.quick') }}"
                             onClick=""
                         />
-                        <x-backend.main-button
-                            class=""
-                            name="Add Property"
-                            type="secondary"
-                            size="sm"
-                            isLinkBtn={{true}}
-                            link="{{ route('admin.properties.quick') }}"
-                            onclick=""
-                        />
+
 
                         <x-backend.outline-link-button 
                             class=""

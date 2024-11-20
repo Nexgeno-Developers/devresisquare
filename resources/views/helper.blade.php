@@ -323,8 +323,8 @@
                         <div class="">
                             <h6>Dropdown Icon Button</h6>
                             @php 
-                            $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ]; 
-                            $selectedCountry = 'ca'; 
+                            $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ]; 
+                            $selectedCountry = 'edit'; 
                             @endphp
                             <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} />
                             <blockquote>

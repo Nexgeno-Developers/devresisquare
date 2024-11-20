@@ -149,7 +149,7 @@ a, a:hover{text-decoration: none !important ;}
 }
 
 .dropdown{
-    width: fit-content;
+    
     .rs_dropdown{
         border: 1px solid var(--primary-200);
         border-radius: 6px;
@@ -197,9 +197,12 @@ a, a:hover{text-decoration: none !important ;}
             border-radius: 6px;
         }
     }
-    &:has(.right_icon) .dropdown-menu {
-        right: 0;
-        left: unset;
+    &:has(.right_icon){
+        width: fit-content;
+        .dropdown-menu {
+            right: 0;
+            left: unset;
+        } 
     }
 }
 

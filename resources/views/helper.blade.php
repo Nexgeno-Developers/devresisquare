@@ -7,12 +7,16 @@
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/main-style.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/backend/css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <title>Help Document</title>
 
     <style>
         html, body, .row{
             height: 100%;
         }
+
+        blockquote,
         xmp{
             margin: 0;
             padding: 0;
@@ -21,10 +25,10 @@
         .gap-16{
             gap: 16px;
         }
-        blockquote{
+        /* blockquote{
             background: #ecf3fa;
             padding: 16px;
-        }
+        } */
         .ml_0{
             margin-left: 0;
         }
@@ -55,6 +59,9 @@
                 width:fit-content;
             }
         }
+        table{
+            background: #fff;
+        }
     </style>
 </head>
 <body>
@@ -65,6 +72,8 @@
                 <ul>
                     <li><a href="#buttons"> Buttons</a></li>
                     <li><a href="#cards"> Cards</a></li>
+                    <li><a href="#tables"> Tables</a></li>
+                    <li><a href="#dropdown"> Dropdown</a></li>
                 </ul>
             </div>
         </div>
@@ -72,10 +81,10 @@
             <div class="h_section_wrapper" id="buttons">
                 <h2>Buttons</h2>
                 <blockquote>
-                    <p>"Type" should be "secondary" or "primary".</p>
-                    <p>"isOutline" to make button ouline make it "True" or "False"</p>
-                    <p>If "isLinkBtn" is true button will be  < a > tag, its required link prop and if its false button will be < button > </p>
-                    <p>"Size" should be "sm" or "lg".</p>
+                    <p>"Type" should be "secondary" or "primary". 
+                    "isOutline" to make button ouline make it "True" or "False" 
+                    If "isLinkBtn" is true button will be  < a > tag, its required link prop and if its false button will be < button >  
+                    "Size" should be "sm" or "lg".</p>
                 </blockquote>
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
@@ -190,38 +199,95 @@
             </div>
             <div class="h_section_wrapper" id="cards">
                 <h2>Cards</h2>
+                <div class="row gap-16 ml_0">
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Property horizontal card</h6>
+                            <div class="pv_card_wrapper">
+                                <x-backend.property-card
+                                    class=""
+                                    propertyName="169-173 Portland Rd, Hove, East Sussex, BN3 5QJ"
+                                    bed="2"
+                                    bath="2"
+                                    floor="6"
+                                    living="1"
+                                    type="Appartment"
+                                    available="02/05/2025"
+                                    price="6542"
+                                />
+                            </div>
+                            <blockquote>
+                            &lt;x-backend.property-card
+                                class=""
+                                propertyName="&#x2774;&#x2774; &#36;property['prop_name'] &#x2775;&#x2775;"
+                                bed="&#x2774;&#x2774; &#36;pproperty['bedroom'] &#x2775;&#x2775;"
+                                bath="&#x2774;&#x2774; &#36;pproperty['bathroom'] &#x2775;&#x2775;"
+                                floor="&#x2774;&#x2774; &#36;pproperty['floor'] &#x2775;&#x2775;"
+                                living="&#x2774;&#x2774; &#36;pproperty['reception'] &#x2775;&#x2775;"
+                                type="&#x2774;&#x2774; &#36;pproperty['property_type'] &#x2775;&#x2775;"
+                                available="&#x2774;&#x2774; &#36;pproperty['available_from'] &#x2775;&#x2775;"
+                                price="&#x2774;&#x2774; &#36;pproperty['price'] &#x2775;&#x2775;"
+                                /&gt;
+                           </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h_section_wrapper" id="tables">
+                <h2>Tables</h2>
                 <blockquote>
-                    <p>"Type" should be "secondary" or "primary".</p>
-                    <p>"isOutline" to make button ouline make it "True" or "False"</p>
-                    <p>If "isLinkBtn" is true button will be  < a > tag, its required link prop and if its false button will be < button > </p>
-                    <p>"Size" should be "sm" or "lg".</p>
+                    <p>"Headers" and "Rows" can be many by array data.</p>
                 </blockquote>
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
                         <div class="">
                             <h6>Primary Link Button</h6>
-                            <x-backend.main-button
-                                class=""
-                                name="Primary"
-                                type="primary"
-                                size="sm"
-                                isOutline="{{false}}"
-                                isLinkBtn={{false}}
-                                link="https://#"
-                                onclick=""
+                            {{-- table  compoent start--}}
+                                @php 
+                                $headers = ['id','Name', 'Position', 'Phone', 'email', 'City']; 
+                                $rows = [ 
+                                    ['id' => 1, 'name'=> 'John Doe', 'postion'=>'Owner', 'phone'=> '456798462', 'email'=> 'john@example.com', 'city'=> 'London' ], 
+                                    ['id' => 2, 'name'=> 'Jane Smith', 'postion'=>'Owner', 'phone'=> '974511268', 'email'=> 'jane@example.com', 'city'=> 'Mumbair' ], 
+                                    ['id' => 3, 'name'=>  'Jack Johnson',  'postion'=>'Landlord','phone'=>  '14563278','email'=> 'jack@example.com', 'city'=> 'Canada' ], 
+                                ];
+                            @endphp
+                            <x-backend.dynamic-table 
+                            :headers="$headers" 
+                            :rows="$rows" 
+                            class = ""
                             />
-                            <xmp>
-                            < x-backend.main-button
-                                class=""
-                                name="Secondary"
-                                type="secondary"
-                                size="sm"
-                                isOutline="{{false}}"
-                                isLinkBtn={{false}}
-                                link="https://#"
-                                onclick=""
-                            / >
-                            </xmp>
+                            <blockquote>
+                                &lt;x-backend.dynamic-table 
+                                    :headers="&#36;headers" 
+                                    :rows="&#36;rows" 
+                                    class = ""
+                                /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h_section_wrapper" id="dropdown">
+                <h2>Dropdown</h2>
+                <blockquote>
+                    <p>"Headers" and "Rows" can be many by array data.</p>
+                </blockquote>
+                <div class="row gap-16 ml_0">
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Dropdown</h6>
+                            @php 
+                            $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ]; 
+                            $selectedCountry = 'ca'; 
+                            @endphp
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" />
+                            <blockquote>
+                                &lt;x-backend.dropdown 
+                                    :options="&#36;countries"
+                                    :selected="&#36;selectedCountry"
+                                    class=""
+                                /&gt;
+                            </blockquote>
                         </div>
                     </div>
                 </div>
@@ -229,39 +295,5 @@
         </div>
     </div>
 
-    <script>
-        function copyHtml() { 
-            // Create a temporary element 
-            const tempElement = document.createElement('div');
-            tempElement.innerHTML = document.getElementById('primary_btn').innerHTML;
-
-            // Append the temporary element to the body
-            document.body.appendChild(tempElement);
-
-            // Select the content
-            if (document.createRange && window.getSelection) {
-                const range = document.createRange();
-                range.selectNodeContents(tempElement);
-                const selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(range);
-
-                // Execute the copy command 
-                try {
-                    document.execCommand('copy');
-                    alert('HTML content copied!');
-                } catch (err) {
-                    alert('Unable to copy HTML content.');
-                }
-
-                // Cleanup
-                selection.removeAllRanges();
-            }
-            // Remove the temporary element
-            document.body.removeChild(tempElement);
-
-        } 
-        </script>
-        </script>
 </body>
 </html>

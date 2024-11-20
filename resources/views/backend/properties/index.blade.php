@@ -49,7 +49,7 @@
         </div>
         {{-- pv_wrapper end  --}}
     </div>
-    <div class="col-lg-7 col-12">
+    <div class="col-lg-7 col-12 p-0">
         <div class="pv_detail_wrapper">
             <div class="pv_tabs">
                 <ul>
@@ -67,15 +67,17 @@
                 </ul>
             </div>
             {{-- table  compoent start--}}
-            @php 
-                $headers = ['id','Name', 'Position', 'Phone', 'email', 'City']; 
-                $rows = [ 
-                    ['id' => 1, 'name'=> 'John Doe', 'postion'=>'Owner', 'phone'=> '456798462', 'email'=> 'john@example.com', 'city'=> 'London' ], 
-                    ['id' => 2, 'name'=> 'Jane Smith', 'postion'=>'Owner', 'phone'=> '974511268', 'email'=> 'jane@example.com', 'city'=> 'Mumbair' ], 
-                    ['id' => 3, 'name'=>  'Jack Johnson',  'postion'=>'Landlord','phone'=>  '14563278','email'=> 'jack@example.com', 'city'=> 'Canada' ], 
-                ];
-            @endphp
-            <x-backend.dynamic-table :headers="$headers" :rows="$rows" />
+
+                @php 
+                    $headers = ['id','Name', 'Position', 'Phone', 'email', 'City']; 
+                    $rows = [ 
+                        ['id' => 1, 'name'=> 'John Doe', 'postion'=>'Owner', 'phone'=> '456798462', 'email'=> 'john@example.com', 'city'=> 'London' ], 
+                        ['id' => 2, 'name'=> 'Jane Smith', 'postion'=>'Owner', 'phone'=> '974511268', 'email'=> 'jane@example.com', 'city'=> 'Mumbair' ], 
+                        ['id' => 3, 'name'=>  'Jack Johnson',  'postion'=>'Landlord','phone'=>  '14563278','email'=> 'jack@example.com', 'city'=> 'Canada' ], 
+                    ];
+                @endphp
+                <x-backend.dynamic-table :headers="$headers" :rows="$rows" />
+ 
             {{-- table  compoent end--}}
             <div class="pv_detail_content">
                 <div class="pv_detail_header">
@@ -105,7 +107,7 @@
                 </div>
                 <div class="pv_content_detail">
 
-                    <div class="pvd_content_wrapper">
+                    <div class="flex flex_row gap_16">
                         <div class="pv_image">
                             <img src="{{ asset('/asset/images/temp-property.webp') }}" alt="property">
                         </div>
@@ -151,7 +153,7 @@
                         </div>
                         {{-- pv_content end  --}}
                     </div>
-                    {{-- pvd_content_wrapper end --}}
+                    <div class="pvd_content_wrapper">
                     <div class="pvd_other_content border_bottom">
                         <div class="row">
                             <div class="col-lg-4 col-6">
@@ -211,6 +213,9 @@
                             </div>
                         </div>
                     </div>
+                    {{-- pvd_features end --}}
+                </div>
+                {{-- pvd_content_wrapper end --}}
                 </div>
             </div>
         </div>

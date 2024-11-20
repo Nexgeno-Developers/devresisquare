@@ -227,6 +227,16 @@ a:hover {
 
 .items_start {align-items: start; }
 
+.flex{ display: flex; }
+.flex_row{ flex-direction: row; }
+.flex_col{ flex-direction: column; }
+.align_center{ align-items: center; }
+.justify_center{ justify-content: center; }
+.align_start{ align-items: start; }
+.justify_start{ justify-content: start; }
+.align_end{ align-items: end; }
+.justify_end{ justify-content: end; }
+
 .gap_8 {gap: 8px; }
 
 .gap_16 {gap: 16px; }
@@ -255,6 +265,8 @@ ul{
         margin-bottom: 8px;
     }
 }
+
+
 /* ========================================
 Alerts
 ==========================================*/

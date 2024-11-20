@@ -44,10 +44,6 @@ body.show-sidebar #menu {
     border-bottom: 1px solid var(--primary-200);
 }
 
-#header .top_header {
-    padding: 12px 30px;
-}
-
 
 .rs_row{
     display: flex;
@@ -337,6 +333,10 @@ Header
 .main_wrapper {
     height: calc(100% - 89px);
     display: flex;
+}
+
+@media (max-width:766px) {
+
 }
 
 
@@ -682,6 +682,7 @@ input[type="radio"]:checked+label::before {
         display: flex;
         gap: 5px;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
 
         .pv_title{
@@ -883,6 +884,13 @@ input[type="radio"]:checked+label::before {
             
         }
     }
+   
+}
+
+@media (max-width:766px) {
+    .pv_detail_wrapper{
+        display: none;
+    }
 }
 
 
@@ -895,12 +903,8 @@ input[type="radio"]:checked+label::before {
 ==========================================*/
 
 /* Mobile */
-@media (min-width:480px) {
-
-    body.show-sidebar #menu {
-        display: none;
-    }
-
+@media (min-width:766px) {
+   
     #wrapper {
         margin-left: unset;
         width: 100%;
@@ -931,19 +935,59 @@ input[type="radio"]:checked+label::before {
 /* Desktop  Medium screen */
 
 @media (max-width: 1800px) {
-    body.show-sidebar #menu {
-        width: 120px;
+
+     .main-content{
+        padding-left: 16px;
+        padding-right: 16px;
+     }
+    #wrapper{
+        width: fit-content;
+        margin-left: 0;
+    }
+    body.show-sidebar #menu.sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 999;
     }
 
-    #menu .sidebar-list-item a .sidebar-sub-list-item a,
-    #menu .sidebar-list-item a {
+    body.show-sidebar #menu .sidebar-list-item a .sidebar-sub-list-item a,
+    body.show-sidebar #menu .sidebar-list-item a {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         text-align: center;
+        gap: 8px;
     }
 
-    #menu .sidebar-list-item a img {
-        width: 32px;
+    body.show-sidebar #menu .sidebar-list-item a img {
+        width: 16px;
+    }
+    body.show-sidebar #menu li{
+        margin: 0;
+    }
+
+    .pv_header .pv_btn {
+        position: absolute;
+        bottom: 54px;
+        right: 15px;
+        z-index: 9999999;
+        a.btn{
+            height: 50px;
+            width: 50px;
+            border-radius: 100%;
+            position: relative;
+            &::after{
+                content: '+' ;
+                position: absolute;
+                top: -28px;
+                left: 4px;
+                font-size: 60px;
+                font-weight: 800;
+            }
+            span{
+                opacity: 0;
+            }
+        }
     }
 }

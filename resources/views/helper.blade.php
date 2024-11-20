@@ -298,7 +298,7 @@
             <div class="h_section_wrapper" id="dropdown">
                 <h2>Dropdown</h2>
                 <blockquote>
-                    <p>"Headers" and "Rows" can be many by array data.</p>
+                    Default Dropdown use "isIcon" false</br>Icon Dropdown use "isIcon" true </br>
                 </blockquote>
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
@@ -308,11 +308,30 @@
                             $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ]; 
                             $selectedCountry = 'ca'; 
                             @endphp
-                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" />
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}} />
                             <blockquote>
                                 &lt;x-backend.dropdown 
                                     :options="&#36;countries"
                                     :selected="&#36;selectedCountry"
+                                    isIcon=&#x2774;&#x2774;false &#x2775;&#x2775; 
+                                    class=""
+                                /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Dropdown Icon Button</h6>
+                            @php 
+                            $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ]; 
+                            $selectedCountry = 'ca'; 
+                            @endphp
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} />
+                            <blockquote>
+                                &lt;x-backend.dropdown 
+                                    :options="&#36;countries"
+                                    :selected="&#36;selectedCountry"
+                                    isIcon=&#x2774;&#x2774;true &#x2775;&#x2775; 
                                     class=""
                                 /&gt;
                             </blockquote>

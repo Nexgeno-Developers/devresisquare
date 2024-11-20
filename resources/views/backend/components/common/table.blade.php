@@ -14,9 +14,11 @@
                     <td>{{ $cell }}</td>
                 @endforeach
                 <td>
-                    <a href="#" class="btn btn-sm btn-primary">
-                        <i class="fa fa-cog"></i> <!-- Change this icon to whatever suits your need -->
-                    </a>
+                    @php 
+                    $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ]; 
+                    $selectedCountry = 'edit'; 
+                    @endphp
+                    <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} class="right_icon" />
                 </td> <!-- Add an action cell with an icon -->
             </tr>
         @endforeach

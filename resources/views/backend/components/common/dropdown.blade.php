@@ -1,7 +1,11 @@
 <div class="dropdown">
-    <div class="rs_dropdown {{ $class }}" id="dropdownMenuButton" aria-expanded="false" onclick="toggleDropdown()">
-        Select Option
-    </div>
+    @if($isIcon == false)
+        <div class="rs_dropdown dropdown_click {{ $class }}" id="dropdownMenuButton" aria-expanded="false" onclick="toggleDropdown()">
+            Select Option
+        </div>
+    @else
+        <div class="rs_icon_dropdown dropdown_click {{ $class }}" id="dropdownMenuButton"  aria-expanded="false" onclick="toggleDropdown()"></div>
+    @endif
     <div class="dropdown-menu" id="dropdownMenu" aria-labelledby="dropdownMenuButton" style="display: none;">
         @foreach($options as $value => $label)
             <a class="dropdown-item" href="#" onclick="selectOption('{{ $value }}', '{{ $label }}')">{{ $label }}</a>
@@ -26,7 +30,7 @@
 
     // Close the dropdown if the user clicks outside of it
     window.onclick = function(event) {
-        if (!event.target.matches('.rs_dropdown')) {
+        if (!event.target.matches('.dropdown_click')) {
             var dropdowns = document.getElementsByClassName("dropdown-menu");
             for (var i = 0; i < dropdowns.length; i++) {
                 var openDropdown = dropdowns[i];

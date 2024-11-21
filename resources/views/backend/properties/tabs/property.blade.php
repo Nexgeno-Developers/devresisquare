@@ -1,5 +1,4 @@
-
-<div class="pvd_content_wrapper">
+<div class="flex flex_row gap_16">
     <div class="pv_image">
         <img src="{{ asset('/asset/images/temp-property.webp') }}" alt="property">
     </div>
@@ -8,16 +7,16 @@
         <div class="pvc_poperty_name">169-173 Portland Rd, Hove, East Sussex, BN3 5QJ</div>
         <div class="rs_property_icons">
             <div class="bed_icon rs_tooltip">
-                <img src=" {{ asset('asset/images/svg/icons/bed.svg') }} " alt="bedroom"> 2
+                <img src=" {{asset('asset/images/svg/icons/bed.svg')}} " alt="bedroom" > 2
             </div>
             <div class="bath_icon rs_tooltip">
-                <img src=" {{ asset('asset/images/svg/icons/bath.svg') }} " alt="bathroom"> 1
+                <img src=" {{asset('asset/images/svg/icons/bath.svg')}} " alt="bathroom"> 1
             </div>
             <div class="floors_icon rs_tooltip">
-                <img src=" {{ asset('asset/images/svg/icons/floor.svg') }} " alt="Floors">2
+                <img src=" {{asset('asset/images/svg/icons/floor.svg')}} " alt="Floors">2
             </div>
             <div class="living_icon rs_tooltip">
-                <img src=" {{ asset('asset/images/svg/icons/sofa.svg') }} " alt="sofa"> 2
+                <img src=" {{asset('asset/images/svg/icons/sofa.svg')}} " alt="sofa"> 2
             </div>
         </div>
         <div class="pvc_price">
@@ -45,7 +44,7 @@
     </div>
     {{-- pv_content end  --}}
 </div>
-{{-- pvd_content_wrapper end --}}
+<div class="pvd_content_wrapper">
 <div class="pvd_other_content border_bottom">
     <div class="row">
         <div class="col-lg-4 col-6">
@@ -105,3 +104,6 @@
         </div>
     </div>
 </div>
+{{-- pvd_features end --}}
+</div>
+{{-- pvd_content_wrapper end --}}

@@ -6,8 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="app-url" content="{{ getBaseURL() }}">
 	<meta name="file-base-url" content="{{ getFileBaseURL() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Use asset() to generate the correct URL -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/toastr.min.css') }}" rel="stylesheet">
@@ -20,46 +22,50 @@
 </head>
 
 <body class="show-sidebar">
-    <div id="header">
-        <div class="top_header tw-ml-1">
-
-            @include('backend.partials.navbar')
-        </div>
-    </div>
-    <div class="main_wrapper">
-        @include('backend.partials.aside')
-
-        <div id="wrapper" class="main-content mt-4">
-            <div class="alert_wrapper">
-                <!-- Display success message -->
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                <!-- Display error message -->
-                @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-                <!-- Display validation errors -->
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+    <header  id="header" class="py-3">
+        <div class="container-fluid">
+            <div class="top_header tw-ml-1">
+                
+                @include('backend.partials.navbar')
             </div>
-
-            @yield('content')
         </div>
-    </div>
+    </header>
+    <main>
+        <div class="main_wrapper">
+            @include('backend.partials.aside')
+
+            <div id="wrapper" class="main-content mt-4">
+                <div class="alert_wrapper">
+                    <!-- Display success message -->
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <!-- Display error message -->
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <!-- Display validation errors -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+
+                @yield('content')
+            </div>
+        </div>
+    </main>
 
     <!-- Use asset() to generate the correct URL for JS files -->
 

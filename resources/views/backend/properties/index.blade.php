@@ -45,17 +45,26 @@
 </style>
 
 <div class="row">
-    <div class="col-lg-5">
+    <div class="col-lg-5 col-12">
         <div class="pv_wrapper">
             <div class="pv_header">
                 <div class="pv_title">Properties</div>
-                <div class="pv_search">search</div>
+                    <x-backend.search
+                        class=""
+                        value=""
+                        placeholder="Search"
+                        onclick=""
+                    />
+
                 <div class="pv_btn">
-                    <x-backend.link-button
+                    <x-backend.main-button
                         class=""
                         name="Add Property"
+                        type="secondary"
+                        size="sm"
+                        isLinkBtn={{true}}
                         link="{{ route('admin.properties.quick') }}"
-                        onClick=""
+                        onclick=""
                     />
                 </div>
             </div>
@@ -65,7 +74,7 @@
                 @foreach ($properties as $property)
                 <x-backend.property-card
                     class=""
-                    propertyName="{{$property['prop_name'].' '.$property['line1'].' '.$property['line2'].' '.$property['city']}}"
+                    propertyName="{{$property['prop_name']}}"
                     bed="{{$property['bedroom']}}"
                     bath="{{$property['bathroom']}}"
                     floor="{{$property['floor']}}"
@@ -82,7 +91,7 @@
         </div>
         {{-- pv_wrapper end  --}}
     </div>
-    <div class="col-lg-7">
+    <div class="col-lg-7 col-12 p-0">
         <div class="pv_detail_wrapper">
 
             <x-backend.properties-tabs :tabs="[

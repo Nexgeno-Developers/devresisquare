@@ -83,6 +83,7 @@
                     type="{{$property['property_type']}}"
                     available="{{$property['available_from']}}"
                     price="{{$property['price']}}"
+                    cardStyle=""
                     propertyId="{{ $property['id'] }}"                    />
                 @endforeach
 

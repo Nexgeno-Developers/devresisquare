@@ -215,6 +215,7 @@
                                     available="02/05/2025"
                                     price="6542"
                                     cardStyle=""
+                                    propertyId="1" 
                                 />
                             </div>
                             <blockquote>
@@ -229,6 +230,7 @@
                                 available="&#x2774;&#x2774; &#36;pproperty['available_from'] &#x2775;&#x2775;"
                                 price="&#x2774;&#x2774; &#36;pproperty['price'] &#x2775;&#x2775;"
                                 cardStyle="" //for horizontal keep blank //
+                                propertyId="&#x2774;&#x2774; &#36;property['id'] &#x2775;&#x2775;" 
                                 /&gt;
                            </blockquote>
                         </div>
@@ -248,6 +250,7 @@
                                     available="02/05/2025"
                                     price="6542"
                                     cardStyle="vertical"
+                                    propertyId="1"
                                 />
                             </div>
                             <blockquote>
@@ -262,6 +265,7 @@
                                 available="&#x2774;&#x2774; &#36;pproperty['available_from'] &#x2775;&#x2775;"
                                 price="&#x2774;&#x2774; &#36;pproperty['price'] &#x2775;&#x2775;" 
                                 cardStyle="vertical" //for Vertical chnage only this //
+                                propertyId="&#x2774;&#x2774; &#36;property['id'] &#x2775;&#x2775;" 
                                 /&gt;
                            </blockquote>
                         </div>

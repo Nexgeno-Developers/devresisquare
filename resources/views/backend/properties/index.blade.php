@@ -85,7 +85,7 @@
     <div class="col-lg-7">
         <div class="pv_detail_wrapper">
 
-            <x-backend.tabs :tabs="[
+            <x-backend.properties-tabs :tabs="[
                 ['name' => 'Property', 'content' => 'Property details here...'],
                 ['name' => 'Owners', 'content' => 'Owner details here...'],
                 ['name' => 'Offers', 'content' => 'Offers details here...'],

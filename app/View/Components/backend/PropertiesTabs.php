@@ -3,7 +3,7 @@
 namespace App\View\Components\backend;
 use Illuminate\View\Component;
 
-class Tabs extends Component
+class PropertiesTabs extends Component
 {
     public $tabs;
 

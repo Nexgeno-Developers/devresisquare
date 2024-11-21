@@ -1,5 +1,5 @@
 
-<div class="pv_content_wrapper {{$class}}">
+<div class="pv_content_wrapper {{$class}}" data-property-id="{{ $propertyId }}">
     <div class="pv_image">
         <img src="{{ asset('/asset/images/temp-property.webp') }}" alt="property">
     </div>

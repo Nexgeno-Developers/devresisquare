@@ -354,10 +354,22 @@ class PropertyController
                 return [
                     // 'specific_property_type' => 'required|string',
                     'bedroom' => 'required|string',
+                ];
+            case 4:
+                return [
+                    'bathroom' => 'required|string',
+
+                ];
+            case 5:
+                return [
                     'reception' => 'required|string',
 
                 ];
-            case 4:
+            case 6:
+                return [
+                    'frunishing_type' => 'required|string',
+                ];
+            case 7:
                 return [
                     // 'bedroom' => 'required|string',
                     // 'reception' => 'required|string',

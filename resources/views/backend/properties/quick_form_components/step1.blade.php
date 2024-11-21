@@ -1,5 +1,5 @@
 <!-- resources/views/backend/properties/quick_form_components/step2.blade.php -->
-
+@php $currentStep = 1 ; @endphp
 <div class="container-fluid mt-4 quick_add_property">
     <div class="row">
         <div class="col-md-6 col-12 left_col">
@@ -13,12 +13,12 @@
             </div>
         </div>
         <div class="col-md-6 col-12 right_col">
-            <form id="property-form-step-1" method="POST" action="{{ route('admin.properties.quick_store') }}">
+            <form id="property-form-step-{{$currentStep}}" method="POST" action="{{ route('admin.properties.quick_store') }}">
                 @csrf
                 <!-- Hidden field for property ID with isset check -->
                 <input type="hidden" id="property_id" class="property_id" name="property_id"
                     value="{{ (isset($property) ? $property->id : '') }}">
-                <div data-step-name="Property Address" data-step-number="1"></div>
+                <div data-step-name="Property Address" data-step-number="{{$currentStep}}"></div>
                 <div class="right_content_wrapper">
                     <div class="form-group">
                         <label for="line_1">Address Line 1</label>
@@ -58,8 +58,8 @@
                         @enderror
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-50" data-next-step="2"
-                    data-current-step="1">Next</button>
+                <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-50" data-next-step="{{$currentStep+1}}"
+                    data-current-step="{{$currentStep}}">Next</button>
 
             </form>
         </div>

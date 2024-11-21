@@ -3,8 +3,11 @@
 $stepNames = [
 1 => 'Property Address',
 2 => 'Property Type',
-3 => 'Rooms',
-4 => 'Price',
+3 => 'Bedrooms',
+4 => 'Bathrooms',
+5 => 'Reception',
+6 => 'Funishing',
+7 => 'Price',
 ];
 /*
 function getBreadcrumb($step)
@@ -202,23 +205,60 @@ $(document).ready(function() {
 
         handleStepChange(currentStep3, targetStep4);
     });
+    // // Function to check if both Bedrooms and Reception Rooms have been selected
+    // function checkSelectionsAndSubmit() {
+    //     const bedroomSelected = $('input[name="bedroom"]:checked').val();
+    //     const receptionSelected = $('input[name="reception"]:checked').val();
+
+    //     // If both Bedrooms and Reception Rooms are selected, submit the form
+    //     if (bedroomSelected && receptionSelected) {
+    //         const currentStep3 = $('.next-step').data('current-step');
+    //         const targetStep4 = $('.next-step').data('next-step');
+
+    //         handleStepChange(currentStep3, targetStep4);
+    //     }
+    // }
+
+    // // Event listeners for Bedrooms and Reception Rooms radio buttons, class-based with delegation
+    // $(document).on('click', '.bedroom-radio', checkSelectionsAndSubmit);
+    // $(document).on('click', '.reception-radio', checkSelectionsAndSubmit);
+
     // Function to check if both Bedrooms and Reception Rooms have been selected
-    function checkSelectionsAndSubmit() {
-        const bedroomSelected = $('input[name="bedroom"]:checked').val();
-        const receptionSelected = $('input[name="reception"]:checked').val();
 
-        // If both Bedrooms and Reception Rooms are selected, submit the form
-        if (bedroomSelected && receptionSelected) {
-            const currentStep3 = $('.next-step').data('current-step');
-            const targetStep4 = $('.next-step').data('next-step');
 
-            handleStepChange(currentStep3, targetStep4);
-        }
-    }
+    // Handle Next and Previous button clicks
+    $(document).on('click', '.bedroom-radio', function(e) {
+        e.preventDefault();
+        const currentStep5 = $('.next-step').data('current-step');
+        const targetStep6 = $('.next-step').data('next-step');
 
-    // Event listeners for Bedrooms and Reception Rooms radio buttons, class-based with delegation
-    $(document).on('click', '.bedroom-radio', checkSelectionsAndSubmit);
-    $(document).on('click', '.reception-radio', checkSelectionsAndSubmit);
+        handleStepChange(currentStep5, targetStep6);
+    });
+
+    // Handle Next and Previous button clicks
+    $(document).on('click', '.bathroom-radio', function(e) {
+        e.preventDefault();
+        const currentStep7 = $('.next-step').data('current-step');
+        const targetStep8 = $('.next-step').data('next-step');
+
+        handleStepChange(currentStep7, targetStep8);
+    });
+    // Handle Next and Previous button clicks
+    $(document).on('click', '.reception-radio', function(e) {
+        e.preventDefault();
+        const currentStep9 = $('.next-step').data('current-step');
+        const targetStep10 = $('.next-step').data('next-step');
+
+        handleStepChange(currentStep9, targetStep10);
+    });
+    $(document).on('click', '.furnish-radio', function(e) {
+        e.preventDefault();
+        const currentStep9 = $('.next-step').data('current-step');
+        const targetStep10 = $('.next-step').data('next-step');
+
+        handleStepChange(currentStep9, targetStep10);
+    });
+
 });
 </script>
 @endsection

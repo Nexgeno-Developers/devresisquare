@@ -26,7 +26,7 @@ return $breadcrumb[$step] ?? 'Unknown Step';
     $currentStep = isset($property->quick_step) ? $property->quick_step+1 : 1;
 @endphp
 
-<div class="">
+
     <h4 class="mb-4">Quick Add Property</h4>
     <div class="qap_breadcrumb">
             <!-- @for ($i = 1; $i <= count($stepNames); $i++) 
@@ -61,7 +61,7 @@ return $breadcrumb[$step] ?? 'Unknown Step';
         </div>
     </div>
 </div>
-</div>
+
 
 @section('page.scripts')
 <script>

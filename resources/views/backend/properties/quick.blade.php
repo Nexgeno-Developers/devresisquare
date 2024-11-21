@@ -2,7 +2,7 @@
 @extends('backend.layout.app')
 
 @section('content')
-<div class="container">
+
     @include('backend.properties.quick_form_components.form')
-</div>
+
 @endsection

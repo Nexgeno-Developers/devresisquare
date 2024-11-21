@@ -47,7 +47,6 @@ Route::controller(AizUploadController::class)->group(function () {
     Route::get('/all-file', 'all_file');
 });
 
-
 Route::get('/helper', function () {
     return view('helper');
 });

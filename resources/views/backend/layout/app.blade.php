@@ -13,7 +13,6 @@
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/toastr.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('asset/css/main-style.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/backend/css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- <link href="{{ asset('asset/backend/css/aiz-core.css') }}" rel="stylesheet"> --}}
@@ -22,7 +21,7 @@
 </head>
 
 <body class="show-sidebar">
-    <header  id="header" class="py-3">
+    <header  id="header" class="">
         <div class="container-fluid">
             <div class="top_header tw-ml-1">
 

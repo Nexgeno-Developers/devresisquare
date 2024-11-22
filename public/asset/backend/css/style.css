@@ -1,3 +1,4 @@
+@import url(./../../css/main-style.css);
 html,
 body {
     height: 100%;
@@ -831,31 +832,31 @@ input[type="radio"]:checked+label::before {
             display: flex;
             flex-direction: column;
             gap: 32px;
+            .pv_image{
+                width: 18rem;
+                height: 12rem;
+                overflow: hidden;
+                border-radius: 6px;
+    
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    @media (max-width: 766px) {
+                        position: absolute;
+                        width: 100%;
+                        border-radius: unset;
+                        height: 300px;
+                    }
+                }
+            }
             .pvd_content_wrapper{
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
                 border-radius: 6px;
         
-                .pv_image{
-                    width: 18rem;
-                    height: 12rem;
-                    overflow: hidden;
-                    border-radius: 6px;
-        
-                    img{
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        object-position: center;
-                        @media (max-width: 766px) {
-                            position: absolute;
-                            width: 100%;
-                            border-radius: unset;
-                            height: 300px;
-                        }
-                    }
-                }
                 .pv_content{
         
                     display: flex;

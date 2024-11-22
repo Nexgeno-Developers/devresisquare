@@ -1,12 +1,12 @@
 <div class="flex flex_row gap_16">
     <div class="pv_image">
         @php
-            echo '<pre>';
-            var_dump($propertyId);
-            echo '</pre>';
-            echo '<pre>';
-            var_dump($property);
-            echo '</pre>';
+            // echo '<pre>';
+            // var_dump($propertyId);
+            // echo '</pre>';
+            // echo '<pre>';
+            // var_dump($property);
+            // echo '</pre>';
 
             // Build the address string while checking for null values
             $addressParts = [];

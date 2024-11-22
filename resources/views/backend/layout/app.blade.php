@@ -33,7 +33,7 @@
         <div class="main_wrapper">
             @include('backend.partials.aside')
 
-            <div id="wrapper" class="main-content mt-4">
+            <div id="wrapper" class="main_content">
                 <div class="alert_wrapper">
                     <!-- Display success message -->
                     @if (session('success'))

@@ -42,8 +42,8 @@
         }
     </style>
 
-    <div class="row">
-        <div class="col-lg-5 col-12">
+    <div class="row view_properties">
+        <div class="col-lg-5 col-12 property_list_wrapper">
             <div class="pv_wrapper">
                 <div class="pv_header">
                     <div class="pv_title">Properties</div>
@@ -70,10 +70,10 @@
             </div>
             {{-- pv_wrapper end  --}}
         </div>
-        <div class="col-lg-7 col-12 p-0">
+        <div class="col-lg-7 col-12 property_detail_wrapper  p-0">
             <div class="pv_detail_wrapper">
 
-                <x-backend.properties-tabs :tabs="$tabs" />
+                <x-backend.properties-tabs :tabs="$tabs" $class="poperty_tabs"/>
                 {{-- <x-backend.properties-tabs :tabs="[
                 ['name' => 'Property', 'content' => 'Property details here...'],
                 ['name' => 'Owners', 'content' => 'Owner details here...'],
@@ -99,10 +99,13 @@
                                 link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
                         </div>
                     </div>
-                    <div class="pv_content_detail">
-                        {!! $content !!}
-                        <!-- The dynamic tab content will be injected here by AJAX -->
-                        {{-- render first tabs blade file from view example @include('backend.properties.tabs' . $tabname) $tabname in small case --}}
+                    <div class="pv_content_detail_wrapper">
+                        <i class="bi bi-chevron-left" id="backBtn"></i>
+                        <div class="pv_content_detail">
+                            {!! $content !!}
+                            <!-- The dynamic tab content will be injected here by AJAX -->
+                            {{-- render first tabs blade file from view example @include('backend.properties.tabs' . $tabname) $tabname in small case --}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -382,5 +385,19 @@
         //     // Call the simulateTabClickAndPropertyCard function on document ready
         //     simulateTabClickAndPropertyCard();
         // });
+
+        $(document).ready(function() {
+            $('.property-card').click(function() {
+                $('#backBtn').addClass('property_bk_btn_show');
+                $('.property_list_wrapper').hide();  // Hide left column
+                $('.property_detail_wrapper').show(); // Show right column
+            });
+            
+            $('#backBtn').click(function() {
+                $('#backBtn').removeClass('property_bk_btn_show');
+            $('.property_detail_wrapper').hide(); // Hide right column
+            $('.property_list_wrapper').show();  // Show left column
+            });
+        });
     </script>
 @endsection

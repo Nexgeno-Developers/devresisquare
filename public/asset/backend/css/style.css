@@ -299,7 +299,11 @@ ul#propertiesSubmenu li.sidebar-sub-list-item:hover a {
     color: var(--black);
     height: unset;
 }
+/* ================================= */
 
+.main_content{
+    padding-top: 16px;
+}
 
 /* ========================================
 Header
@@ -827,6 +831,9 @@ input[type="radio"]:checked+label::before {
             align-items: center;
             gap: 16px;
             position: relative;
+            #backBtn{
+                display: none;
+            }
         }
         .pv_content_detail{
             display: flex;
@@ -934,14 +941,48 @@ input[type="radio"]:checked+label::before {
 
 /* Desktop  Medium screen */
 
-@media (max-width: 1800px) {
+@media (max-width: 766px) {
 
-     .main-content{
+    .view_properties{
+        .property_list_wrapper{
+
+        }
+        .property_detail_wrapper{
+            display: none;
+            .poperty_tabs{
+                display: none;
+            }
+            .pv_detail_header{
+                display: none;
+            }
+            .pv_content_detail_wrapper{
+                position: relative;
+                #backBtn{
+                    display: block !important;
+                    position: absolute;
+                    top: 16px;
+                    left: 16px;
+                    z-index: 99;
+                    font-size: 28px;
+                    font-weight: 600;
+                }
+                .pv_content_detail{
+                    .pv_content{
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+     .main_content{
         padding-left: 16px;
         padding-right: 16px;
-        &.mt-4{
-            margin: 0;
-        }
+    }
+    .main_content:has(.property_bk_btn_show){
+         padding-left: 12px;
+         padding-right: 12px;
+        padding-top: 0;
      }
     #wrapper{
         width: 100%;
@@ -1005,7 +1046,7 @@ input[type="radio"]:checked+label::before {
         }
         .pvd_content_wrapper{
             position: absolute;
-            top: 570px;
+            top: 260px;
             border-radius: 20px 20px 0 0 !important;
             background-color: var(--white);
             box-shadow: 0px 0px 8px 1px #0e0e0e70;

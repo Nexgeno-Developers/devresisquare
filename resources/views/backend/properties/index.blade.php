@@ -1,47 +1,6 @@
 @extends('backend.layout.app')
 
 @section('content')
-    <style>
-        .pv_tabs {
-            font-family: Arial, sans-serif;
-        }
-
-        .pv_tabs ul {
-            display: flex;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .pv_tabs ul li {
-            margin-right: 20px;
-        }
-
-        .pv_tabs ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            padding: 10px;
-        }
-
-        .pv_tabs ul li a.active {
-            color: #007bff;
-            border-bottom: 2px solid #007bff;
-        }
-
-        .tab-content {
-            margin-top: 20px;
-        }
-
-        .tab-pane {
-            display: none;
-        }
-
-        .tab-pane.active {
-            display: block;
-        }
-    </style>
-
     <div class="row view_properties">
         <div class="col-lg-5 col-12 property_list_wrapper">
             <div class="pv_wrapper">
@@ -70,10 +29,10 @@
             </div>
             {{-- pv_wrapper end  --}}
         </div>
-        <div class="col-lg-7 col-12 property_detail_wrapper  p-0">
+        <div class="col-lg-7 col-12 property_detail_wrapper">
             <div class="pv_detail_wrapper">
 
-                <x-backend.properties-tabs :tabs="$tabs" $class="poperty_tabs"/>
+                <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
                 {{-- <x-backend.properties-tabs :tabs="[
                 ['name' => 'Property', 'content' => 'Property details here...'],
                 ['name' => 'Owners', 'content' => 'Owner details here...'],

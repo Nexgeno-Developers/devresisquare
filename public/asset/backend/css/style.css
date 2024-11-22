@@ -785,7 +785,9 @@ input[type="radio"]:checked+label::before {
 
 
 /* -------------- Tabs --------------------- */
-
+.property_detail_wrapper{
+    padding: 0 24px;
+}
 .pv_detail_wrapper{
     display: flex;
     flex-direction: column;
@@ -794,9 +796,13 @@ input[type="radio"]:checked+label::before {
     .pv_tabs{
         border-bottom: 1px solid var(--primary-300) ;
         padding-bottom: 8px;
+        height: 40px;
+        overflow: hidden;
+        overflow-x: auto;
         ul{
             display: flex;
             gap: 16px;
+            flex-wrap: nowrap;
             margin: 0;
             padding: 0;
             li{
@@ -810,6 +816,7 @@ input[type="radio"]:checked+label::before {
 
                     &:hover{
                         color: var(--primary);
+                        font-weight: 500;
                     }
 
                     &.active{
@@ -819,7 +826,10 @@ input[type="radio"]:checked+label::before {
                 }
             }
         }
-
+        &::-webkit-scrollbar {
+            display: none;
+          }
+          
     }
     .pv_detail_content{
             display: flex;
@@ -949,6 +959,7 @@ input[type="radio"]:checked+label::before {
         }
         .property_detail_wrapper{
             display: none;
+            padding: 0;
             .poperty_tabs{
                 display: none;
             }
@@ -1038,7 +1049,7 @@ input[type="radio"]:checked+label::before {
     /*poperties view page */
 
     .pv_detail_wrapper {
-        & .pv_tabs {
+        .pv_tabs {
             ul {
                 width: 100vw;
                 overflow: hidden;
@@ -1055,3 +1066,38 @@ input[type="radio"]:checked+label::before {
         }
     }
 }
+/* 
+.pv_tabs ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pv_tabs ul li {
+    margin-right: 20px;
+}
+
+.pv_tabs ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.pv_tabs ul li a.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+}
+
+.tab-content {
+    margin-top: 20px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+} */

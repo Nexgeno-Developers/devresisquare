@@ -603,7 +603,6 @@ input[type="radio"]:checked+label::before {
     font-weight: 500;
 }
 
-
 .quick_add_property .right_col {
     padding-left: 40px;
     height: 100%;
@@ -618,6 +617,11 @@ input[type="radio"]:checked+label::before {
     gap: 16px;
     height: 100%;
 }
+.quick_add_property .right_col .right_content_wrapper .rc_title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
 
 .quick_add_property .right_col .right_content_wrapper label {
     font-size: 18px;
@@ -629,9 +633,16 @@ input[type="radio"]:checked+label::before {
     flex-wrap: wrap;
     gap: 12px;
 }
+.quick_add_property .right_col .radio_bts_square_icon.rs_furnishing {
+    flex-direction: column;
+}
+.quick_add_property .right_col .radio_bts_square_icon.rs_furnishing label {
+    height: 80px;
+    width: 200px;
+}
 
 .quick_add_property .right_col .radio_bts_square {
-    justify-content: center;
+    /* justify-content: center; */
     width: 24vw;
     flex-wrap: wrap;
     gap: 12px;

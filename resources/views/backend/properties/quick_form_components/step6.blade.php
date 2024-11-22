@@ -1,5 +1,5 @@
 @php $currentStep = 6 ; @endphp
-<!-- resources/views/backend/properties/quick_form_components/step5.blade.php -->
+<!-- resources/views/backend/properties/quick_form_components/step6.blade.php -->
 <div class="container-fluid mt-4 quick_add_property">
     <div class="row">
         <div class="col-md-6 col-12 left_col">
@@ -21,7 +21,7 @@
                 <div data-step-name="Property Address" data-step-number="{{$currentStep}}"></div>
                 <div class="right_content_wrapper">
                     <div class="form-group">
-                        <div class="radio_bts_square_icon">
+                        <div class="radio_bts_square_icon rs_furnishing">
                             <input type="radio" class="propertyType" name="frunishing_type"
                                 id="frunishing_type_furnished" value="furnished" {{ (isset($property) && $property->frunishing_type == 'furnished') ? 'checked' : '' }} required>
                             <label for="frunishing_type_appartment">

@@ -76,6 +76,49 @@
     {{-- pv_content end  --}}
 </div>
 <div class="pvd_content_wrapper">
+    {{-- mobile view only start  --}}
+    <div class="pv_content mobile_only">
+        <div class="rs_property_icons">
+            <div class="bed_icon rs_tooltip">
+                <img src=" {{ asset('asset/images/svg/icons/bed.svg') }} " alt="bedroom"> 2
+            </div>
+            <div class="bath_icon rs_tooltip">
+                <img src=" {{ asset('asset/images/svg/icons/bath.svg') }} " alt="bathroom"> 1
+            </div>
+            <div class="floors_icon rs_tooltip">
+                <img src=" {{ asset('asset/images/svg/icons/floor.svg') }} " alt="Floors">2
+            </div>
+            <div class="living_icon rs_tooltip">
+                <img src=" {{ asset('asset/images/svg/icons/sofa.svg') }} " alt="sofa"> 2
+            </div>
+        </div>
+        <div class="pvc_ref_id">Ref: 1234SSSD</div>
+        <div class="pvc_poperty_name">{{ $address }}</div>
+        <div class="pvc_price">
+            Price: <span>£3000</span>
+        </div>
+        <div class="rs_row">
+            <div class="rs_col">
+                <div class="pv_type">Type: <strong> Apparment</strong></div>
+            </div>
+            <div class="rs_col">
+                <div class="pv_availability">Availability: <strong>11/02/25</strong></div>
+            </div>
+        </div>
+        {{-- rs_row end  --}}
+        <div class="rs_row">
+            <div class="rs_col">
+                <div class="pv_status">Status: <strong> For Sale</strong></div>
+            </div>
+            <div class="rs_col">
+                <div class="pv_service">Service: <strong>Let Only</strong></div>
+            </div>
+        </div>
+        {{-- rs_row end  --}}
+
+    </div>
+    {{-- pv_content end  --}}
+    {{-- mobile view only end  --}}
     <div class="pvd_other_content border_bottom">
         <div class="row">
             <div class="col-lg-4 col-6">

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row view_properties">
-        <div class="col-lg-5 col-12 property_list_wrapper">
+        <div class="col-lg-5 col-12 property_list_wrapper ">
             <div class="pv_wrapper">
                 <div class="pv_header">
                     <div class="pv_title">Properties</div>
@@ -348,14 +348,16 @@
         $(document).ready(function() {
             $('.property-card').click(function() {
                 $('#backBtn').addClass('property_bk_btn_show');
-                $('.property_list_wrapper').hide();  // Hide left column
-                $('.property_detail_wrapper').show(); // Show right column
+                $('.property_list_wrapper').toggleClass('hide_this');   // Hide left column
+                // $('.property_list_wrapper').removeClass('show_this');   // Hide left column
+                $('.property_detail_wrapper').addClass('show_this');  // Show right column
             });
             
             $('#backBtn').click(function() {
                 $('#backBtn').removeClass('property_bk_btn_show');
-            $('.property_detail_wrapper').hide(); // Hide right column
-            $('.property_list_wrapper').show();  // Show left column
+            $('.property_detail_wrapper').toggleClass('hide_this');  // Hide right column
+            // $('.property_list_wrapper').addClass('show_this');   // Show left column
+            $('.property_list_wrapper').toggleClass('hide_this');   // Show left column
             });
         });
     </script>

@@ -305,6 +305,17 @@ ul#propertiesSubmenu li.sidebar-sub-list-item:hover a {
     padding-top: 16px;
 }
 
+.property_list_wrapper{
+    &.show_this{
+        display: block;
+    }
+}
+.property_detail_wrapper{
+    &.show_this{
+        display: block;
+    }
+}
+
 /* ========================================
 Header
 ==========================================*/
@@ -920,7 +931,7 @@ input[type="radio"]:checked+label::before {
 
 /* Mobile */
 @media (min-width:766px) {
-   
+
     #wrapper {
         margin-left: unset;
         width: 100%;
@@ -953,12 +964,28 @@ input[type="radio"]:checked+label::before {
 
 @media (max-width: 766px) {
 
+    .property_list_wrapper{
+        &.hide_this{
+            display: none;
+        }
+        &.show_this{
+            display: block;
+        }
+    }
+    .property_detail_wrapper{
+        &.hide_this{
+            display: none;
+        }
+        &.show_this{
+            display: block;
+        }
+    }
+
     .view_properties{
         .property_list_wrapper{
 
         }
         .property_detail_wrapper{
-            display: none;
             padding: 0;
             .poperty_tabs{
                 display: none;
@@ -980,6 +1007,33 @@ input[type="radio"]:checked+label::before {
                 .pv_content_detail{
                     .pv_content{
                         display: none;
+                        &.mobile_only{
+                            display: block;
+                            .rs_property_icons{
+                                justify-content: center;
+                                padding-bottom: 20px;
+                            }
+                            .pvc_price
+                            {
+                                display: flex;
+                                 justify-content: space-between;
+                            }
+                            .rs_row{
+                                display: flex;
+                                flex-direction: column;
+                                gap: 8px;
+                                .rs_col{
+                                    width: 100%;
+                                    .pv_type,
+                                    .pv_availability,
+                                    .pv_status,
+                                    .pv_service{
+                                        display: flex;
+                                        justify-content: space-between;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

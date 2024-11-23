@@ -121,28 +121,28 @@
     {{-- mobile view only end  --}}
     <div class="pvd_other_content border_bottom">
         <div class="row">
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-4 col-12">
                 <div class="row">
-                    <div class="col-lg-5 col-12 mb-2">Furnished</div>
-                    <div class="col-lg-7 col-12 mb-2">Unfurnished</div>
-                    <div class="col-lg-5 col-12 mb-2">Parking</div>
-                    <div class="col-lg-7 col-12 mb-2">Yes</div>
-                    <div class="col-lg-5 col-12 mb-2">Balcony</div>
-                    <div class="col-lg-7 col-12 mb-2">Yes</div>
-                    <div class="col-lg-5 col-12 mb-2">Garden</div>
-                    <div class="col-lg-7 col-12 mb-2">Yes</div>
+                    <div class="col-lg-5 col-6 mb-2 ">Furnished</div>
+                    <div class="col-lg-7 col-6 mb-2 text-lg-start text-end">Unfurnished</div>
+                    <div class="col-lg-5 col-6 mb-2 ">Parking</div>
+                    <div class="col-lg-7 col-6 mb-2 text-lg-start text-end">Yes</div>
+                    <div class="col-lg-5 col-6 mb-2 ">Balcony</div>
+                    <div class="col-lg-7 col-6 mb-2 text-lg-start text-end">Yes</div>
+                    <div class="col-lg-5 col-6 mb-2 ">Garden</div>
+                    <div class="col-lg-7 col-6 mb-2 text-lg-start text-end">Yes</div>
                 </div>
             </div>
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-4 col-12">
                 <div class="row">
-                    <div class="col-lg-6 col-12 mb-2">Collecting Rent</div>
-                    <div class="col-lg-6 col-12 mb-2">Yes</div>
-                    <div class="col-lg-6 col-12 mb-2">Area Sqr. Feet</div>
-                    <div class="col-lg-6 col-12 mb-2">800</div>
-                    <div class="col-lg-6 col-12 mb-2">Area Sqr. Meter</div>
-                    <div class="col-lg-6 col-12 mb-2">20</div>
-                    <div class="col-lg-6 col-12 mb-2">Aspects</div>
-                    <div class="col-lg-6 col-12 mb-2">North</div>
+                    <div class="col-lg-6 col-6 mb-2 ">Collecting Rent</div>
+                    <div class="col-lg-6 col-6 mb-2 text-lg-start text-end">Yes</div>
+                    <div class="col-lg-6 col-6 mb-2 ">Area Sqr. Feet</div>
+                    <div class="col-lg-6 col-6 mb-2 text-lg-start text-end">800</div>
+                    <div class="col-lg-6 col-6 mb-2 ">Area Sqr. Meter</div>
+                    <div class="col-lg-6 col-6 mb-2 text-lg-start text-end">20</div>
+                    <div class="col-lg-6 col-6 mb-2 ">Aspects</div>
+                    <div class="col-lg-6 col-6 mb-2 text-lg-start text-end">North</div>
                 </div>
 
             </div>

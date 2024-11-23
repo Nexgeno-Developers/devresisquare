@@ -315,6 +315,9 @@ ul#propertiesSubmenu li.sidebar-sub-list-item:hover a {
         display: block;
     }
 }
+.mobile_only{
+    display: none;
+}
 
 /* ========================================
 Header
@@ -721,7 +724,7 @@ input[type="radio"]:checked+label::before {
     cursor: pointer;
 
     overflow-y: auto;
-    height: calc(100% - 107px);
+    height: calc(100vh - 107px);
     padding-right: 6px;
 
     :hover{
@@ -794,6 +797,49 @@ input[type="radio"]:checked+label::before {
 
 }
 
+.view_properties{
+    .mobile_footer{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: 16px;
+        box-shadow: 0px -3px 5px #0000005c;
+        border-radius: 20px 20px 0 0;
+
+        .pvdh_btns_wrapper{
+            display: flex;
+            gap: 16px;
+            a{
+                width: 100%;
+            }
+            .add_property_mobile{
+                min-height: 50px;
+                min-width: 50px;
+                border-radius: 100%;
+                position: relative;
+                &::after{
+                    content: '+';
+                    position: absolute;
+                    top: -28px;
+                    left: 4px;
+                    font-size: 60px;
+                    font-weight: 800;
+                }
+            }
+        }
+        a.mobile_icon_btn{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--primary-700);
+            i.bi{
+                font-size: 20px;
+            }
+         }
+    }
+}
 
 /* -------------- Tabs --------------------- */
 .property_detail_wrapper{
@@ -960,27 +1006,32 @@ input[type="radio"]:checked+label::before {
     }
 }
 
-/* Desktop  Medium screen */
+/* Mobile only screen */
 
 @media (max-width: 766px) {
 
-    .property_list_wrapper{
-        &.hide_this{
-            display: none;
-        }
-        &.show_this{
-            display: block;
-        }
-    }
-    .property_detail_wrapper{
-        &.hide_this{
-            display: none;
-        }
-        &.show_this{
-            display: block;
-        }
-    }
+.mobile_only{
+    display: block;
+}
 
+.hide_this{
+            display: none;
+        }
+        &.show_this{
+            display: block;
+        }
+
+.hide_this{
+            display: none;
+        }
+        &.show_this{
+            display: block;
+        }
+
+.pv_card_wrapper{
+        overflow-y: visible;
+        height: auto;
+}
     .view_properties{
         .property_list_wrapper{
 

@@ -5,7 +5,7 @@
         <div class="col-md-6 col-12 left_col">
             <div class="left_content_wrapper">
                 <div class="left_content_img">
-                    <img src="{{ asset('asset/images/svg/pin.svg') }}" alt="Property Address">
+                    <i class="bi bi-building-fill"></i>
                 </div>
                 <div class="left_title">
                     What<br /> <span class="secondary-color">type of property</span><br /> do you have?

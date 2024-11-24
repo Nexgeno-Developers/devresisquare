@@ -5,7 +5,7 @@
         <div class="col-md-6 col-12 left_col">
             <div class="left_content_wrapper">
                 <div class="left_content_img">
-                    <img src="{{ asset('asset/images/svg/sofa.svg') }}" alt="Property Address">
+                    <i class="bi bi-cup-hot-fill"></i>
                 </div>
                 <div class="left_title">
                     Is you property <br/><span class="secondary-color">Furnish</span>?

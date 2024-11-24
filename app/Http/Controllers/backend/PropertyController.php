@@ -371,16 +371,21 @@ class PropertyController
                 ];
             case 7:
                 return [
-                    // 'bedroom' => 'required|string',
-                    // 'reception' => 'required|string',
+                    'parking' => 'required|string',
+                    'garden' => 'required|string',
+                    'balcony' => 'required|string',
+                ];
+            case 8:
+                return [
                     'price' => 'required|numeric',
                     'available_from' => 'required|date',
                 ];
-            // case 5:
-            //     return [
-            //         // 'price' => 'required|numeric',
-            //         // 'available_from' => 'required|date',
-            //     ];
+            case 9:
+                return [
+                    'price' => 'required|numeric',
+                    'available_from' => 'required|date',
+                ];
+
             default:
                 return [];
         }

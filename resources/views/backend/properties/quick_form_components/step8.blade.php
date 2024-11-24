@@ -1,46 +1,64 @@
-<!-- resources/views/backend/properties/quick_form_components/step5.blade.php -->
-
 @php $currentStep = 8 ; @endphp
+<!-- resources/views/backend/properties/quick_form_components/step8.blade.php -->
 <div class="container-fluid mt-4 quick_add_property">
     <div class="row">
         <div class="col-md-6 col-12 left_col">
             <div class="left_content_wrapper">
                 <div class="left_content_img">
-                    <img src="{{ asset('asset/images/svg/pound.svg') }}" alt="Property Address">
+                    <i class="bi bi-currency-pound"></i>
                 </div>
                 <div class="left_title">
-                    Property <span class="secondary-color">price</span><br /> and <span
-                        class="secondary-color">availability</span>
+                    Property <span class="secondary-color">Price</span> and <br/>
+                    <span class="secondary-color">Availability</span>
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-12 right_col">
-            <form id="property-form-step-{{ $currentStep }}" method="POST" action="{{ route('admin.properties.quick_store') }}">
+            <form id="property-form-step-{{$currentStep}}" method="POST" action="{{ route('admin.properties.quick_store') }}">
                 @csrf
                 <!-- Hidden field for property ID with isset check -->
-                <input type="hidden" id="property_id" class="property_id" name="property_id" value="{{ (isset($property) ? $property->id : '') }}"> 
-                <input type="hidden" name="step" value="4">
-                <div class="right_content_wrapper" data-step-name="Property Address" data-step-number="{{ $currentStep }}">
-                    <div class="form-group">
-                        <label for="price">Sale Price</label>
-                        <div class="price_input_wrapper">
-                            <div class="pound_sign">£</div>
-                            <input type="text" name="price" id="price" class="form-control" value="{{ isset($property) && $property->price ? $property->price : '' }}" required>
-                        </div>
-                        @error('price')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                <input type="hidden" id="property_id" class="property_id" name="property_id"
+                    value="{{ (isset($property) ? $property->id : '') }}">
+                <div data-step-name="Property Address" data-step-number="{{$currentStep}}"></div>
+                <div class="right_content_wrapper">
+                    <div class="">
+                        <div class="rc_title">Price</div>
+                        <x-backend.input-comp
+                            class=""
+                            inputOpt="input_price" 
+                            inputType="number" 
+                            rightIcon="Per Month"
+                         />
                     </div>
-                    <div class="form-group">
-                        <label for="available_from">Date of Availability</label>
-                        <input type="date" name="available_from" id="available_from" class="form-control"
-                            value="{{ isset($property) && $property->available_from ? $property->available_from : '' }}" required>
-                        @error('available_from')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                    <div class="">
+                        <div class="rc_title">Tenancy Start Date</div>
+                        <div class="radio_bts_square">
+                            <input required type="radio" class="garden-radio" name="garden" id="garden1"
+                                value="yes" {{ (isset($property) && $property->garden == 'yes') ? 'checked' : '' }} />
+                            <label for="garden1"> Yes </label>
+                            <input required type="radio" class="garden-radio" name="garden" id="garden2"
+                                value="no" {{ (isset($property) && $property->garden == 'no') ? 'checked' : '' }} />
+                            <label for="garden2"> No </label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <input required type="radio" class="management-radio" name="management" id="management1"
+                            value="yes" {{ (isset($property) && $property->management == 'yes') ? 'checked' : '' }} />
+                            <label for="management1"> Management </label>
+                        </div>
+                        <div class="">
+                            <input required type="radio" class="premium-management-radio" name="premium-management" id="premium-management2"
+                                value="no" {{ (isset($property) && $property->premium-management == 'no') ? 'checked' : '' }} />
+                            <label for="premium-management2"> Premium Management </label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary margin-top-5 mt-5 w-100 last-step-submit" data-current-step="{{ $currentStep }}">Submit</button>
+                <div class="d-flex d-none gap-3">
+                    <button type="button" class="btn btn-secondary previous-step mt-2 w-100" data-previous-step="{{$currentStep-1}}"
+                        data-current-step="{{$currentStep}}">Previous</button>
+                    <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-100" data-next-step="{{$currentStep+1}}"
+                        data-current-step="{{$currentStep}}">Next</button>
+                </div>
             </form>
         </div>
     </div>

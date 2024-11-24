@@ -5,7 +5,7 @@
         <div class="col-md-6 col-12 left_col">
             <div class="left_content_wrapper">
                 <div class="left_content_img">
-                    <img src="{{ asset('asset/images/svg/pin.svg') }}" alt="Property Address">
+                    <i class="bi bi-geo-alt-fill"></i>
                 </div>
                 <div class="left_title">
                     Where is your<br /> <span class="secondary-color">property</span>?
@@ -16,6 +16,8 @@
             <form id="property-form-step-{{$currentStep}}" method="POST" action="{{ route('admin.properties.quick_store') }}">
                 @csrf
                 <!-- Hidden field for property ID with isset check -->
+                
+                
                 <input type="hidden" id="property_id" class="property_id" name="property_id"
                     value="{{ (isset($property) ? $property->id : '') }}">
                 <div data-step-name="Property Address" data-step-number="{{$currentStep}}"></div>

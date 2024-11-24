@@ -5,7 +5,7 @@
         <div class="col-md-6 col-12 left_col">
             <div class="left_content_wrapper">
                 <div class="left_content_img">
-                    <img src="{{ asset('asset/images/svg/sofa.svg') }}" alt="Property Address">
+                    <img src="{{ asset('asset/images/svg/icons/bed.svg') }}" alt="Property Address">
                 </div>
                 <div class="left_title">
                     How many <span class="secondary-color">Bedrooms</span><br /> do you have?

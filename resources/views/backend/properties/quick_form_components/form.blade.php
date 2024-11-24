@@ -253,11 +253,28 @@ $(document).ready(function() {
     });
     $(document).on('click', '.furnish-radio', function(e) {
         e.preventDefault();
-        const currentStep9 = $('.next-step').data('current-step');
-        const targetStep10 = $('.next-step').data('next-step');
+        const currentStep11 = $('.next-step').data('current-step');
+        const targetStep12 = $('.next-step').data('next-step');
 
-        handleStepChange(currentStep9, targetStep10);
+        handleStepChange(currentStep11, targetStep12);
     });
+
+    function checkSelectionsAndSubmit() {
+        const parkingSelected = $('input[name="parking"]:checked').val();
+        const gardenSelected = $('input[name="garden"]:checked').val();
+        const balconySelected = $('input[name="balcony"]:checked').val();
+
+        // If both parkings and balcony Rooms are selected, submit the form
+        if (parkingSelected && gardenSelected && balconySelected) {
+            const currentStep13 = $('.next-step').data('current-step');
+            const targetStep14 = $('.next-step').data('next-step');
+
+            handleStepChange(currentStep13, targetStep14);
+        }
+    }
+    $(document).on('click', '.parking-radio', checkSelectionsAndSubmit);
+    $(document).on('click', '.garden-radio', checkSelectionsAndSubmit);
+    $(document).on('click', '.balcony-radio', checkSelectionsAndSubmit);
 
 });
 </script>

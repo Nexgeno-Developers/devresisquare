@@ -1,4 +1,7 @@
 @import url(./../../css/main-style.css);
+@import url(./../../css/toastr.min.css);
+@import url(./media.css);
+
 html,
 body {
     height: 100%;
@@ -1207,3 +1210,4 @@ input[type="radio"]:checked+label::before {
 .tab-pane.active {
     display: block;
 } */
+

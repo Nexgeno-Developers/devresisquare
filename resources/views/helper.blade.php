@@ -365,6 +365,7 @@
                                 placeHolder="Full Name"
                                 isLabel={{True}}
                                 label="Name" 
+                                isDate={{False}}
                             />
                             <blockquote>
                                 &lt;x-backend.input-comp
@@ -376,6 +377,7 @@
                                     placeHolder="Full Name"
                                     isLabel=&#x2774;&#x2774;True&#x2775;&#x2775; 
                                     label="Name" 
+                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775; 
                                 /&gt;
                             </blockquote>
                         </div>
@@ -393,6 +395,7 @@
                                 inputName="price"
                                 isLabel={{False}}
                                 label="Price" 
+                                isDate={{False}}
                             />
                             <blockquote>
                                 &lt;x-backend.input-comp
@@ -403,6 +406,7 @@
                                     inputName="price"
                                     isLabel=&#x2774;&#x2774;False&#x2775;&#x2775; 
                                     label="Price" 
+                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775; 
                                 /&gt;
                             </blockquote>
                         </div>
@@ -431,7 +435,7 @@
                                     inputName="from_date"
                                     isLabel=&#x2774;&#x2774;False&#x2775;&#x2775; 
                                     label="" 
-                                    isLabel=&#x2774;&#x2774;True&#x2775;&#x2775; 
+                                    isDate=&#x2774;&#x2774;True&#x2775;&#x2775; 
                                 /&gt;
                             </blockquote>
                         </div>

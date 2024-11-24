@@ -825,7 +825,6 @@ input[type="radio"]:checked+label::before {
                 right: 15px;
                 bottom: 104px;
                 position: absolute;
-                }
                 .icon_btn{
                     position: relative;
                     &::after{

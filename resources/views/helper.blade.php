@@ -62,6 +62,9 @@
         table{
             background: #fff;
         }
+        .rs_input{
+            background: #fff;
+        }
     </style>
 </head>
 <body>
@@ -74,6 +77,7 @@
                     <li><a href="#cards"> Cards</a></li>
                     <li><a href="#tables"> Tables</a></li>
                     <li><a href="#dropdown"> Dropdown</a></li>
+                    <li><a href="#inputs"> Inputs</a></li>
                 </ul>
             </div>
         </div>
@@ -341,6 +345,99 @@
                             </blockquote>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="h_section_wrapper" id="inputs">
+                <h2>Inputs</h2>
+                <blockquote>
+                    Default Dropdown use "isIcon" false</br>Icon Dropdown use "isIcon" true </br>
+                </blockquote>
+                <div class="row gap-16 ml_0">
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Text Input With Label</h6>
+                            <x-backend.input-comp
+                                class=""
+                                inputOpt="" 
+                                inputType="text" 
+                                rightIcon=""
+                                inputName="full_name"
+                                placeHolder="Full Name"
+                                isLabel={{True}}
+                                label="Name" 
+                            />
+                            <blockquote>
+                                &lt;x-backend.input-comp
+                                    class=""
+                                    inputOpt="" 
+                                    inputType="text" 
+                                    rightIcon=""
+                                    inputName="full_name"
+                                    placeHolder="Full Name"
+                                    isLabel=&#x2774;&#x2774;True&#x2775;&#x2775; 
+                                    label="Name" 
+                                /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    {{-- h_section end  --}}
+
+                    <div class="h_section">
+                        <div class="">
+                            <h6>With Label</h6>
+                            <x-backend.input-comp
+                                class=""
+                                inputOpt="input_price" 
+                                inputType="number" 
+                                rightIcon="Per Month"
+                                inputName="price"
+                                isLabel={{False}}
+                                label="Price" 
+                            />
+                            <blockquote>
+                                &lt;x-backend.input-comp
+                                    class=""
+                                    inputOpt="input_price" 
+                                    inputType="number" 
+                                    rightIcon="Per Month"
+                                    inputName="price"
+                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775; 
+                                    label="Price" 
+                                /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    {{-- h_section end  --}}
+
+                    <div class="h_section">
+                        <div class="">
+                            <h6>With Label</h6>
+                            <x-backend.input-comp
+                                class=""
+                                inputOpt="" 
+                                inputType="date" 
+                                rightIcon=""
+                                inputName="from_date"
+                                isLabel={{False}}
+                                label="" 
+                                isDate={{True}}
+                            />
+                            <blockquote>
+                                &lt;x-backend.input-comp
+                                    class=""
+                                    inputOpt="" 
+                                    inputType="date" 
+                                    rightIcon=""
+                                    inputName="from_date"
+                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775; 
+                                    label="" 
+                                    isLabel=&#x2774;&#x2774;True&#x2775;&#x2775; 
+                                /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    {{-- h_section end  --}}
+                    
                 </div>
             </div>
         </div>

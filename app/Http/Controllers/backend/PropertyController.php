@@ -61,10 +61,10 @@ class PropertyController
     ];
 
     // Validate if the tabName exists in the tabs array. If not, set it to 'Property'
-    $validTabNames = array_column($tabs, 'name');
-    if (!in_array($tabName, $validTabNames)) {
-        $tabName = 'Property'; // Default to Property if the provided tabName is invalid
-    }
+    // $validTabNames = array_column($tabs, 'name');
+    // if (!in_array($tabName, $validTabNames)) {
+    //     $tabName = 'Property'; // Default to Property if the provided tabName is invalid
+    // }
 
     // Retrieve the content for the selected tab and property
     $content = $this->getTabContent($tabName, $propertyId, $property); // Dynamically get content for the tab and property
@@ -181,7 +181,9 @@ private function getTabContent($tabname, $propertyId, $property)
                 // Final submission handling
                 // Flush all session data except specified keys in one line
                 //$this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
-                return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
+                flash("Property Added/Updated successfully!")->success();
+                return redirect()->route('admin.properties.index');
+                // return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
             }
 
             // Load the next step view

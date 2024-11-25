@@ -908,9 +908,9 @@ input[type="radio"]:checked+label::before {
             align-items: center;
             gap: 16px;
             position: relative;
-            #backBtn{
-                display: none;
-            }
+        }
+        #backBtn{
+            display: none;
         }
         .pv_content_detail{
             display: flex;

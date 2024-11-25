@@ -8,12 +8,4 @@
             </li>
         @endforeach
     </ul>
-
-    {{-- <div class="tab-content">
-        @foreach ($tabs as $key => $tab)
-            <div id="{{ Str::slug($tab['name']) }}" class="tab-pane {{ $key === 0 ? 'active' : '' }}">
-                {{ $tab['content'] }}
-            </div>
-        @endforeach
-    </div> --}}
 </div>

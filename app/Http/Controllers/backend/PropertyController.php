@@ -46,6 +46,7 @@ class PropertyController
     $property = $propertyId ? Property::findOrFail($propertyId) : $properties->first(); // Use the first property if none is selected
 
     // Get tabs for properties (you can customize the tabs as per your needs)
+    
     $tabs = [
         ['name' => 'Property'],
         ['name' => 'Owners'],

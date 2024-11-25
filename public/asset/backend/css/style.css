@@ -243,6 +243,7 @@ a, a:hover{text-decoration: none !important ;}
             &:focus-visible{
                 outline: unset;
             }
+            width: 65%;
         }
     }
     &.with_label{

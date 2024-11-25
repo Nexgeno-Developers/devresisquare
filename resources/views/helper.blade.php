@@ -60,12 +60,12 @@
             }
         }
         
-        table{
+        table,
+        .rs_input,
+        .pv_content_wrapper{
             background: #fff;
         }
-        .rs_input{
-            background: #fff;
-        }
+
 
         
         @media (max-width: 766px) {
@@ -357,9 +357,7 @@
             </div>
             <div class="h_section_wrapper" id="inputs">
                 <h2>Inputs</h2>
-                <blockquote>
-                    Default Dropdown use "isIcon" false</br>Icon Dropdown use "isIcon" true </br>
-                </blockquote>
+
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
                         <div class="">
@@ -394,7 +392,7 @@
 
                     <div class="h_section">
                         <div class="">
-                            <h6>With Label</h6>
+                            <h6>Price without Label</h6>
                             <x-backend.input-comp
                                 class=""
                                 inputOpt="input_price" 
@@ -423,7 +421,7 @@
 
                     <div class="h_section">
                         <div class="">
-                            <h6>With Label</h6>
+                            <h6>Date Input</h6>
                             <x-backend.input-comp
                                 class=""
                                 inputOpt="" 

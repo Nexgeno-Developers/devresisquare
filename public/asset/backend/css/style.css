@@ -100,11 +100,23 @@ a, a:hover{text-decoration: none !important ;}
 }
 
 .table-container {
-            width: 100%;
-            overflow-x: auto;
-        }
+        width: 100%;
+        overflow-x: auto;
+    }
 
-.rs_table {
+
+/* ========================================
+          Components
+==========================================*/
+.dynamic_div{
+    .desktop_only{
+        display: block;
+    }
+    .mobile_only{
+        display: none;
+    }
+}
+/* .rs_table {
     width: 100%;
     border-collapse: collapse;
 
@@ -142,6 +154,18 @@ a, a:hover{text-decoration: none !important ;}
             font-weight: bold;
         }
     }
+} */
+
+.rs_table {
+
+    th, td {
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--primary-300);
+        text-align: left;
+    }
+    th {
+            background-color: var(--primary-100);
+        }
 }
 
 .dropdown{
@@ -202,9 +226,6 @@ a, a:hover{text-decoration: none !important ;}
     }
 }
 
-/* ========================================
-          Components
-==========================================*/
 
 .rs_input{
     input{
@@ -997,9 +1018,9 @@ input[type="radio"]:checked+label::before {
     }
 }
 
-/* Desktop  Medium screen */
+/* Mobile only  screen */
 
-@media (max-width: 1800px) {
+@media (max-width: 766px) {
 
      .main-content{
         padding-left: 16px;
@@ -1077,5 +1098,29 @@ input[type="radio"]:checked+label::before {
             padding: 16px;
             padding-top: 24px;
         }
+    }
+
+    /* components */
+
+    .dynamic_div{
+        .desktop_only{
+            display: none;
+        }
+        .mobile_only{
+            display: block;
+        }
+    }
+
+    .rs_mobile_table{
+        .data-row {
+            display: flex; flex-direction: column; margin-bottom: 10px;
+            border-bottom: 1px solid var(--primary-200);
+        .tr_row{
+            display: flex;
+            justify-content: space-between;
+        } 
+        } 
+        .data-row div { padding: 5px 0; } 
+        .data-row div:nth-child(odd) { font-weight: bold; }
     }
 }

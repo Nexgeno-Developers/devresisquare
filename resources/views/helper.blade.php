@@ -59,11 +59,20 @@
                 width:fit-content;
             }
         }
+        
         table{
             background: #fff;
         }
         .rs_input{
             background: #fff;
+        }
+
+        
+        @media (max-width: 766px) {
+            .h_section{
+                width: 100% !important;
+            }
+
         }
     </style>
 </head>
@@ -286,9 +295,8 @@
                                 @php 
                                 $headers = ['id','Name', 'Position', 'Phone', 'email', 'City']; 
                                 $rows = [ 
-                                    ['id' => 1, 'name'=> 'John Doe', 'postion'=>'Owner', 'phone'=> '456798462', 'email'=> 'john@example.com', 'city'=> 'London' ], 
-                                    ['id' => 2, 'name'=> 'Jane Smith', 'postion'=>'Owner', 'phone'=> '974511268', 'email'=> 'jane@example.com', 'city'=> 'Mumbair' ], 
-                                    ['id' => 3, 'name'=>  'Jack Johnson',  'postion'=>'Landlord','phone'=>  '14563278','email'=> 'jack@example.com', 'city'=> 'Canada' ], 
+                                    [1, 'John Doe', 'Owner', '456798462', 'john@example.com', 'London'], 
+                                    [2, 'Jane Smith', 'Owner', '974511268', 'jane@example.com', 'Mumbai'], 
                                 ];
                             @endphp
                             <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='' />

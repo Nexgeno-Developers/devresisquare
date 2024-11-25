@@ -1,49 +1,8 @@
 @extends('backend.layout.app')
 
 @section('content')
-    <style>
-        .pv_tabs {
-            font-family: Arial, sans-serif;
-        }
-
-        .pv_tabs ul {
-            display: flex;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .pv_tabs ul li {
-            margin-right: 20px;
-        }
-
-        .pv_tabs ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            padding: 10px;
-        }
-
-        .pv_tabs ul li a.active {
-            color: #007bff;
-            border-bottom: 2px solid #007bff;
-        }
-
-        .tab-content {
-            margin-top: 20px;
-        }
-
-        .tab-pane {
-            display: none;
-        }
-
-        .tab-pane.active {
-            display: block;
-        }
-    </style>
-
-    <div class="row">
-        <div class="col-lg-5 col-12">
+    <div class="row view_properties">
+        <div class="col-lg-5 col-12 property_list_wrapper ">
             <div class="pv_wrapper">
                 <div class="pv_header">
                     <div class="pv_title">Properties</div>
@@ -70,10 +29,10 @@
             </div>
             {{-- pv_wrapper end  --}}
         </div>
-        <div class="col-lg-7 col-12 p-0">
+        <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
             <div class="pv_detail_wrapper">
 
-                <x-backend.properties-tabs :tabs="$tabs" />
+                <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
                 {{-- <x-backend.properties-tabs :tabs="[
                 ['name' => 'Property', 'content' => 'Property details here...'],
                 ['name' => 'Owners', 'content' => 'Owner details here...'],
@@ -99,14 +58,35 @@
                                 link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
                         </div>
                     </div>
-                    <div class="pv_content_detail">
-                        {!! $content !!}
-                        <!-- The dynamic tab content will be injected here by AJAX -->
-                        {{-- render first tabs blade file from view example @include('backend.properties.tabs' . $tabname) $tabname in small case --}}
+                    <div class="pv_content_detail_wrapper">
+                        <i class="bi bi-chevron-left" id="backBtn"></i>
+                        <div class="pv_content_detail">
+                            {!! $content !!}
+                            <!-- The dynamic tab content will be injected here by AJAX -->
+                            {{-- render first tabs blade file from view example @include('backend.properties.tabs' . $tabname) $tabname in small case --}}
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="mobile_footer mobile_only">
+                <div class="pvdh_btns_wrapper">
+                    <x-backend.mobile-button  name="Add Tenacy" link="{{ route('admin.properties.quick') }}" iconName="file-plus" />
+                    <x-backend.mobile-button  name="Add Offer" link="{{ route('admin.properties.quick') }}" iconName="file-text" />
+                    <x-backend.mobile-button  name="Edit Property" link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
+                    <x-backend.main-button
+                        class="add_property_mobile"
+                        name=""
+                        type="secondary"
+                        size="sm"
+                        isOutline="{{false}}"
+                        isLinkBtn={{false}}
+                        link="https://#"
+                        onClick="copyHtml()"
+                    />
+                </div>
+            </div>
         </div>
+        
     </div>
 @endsection
 
@@ -382,5 +362,19 @@
         //     // Call the simulateTabClickAndPropertyCard function on document ready
         //     simulateTabClickAndPropertyCard();
         // });
+
+        $(document).ready(function() {
+            $('.property-card').click(function() {
+                $('#backBtn').addClass('property_bk_btn_show');
+                $('.property_list_wrapper').toggleClass('hide_this');   // Hide left column
+                $('.property_detail_wrapper').addClass('show_this');  // Show right column
+            });
+            
+            $('#backBtn').click(function() {
+                $('#backBtn').removeClass('property_bk_btn_show');
+            $('.property_detail_wrapper').toggleClass('show_this');  // Hide right column
+            $('.property_list_wrapper').toggleClass('hide_this');   // Show left column
+            });
+        });
     </script>
 @endsection

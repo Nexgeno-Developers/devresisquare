@@ -25,7 +25,7 @@
     <header  id="header" class="py-3">
         <div class="container-fluid">
             <div class="top_header tw-ml-1">
-                
+
                 @include('backend.partials.navbar')
             </div>
         </div>

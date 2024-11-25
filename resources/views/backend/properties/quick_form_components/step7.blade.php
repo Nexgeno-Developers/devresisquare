@@ -8,7 +8,7 @@
                     <i class="bi bi-car-front-fill"></i>
                 </div>
                 <div class="left_title">
-                    Which <span class="secondary-color">Amenity</span>does<br/>
+                    Which <span class="secondary-color">Amenity</span> does<br/>
                     your property have?
                 </div>
             </div>

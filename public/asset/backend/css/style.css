@@ -741,6 +741,12 @@ input[type="radio"]:checked+label::before {
 }
 
 
+.property_type_wrapper{
+    .right_content_wrapper{
+        width: 320px;
+    }
+}
+
 
 
 

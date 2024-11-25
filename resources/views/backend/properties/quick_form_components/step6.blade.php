@@ -24,7 +24,7 @@
                         <div class="radio_bts_square_icon rs_furnishing">
                             <input type="radio" class="propertyType" name="frunishing_type"
                                 id="frunishing_type_furnished" value="furnished" {{ (isset($property) && $property->frunishing_type == 'furnished') ? 'checked' : '' }} required>
-                            <label for="frunishing_type_appartment">
+                            <label for="frunishing_type_furnished">
                                 {{-- <img src="{{ asset('asset/images/svg/apartment_600.svg') }}" alt="apartment"> --}}
                                 Furnished
                             </label>

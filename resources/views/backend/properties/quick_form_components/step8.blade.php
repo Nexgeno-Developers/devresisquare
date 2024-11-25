@@ -24,33 +24,39 @@
                     <div class="">
                         <div class="rc_title">Price</div>
                         <x-backend.input-comp
-                            class=""
+                            class="prince_input"
                             inputOpt="input_price" 
                             inputType="number" 
                             rightIcon="Per Month"
+                            inputName="price"
+                            isLabel={{False}}
+                            label="Price" 
+                            isDate={{False}}
                          />
                     </div>
                     <div class="">
                         <div class="rc_title">Tenancy Start Date</div>
-                        <div class="radio_bts_square">
-                            <input required type="radio" class="garden-radio" name="garden" id="garden1"
-                                value="yes" {{ (isset($property) && $property->garden == 'yes') ? 'checked' : '' }} />
-                            <label for="garden1"> Yes </label>
-                            <input required type="radio" class="garden-radio" name="garden" id="garden2"
-                                value="no" {{ (isset($property) && $property->garden == 'no') ? 'checked' : '' }} />
-                            <label for="garden2"> No </label>
-                        </div>
+                        <x-backend.input-comp
+                            class="tenancy_date"
+                            inputOpt=""
+                            inputType="date"
+                            rightIcon=""
+                            inputName="from_date"
+                            isLabel={{False}}
+                            label=""
+                            isDate={{True}}
+                            />
                     </div>
                     <div class="">
                         <div class="">
                             <input required type="radio" class="management-radio" name="management" id="management1"
-                            value="yes" {{ (isset($property) && $property->management == 'yes') ? 'checked' : '' }} />
+                            value="management" {{ (isset($property) && $property->management == 'management') ? 'checked' : '' }} />
                             <label for="management1"> Management </label>
                         </div>
                         <div class="">
-                            <input required type="radio" class="premium-management-radio" name="premium-management" id="premium-management2"
-                                value="no" {{ (isset($property) && $property->premium-management == 'no') ? 'checked' : '' }} />
-                            <label for="premium-management2"> Premium Management </label>
+                            <input required type="radio" class="premium-management-radio" name="management" id="management2"
+                                value="premium management" {{ (isset($property) && $property->management == 'premium management') ? 'checked' : '' }} />
+                            <label for="management2"> Premium Management </label>
                     </div>
                 </div>
                 <div class="d-flex d-none gap-3">

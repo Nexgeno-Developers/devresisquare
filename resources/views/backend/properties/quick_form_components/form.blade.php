@@ -276,6 +276,24 @@ $(document).ready(function() {
     $(document).on('click', '.garden-radio', checkSelectionsAndSubmit);
     $(document).on('click', '.balcony-radio', checkSelectionsAndSubmit);
 
+    function checkStep7AndSubmit() {
+        const priceSelected = $('input[name="price"]').val();
+        const tenancyDateSelected = $('input[name="garden"]:checked').val();
+        const managementSelected = $('input[name="management"]:checked').val();
+
+        // If both parkings and balcony Rooms are selected, submit the form
+        if (priceSelected && tenancyDateSelected && managementSelected ) {
+            const currentStep13 = $('.next-step').data('current-step');
+            const targetStep14 = $('.next-step').data('next-step');
+
+            handleStepChange(currentStep13, targetStep14);
+        }
+    }
+    $(document).on('click', '.prince_input', checkStep7AndSubmit);
+    $(document).on('click', '.garden-radio', checkStep7AndSubmit);
+    $(document).on('click', '.management-radio', checkStep7AndSubmit);
+
+
 });
 </script>
 @endsection

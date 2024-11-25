@@ -1,7 +1,7 @@
 <!-- resources/views/backend/properties/quick_form_components/step3.blade.php -->
 @php $currentStep = 2 ; @endphp
 <div class="container-fluid mt-4 quick_add_property">
-    <div class="row">
+    <div class="row property_type_wrapper">
         <div class="col-md-6 col-12 left_col">
             <div class="left_content_wrapper">
                 <div class="left_content_img">

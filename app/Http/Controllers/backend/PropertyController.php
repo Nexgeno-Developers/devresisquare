@@ -379,6 +379,7 @@ class PropertyController
                 return [
                     'price' => 'required|numeric',
                     'available_from' => 'required|date',
+                    'management' => 'required|string',
                 ];
             case 9:
                 return [

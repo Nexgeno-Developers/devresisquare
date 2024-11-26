@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\backend;
+namespace App\View\Components\Backend;
 use Illuminate\View\Component;
 
 class PropertiesTabs extends Component

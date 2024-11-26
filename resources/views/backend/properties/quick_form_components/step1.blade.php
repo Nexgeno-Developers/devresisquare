@@ -46,7 +46,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="form-group col-lg-6 col-12">
+                                <div class="form-group col-lg-7 col-12">
                                     <label for="country">Country</label>
                                     <input required type="text" name="country" id="country" class="form-control"
                                         value="{{ (isset($property) && $property->country) ? $property->country : '' }}">
@@ -54,7 +54,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="form-group col-lg-6 col-12">
+                                <div class="form-group col-lg-5 col-12">
                                     <label for="postcode">Postcode</label>
                                     <input required type="text" name="postcode" id="postcode" class="form-control"
                                         value="{{ (isset($property) && $property->postcode) ? $property->postcode : '' }}">

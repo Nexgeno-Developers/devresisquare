@@ -378,13 +378,7 @@ class PropertyController
             case 8:
                 return [
                     'price' => 'required|numeric',
-                    'available_from' => 'required|date',
                     'management' => 'required|string',
-                ];
-            case 9:
-                return [
-                    'price' => 'required|numeric',
-                    'available_from' => 'required|date',
                 ];
 
             default:

@@ -48,6 +48,53 @@
                             />
                     </div>
                     <div class="">
+                        <div class="rc_title">Tenancy Length</div>
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <div class="form-group">
+                                    <label for="months">Months</label>
+                                    @php
+                                        $months = [];
+                                        for ($i = 1; $i <= 36; $i++) {
+                                            $months[] = "$i";
+                                        }
+                                        $selectedMonth = '1'; 
+                                    @endphp
+                                    <x-backend.dropdown
+                                        :options="$months"
+                                        :selected="$selectedMonth"
+                                        isIcon={{false}}
+                                        class=""
+                                        />
+                                    @error('months')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div class="form-group">
+                                    <label for="days">Days</label>
+                                    @php
+                                        $days = [];
+                                        for ($i = 1; $i <= 30; $i++) {
+                                            $days[] = "$i";
+                                        }
+                                        $selectedDays = '1'; 
+                                    @endphp
+                                    <x-backend.dropdown
+                                        :options="$days"
+                                        :selected="$selectedDays"
+                                        isIcon={{false}}
+                                        class=""
+                                        />
+                                    @error('days')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
                         <div class="">
                             <input required type="radio" class="management-radio" name="management" id="management1"
                             value="management" {{ (isset($property) && $property->management == 'management') ? 'checked' : '' }} />
@@ -59,11 +106,8 @@
                             <label for="management2"> Premium Management </label>
                     </div>
                 </div>
-                <div class="d-flex d-none gap-3">
-                    <button type="button" class="btn btn-secondary previous-step mt-2 w-100" data-previous-step="{{$currentStep-1}}"
-                        data-current-step="{{$currentStep}}">Previous</button>
-                    <button type="button" class="btn btn-primary btn-sm next-step mt-2 w-100" data-next-step="{{$currentStep+1}}"
-                        data-current-step="{{$currentStep}}">Next</button>
+                <div class="d-flex gap-3">
+                    <button type="submit" class="btn btn_secondary margin-top-5 mt-5 w-100 last-step-submit" data-current-step="{{ $currentStep }}">Submit</button>
                 </div>
             </form>
         </div>

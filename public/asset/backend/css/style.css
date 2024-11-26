@@ -698,7 +698,9 @@ input[type="radio"]:checked+label::before {
     }
     .right_content_wrapper {
     
-        .qap_bedrroms{
+        .qap_bedrooms,
+        .qap_bathrooms,
+        .qap_reception{
             width: 320px;
         }
         .rc_title {

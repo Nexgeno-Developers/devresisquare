@@ -225,7 +225,7 @@ $(document).ready(function() {
 
     // Function to check if both Bedrooms and Reception Rooms have been selected
 
-
+/* Quick Step 3 */
     // Handle Next and Previous button clicks
     $(document).on('click', '.bedroom-radio', function(e) {
         e.preventDefault();
@@ -234,7 +234,7 @@ $(document).ready(function() {
 
         handleStepChange(currentStep5, targetStep6);
     });
-
+/* Quick Step 4 */
     // Handle Next and Previous button clicks
     $(document).on('click', '.bathroom-radio', function(e) {
         e.preventDefault();
@@ -243,6 +243,7 @@ $(document).ready(function() {
 
         handleStepChange(currentStep7, targetStep8);
     });
+    /* Quick Step 5 */
     // Handle Next and Previous button clicks
     $(document).on('click', '.reception-radio', function(e) {
         e.preventDefault();
@@ -251,6 +252,7 @@ $(document).ready(function() {
 
         handleStepChange(currentStep9, targetStep10);
     });
+    /* Quick Step 6 */
     $(document).on('click', '.furnish-radio', function(e) {
         e.preventDefault();
         const currentStep11 = $('.next-step').data('current-step');
@@ -258,7 +260,7 @@ $(document).ready(function() {
 
         handleStepChange(currentStep11, targetStep12);
     });
-
+/* Quick Step 7 */
     function checkSelectionsAndSubmit() {
         const parkingSelected = $('input[name="parking"]:checked').val();
         const gardenSelected = $('input[name="garden"]:checked').val();
@@ -276,23 +278,21 @@ $(document).ready(function() {
     $(document).on('click', '.garden-radio', checkSelectionsAndSubmit);
     $(document).on('click', '.balcony-radio', checkSelectionsAndSubmit);
 
-    function checkStep7AndSubmit() {
+    /* Quick Step 8 */
+    function checkStep8AndSubmit() {
         const priceSelected = $('input[name="price"]').val();
-        const tenancyDateSelected = $('input[name="garden"]:checked').val();
         const managementSelected = $('input[name="management"]:checked').val();
 
         // If both parkings and balcony Rooms are selected, submit the form
-        if (priceSelected && tenancyDateSelected && managementSelected ) {
+        if (priceSelected  && managementSelected ) {
             const currentStep13 = $('.next-step').data('current-step');
             const targetStep14 = $('.next-step').data('next-step');
 
             handleStepChange(currentStep13, targetStep14);
         }
     }
-    $(document).on('click', '.prince_input', checkStep7AndSubmit);
-    $(document).on('click', '.garden-radio', checkStep7AndSubmit);
-    $(document).on('click', '.management-radio', checkStep7AndSubmit);
-
+    $(document).on('click', '.prince_input', checkStep8AndSubmit);
+    $(document).on('click', '.management-radio', checkStep8AndSubmit);
 
 });
 </script>

@@ -20,7 +20,7 @@
                     value="{{ (isset($property) ? $property->id : '') }}">
                 <div data-step-name="Property Address" data-step-number="{{$currentStep}}"></div>
                 <div class="right_content_wrapper">
-                    <div class="">
+                    <div class="qap_bathrooms">
                         <div class="radio_bts_square">
                             <input required type="radio" class="bathroom-radio" name="bathroom" id="bathroom1"
                                 value="1" {{ (isset($property) && $property->bathroom == '1') ? 'checked' : '' }} />

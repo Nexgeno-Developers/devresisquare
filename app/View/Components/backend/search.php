@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\backend;
+namespace App\View\Components\Backend;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class search extends Component
+class Search extends Component
 {
     public $class, $value, $placeholder, $onClick ;
     public function __construct( $class, $value = null, $placeholder, $onClick=null)

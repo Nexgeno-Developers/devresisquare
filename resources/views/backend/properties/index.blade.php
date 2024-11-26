@@ -6,23 +6,11 @@
             <div class="pv_wrapper">
                 <div class="pv_header">
                     <div class="pv_title">Properties</div>
-                    <x-backend.search-comp
-                        class=""
-                        value=""
-                        placeholder="Search"
-                        onclick=""
-                    />
+                    <x-backend.search-comp class="" value="" placeholder="Search" onclick="" />
 
                     <div class="pv_btn">
-                        <x-backend.main-button
-                            class=""
-                            name="Add Property"
-                            type="secondary"
-                            size="sm"
-                            isLinkBtn={{true}}
-                            link="{{ route('admin.properties.quick') }}"
-                            onclick=""
-                        />
+                        <x-backend.main-button class="" name="Add Property" type="secondary" size="sm"
+                            isLinkBtn={{ true }} link="{{ route('admin.properties.quick') }}" onclick="" />
                     </div>
                 </div>
                 {{-- pv_header end --}}
@@ -52,19 +40,8 @@
         <div class="col-lg-7 col-12 p-0">
             <div class="pv_detail_wrapper">
 
-                <x-backend.properties-tabs :tabs="[
-                    ['name' => 'Property', 'content' => 'Property details here...'],
-                    ['name' => 'Owners', 'content' => 'Owner details here...'],
-                    ['name' => 'Offers', 'content' => 'Offers details here...'],
-                    ['name' => 'Complience', 'content' => 'Complience details here...'],
-                    ['name' => 'Tenancy', 'content' => 'Tenancy details here...'],
-                    ['name' => 'APS', 'content' => 'APS details here...'],
-                    ['name' => 'Media', 'content' => 'Media details here...'],
-                    ['name' => 'Teams', 'content' => 'Team details here...'],
-                    ['name' => 'Contractor', 'content' => 'Contractor details here...'],
-                    ['name' => 'Work Offer', 'content' => 'Work Offer details here...'],
-                    ['name' => 'Note', 'content' => 'Note details here...']
-                ]" />
+                <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
+
                 <div class="pv_detail_content">
                     <div class="pv_detail_header">
                         <div class="pv_main_title">{{--$tabname--}} Detail</div>
@@ -141,6 +118,10 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 627324155dd103ea7fdf784a3a0b701f11df1d1a
     </div>
 @endsection
 
@@ -460,7 +441,7 @@
                 $('.property_list_wrapper').toggleClass('hide_this');   // Hide left column
                 $('.property_detail_wrapper').addClass('show_this');  // Show right column
             });
-            
+
             $('#backBtn').click(function() {
                 $('#backBtn').removeClass('property_bk_btn_show');
                 $('.property_detail_wrapper').addClass('hide_this');

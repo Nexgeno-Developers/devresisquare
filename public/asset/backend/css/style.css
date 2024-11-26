@@ -173,7 +173,7 @@ a, a:hover{text-decoration: none !important ;}
 }
 
 .dropdown{
-    
+
     .rs_dropdown{
         border: 1px solid var(--primary-200);
         border-radius: 6px;
@@ -226,7 +226,7 @@ a, a:hover{text-decoration: none !important ;}
         .dropdown-menu {
             right: 0;
             left: unset;
-        } 
+        }
     }
 }
 
@@ -720,7 +720,7 @@ input[type="radio"]:checked+label::before {
         height: 100%;
     }
     .right_content_wrapper {
-    
+
         .qap_bedrooms,
         .qap_bathrooms,
         .qap_reception{
@@ -753,7 +753,7 @@ input[type="radio"]:checked+label::before {
     .radio_bts_square {
         flex-wrap: wrap;
         gap: 12px;
-    
+
         label {
             width: 80px;
             height: 80px;
@@ -786,7 +786,7 @@ input[type="radio"]:checked+label::before {
 /* ==============================================================================================
  ==============================================================================================
 
-                                      View Properties           
+                                      View Properties
 
 =================================================================================================
 =================================================================================================*/
@@ -977,7 +977,7 @@ input[type="radio"]:checked+label::before {
             margin: 0;
             padding: 0;
             li{
-                list-style: none; 
+                list-style: none;
                 cursor: pointer;
 
                 a{
@@ -1000,7 +1000,7 @@ input[type="radio"]:checked+label::before {
         &::-webkit-scrollbar {
             display: none;
           }
-          
+
     }
     .pv_detail_content{
             display: flex;
@@ -1025,7 +1025,7 @@ input[type="radio"]:checked+label::before {
                 height: 12rem;
                 overflow: hidden;
                 border-radius: 6px;
-    
+
                 img{
                     width: 100%;
                     height: 100%;
@@ -1044,13 +1044,13 @@ input[type="radio"]:checked+label::before {
                 flex-direction: column;
                 gap: 16px;
                 border-radius: 6px;
-        
+
                 .pv_content{
-        
+
                     display: flex;
                     flex-direction: column;
                     gap: 6px;
-        
+
                     .pvc_poperty_name{
                         font-size: 18px;
                         font-weight: 600;
@@ -1076,12 +1076,12 @@ input[type="radio"]:checked+label::before {
                         }
                     }
                 }
-            
+
             }
-            
+
         }
     }
-   
+
 }
 
 
@@ -1100,7 +1100,7 @@ input[type="radio"]:checked+label::before {
     .left_inner_menu {
         display: none;
     }
-    
+
 }
 
 
@@ -1127,7 +1127,7 @@ input[type="radio"]:checked+label::before {
     }
 }
 
-/* Mobile only  screen */
+/* Mobile only screen */
 
 @media (max-width: 766px) {
 
@@ -1161,9 +1161,6 @@ body.show-sidebar #menu.sidebar {
         height: auto;
 }
     .view_properties{
-        .property_list_wrapper{
-
-        }
         .property_detail_wrapper{
             padding: 0;
             .poperty_tabs{
@@ -1295,9 +1292,9 @@ body.show-sidebar #menu.sidebar {
         .tr_row{
             display: flex;
             justify-content: space-between;
-        } 
-        } 
-        .data-row div { padding: 5px 0; } 
+        }
+        }
+        .data-row div { padding: 5px 0; }
         .data-row div:nth-child(odd) { font-weight: bold; }
     }
 }

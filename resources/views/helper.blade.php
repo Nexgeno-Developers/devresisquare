@@ -42,7 +42,7 @@
                 padding: unset;
 
                 li{
-                    
+
                     a{
                         text-decoration: none;
                         color:#000;
@@ -59,18 +59,14 @@
                 width:fit-content;
             }
         }
-        
+
         table,
         .rs_input,
         .pv_content_wrapper{
             background: #fff;
         }
+       
 
-
-        .rs_input{
-            background: #fff;
-        }
-        
         @media (max-width: 766px) {
             .h_section{
                 width: 100% !important;
@@ -97,9 +93,9 @@
             <div class="h_section_wrapper" id="buttons">
                 <h2>Buttons</h2>
                 <blockquote>
-                    <p>"Type" should be "secondary" or "primary". 
-                    "isOutline" to make button ouline make it "True" or "False" 
-                    If "isLinkBtn" is true button will be  < a > tag, its required link prop and if its false button will be < button >  
+                    <p>"Type" should be "secondary" or "primary".
+                    "isOutline" to make button ouline make it "True" or "False"
+                    If "isLinkBtn" is true button will be  < a > tag, its required link prop and if its false button will be < button >
                     "Size" should be "sm" or "lg".</p>
                 </blockquote>
                 <div class="row gap-16 ml_0">
@@ -231,7 +227,7 @@
                                     available="02/05/2025"
                                     price="6542"
                                     cardStyle=""
-                                    propertyId="1" 
+                                    propertyId="1"
                                 />
                             </div>
                             <blockquote>
@@ -246,7 +242,7 @@
                                 available="&#x2774;&#x2774; &#36;pproperty['available_from'] &#x2775;&#x2775;"
                                 price="&#x2774;&#x2774; &#36;pproperty['price'] &#x2775;&#x2775;"
                                 cardStyle="" //for horizontal keep blank //
-                                propertyId="&#x2774;&#x2774; &#36;property['id'] &#x2775;&#x2775;" 
+                                propertyId="&#x2774;&#x2774; &#36;property['id'] &#x2775;&#x2775;"
                                 /&gt;
                            </blockquote>
                         </div>
@@ -279,9 +275,9 @@
                                 living="&#x2774;&#x2774; &#36;pproperty['reception'] &#x2775;&#x2775;"
                                 type="&#x2774;&#x2774; &#36;pproperty['property_type'] &#x2775;&#x2775;"
                                 available="&#x2774;&#x2774; &#36;pproperty['available_from'] &#x2775;&#x2775;"
-                                price="&#x2774;&#x2774; &#36;pproperty['price'] &#x2775;&#x2775;" 
+                                price="&#x2774;&#x2774; &#36;pproperty['price'] &#x2775;&#x2775;"
                                 cardStyle="vertical" //for Vertical chnage only this //
-                                propertyId="&#x2774;&#x2774; &#36;property['id'] &#x2775;&#x2775;" 
+                                propertyId="&#x2774;&#x2774; &#36;property['id'] &#x2775;&#x2775;"
                                 /&gt;
                            </blockquote>
                         </div>
@@ -295,18 +291,18 @@
                         <div class="">
                             <h6>Responsive Table</h6>
                             {{-- table  compoent start--}}
-                                @php 
-                                $headers = ['id','Name', 'Position', 'Phone', 'email', 'City']; 
-                                $rows = [ 
-                                    [1, 'John Doe', 'Owner', '456798462', 'john@example.com', 'London'], 
-                                    [2, 'Jane Smith', 'Owner', '974511268', 'jane@example.com', 'Mumbai'], 
+                                @php
+                                $headers = ['id','Name', 'Position', 'Phone', 'email', 'City'];
+                                $rows = [
+                                    [1, 'John Doe', 'Owner', '456798462', 'john@example.com', 'London'],
+                                    [2, 'Jane Smith', 'Owner', '974511268', 'jane@example.com', 'Mumbai'],
                                 ];
                             @endphp
                             <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='' />
                             <blockquote>
-                                &lt;x-backend.dynamic-table 
-                                    :headers="&#36;headers" 
-                                    :rows="&#36;rows" 
+                                &lt;x-backend.dynamic-table
+                                    :headers="&#36;headers"
+                                    :rows="&#36;rows"
                                     class = ""
                                 /&gt;
                             </blockquote>
@@ -323,16 +319,16 @@
                     <div class="h_section">
                         <div class="">
                             <h6>Dropdown</h6>
-                            @php 
-                            $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ]; 
-                            $selectedCountry = 'ca'; 
+                            @php
+                            $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ];
+                            $selectedCountry = 'ca';
                             @endphp
                             <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}} />
                             <blockquote>
-                                &lt;x-backend.dropdown 
+                                &lt;x-backend.dropdown
                                     :options="&#36;countries"
                                     :selected="&#36;selectedCountry"
-                                    isIcon=&#x2774;&#x2774;false &#x2775;&#x2775; 
+                                    isIcon=&#x2774;&#x2774;false &#x2775;&#x2775;
                                     class=""
                                 /&gt;
                             </blockquote>
@@ -341,16 +337,16 @@
                     <div class="h_section">
                         <div class="">
                             <h6>Dropdown Icon Button</h6>
-                            @php 
-                            $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ]; 
-                            $selectedCountry = 'edit'; 
+                            @php
+                            $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ];
+                            $selectedCountry = 'edit';
                             @endphp
                             <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} />
                             <blockquote>
-                                &lt;x-backend.dropdown 
+                                &lt;x-backend.dropdown
                                     :options="&#36;countries"
                                     :selected="&#36;selectedCountry"
-                                    isIcon=&#x2774;&#x2774;true &#x2775;&#x2775; 
+                                    isIcon=&#x2774;&#x2774;true &#x2775;&#x2775;
                                     class=""
                                 /&gt;
                             </blockquote>
@@ -361,38 +357,45 @@
             <div class="h_section_wrapper" id="inputs">
                 <h2>Inputs</h2>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
                 <blockquote>
                     Default Dropdown use "isIcon" false</br>Icon Dropdown use "isIcon" true </br>
                 </blockquote>
 >>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
+=======
+                <blockquote>
+                    Default Dropdown use "isIcon" false</br>Icon Dropdown use "isIcon" true </br>
+                </blockquote>
+
+>>>>>>> 627324155dd103ea7fdf784a3a0b701f11df1d1a
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
                         <div class="">
                             <h6>Text Input With Label</h6>
                             <x-backend.input-comp
                                 class=""
-                                inputOpt="" 
-                                inputType="text" 
+                                inputOpt=""
+                                inputType="text"
                                 rightIcon=""
                                 inputName="full_name"
                                 placeHolder="Full Name"
                                 isLabel={{True}}
-                                label="Name" 
+                                label="Name"
                                 isDate={{False}}
                             />
                             <blockquote>
                                 &lt;x-backend.input-comp
                                     class=""
-                                    inputOpt="" 
-                                    inputType="text" 
+                                    inputOpt=""
+                                    inputType="text"
                                     rightIcon=""
                                     inputName="full_name"
                                     placeHolder="Full Name"
-                                    isLabel=&#x2774;&#x2774;True&#x2775;&#x2775; 
-                                    label="Name" 
-                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775; 
+                                    isLabel=&#x2774;&#x2774;True&#x2775;&#x2775;
+                                    label="Name"
+                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775;
                                 /&gt;
                             </blockquote>
                         </div>
@@ -401,31 +404,35 @@
 
                     <div class="h_section">
                         <div class="">
+<<<<<<< HEAD
 <<<<<<< HEAD
                             <h6>Price without Label</h6>
 =======
                             <h6>With Label</h6>
 >>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
+=======
+                            <h6>Price without Label</h6>
+>>>>>>> 627324155dd103ea7fdf784a3a0b701f11df1d1a
                             <x-backend.input-comp
                                 class=""
-                                inputOpt="input_price" 
-                                inputType="number" 
+                                inputOpt="input_price"
+                                inputType="number"
                                 rightIcon="Per Month"
                                 inputName="price"
                                 isLabel={{False}}
-                                label="Price" 
+                                label="Price"
                                 isDate={{False}}
                             />
                             <blockquote>
                                 &lt;x-backend.input-comp
                                     class=""
-                                    inputOpt="input_price" 
-                                    inputType="number" 
+                                    inputOpt="input_price"
+                                    inputType="number"
                                     rightIcon="Per Month"
                                     inputName="price"
-                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775; 
-                                    label="Price" 
-                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775; 
+                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775;
+                                    label="Price"
+                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775;
                                 /&gt;
                             </blockquote>
                         </div>
@@ -435,36 +442,40 @@
                     <div class="h_section">
                         <div class="">
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <h6>Date Input</h6>
 =======
                             <h6>With Label</h6>
 >>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
+=======
+                            <h6>Date Input</h6>
+>>>>>>> 627324155dd103ea7fdf784a3a0b701f11df1d1a
                             <x-backend.input-comp
                                 class=""
-                                inputOpt="" 
-                                inputType="date" 
+                                inputOpt=""
+                                inputType="date"
                                 rightIcon=""
                                 inputName="from_date"
                                 isLabel={{False}}
-                                label="" 
+                                label=""
                                 isDate={{True}}
                             />
                             <blockquote>
                                 &lt;x-backend.input-comp
                                     class=""
-                                    inputOpt="" 
-                                    inputType="date" 
+                                    inputOpt=""
+                                    inputType="date"
                                     rightIcon=""
                                     inputName="from_date"
-                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775; 
-                                    label="" 
-                                    isDate=&#x2774;&#x2774;True&#x2775;&#x2775; 
+                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775;
+                                    label=""
+                                    isDate=&#x2774;&#x2774;True&#x2775;&#x2775;
                                 /&gt;
                             </blockquote>
                         </div>
                     </div>
                     {{-- h_section end  --}}
-                    
+
                 </div>
             </div>
         </div>

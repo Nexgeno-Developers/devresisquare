@@ -9,11 +9,108 @@ use Illuminate\Support\Facades\Log;
 
 class PropertyController
 {
-    public function index()
-    {
-        $properties = Property::all(); // Fetch all properties
-        return view('backend.properties.index', compact('properties'));
+    // public function index(Request $request)
+    // {
+    //     $properties = Property::all(); // Fetch all properties
+    //     // Get property ID and tabname from the query parameters
+    //     $propertyId = $request->query('property_id');
+    //     $tabName = $request->query('tabname', 'property'); // Default to 'property' if no tab is specified
+
+    //     // Get tabs for properties
+    //     $tabs = [
+    //         ['name' => 'Property'],
+    //         ['name' => 'Owners'],
+    //         ['name' => 'Offers'],
+    //         ['name' => 'Complience'],
+    //         ['name' => 'Tenancy'],
+    //         ['name' => 'APS'],
+    //         ['name' => 'Media'],
+    //         ['name' => 'Teams'],
+    //         ['name' => 'Contractor'],
+    //         ['name' => 'Work Offer'],
+    //         ['name' => 'Note']
+    //     ];
+
+    //     return view('backend.properties.index', compact('properties', 'tabs', 'propertyId', 'tabName'));
+    // }
+    public function index(Request $request)
+{
+    // Fetch all properties
+    $properties = Property::all();
+
+    // Get property_id and tabname from query parameters
+    $propertyId = $request->query('property_id');
+    $tabName = $request->query('tabname', 'property'); // Default to 'property' if no tab is specified
+
+    // Check if the property_id is provided, otherwise, select the first property or handle it gracefully
+    $property = $propertyId ? Property::findOrFail($propertyId) : $properties->first(); // Use the first property if none is selected
+
+    // Get tabs for properties (you can customize the tabs as per your needs)
+
+    $tabs = [
+        ['name' => 'Property'],
+        ['name' => 'Owners'],
+        ['name' => 'Offers'],
+        ['name' => 'Complience'],
+        ['name' => 'Tenancy'],
+        ['name' => 'APS'],
+        ['name' => 'Media'],
+        ['name' => 'Teams'],
+        ['name' => 'Contractor'],
+        ['name' => 'Work Offer'],
+        ['name' => 'Note']
+    ];
+
+    // Validate if the tabName exists in the tabs array. If not, set it to 'Property'
+    // $validTabNames = array_column($tabs, 'name');
+    // if (!in_array($tabName, $validTabNames)) {
+    //     $tabName = 'Property'; // Default to Property if the provided tabName is invalid
+    // }
+
+    // Retrieve the content for the selected tab and property
+    $content = $this->getTabContent($tabName, $propertyId, $property); // Dynamically get content for the tab and property
+
+    // Check if the request is via AJAX (this handles dynamic content loading)
+    if ($request->ajax()) {
+        // If the request is via AJAX, return only the content
+        return response()->json(['content' => $content]);
     }
+
+    // Pass data to the view
+    return view('backend.properties.index', compact('properties', 'tabs', 'propertyId', 'tabName', 'content', 'property'));
+}
+
+private function getTabContent($tabname, $propertyId, $property)
+{
+    switch (strtolower($tabname)) {
+        case 'property':
+            // Pass only the selected property details
+            return view('backend.properties.tabs.property', compact('propertyId', 'tabname', 'property'))->render();
+        case 'owners':
+            return view('backend.properties.tabs.owners', compact('propertyId'))->render();
+        case 'offers':
+            return view('backend.properties.tabs.offers', compact('propertyId'))->render();
+        case 'complience':
+            return view('backend.properties.tabs.complience', compact('propertyId'))->render();
+        case 'tenancy':
+            return view('backend.properties.tabs.tenancy', compact('propertyId'))->render();
+        case 'aps':
+            return view('backend.properties.tabs.aps', compact('propertyId'))->render();
+        case 'media':
+            return view('backend.properties.tabs.media', compact('propertyId'))->render();
+        case 'teams':
+            return view('backend.properties.tabs.teams', compact('propertyId'))->render();
+        case 'contractor':
+            return view('backend.properties.tabs.contractor', compact('propertyId'))->render();
+        case 'work offer':
+            return view('backend.properties.tabs.work_offer', compact('propertyId'))->render();
+        case 'note':
+            return view('backend.properties.tabs.note', compact('propertyId'))->render();
+        default:
+            return 'Tab content not found';
+    }
+}
+
 
     // Show the form for creating a new property.
     public function create()
@@ -85,7 +182,9 @@ class PropertyController
                 // Final submission handling
                 // Flush all session data except specified keys in one line
                 //$this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
-                return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
+                flash("Property Added/Updated successfully!")->success();
+                return redirect()->route('admin.properties.index');
+                // return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
             }
 
             // Load the next step view
@@ -327,7 +426,132 @@ class PropertyController
 
         return redirect()->route('admin.properties.index')->with('success', 'Selected properties restored successfully.');
     }
+    // // Method to load the tab content for a specific property and tab
+    // public function showTabContent($property_id, $tabname)
+    // {
+    //     // Fetch the property by ID
+    //     $property = Property::findOrFail($property_id);
 
+    //     // Determine the content for the tab by loading the appropriate Blade view
+    //     $content = $this->getTabContent($tabname, $property);
+
+    //     return response()->json(['content' => $content]);
+    // }
+
+    // // A helper method to determine the content of the tab
+    // private function getTabContent($tabname, $property)
+    // {
+    //     // Mapping tab names to view files
+    //     switch (strtolower($tabname)) {
+    //         case 'property':
+    //             return view('backend.properties.tabs.property', compact('property'))->render();
+    //         case 'owners':
+    //             return view('backend.properties.tabs.owners', compact('property'))->render();
+    //         case 'offers':
+    //             return view('backend.properties.tabs.offers', compact('property'))->render();
+    //         case 'complience':
+    //             return view('backend.properties.tabs.complience', compact('property'))->render();
+    //         case 'tenancy':
+    //             return view('backend.properties.tabs.tenancy', compact('property'))->render();
+    //         case 'aps':
+    //             return view('backend.properties.tabs.aps', compact('property'))->render();
+    //         case 'media':
+    //             return view('backend.properties.tabs.media', compact('property'))->render();
+    //         case 'teams':
+    //             return view('backend.properties.tabs.teams', compact('property'))->render();
+    //         case 'contractor':
+    //             return view('backend.properties.tabs.contractor', compact('property'))->render();
+    //         case 'work offer':
+    //             return view('backend.properties.tabs.work_offer', compact('property'))->render();
+    //         case 'note':
+    //             return view('backend.properties.tabs.note', compact('property'))->render();
+    //         default:
+    //             return 'Tab content not found';
+    //     }
+    // }
+    // public function showTabContent($property_id, $tabname)
+    // {
+    //     // Fetch the property data based on the ID
+    //     $property = Property::findOrFail($property_id);
+
+    //     // Define the response view and data for the tab
+    //     $view = '';
+    //     $data = [];
+
+    //     // Use an if-else or switch-case to determine which view to load
+    //     switch ($tabname) {
+    //         case 'property':
+    //             $view = 'backend.properties.tabs.property';
+    //             $data = ['property' => $property];
+    //             break;
+
+    //         case 'owners':
+    //             $view = 'backend.properties.tabs.owners';
+    //             $owners = $property->owners; // Assuming a relationship exists
+    //             $data = ['owners' => $owners];
+    //             break;
+
+    //         case 'offers':
+    //             $view = 'backend.properties.tabs.offers';
+    //             // $offers = Offer::where('property_id', $property_id)->get(); // Example query
+    //             // $data = ['offers' => $offers];
+    //             break;
+
+    //         case 'complience':
+    //             $view = 'backend.properties.tabs.complience';
+    //             $complianceDetails = $property->complianceDetails; // Example model relationship
+    //             $data = ['complianceDetails' => $complianceDetails];
+    //             break;
+
+    //         case 'tenancy':
+    //             $view = 'backend.properties.tabs.tenancy';
+    //             $tenancies = $property->tenancies; // Example model relationship
+    //             $data = ['tenancies' => $tenancies];
+    //             break;
+
+    //         case 'aps':
+    //             $view = 'backend.properties.tabs.aps';
+    //             $apsDetails = $property->apsDetails; // Example model relationship
+    //             $data = ['apsDetails' => $apsDetails];
+    //             break;
+
+    //         case 'media':
+    //             $view = 'backend.properties.tabs.media';
+    //             $media = $property->media; // Example model relationship
+    //             $data = ['media' => $media];
+    //             break;
+
+    //         case 'teams':
+    //             $view = 'backend.properties.tabs.teams';
+    //             $teams = $property->teams; // Example model relationship
+    //             $data = ['teams' => $teams];
+    //             break;
+
+    //         case 'contractor':
+    //             $view = 'backend.properties.tabs.contractor';
+    //             $contractors = $property->contractors; // Example model relationship
+    //             $data = ['contractors' => $contractors];
+    //             break;
+
+    //         case 'work-offer':
+    //             $view = 'backend.properties.tabs.work-offer';
+    //             $workOffers = $property->workOffers; // Example model relationship
+    //             $data = ['workOffers' => $workOffers];
+    //             break;
+
+    //         case 'note':
+    //             $view = 'backend.properties.tabs.note';
+    //             $notes = $property->notes; // Example model relationship
+    //             $data = ['notes' => $notes];
+    //             break;
+
+    //         default:
+    //             return response()->json(['error' => 'Invalid tab name'], 404);
+    //     }
+
+    //     // Render the appropriate view with the data
+    //     return view($view, $data);
+    // }
 
     private function getValidationRulesQuick($step)
     {
@@ -533,7 +757,4 @@ class PropertyController
             $property->save();
         }
     }
-
-
-
 }

@@ -67,6 +67,9 @@
         }
 
 
+        .rs_input{
+            background: #fff;
+        }
         
         @media (max-width: 766px) {
             .h_section{
@@ -357,7 +360,13 @@
             </div>
             <div class="h_section_wrapper" id="inputs">
                 <h2>Inputs</h2>
+<<<<<<< HEAD
 
+=======
+                <blockquote>
+                    Default Dropdown use "isIcon" false</br>Icon Dropdown use "isIcon" true </br>
+                </blockquote>
+>>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
                         <div class="">
@@ -392,7 +401,11 @@
 
                     <div class="h_section">
                         <div class="">
+<<<<<<< HEAD
                             <h6>Price without Label</h6>
+=======
+                            <h6>With Label</h6>
+>>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
                             <x-backend.input-comp
                                 class=""
                                 inputOpt="input_price" 
@@ -421,7 +434,11 @@
 
                     <div class="h_section">
                         <div class="">
+<<<<<<< HEAD
                             <h6>Date Input</h6>
+=======
+                            <h6>With Label</h6>
+>>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
                             <x-backend.input-comp
                                 class=""
                                 inputOpt="" 

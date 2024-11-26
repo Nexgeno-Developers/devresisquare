@@ -35,5 +35,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/deleted', [PropertyController::class, 'showSoftDeletedProperties'])->name('soft_deleted');
         Route::post('/restore/{id}', [PropertyController::class, 'restore'])->name('restore');
         Route::post('/bulk-restore', [PropertyController::class, 'bulkRestore'])->name('bulk-restore');
+        // Route::get('/{property_id}/{tabname}', [PropertyController::class, 'showTabContent'])->name('tabcontent');
     });
 });

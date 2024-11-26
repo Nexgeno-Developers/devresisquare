@@ -1,3 +1,7 @@
+@import url(./../../css/main-style.css);
+@import url(./../../css/toastr.min.css);
+@import url(./media.css);
+
 html,
 body {
     height: 100%;
@@ -314,10 +318,11 @@ a, a:hover{text-decoration: none !important ;}
 .sidebar {
     top: 0;
     left: 0;
-    height: 100%;
+    height: 100vh;
     width: 250px;
     transition: width 0.3s;
     overflow-x: hidden;
+    overflow-y: auto;
     background-color: var(--primary-100) !important;
 }
 
@@ -369,7 +374,25 @@ ul#propertiesSubmenu li.sidebar-sub-list-item:hover a {
     color: var(--black);
     height: unset;
 }
+/* ================================= */
 
+.main_content{
+    padding-top: 16px;
+}
+
+.property_list_wrapper{
+    &.show_this{
+        display: block;
+    }
+}
+.property_detail_wrapper{
+    &.show_this{
+        display: block;
+    }
+}
+.mobile_only{
+    display: none;
+}
 
 /* ========================================
 Header
@@ -809,7 +832,7 @@ input[type="radio"]:checked+label::before {
     cursor: pointer;
 
     overflow-y: auto;
-    height: calc(100% - 107px);
+    height: calc(100vh - 107px);
     padding-right: 6px;
 
     :hover{
@@ -882,9 +905,60 @@ input[type="radio"]:checked+label::before {
 
 }
 
+.view_properties{
+    .mobile_footer{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: 16px;
+        box-shadow: 0px -3px 5px #0000005c;
+        border-radius: 20px 20px 0 0;
+
+        .pvdh_btns_wrapper{
+            display: flex;
+            gap: 16px;
+            a{
+                width: 100%;
+            }
+            .add_property_mobile{
+                min-height: 50px;
+                min-width: 50px;
+                border-radius: 100%;
+                right: 15px;
+                bottom: 104px;
+                position: absolute;
+                .icon_btn{
+                    position: relative;
+                    &::after{
+                        content: '+';
+                        position: absolute;
+                        top: -44px;
+                        left: -20px;
+                        font-size: 60px;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+        a.mobile_icon_btn{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--primary-700);
+            text-align: center;
+            i.bi{
+                font-size: 20px;
+            }
+         }
+    }
+}
 
 /* -------------- Tabs --------------------- */
-
+.property_detail_wrapper{
+    padding: 0 24px;
+}
 .pv_detail_wrapper{
     display: flex;
     flex-direction: column;
@@ -893,9 +967,13 @@ input[type="radio"]:checked+label::before {
     .pv_tabs{
         border-bottom: 1px solid var(--primary-300) ;
         padding-bottom: 8px;
+        height: 40px;
+        overflow: hidden;
+        overflow-x: auto;
         ul{
             display: flex;
             gap: 16px;
+            flex-wrap: nowrap;
             margin: 0;
             padding: 0;
             li{
@@ -909,6 +987,7 @@ input[type="radio"]:checked+label::before {
 
                     &:hover{
                         color: var(--primary);
+                        font-weight: 500;
                     }
 
                     &.active{
@@ -918,7 +997,10 @@ input[type="radio"]:checked+label::before {
                 }
             }
         }
-
+        &::-webkit-scrollbar {
+            display: none;
+          }
+          
     }
     .pv_detail_content{
             display: flex;
@@ -931,35 +1013,38 @@ input[type="radio"]:checked+label::before {
             gap: 16px;
             position: relative;
         }
+        #backBtn{
+            display: none;
+        }
         .pv_content_detail{
             display: flex;
             flex-direction: column;
             gap: 32px;
+            .pv_image{
+                width: 18rem;
+                height: 12rem;
+                overflow: hidden;
+                border-radius: 6px;
+    
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    @media (max-width: 766px) {
+                        position: absolute;
+                        width: 100%;
+                        border-radius: unset;
+                        height: 300px;
+                    }
+                }
+            }
             .pvd_content_wrapper{
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
                 border-radius: 6px;
         
-                .pv_image{
-                    width: 18rem;
-                    height: 12rem;
-                    overflow: hidden;
-                    border-radius: 6px;
-        
-                    img{
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        object-position: center;
-                        @media (max-width: 766px) {
-                            position: absolute;
-                            width: 100%;
-                            border-radius: unset;
-                            height: 300px;
-                        }
-                    }
-                }
                 .pv_content{
         
                     display: flex;
@@ -1006,7 +1091,7 @@ input[type="radio"]:checked+label::before {
 
 /* Mobile */
 @media (min-width:766px) {
-   
+
     #wrapper {
         margin-left: unset;
         width: 100%;
@@ -1020,18 +1105,25 @@ input[type="radio"]:checked+label::before {
 
 
 /* Desktop large screen */
-@media (min-width:1281px) {
+@media (min-width:768px) and (max-width:1800px) {
+   /* sidebar */
     body.show-sidebar #menu {
-        display: block;
-    }
+        width: 120px;
+        .sidebar-list-item a .sidebar-sub-list-item a,
+        .sidebar-list-item a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+        }
 
-    #wrapper {
-        margin-left: 40px;
-        width: calc(100% - 303px)
-    }
-
-    .left_inner_menu {
-        display: flex;
+        .sidebar-list-item a img {
+            width: 24px;
+        }
+        li{
+            margin: 0;
+        }
     }
 }
 
@@ -1039,38 +1131,106 @@ input[type="radio"]:checked+label::before {
 
 @media (max-width: 766px) {
 
-     .main-content{
+.mobile_only{
+    display: block;
+}
+
+.hide_this{
+            display: none;
+        }
+        &.show_this{
+            display: block;
+        }
+
+.hide_this{
+            display: none;
+        }
+        &.show_this{
+            display: block;
+        }
+
+/*sidebar */
+body.show-sidebar #menu.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+.pv_card_wrapper{
+        overflow-y: visible;
+        height: auto;
+}
+    .view_properties{
+        .property_list_wrapper{
+
+        }
+        .property_detail_wrapper{
+            padding: 0;
+            .poperty_tabs{
+                display: none;
+            }
+            .pv_detail_header{
+                display: none;
+            }
+            .pv_content_detail_wrapper{
+                position: relative;
+                #backBtn{
+                    display: block !important;
+                    position: absolute;
+                    top: 16px;
+                    left: 16px;
+                    z-index: 99;
+                    font-size: 28px;
+                    font-weight: 600;
+                }
+                .pv_content_detail{
+                    .pv_content{
+                        display: none;
+                        &.mobile_only{
+                            display: block;
+                            .rs_property_icons{
+                                justify-content: center;
+                                padding-bottom: 20px;
+                            }
+                            .pvc_price
+                            {
+                                display: flex;
+                                 justify-content: space-between;
+                            }
+                            .rs_row{
+                                display: flex;
+                                flex-direction: column;
+                                gap: 8px;
+                                .rs_col{
+                                    width: 100%;
+                                    .pv_type,
+                                    .pv_availability,
+                                    .pv_status,
+                                    .pv_service{
+                                        display: flex;
+                                        justify-content: space-between;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+     .main_content{
         padding-left: 16px;
         padding-right: 16px;
-        &.mt-4{
-            margin: 0;
-        }
+    }
+    .main_content:has(.property_bk_btn_show){
+         padding-left: 12px;
+         padding-right: 12px;
+        padding-top: 0;
      }
     #wrapper{
         width: 100%;
         margin-left: 0;
-    }
-    body.show-sidebar #menu.sidebar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 999;
-    }
-
-    body.show-sidebar #menu .sidebar-list-item a .sidebar-sub-list-item a,
-    body.show-sidebar #menu .sidebar-list-item a {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        text-align: center;
-        gap: 8px;
-    }
-
-    body.show-sidebar #menu .sidebar-list-item a img {
-        width: 16px;
-    }
-    body.show-sidebar #menu li{
-        margin: 0;
     }
 
     .pv_header .pv_btn {
@@ -1086,10 +1246,10 @@ input[type="radio"]:checked+label::before {
             &::after{
                 content: '+' ;
                 position: absolute;
-                top: -28px;
-                left: 4px;
+                top: -21px;
+                left: 5px;
                 font-size: 60px;
-                font-weight: 800;
+                font-weight: 600;
             }
             span{
                 opacity: 0;
@@ -1100,7 +1260,7 @@ input[type="radio"]:checked+label::before {
     /*poperties view page */
 
     .pv_detail_wrapper {
-        & .pv_tabs {
+        .pv_tabs {
             ul {
                 width: 100vw;
                 overflow: hidden;
@@ -1108,7 +1268,7 @@ input[type="radio"]:checked+label::before {
         }
         .pvd_content_wrapper{
             position: absolute;
-            top: 570px;
+            top: 260px;
             border-radius: 20px 20px 0 0 !important;
             background-color: var(--white);
             box-shadow: 0px 0px 8px 1px #0e0e0e70;

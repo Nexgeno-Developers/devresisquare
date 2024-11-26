@@ -5,7 +5,7 @@ use Illuminate\View\Component;
 
 class PropertiesTabs extends Component
 {
-    public $tabs;
+    public $tabs, $class;
 
     /**
      * Create a new component instance.
@@ -13,9 +13,10 @@ class PropertiesTabs extends Component
      * @param array $tabs
      * @return void
      */
-    public function __construct($tabs)
+    public function __construct($tabs, $class = null)
     {
         $this->tabs = $tabs;
+        $this->class = $class;
     }
 
     /**

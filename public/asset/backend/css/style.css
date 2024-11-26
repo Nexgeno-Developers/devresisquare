@@ -1015,7 +1015,7 @@ input[type="radio"]:checked+label::before {
         }
 
         .sidebar-list-item a img {
-            width: 16px;
+            width: 24px;
         }
         li{
             margin: 0;

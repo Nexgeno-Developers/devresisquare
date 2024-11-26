@@ -17,23 +17,31 @@
                 <div class="pv_card_wrapper">
                     {{-- Dev Note: if select property from list add class 'current' to property card --}}
                     @foreach ($properties as $property)
-                        <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}"
-                            bed="{{ $property['bedroom'] }}" bath="{{ $property['bathroom'] }}"
-                            floor="{{ $property['floor'] }}" living="{{ $property['reception'] }}" {{-- living="{{$property['living']}}" --}}
-                            type="{{ $property['property_type'] }}" available="{{ $property['available_from'] }}"
-                            price="{{ $property['price'] }}" cardStyle="" propertyId="{{ $property['id'] }}" />
+                    <x-backend.property-card
+                        class="property-card"
+                        propertyName="{{$property['prop_name']}}"
+                        bed="{{$property['bedroom']}}"
+                        bath="{{$property['bathroom']}}"
+                        floor="{{$property['floor']}}"
+                        living="{{$property['reception']}}"
+                        {{-- living="{{$property['living']}}" --}}
+                        type="{{$property['property_type']}}"
+                        available="{{$property['available_from']}}"
+                        price="{{$property['price']}}"
+                        cardStyle=""
+                        propertyId="{{ $property['id'] }}"                    />
                     @endforeach
 
                 </div>
                 {{-- pv_card_wrapper end  --}}
             </div>
             {{-- pv_wrapper end  --}}
-        </div>
+        </div>          
         <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
             <div class="pv_detail_wrapper">
 
                 <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
-
+                
                 <div class="pv_detail_content">
                     <div class="pv_detail_header">
                         <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
@@ -76,12 +84,36 @@
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
 
 @section('page.scripts')
     <script>
+        $(document).ready(function () {
+            // Function to check if the device is mobile
+            function is_mobile() {
+                return (
+                    /Mobi|Android/i.test(navigator.userAgent) || $(window).width() < 768
+                );
+            }
+
+            if (is_mobile()) {
+                $(document).on('click', '.property-card', function() {
+                    $('#backBtn').addClass('property_bk_btn_show');
+                    $('.property_detail_wrapper').removeClass('hide_this');
+                    $('.property_list_wrapper').toggleClass('hide_this');   // Hide left column
+                    $('.property_detail_wrapper').addClass('show_this');  // Show right column
+                });
+
+                $(document).on('click', '#backBtn', function() {
+                    $('#backBtn').removeClass('property_bk_btn_show');
+                    $('.property_detail_wrapper').addClass('hide_this');
+                    $('.property_detail_wrapper').toggleClass('show_this');  // Hide right column
+                    $('.property_list_wrapper').toggleClass('hide_this');   // Show left column
+                });
+            }
+        });
+
         // document.querySelectorAll('.tab-link').forEach(tab => {
         //     tab.addEventListener('click', function(event) {
         //         event.preventDefault();
@@ -389,20 +421,7 @@
         //     simulateTabClickAndPropertyCard();
         // });
 
-        $(document).ready(function() {
-            $('.property-card').click(function() {
-                $('#backBtn').addClass('property_bk_btn_show');
-                $('.property_detail_wrapper').removeClass('hide_this');
-                $('.property_list_wrapper').toggleClass('hide_this');   // Hide left column
-                $('.property_detail_wrapper').addClass('show_this');  // Show right column
-            });
+        
 
-            $('#backBtn').click(function() {
-                $('#backBtn').removeClass('property_bk_btn_show');
-                $('.property_detail_wrapper').addClass('hide_this');
-                $('.property_detail_wrapper').toggleClass('show_this');  // Hide right column
-                $('.property_list_wrapper').toggleClass('hide_this');   // Show left column
-            });
-        });
     </script>
 @endsection

@@ -65,8 +65,7 @@
         .pv_content_wrapper{
             background: #fff;
         }
-
-
+       
 
         @media (max-width: 766px) {
             .h_section{
@@ -357,10 +356,20 @@
             </div>
             <div class="h_section_wrapper" id="inputs">
                 <h2>Inputs</h2>
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+                <blockquote>
+                    Default Dropdown use "isIcon" false</br>Icon Dropdown use "isIcon" true </br>
+                </blockquote>
+>>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
+=======
                 <blockquote>
                     Default Dropdown use "isIcon" false</br>Icon Dropdown use "isIcon" true </br>
                 </blockquote>
 
+>>>>>>> 627324155dd103ea7fdf784a3a0b701f11df1d1a
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
                         <div class="">
@@ -395,7 +404,15 @@
 
                     <div class="h_section">
                         <div class="">
+<<<<<<< HEAD
+<<<<<<< HEAD
                             <h6>Price without Label</h6>
+=======
+                            <h6>With Label</h6>
+>>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
+=======
+                            <h6>Price without Label</h6>
+>>>>>>> 627324155dd103ea7fdf784a3a0b701f11df1d1a
                             <x-backend.input-comp
                                 class=""
                                 inputOpt="input_price"
@@ -424,7 +441,15 @@
 
                     <div class="h_section">
                         <div class="">
+<<<<<<< HEAD
+<<<<<<< HEAD
                             <h6>Date Input</h6>
+=======
+                            <h6>With Label</h6>
+>>>>>>> 3e64cea9715ea7bc6c789af7f3af47762459f9c2
+=======
+                            <h6>Date Input</h6>
+>>>>>>> 627324155dd103ea7fdf784a3a0b701f11df1d1a
                             <x-backend.input-comp
                                 class=""
                                 inputOpt=""

@@ -6,135 +6,42 @@
             <div class="pv_wrapper">
                 <div class="pv_header">
                     <div class="pv_title">Properties</div>
-                    <x-backend.search-comp class="" value="" placeholder="Search" onclick="" />
-
-<style>
-    .pv_tabs {
-    font-family: Arial, sans-serif;
-}
-
-.pv_tabs ul {
-    display: flex;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.pv_tabs ul li {
-    margin-right: 20px;
-}
-
-.pv_tabs ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    padding: 10px;
-}
-
-.pv_tabs ul li a.active {
-    color: #007bff;
-    border-bottom: 2px solid #007bff;
-}
-
-.tab-content {
-    margin-top: 20px;
-}
-
-.tab-pane {
-    display: none;
-}
-
-.tab-pane.active {
-    display: block;
-}
-
-</style>
-
-<div class="row">
-    <div class="col-lg-5 col-12">
-        <div class="pv_wrapper">
-            <div class="pv_header">
-                <div class="pv_title">Properties</div>
-                    <x-backend.search
+                    <x-backend.search-comp
                         class=""
                         value=""
                         placeholder="Search"
                         onclick=""
                     />
 
-                <div class="pv_btn">
-                    <x-backend.main-button
-                        class=""
-                        name="Add Property"
-                        type="secondary"
-                        size="sm"
-                        isLinkBtn={{true}}
-                        link="{{ route('admin.properties.quick') }}"
-                        onclick=""
-                    />
-                </div>
-            </div>
-            {{-- pv_header end --}}
-            <div class="pv_card_wrapper">
-                {{-- Dev Note: if select property from list add class 'current' to property card --}}
-                @foreach ($properties as $property)
-                <x-backend.property-card
-                    class=""
-                    propertyName="{{$property['prop_name']}}"
-                    bed="{{$property['bedroom']}}"
-                    bath="{{$property['bathroom']}}"
-                    floor="{{$property['floor']}}"
-                    living="{{$property['reception']}}"
-                    {{-- living="{{$property['living']}}" --}}
-                    type="{{$property['property_type']}}"
-                    available="{{$property['available_from']}}"
-                    price="{{$property['price']}}"
-                    cardStyle=""
-                    propertyId="{{ $property['id'] }}"                    />
-                @endforeach
-
-            </div>
-            {{-- pv_card_wrapper end  --}}
-        </div>
-        {{-- pv_wrapper end  --}}
-    </div>
-    <div class="col-lg-7 col-12 p-0">
-        <div class="pv_detail_wrapper">
-
-            <x-backend.properties-tabs :tabs="[
-                ['name' => 'Property', 'content' => 'Property details here...'],
-                ['name' => 'Owners', 'content' => 'Owner details here...'],
-                ['name' => 'Offers', 'content' => 'Offers details here...'],
-                ['name' => 'Complience', 'content' => 'Complience details here...'],
-                ['name' => 'Tenancy', 'content' => 'Tenancy details here...'],
-                ['name' => 'APS', 'content' => 'APS details here...'],
-                ['name' => 'Media', 'content' => 'Media details here...'],
-                ['name' => 'Teams', 'content' => 'Team details here...'],
-                ['name' => 'Contractor', 'content' => 'Contractor details here...'],
-                ['name' => 'Work Offer', 'content' => 'Work Offer details here...'],
-                ['name' => 'Note', 'content' => 'Note details here...']
-            ]" />
-            <div class="pv_detail_content">
-                <div class="pv_detail_header">
-                    <div class="pv_main_title">{{--$tabname--}} Detail</div>
-                    <div class="pvdh_btns_wrapper">
-                        <x-backend.link-button class="" name="Add Tenancy" link="{{ route('admin.properties.quick') }}"
-                            onClick="" />
-                        <x-backend.link-button class="" name="Add Offer" link="{{ route('admin.properties.quick') }}"
-                            onClick="" />
-                        <x-backend.outline-link-button class="" name="Edit Property"
-                            link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
+                    <div class="pv_btn">
+                        <x-backend.main-button
+                            class=""
+                            name="Add Property"
+                            type="secondary"
+                            size="sm"
+                            isLinkBtn={{true}}
+                            link="{{ route('admin.properties.quick') }}"
+                            onclick=""
+                        />
                     </div>
                 </div>
                 {{-- pv_header end --}}
                 <div class="pv_card_wrapper">
                     {{-- Dev Note: if select property from list add class 'current' to property card --}}
                     @foreach ($properties as $property)
-                        <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}"
-                            bed="{{ $property['bedroom'] }}" bath="{{ $property['bathroom'] }}"
-                            floor="{{ $property['floor'] }}" living="{{ $property['reception'] }}" {{-- living="{{$property['living']}}" --}}
-                            type="{{ $property['property_type'] }}" available="{{ $property['available_from'] }}"
-                            price="{{ $property['price'] }}" cardStyle="" propertyId="{{ $property['id'] }}" />
+                    <x-backend.property-card
+                        class=""
+                        propertyName="{{$property['prop_name']}}"
+                        bed="{{$property['bedroom']}}"
+                        bath="{{$property['bathroom']}}"
+                        floor="{{$property['floor']}}"
+                        living="{{$property['reception']}}"
+                        {{-- living="{{$property['living']}}" --}}
+                        type="{{$property['property_type']}}"
+                        available="{{$property['available_from']}}"
+                        price="{{$property['price']}}"
+                        cardStyle=""
+                        propertyId="{{ $property['id'] }}"                    />
                     @endforeach
 
                 </div>
@@ -142,54 +49,98 @@
             </div>
             {{-- pv_wrapper end  --}}
         </div>
-        <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
+        <div class="col-lg-7 col-12 p-0">
             <div class="pv_detail_wrapper">
 
-                <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
-                
+                <x-backend.properties-tabs :tabs="[
+                    ['name' => 'Property', 'content' => 'Property details here...'],
+                    ['name' => 'Owners', 'content' => 'Owner details here...'],
+                    ['name' => 'Offers', 'content' => 'Offers details here...'],
+                    ['name' => 'Complience', 'content' => 'Complience details here...'],
+                    ['name' => 'Tenancy', 'content' => 'Tenancy details here...'],
+                    ['name' => 'APS', 'content' => 'APS details here...'],
+                    ['name' => 'Media', 'content' => 'Media details here...'],
+                    ['name' => 'Teams', 'content' => 'Team details here...'],
+                    ['name' => 'Contractor', 'content' => 'Contractor details here...'],
+                    ['name' => 'Work Offer', 'content' => 'Work Offer details here...'],
+                    ['name' => 'Note', 'content' => 'Note details here...']
+                ]" />
                 <div class="pv_detail_content">
                     <div class="pv_detail_header">
-                        <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
+                        <div class="pv_main_title">{{--$tabname--}} Detail</div>
                         <div class="pvdh_btns_wrapper">
-                            <x-backend.link-button class="" name="Add Tenancy"
-                                link="{{ route('admin.properties.quick') }}" onClick="" />
-                            <x-backend.link-button class="" name="Add Offer"
-                                link="{{ route('admin.properties.quick') }}" onClick="" />
-                            @if (isset($property) && isset($property->id))
-                                <x-backend.outline-link-button class="" name="Edit Property"
-                                    link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
-                            @endif
+                            <x-backend.link-button class="" name="Add Tenancy" link="{{ route('admin.properties.quick') }}"
+                                onClick="" />
+                            <x-backend.link-button class="" name="Add Offer" link="{{ route('admin.properties.quick') }}"
+                                onClick="" />
+                            <x-backend.outline-link-button class="" name="Edit Property"
+                                link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
                         </div>
                     </div>
-                    <div class="pv_content_detail_wrapper">
-                        <i class="bi bi-chevron-left" id="backBtn"></i>
-                        <div class="pv_content_detail">
-                            {!! $content !!}
-                            <!-- The dynamic tab content will be injected here by AJAX -->
-                            {{-- render first tabs blade file from view example @include('backend.properties.tabs' . $tabname) $tabname in small case --}}
+                    {{-- pv_header end --}}
+                    <div class="pv_card_wrapper">
+                        {{-- Dev Note: if select property from list add class 'current' to property card --}}
+                        @foreach ($properties as $property)
+                            <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}"
+                                bed="{{ $property['bedroom'] }}" bath="{{ $property['bathroom'] }}"
+                                floor="{{ $property['floor'] }}" living="{{ $property['reception'] }}" {{-- living="{{$property['living']}}" --}}
+                                type="{{ $property['property_type'] }}" available="{{ $property['available_from'] }}"
+                                price="{{ $property['price'] }}" cardStyle="" propertyId="{{ $property['id'] }}" />
+                        @endforeach
+
+                    </div>
+                    {{-- pv_card_wrapper end  --}}
+                </div>
+                {{-- pv_wrapper end  --}}
+            </div>
+            <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
+                <div class="pv_detail_wrapper">
+
+                    <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
+                    
+                    <div class="pv_detail_content">
+                        <div class="pv_detail_header">
+                            <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
+                            <div class="pvdh_btns_wrapper">
+                                <x-backend.link-button class="" name="Add Tenancy"
+                                    link="{{ route('admin.properties.quick') }}" onClick="" />
+                                <x-backend.link-button class="" name="Add Offer"
+                                    link="{{ route('admin.properties.quick') }}" onClick="" />
+                                @if (isset($property) && isset($property->id))
+                                    <x-backend.outline-link-button class="" name="Edit Property"
+                                        link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
+                                @endif
+                            </div>
+                        </div>
+                        <div class="pv_content_detail_wrapper">
+                            <i class="bi bi-chevron-left" id="backBtn"></i>
+                            <div class="pv_content_detail">
+                                {!! $content !!}
+                                <!-- The dynamic tab content will be injected here by AJAX -->
+                                {{-- render first tabs blade file from view example @include('backend.properties.tabs' . $tabname) $tabname in small case --}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="mobile_footer mobile_only">
-                <div class="pvdh_btns_wrapper">
-                    <x-backend.mobile-button  name="Add Tenacy" link="{{ route('admin.properties.quick') }}" iconName="file-plus" />
-                    <x-backend.mobile-button  name="Add Offer" link="{{ route('admin.properties.quick') }}" iconName="file-text" />
-                    <x-backend.mobile-button  name="Edit Property" link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
-                    <x-backend.main-button
-                        class="add_property_mobile"
-                        name=""
-                        type="secondary"
-                        size="sm"
-                        isOutline="{{false}}"
-                        isLinkBtn={{false}}
-                        link="https://#"
-                        onClick="copyHtml()"
-                    />
+                <div class="mobile_footer mobile_only">
+                    <div class="pvdh_btns_wrapper">
+                        <x-backend.mobile-button  name="Add Tenacy" link="{{ route('admin.properties.quick') }}" iconName="file-plus" />
+                        <x-backend.mobile-button  name="Add Offer" link="{{ route('admin.properties.quick') }}" iconName="file-text" />
+                        <x-backend.mobile-button  name="Edit Property" link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
+                        <x-backend.main-button
+                            class="add_property_mobile"
+                            name=""
+                            type="secondary"
+                            size="sm"
+                            isOutline="{{false}}"
+                            isLinkBtn={{false}}
+                            link="https://#"
+                            onClick="copyHtml()"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
-        
     </div>
 @endsection
 

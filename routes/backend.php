@@ -1,9 +1,12 @@
 <?php
+//routes/backend.php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthenticateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Backend\ContactCategoryController;
+use App\Http\Controllers\Backend\ContactController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -37,4 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/bulk-restore', [PropertyController::class, 'bulkRestore'])->name('bulk-restore');
         // Route::get('/{property_id}/{tabname}', [PropertyController::class, 'showTabContent'])->name('tabcontent');
     });
+
+    Route::resource('contact-categories', ContactCategoryController::class);
+    Route::resource('contacts', ContactController::class);
 });

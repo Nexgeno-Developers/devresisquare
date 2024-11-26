@@ -1,6 +1,6 @@
 <aside id="menu" class="sidebar bg-light sidebar">
 
-{{-- 
+{{--
     <div class="sidebar-header">
         <h4>Admin Menu</h4>
     </div> --}}
@@ -56,7 +56,19 @@
                 </li>
             </ul>
         </li>
+        <li class="sidebar-list-item">
+            <a class="{{ request()->routeIs('contact-categories.index') ? 'active' : '' }}" href="{{ route('contact-categories.index') }}">
+                <img src="{{ asset('asset/images/svg/contacts.svg') }}" alt="contacts">
+                Contact Categories
+            </a>
+        </li>
 
+        <li class="sidebar-list-item">
+            <a class="{{ request()->routeIs('contacts.index') ? 'active' : '' }}" href="{{ route('contacts.index') }}">
+                <img src="{{ asset('asset/images/svg/contacts.svg') }}" alt="contacts">
+                Contacts
+            </a>
+        </li>
         <li class="sidebar-list-item">
             <a href="#">
                 <img src="{{ asset('asset/images/svg/dashboard.svg') }}" alt="tenancies">

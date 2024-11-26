@@ -18,7 +18,7 @@
                     {{-- Dev Note: if select property from list add class 'current' to property card --}}
                     @foreach ($properties as $property)
                     <x-backend.property-card
-                        class=""
+                        class="property-card"
                         propertyName="{{$property['prop_name']}}"
                         bed="{{$property['bedroom']}}"
                         bath="{{$property['bathroom']}}"
@@ -36,97 +36,84 @@
                 {{-- pv_card_wrapper end  --}}
             </div>
             {{-- pv_wrapper end  --}}
-        </div>
-        <div class="col-lg-7 col-12 p-0">
+        </div>          
+        <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
             <div class="pv_detail_wrapper">
 
                 <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
-
+                
                 <div class="pv_detail_content">
                     <div class="pv_detail_header">
-                        <div class="pv_main_title">{{--$tabname--}} Detail</div>
+                        <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
                         <div class="pvdh_btns_wrapper">
-                            <x-backend.link-button class="" name="Add Tenancy" link="{{ route('admin.properties.quick') }}"
-                                onClick="" />
-                            <x-backend.link-button class="" name="Add Offer" link="{{ route('admin.properties.quick') }}"
-                                onClick="" />
-                            <x-backend.outline-link-button class="" name="Edit Property"
-                                link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
+                            <x-backend.link-button class="" name="Add Tenancy"
+                                link="{{ route('admin.properties.quick') }}" onClick="" />
+                            <x-backend.link-button class="" name="Add Offer"
+                                link="{{ route('admin.properties.quick') }}" onClick="" />
+                            @if (isset($property) && isset($property->id))
+                                <x-backend.outline-link-button class="" name="Edit Property"
+                                    link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
+                            @endif
                         </div>
                     </div>
-                    {{-- pv_header end --}}
-                    <div class="pv_card_wrapper">
-                        {{-- Dev Note: if select property from list add class 'current' to property card --}}
-                        @foreach ($properties as $property)
-                            <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}"
-                                bed="{{ $property['bedroom'] }}" bath="{{ $property['bathroom'] }}"
-                                floor="{{ $property['floor'] }}" living="{{ $property['reception'] }}" {{-- living="{{$property['living']}}" --}}
-                                type="{{ $property['property_type'] }}" available="{{ $property['available_from'] }}"
-                                price="{{ $property['price'] }}" cardStyle="" propertyId="{{ $property['id'] }}" />
-                        @endforeach
-
+                    <div class="pv_content_detail_wrapper">
+                        <i class="bi bi-chevron-left" id="backBtn"></i>
+                        <div class="pv_content_detail">
+                            {!! $content !!}
+                            <!-- The dynamic tab content will be injected here by AJAX -->
+                            {{-- render first tabs blade file from view example @include('backend.properties.tabs' . $tabname) $tabname in small case --}}
+                        </div>
                     </div>
-                    {{-- pv_card_wrapper end  --}}
                 </div>
-                {{-- pv_wrapper end  --}}
             </div>
-            <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
-                <div class="pv_detail_wrapper">
-
-                    <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
-                    
-                    <div class="pv_detail_content">
-                        <div class="pv_detail_header">
-                            <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
-                            <div class="pvdh_btns_wrapper">
-                                <x-backend.link-button class="" name="Add Tenancy"
-                                    link="{{ route('admin.properties.quick') }}" onClick="" />
-                                <x-backend.link-button class="" name="Add Offer"
-                                    link="{{ route('admin.properties.quick') }}" onClick="" />
-                                @if (isset($property) && isset($property->id))
-                                    <x-backend.outline-link-button class="" name="Edit Property"
-                                        link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
-                                @endif
-                            </div>
-                        </div>
-                        <div class="pv_content_detail_wrapper">
-                            <i class="bi bi-chevron-left" id="backBtn"></i>
-                            <div class="pv_content_detail">
-                                {!! $content !!}
-                                <!-- The dynamic tab content will be injected here by AJAX -->
-                                {{-- render first tabs blade file from view example @include('backend.properties.tabs' . $tabname) $tabname in small case --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mobile_footer mobile_only">
-                    <div class="pvdh_btns_wrapper">
-                        <x-backend.mobile-button  name="Add Tenacy" link="{{ route('admin.properties.quick') }}" iconName="file-plus" />
-                        <x-backend.mobile-button  name="Add Offer" link="{{ route('admin.properties.quick') }}" iconName="file-text" />
-                        <x-backend.mobile-button  name="Edit Property" link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
-                        <x-backend.main-button
-                            class="add_property_mobile"
-                            name=""
-                            type="secondary"
-                            size="sm"
-                            isOutline="{{false}}"
-                            isLinkBtn={{false}}
-                            link="https://#"
-                            onClick="copyHtml()"
-                        />
-                    </div>
+            <div class="mobile_footer mobile_only">
+                <div class="pvdh_btns_wrapper">
+                    <x-backend.mobile-button  name="Add Tenacy" link="{{ route('admin.properties.quick') }}" iconName="file-plus" />
+                    <x-backend.mobile-button  name="Add Offer" link="{{ route('admin.properties.quick') }}" iconName="file-text" />
+                    <x-backend.mobile-button  name="Edit Property" link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
+                    <x-backend.main-button
+                        class="add_property_mobile"
+                        name=""
+                        type="secondary"
+                        size="sm"
+                        isOutline="{{false}}"
+                        isLinkBtn={{false}}
+                        link="https://#"
+                        onClick="copyHtml()"
+                    />
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 627324155dd103ea7fdf784a3a0b701f11df1d1a
     </div>
 @endsection
 
 @section('page.scripts')
     <script>
+        $(document).ready(function () {
+            // Function to check if the device is mobile
+            function is_mobile() {
+                return (
+                    /Mobi|Android/i.test(navigator.userAgent) || $(window).width() < 768
+                );
+            }
+
+            if (is_mobile()) {
+                $(document).on('click', '.property-card', function() {
+                    $('#backBtn').addClass('property_bk_btn_show');
+                    $('.property_detail_wrapper').removeClass('hide_this');
+                    $('.property_list_wrapper').toggleClass('hide_this');   // Hide left column
+                    $('.property_detail_wrapper').addClass('show_this');  // Show right column
+                });
+
+                $(document).on('click', '#backBtn', function() {
+                    $('#backBtn').removeClass('property_bk_btn_show');
+                    $('.property_detail_wrapper').addClass('hide_this');
+                    $('.property_detail_wrapper').toggleClass('show_this');  // Hide right column
+                    $('.property_list_wrapper').toggleClass('hide_this');   // Show left column
+                });
+            }
+        });
+
         // document.querySelectorAll('.tab-link').forEach(tab => {
         //     tab.addEventListener('click', function(event) {
         //         event.preventDefault();
@@ -434,20 +421,7 @@
         //     simulateTabClickAndPropertyCard();
         // });
 
-        $(document).ready(function() {
-            $('.property-card').click(function() {
-                $('#backBtn').addClass('property_bk_btn_show');
-                $('.property_detail_wrapper').removeClass('hide_this');
-                $('.property_list_wrapper').toggleClass('hide_this');   // Hide left column
-                $('.property_detail_wrapper').addClass('show_this');  // Show right column
-            });
+        
 
-            $('#backBtn').click(function() {
-                $('#backBtn').removeClass('property_bk_btn_show');
-                $('.property_detail_wrapper').addClass('hide_this');
-                $('.property_detail_wrapper').toggleClass('show_this');  // Hide right column
-                $('.property_list_wrapper').toggleClass('hide_this');   // Show left column
-            });
-        });
     </script>
 @endsection

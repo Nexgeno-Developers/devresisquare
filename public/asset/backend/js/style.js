@@ -6,18 +6,23 @@ $(document).ready(function () {
         );
     }
 
+    // Define content_wrapper
+    var content_wrapper = $('.content-wrapper');
+
     $(".hide-menu").click(function (e) {
-        e.preventDefault(),
-            $("body").hasClass("hide-sidebar")
-                ? $("body").removeClass("hide-sidebar").addClass("show-sidebar")
-                : $("body")
-                      .removeClass("show-sidebar")
-                      .addClass("hide-sidebar");
-    }),
-        is_mobile() &&
-            content_wrapper.on("click", function () {
-                $("body").hasClass("show-sidebar") && $(".hide-menu").click();
-            });
+        e.preventDefault();
+        $("body").hasClass("hide-sidebar")
+            ? $("body").removeClass("hide-sidebar").addClass("show-sidebar")
+            : $("body")
+                  .removeClass("show-sidebar")
+                  .addClass("hide-sidebar");
+    });
+
+    if (is_mobile()) {
+        content_wrapper.on("click", function () {
+            $("body").hasClass("show-sidebar") && $(".hide-menu").click();
+        });
+    }
 });
 
 let selectedFiles = []; // Array to hold selected files

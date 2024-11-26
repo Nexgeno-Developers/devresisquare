@@ -46,7 +46,7 @@ class PropertyController
     $property = $propertyId ? Property::findOrFail($propertyId) : $properties->first(); // Use the first property if none is selected
 
     // Get tabs for properties (you can customize the tabs as per your needs)
-    
+
     $tabs = [
         ['name' => 'Property'],
         ['name' => 'Owners'],
@@ -578,21 +578,33 @@ private function getTabContent($tabname, $propertyId, $property)
                 return [
                     // 'specific_property_type' => 'required|string',
                     'bedroom' => 'required|string',
-                    'reception' => 'required|string',
-
                 ];
             case 4:
                 return [
-                    // 'bedroom' => 'required|string',
-                    // 'reception' => 'required|string',
-                    'price' => 'required|numeric',
-                    'available_from' => 'required|date',
+                    'bathroom' => 'required|string',
+
                 ];
-                // case 5:
-                //     return [
-                //         // 'price' => 'required|numeric',
-                //         // 'available_from' => 'required|date',
-                //     ];
+            case 5:
+                return [
+                    'reception' => 'required|string',
+
+                ];
+            case 6:
+                return [
+                    'frunishing_type' => 'required|string',
+                ];
+            case 7:
+                return [
+                    'parking' => 'required|string',
+                    'garden' => 'required|string',
+                    'balcony' => 'required|string',
+                ];
+            case 8:
+                return [
+                    'price' => 'required|numeric',
+                    'management' => 'required|string',
+                ];
+
             default:
                 return [];
         }

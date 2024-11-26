@@ -29,6 +29,7 @@ class Property extends Model
         'balcony',
         'garden',
         'service',
+        'management',
         'collecting_rent',
         'floor',
         'square_feet',

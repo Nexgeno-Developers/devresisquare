@@ -3,8 +3,11 @@
 $stepNames = [
 1 => 'Property Address',
 2 => 'Property Type',
-3 => 'Rooms',
-4 => 'Price',
+3 => 'Bedrooms',
+4 => 'Bathrooms',
+5 => 'Reception',
+6 => 'Funishing',
+7 => 'Price',
 ];
 /*
 function getBreadcrumb($step)
@@ -26,7 +29,7 @@ return $breadcrumb[$step] ?? 'Unknown Step';
     $currentStep = isset($property->quick_step) ? $property->quick_step+1 : 1;
 @endphp
 
-<div class="">
+
     <h4 class="mb-4">Quick Add Property</h4>
     <div class="qap_breadcrumb">
             <!-- @for ($i = 1; $i <= count($stepNames); $i++) 
@@ -61,7 +64,7 @@ return $breadcrumb[$step] ?? 'Unknown Step';
         </div>
     </div>
 </div>
-</div>
+
 
 @section('page.scripts')
 <script>
@@ -202,23 +205,95 @@ $(document).ready(function() {
 
         handleStepChange(currentStep3, targetStep4);
     });
+    // // Function to check if both Bedrooms and Reception Rooms have been selected
+    // function checkSelectionsAndSubmit() {
+    //     const bedroomSelected = $('input[name="bedroom"]:checked').val();
+    //     const receptionSelected = $('input[name="reception"]:checked').val();
+
+    //     // If both Bedrooms and Reception Rooms are selected, submit the form
+    //     if (bedroomSelected && receptionSelected) {
+    //         const currentStep3 = $('.next-step').data('current-step');
+    //         const targetStep4 = $('.next-step').data('next-step');
+
+    //         handleStepChange(currentStep3, targetStep4);
+    //     }
+    // }
+
+    // // Event listeners for Bedrooms and Reception Rooms radio buttons, class-based with delegation
+    // $(document).on('click', '.bedroom-radio', checkSelectionsAndSubmit);
+    // $(document).on('click', '.reception-radio', checkSelectionsAndSubmit);
+
     // Function to check if both Bedrooms and Reception Rooms have been selected
+
+/* Quick Step 3 */
+    // Handle Next and Previous button clicks
+    $(document).on('click', '.bedroom-radio', function(e) {
+        e.preventDefault();
+        const currentStep5 = $('.next-step').data('current-step');
+        const targetStep6 = $('.next-step').data('next-step');
+
+        handleStepChange(currentStep5, targetStep6);
+    });
+/* Quick Step 4 */
+    // Handle Next and Previous button clicks
+    $(document).on('click', '.bathroom-radio', function(e) {
+        e.preventDefault();
+        const currentStep7 = $('.next-step').data('current-step');
+        const targetStep8 = $('.next-step').data('next-step');
+
+        handleStepChange(currentStep7, targetStep8);
+    });
+    /* Quick Step 5 */
+    // Handle Next and Previous button clicks
+    $(document).on('click', '.reception-radio', function(e) {
+        e.preventDefault();
+        const currentStep9 = $('.next-step').data('current-step');
+        const targetStep10 = $('.next-step').data('next-step');
+
+        handleStepChange(currentStep9, targetStep10);
+    });
+    /* Quick Step 6 */
+    $(document).on('click', '.furnish-radio', function(e) {
+        e.preventDefault();
+        const currentStep11 = $('.next-step').data('current-step');
+        const targetStep12 = $('.next-step').data('next-step');
+
+        handleStepChange(currentStep11, targetStep12);
+    });
+/* Quick Step 7 */
     function checkSelectionsAndSubmit() {
-        const bedroomSelected = $('input[name="bedroom"]:checked').val();
-        const receptionSelected = $('input[name="reception"]:checked').val();
+        const parkingSelected = $('input[name="parking"]:checked').val();
+        const gardenSelected = $('input[name="garden"]:checked').val();
+        const balconySelected = $('input[name="balcony"]:checked').val();
 
-        // If both Bedrooms and Reception Rooms are selected, submit the form
-        if (bedroomSelected && receptionSelected) {
-            const currentStep3 = $('.next-step').data('current-step');
-            const targetStep4 = $('.next-step').data('next-step');
+        // If both parkings and balcony Rooms are selected, submit the form
+        if (parkingSelected && gardenSelected && balconySelected) {
+            const currentStep13 = $('.next-step').data('current-step');
+            const targetStep14 = $('.next-step').data('next-step');
 
-            handleStepChange(currentStep3, targetStep4);
+            handleStepChange(currentStep13, targetStep14);
         }
     }
+    $(document).on('click', '.parking-radio', checkSelectionsAndSubmit);
+    $(document).on('click', '.garden-radio', checkSelectionsAndSubmit);
+    $(document).on('click', '.balcony-radio', checkSelectionsAndSubmit);
 
-    // Event listeners for Bedrooms and Reception Rooms radio buttons, class-based with delegation
-    $(document).on('click', '.bedroom-radio', checkSelectionsAndSubmit);
-    $(document).on('click', '.reception-radio', checkSelectionsAndSubmit);
+    /* Quick Step 8 */
+    function checkStep8AndSubmit() {
+        const priceSelected = $('input[name="price"]').val();
+        const managementSelected = $('input[name="management"]:checked').val();
+
+        // If both parkings and balcony Rooms are selected, submit the form
+        if (priceSelected  && managementSelected ) {
+            const currentStep13 = $('.next-step').data('current-step');
+            const targetStep14 = $('.next-step').data('next-step');
+
+            handleStepChange(currentStep13, targetStep14);
+        }
+    }
+    $(document).on('click', '.prince_input', checkStep8AndSubmit);
+    $(document).on('click', '.management-radio', checkStep8AndSubmit);
+
 });
 </script>
 @endsection

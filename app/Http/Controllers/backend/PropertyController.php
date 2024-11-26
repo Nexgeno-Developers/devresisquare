@@ -601,7 +601,7 @@ private function getTabContent($tabname, $propertyId, $property)
                 ];
             case 8:
                 return [
-                    'price' => 'required|numeric',
+                    'letting_price' => 'required|numeric',
                     'management' => 'required|string',
                 ];
 

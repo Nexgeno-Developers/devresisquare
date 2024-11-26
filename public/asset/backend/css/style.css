@@ -1161,9 +1161,6 @@ body.show-sidebar #menu.sidebar {
         height: auto;
 }
     .view_properties{
-        .property_list_wrapper{
-
-        }
         .property_detail_wrapper{
             padding: 0;
             .poperty_tabs{

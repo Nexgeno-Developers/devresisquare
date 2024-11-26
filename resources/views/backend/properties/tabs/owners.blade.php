@@ -13,5 +13,5 @@
     @endphp
 
 
-    <x-backend.dynamic-table-new  :headers="$headers" :rows="$rows" :dropdownOptions="$dropdownOptions" class="" />
+    <x-backend.dynamic-table-new  :headers="$headers" :rows="$rows" :dropdownOptions="$dropdownOptions" actionBtn={{True}} class="" />
 

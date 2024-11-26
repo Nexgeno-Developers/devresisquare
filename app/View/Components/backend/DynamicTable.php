@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class DynamicTable extends Component
 {
-    public $headers, $rows, $class;
-    public function __construct(array $headers, array $rows , $class=null)
+    public $headers, $rows, $class, $actionBtn;
+    public function __construct(array $headers, array $rows , $class=null, $actionBtn = True)
     {
         $this->headers = $headers;
         $this->rows = $rows;
         $this->class = $class;
+        $this->actionBtn = $actionBtn; // True | False
     }
 
     /**

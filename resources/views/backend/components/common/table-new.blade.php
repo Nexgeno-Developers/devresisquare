@@ -8,7 +8,9 @@
                             <th>{{ $header }}</th>
                         @endif
                     @endforeach
-                    <th></th>
+                    @if($actionBtn == True)
+                        <th></th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -19,9 +21,11 @@
                                 <td>{{ $value }}</td>
                             @endif
                         @endforeach
-                        <td>
-                            <x-backend.dropdown :options="$dropdownOptions" class="" isIcon={{True}} />
-                        </td>
+                        @if($actionBtn == True )
+                            <td>
+                                <x-backend.dropdown :options="$dropdownOptions" class="" isIcon={{True}} />
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

@@ -1,4 +1,4 @@
-<div class="table">
+<div class="pv_tabs {{ $class }}">
     <ul class="nav">
         @foreach ($tabs as $key => $tab)
             <li class="{{ $key === 0 ? 'active' : '' }}">

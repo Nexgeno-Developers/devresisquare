@@ -1,8 +1,17 @@
-@php
-    $headers = ['id','Name', 'Position', 'Phone', 'email', 'City'];
-    $rows = [
-        [1, 'John Doe', 'Owner', '456798462', 'john@example.com', 'London'],
-        [2, 'Jane Smith', 'Owner', '974511268', 'jane@example.com', 'Mumbai'],
-    ];
-@endphp
-<x-backend.dynamic-table :headers="$headers" :rows="$rows" class='' />
+    @php
+        $headers = ['id','Name', 'Position', 'Phone', 'email', 'City'];
+        $rows = [
+            ['id' => 1, 'name' => 'John Doe', 'position' => 'Owner', 'phone' => '456798462', 'email' => 'john@example.com', 'city' => 'London'],
+            ['id' => 1, 'name' => 'Jane Smith', 'position' => 'Landlord', 'phone' => '974511268', 'email' => 'jane@example.com', 'city' => 'Paris'],
+            // Add more rows as needed
+        ];
+        $dropdownOptions = [
+            ['label' => 'Edit', 'url' => '/edit'],
+            ['label' => 'Delete', 'url' => '/delete'],
+            // Add more options as needed
+        ];
+    @endphp
+
+
+    <x-backend.dynamic-table-new  :headers="$headers" :rows="$rows" :dropdownOptions="$dropdownOptions" class="" />
+

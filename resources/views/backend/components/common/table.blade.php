@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     @foreach($headers as $header)
-                        <th>{{ $header }}</th>
+                            <th class="{{$header === 'id' ? 'id' : ''}}">{{ $header }}</th>
                     @endforeach
                     <th>Actions</th> <!-- Add an extra header for the actions column -->
                 </tr>
@@ -12,8 +12,8 @@
             <tbody>
                 @foreach($rows as $row)
                     <tr>
-                        @foreach($row as $cell)
-                            <td>{{ $cell }}</td>
+                        @foreach($row as $key => $cell)
+                            <td class="{{$key == 'id' ? 'id' : ''}}">{{ $cell }}</td>
                         @endforeach
                         <td>
                             @php 

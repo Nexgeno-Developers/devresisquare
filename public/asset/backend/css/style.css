@@ -195,6 +195,10 @@ a, a:hover{text-decoration: none !important ;}
     }
     .dropdown-menu{
         width: 100%;
+        &.right_icon {
+            right: 0;
+            left: unset !important;
+        }
     }
 
     .rs_icon_dropdown{
@@ -215,6 +219,7 @@ a, a:hover{text-decoration: none !important ;}
             text-rendering: auto;
             font-family: var(--fa-style-family, "Font Awesome 6 Free");
             font-weight: var(--fa-style, 900);
+            border: none;
         }
         &:hover{
             background-color: var(--primary-200);
@@ -223,11 +228,8 @@ a, a:hover{text-decoration: none !important ;}
     }
     &:has(.right_icon){
         width: fit-content;
-        .dropdown-menu {
-            right: 0;
-            left: unset;
-        }
-    }
+    }  
+    
 }
 
 
@@ -1181,6 +1183,7 @@ body.show-sidebar #menu.sidebar {
                     font-weight: 600;
                 }
                 .pv_content_detail{
+                    padding: 66px 24px 0 24px;
                     .pv_content{
                         display: none;
                         &.mobile_only{

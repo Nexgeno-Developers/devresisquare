@@ -7,6 +7,9 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\ContactCategoryController;
 use App\Http\Controllers\Backend\ContactController;
+use App\Http\Controllers\Backend\EstateChargeController;
+use App\Http\Controllers\Backend\EstateChargeItemController;
+use App\Http\Controllers\Backend\OwnerGroupController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -43,4 +46,12 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('contact-categories', ContactCategoryController::class);
     Route::resource('contacts', ContactController::class);
+
+    Route::name('admin.')->group(function () {
+
+        Route::resource('estate-charges', EstateChargeController::class);
+        Route::resource('estate-charges-items', EstateChargeItemController::class);
+        Route::resource('owner-groups', OwnerGroupController::class);
+    });
+
 });

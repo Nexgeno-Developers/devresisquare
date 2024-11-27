@@ -18,7 +18,6 @@ class EstateChargesSeeder extends Seeder
                 'ref_no' => 101,
                 'property_id' => 1,
                 'ownergroup_id' => 1,
-                'owner_group_contact_id' => 1,
                 'description' => 'Monthly service charge',
                 'paid_by_landlord' => 1,
                 'managed_by_property' => 0,

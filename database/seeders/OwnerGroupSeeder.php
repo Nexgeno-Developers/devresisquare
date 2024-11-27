@@ -17,11 +17,10 @@ class OwnerGroupSeeder extends Seeder
             [
                 'property_id' => 1,
                 'contact_id' => 1,
-                'purchased_date' => '2020-01-01',
+                'purchased_date' => '2024-11-27',
                 'sold_date' => null,
                 'archived_date' => null,
                 'status' => 'active',
-                'created_by' => 1
             ]
         ]);
     }

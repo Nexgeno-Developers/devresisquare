@@ -46,4 +46,4 @@
             @endforeach
         </div>
     </div>
-</table>
+</div>

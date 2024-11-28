@@ -12,7 +12,7 @@
     />
 </div>
 
-
+{{-- Complience page  --}}
 <div class="dynamic_div">
     <div class="desktop_only">
         <table class="table rs_table ">
@@ -37,20 +37,20 @@
     </div>
     <div class="mobile_only">
         <div class="rs_mobile_table">
-                <div class="data-row">
-                    <div class="tr_row">
-                        <div class="">Rating</div>
-                        <div class="">B</div>
-                    </div>
-                    <div class="tr_row">
-                        <div class="">Expiry Date</div>
-                        <div class="">22/11/25</div>
-                    </div>
-                    <div class="tr_row">
-                        <div class="">Image</div>
-                        <div class="img_thumb"><img src="{{ asset('asset/images/temp-property.webp') }}" alt="image"></div>
-                    </div>
+            <div class="data-row">
+                <div class="tr_row">
+                    <div class="">Rating</div>
+                    <div class="">B</div>
                 </div>
+                <div class="tr_row">
+                    <div class="">Expiry Date</div>
+                    <div class="">22/11/25</div>
+                </div>
+                <div class="tr_row">
+                    <div class="">Image</div>
+                    <div class="img_thumb"><img src="{{ asset('asset/images/temp-property.webp') }}" alt="image"></div>
+                </div>
+            </div>
         </div>
     </div>
-</table>
+</div>

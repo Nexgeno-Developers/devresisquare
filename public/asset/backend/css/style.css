@@ -1294,7 +1294,7 @@ body.show-sidebar #menu.sidebar {
     }
 
     .rs_mobile_table{
-        /* .data-row {
+        .data-row {
             display: flex; flex-direction: column; margin-bottom: 10px;
             border-bottom: 1px solid var(--primary-200);
         .tr_row{
@@ -1303,7 +1303,14 @@ body.show-sidebar #menu.sidebar {
         }
         }
         .data-row div { padding: 5px 0; }
-        .data-row div:nth-child(odd) { font-weight: bold; } */
+        .data-row div:nth-child(odd) { font-weight: bold; }
+        .data-row .img_thumb{
+            width: 120px;
+            img{
+                width: 100%;
+            }
+        }
+
         .rsmt_left_col{
             font-weight: 600;
             div{

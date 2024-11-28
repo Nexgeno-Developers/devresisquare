@@ -36,12 +36,12 @@
                             <div>{{ $headers[$index] }}</div>
                             <div>{{ $value }}</div>
                         </div>
+                    @endforeach
+                    <div class="flex">
+                        @foreach($countries as $value => $label)
+                        <a class="btn" href="#" onclick="selectOption('{{ $value }}', '{{ $label }}')">{{ $label }}</a>
                         @endforeach
-                        <div class="flex">
-                            @foreach($countries as $value => $label)
-                            <a class="btn" href="#" onclick="selectOption('{{ $value }}', '{{ $label }}')">{{ $label }}</a>
-                            @endforeach
-                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>

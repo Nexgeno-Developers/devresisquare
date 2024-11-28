@@ -25,12 +25,12 @@
                         <div class="rc_title">Price</div>
                         <x-backend.input-comp
                             class="prince_input"
-                            inputOpt="input_price" 
-                            inputType="number" 
+                            inputOpt="input_price"
+                            inputType="number"
                             rightIcon="Per Month"
-                            inputName="price"
+                            inputName="letting_price"
                             isLabel={{False}}
-                            label="Price" 
+                            label="Price"
                             isDate={{False}}
                          />
                     </div>
@@ -58,7 +58,7 @@
                                         for ($i = 1; $i <= 36; $i++) {
                                             $months[] = "$i";
                                         }
-                                        $selectedMonth = '1'; 
+                                        $selectedMonth = '1';
                                     @endphp
                                     <x-backend.dropdown
                                         :options="$months"
@@ -79,7 +79,7 @@
                                         for ($i = 1; $i <= 30; $i++) {
                                             $days[] = "$i";
                                         }
-                                        $selectedDays = '1'; 
+                                        $selectedDays = '1';
                                     @endphp
                                     <x-backend.dropdown
                                         :options="$days"

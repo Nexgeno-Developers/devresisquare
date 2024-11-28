@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Models\Property;
+use App\Models\OwnerGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -56,8 +57,8 @@ class PropertyController
         ['name' => 'APS'],
         ['name' => 'Media'],
         ['name' => 'Teams'],
-        ['name' => 'Contractor'],
-        ['name' => 'Work Offer'],
+        // ['name' => 'Contractor'],
+        // ['name' => 'Work Offer'],
         ['name' => 'Note']
     ];
 
@@ -87,7 +88,11 @@ private function getTabContent($tabname, $propertyId, $property)
             // Pass only the selected property details
             return view('backend.properties.tabs.property', compact('propertyId', 'tabname', 'property'))->render();
         case 'owners':
-            return view('backend.properties.tabs.owners', compact('propertyId'))->render();
+                // Fetch the owner groups for the given propertyId, along with related contacts and properties.
+                $ownerGroups = OwnerGroup::with(['contact', 'property'])
+                ->where('property_id', $propertyId)
+                ->get();
+            return view('backend.properties.tabs.owners', compact('propertyId', 'ownerGroups'))->render();
         case 'offers':
             return view('backend.properties.tabs.offers', compact('propertyId'))->render();
         case 'complience':
@@ -100,10 +105,10 @@ private function getTabContent($tabname, $propertyId, $property)
             return view('backend.properties.tabs.media', compact('propertyId'))->render();
         case 'teams':
             return view('backend.properties.tabs.teams', compact('propertyId'))->render();
-        case 'contractor':
-            return view('backend.properties.tabs.contractor', compact('propertyId'))->render();
-        case 'work offer':
-            return view('backend.properties.tabs.work_offer', compact('propertyId'))->render();
+        // case 'contractor':
+        //     return view('backend.properties.tabs.contractor', compact('propertyId'))->render();
+        // case 'work offer':
+        //     return view('backend.properties.tabs.work_offer', compact('propertyId'))->render();
         case 'note':
             return view('backend.properties.tabs.note', compact('propertyId'))->render();
         default:
@@ -601,7 +606,7 @@ private function getTabContent($tabname, $propertyId, $property)
                 ];
             case 8:
                 return [
-                    'price' => 'required|numeric',
+                    'letting_price' => 'required|numeric',
                     'management' => 'required|string',
                 ];
 

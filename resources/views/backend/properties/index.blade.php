@@ -36,19 +36,19 @@
                 {{-- pv_card_wrapper end  --}}
             </div>
             {{-- pv_wrapper end  --}}
-        </div>          
+        </div>
         <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
             <div class="pv_detail_wrapper">
 
                 <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
-                
+
                 <div class="pv_detail_content">
                     <div class="pv_detail_header">
                         <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
                         <div class="pvdh_btns_wrapper">
-                            <x-backend.link-button class="" name="Add Tenancy"
-                                link="{{ route('admin.properties.quick') }}" onClick="" />
-                            <x-backend.link-button class="" name="Add Offer"
+                            <x-backend.link-button class="tab-owners-btn popup-tab-owners d-none" name="Add Owner"
+                                link="{{ route('admin.owner-groups.create') }}" onClick="" />
+                            <x-backend.link-button class="tab-offers-btn d-none" name="Add Offer"
                                 link="{{ route('admin.properties.quick') }}" onClick="" />
                             @if (isset($property) && isset($property->id))
                                 <x-backend.outline-link-button class="" name="Edit Property"
@@ -85,6 +85,10 @@
             </div>
         </div>
     </div>
+
+<!-- Include the Modal Component -->
+@include('backend.components.modal')
+
 @endsection
 
 @section('page.scripts')
@@ -112,6 +116,24 @@
                     $('.property_list_wrapper').toggleClass('hide_this');   // Show left column
                 });
             }
+
+            // Trigger the modal when an element with the 'popup-tab-owners' class is clicked
+            $('.popup-tab-owners').click(function(e) {
+                e.preventDefault(); // Prevent the default action (e.g., following the link)
+
+                // Get the URL from the link (you can dynamically get the URL as needed)
+                var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
+                var header = 'Add Owner'; // You can set a custom header or get it dynamically
+                // Access the data-property-id using JavaScript
+                var propertyId = document.getElementById('hidden-property-id').getAttribute('data-property-id') ?? '';
+
+                smallModal(url, header);
+                // Ensure the modal content is loaded and then set the property_id in the hidden input field inside the modal form
+                $('#smallModal').on('shown.bs.modal', function () {
+                    // Set the property_id in the hidden input field inside the modal form
+                    $("input[name='property_id']").val(propertyId);
+                });
+            });
         });
 
         // document.querySelectorAll('.tab-link').forEach(tab => {
@@ -148,6 +170,19 @@
 
                 // Update the content of the title div
                 $('.pv_main_title').text(formattedTitle + ' Detail');
+
+                // Show or hide the button based on the tabName
+                if (tabName === 'owners') {
+                    $('.tab-owners-btn').removeClass('d-none'); // Show the button for 'owner' tab
+                } else {
+                    $('.tab-owners-btn').addClass('d-none'); // Hide the button for other tabs
+                }
+                if (tabName === 'offers') {
+                    $('.tab-offers-btn').removeClass('d-none'); // Show the button for 'owner' tab
+                } else {
+                    $('.tab-offers-btn').addClass('d-none'); // Hide the button for other tabs
+                }
+
             }
 
             // Handle Tab Clicks
@@ -421,7 +456,7 @@
         //     simulateTabClickAndPropertyCard();
         // });
 
-        
+
 
     </script>
 @endsection

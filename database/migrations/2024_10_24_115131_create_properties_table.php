@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->string('balcony')->nullable();
             $table->string('garden')->nullable();
             $table->string('service')->nullable();
+            $table->string('management')->nullable();
             $table->string('collecting_rent')->nullable();
             $table->string('floor')->nullable();
             $table->decimal('square_feet', 10, 4)->nullable();

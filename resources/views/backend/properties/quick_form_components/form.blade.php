@@ -7,7 +7,8 @@ $stepNames = [
 4 => 'Bathrooms',
 5 => 'Reception',
 6 => 'Funishing',
-7 => 'Price',
+7 => 'Amenity',
+8 => 'Price',
 ];
 /*
 function getBreadcrumb($step)
@@ -32,25 +33,25 @@ return $breadcrumb[$step] ?? 'Unknown Step';
 
     <h4 class="mb-4">Quick Add Property</h4>
     <div class="qap_breadcrumb">
-            <!-- @for ($i = 1; $i <= count($stepNames); $i++) 
+            {{-- @for ($i = 1; $i <= count($stepNames); $i++)
                 <div class="form-check {{ session('current_step') == $i ? 'active' : '' }}">
                     <input class="form-check-input" type="radio" name="step" data-property-id="" id="step{{ $i }}" value="{{ $i }}" {{ session('current_step') == $i || $i == 1 ? 'checked' : '' }}>
                     <label class="form-check-label {{ session('current_step') == $i ? 'active' : '' }}" for="step{{ $i }}">
                         {{ $stepNames[$i] ?? 'Unknown Step'}}
                     </label>
                 </div>
-            @endfor -->
+            @endfor --}}
             @for ($i = 1; $i <= count($stepNames); $i++)
                 <div class="form-check {{ $currentStep == $i ? 'active' : '' }}">
-                    <input 
-                        class="form-check-input" 
-                        type="radio" 
-                        name="step" 
-                        id="step{{ $i }}" 
-                        value="{{ $i }}" 
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="step"
+                        id="step{{ $i }}"
+                        value="{{ $i }}"
                         {{ $currentStep == $i || ($i == 1 && !$property) ? 'checked' : '' }}
                         {{ $i <= $currentStep ? '' : 'disabled' }}>
-                    
+
                     <label class="form-check-label {{ $currentStep == $i ? 'active' : '' }}" for="step{{ $i }}">{{ $stepNames[$i] ?? 'Unknown Step'}}</label>
                 </div>
             @endfor
@@ -186,7 +187,7 @@ $(document).ready(function() {
         e.preventDefault();
         const currentStep = $(this).data('current-step');
         const targetStep = $(this).data('previous-step');
-        const previous = true; 
+        const previous = true;
 
         handleStepChange(currentStep, targetStep, previous);
     });

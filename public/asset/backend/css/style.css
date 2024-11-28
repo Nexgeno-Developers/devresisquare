@@ -170,6 +170,11 @@ a, a:hover{text-decoration: none !important ;}
     th {
             background-color: var(--primary-100);
         }
+    tr td{
+        img.img_thumb{
+            width: 120px;
+        }
+    }
 }
 
 .dropdown{
@@ -195,6 +200,10 @@ a, a:hover{text-decoration: none !important ;}
     }
     .dropdown-menu{
         width: 100%;
+        &.right_icon {
+            right: 0;
+            left: unset !important;
+        }
     }
 
     .rs_icon_dropdown{
@@ -215,6 +224,7 @@ a, a:hover{text-decoration: none !important ;}
             text-rendering: auto;
             font-family: var(--fa-style-family, "Font Awesome 6 Free");
             font-weight: var(--fa-style, 900);
+            border: none;
         }
         &:hover{
             background-color: var(--primary-200);
@@ -223,11 +233,8 @@ a, a:hover{text-decoration: none !important ;}
     }
     &:has(.right_icon){
         width: fit-content;
-        .dropdown-menu {
-            right: 0;
-            left: unset;
-        }
-    }
+    }  
+    
 }
 
 
@@ -1181,6 +1188,7 @@ body.show-sidebar #menu.sidebar {
                     font-weight: 600;
                 }
                 .pv_content_detail{
+                    padding: 66px 24px 0 24px;
                     .pv_content{
                         display: none;
                         &.mobile_only{
@@ -1296,5 +1304,27 @@ body.show-sidebar #menu.sidebar {
         }
         .data-row div { padding: 5px 0; }
         .data-row div:nth-child(odd) { font-weight: bold; }
+        .data-row .img_thumb{
+            width: 120px;
+            img{
+                width: 100%;
+            }
+        }
+
+        .rsmt_left_col{
+            font-weight: 600;
+            div{
+                padding: 8px 0;
+            }
+        }
+        .rsmt_right_col{
+            text-align: right;
+            div{
+                padding: 8px 0;
+            }
+        }
+        border-bottom: 1px solid var(--primary-200);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
     }
 }

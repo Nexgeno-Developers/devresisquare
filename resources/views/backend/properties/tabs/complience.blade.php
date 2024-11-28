@@ -27,7 +27,7 @@
                 <tr>
                     <td class="">B</td>
                     <td class="">22/11/25</td>
-                    <td class="">
+                    <td class="img_thumb">
                         <img src="{{ asset('asset/images/temp-property.webp') }}" alt="image">
                     </td>
 
@@ -48,7 +48,7 @@
                     </div>
                     <div class="tr_row">
                         <div class="">Image</div>
-                        <div class=""><img src="{{ asset('asset/images/temp-property.webp') }}" alt="image"></div>
+                        <div class="img_thumb"><img src="{{ asset('asset/images/temp-property.webp') }}" alt="image"></div>
                     </div>
                 </div>
         </div>

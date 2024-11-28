@@ -170,6 +170,11 @@ a, a:hover{text-decoration: none !important ;}
     th {
             background-color: var(--primary-100);
         }
+    tr td{
+        img.img_thumb{
+            width: 120px;
+        }
+    }
 }
 
 .dropdown{

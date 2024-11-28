@@ -1,4 +1,4 @@
-<div id="hidden-property-id" style="display: none;" data-property-id="{{ $propertyId }}">
+{{-- <div id="hidden-property-id" style="display: none;" data-property-id="{{ $propertyId }}">
     @php
         // Debugging the propertyId
         echo '<pre>';
@@ -34,9 +34,10 @@
             <p><strong>City:</strong> {{ $ownerGroup->contact->city }}</p>
         </div>
     @endforeach
-</div>
+</div> --}}
+
 {{-- Owners page  --}}
-@php
+{{-- @php
     $headers = ['id','Name', 'Position', 'Phone', 'email', 'City'];
     $rows = [
         ['id' => 1, 'name' => 'John Doe', 'position' => 'Owner', 'phone' => '456798462', 'email' => 'john@example.com', 'city' => 'London'],
@@ -52,4 +53,68 @@
 
 
 <x-backend.dynamic-table-new  :headers="$headers" :rows="$rows" :dropdownOptions="$dropdownOptions" actionBtn={{True}} class="" />
+ --}}
 
+
+
+ @php
+    // Table headers
+    $headers = ['id', 'Name', 'Position', 'Phone', 'Email', 'City'];
+
+    // Prepare rows from $ownerGroups
+    $rows = [];
+
+    if ($ownerGroups->isNotEmpty()) {
+        foreach ($ownerGroups as $index => $ownerGroup) {
+            // For each row, add the dropdown options dynamically
+            $dropdownOptions = [
+                [
+                    'label' => 'Edit',
+                    'class' => 'popup-tab-owners-edit',
+                    'url' => route('admin.owner-groups.edit', $ownerGroup->id),  // Dynamic route URL for edit
+                ],
+                [
+                    'label' => 'Delete',
+                    'class' => 'popup-tab-owners-delete',
+                    'url' => "javascript:void(0);",
+                    // 'url' => route('admin.owner-groups.destroy', $ownerGroup->id),  // Dynamic route URL for delete
+                    'onclick' => "confirmModal('" . route('admin.owner-groups.destroy', $ownerGroup->id) . "', responseHandler)"  // JavaScript function call for delete
+                ]
+            ];
+
+            // Add this row to the table with its corresponding dropdown options
+            $rows[] = [
+                'id' => $index,  // Use the actual ID of the ownerGroup for identification
+                'name' => $ownerGroup->contact->full_name ?? 'N/A',
+                'position' => $ownerGroup->contact->category->name ?? 'N/A',  // Assuming category relationship exists
+                'phone' => $ownerGroup->contact->phone ?? 'N/A',
+                'email' => $ownerGroup->contact->email ?? 'N/A',
+                'city' => $ownerGroup->contact->city ?? 'N/A',
+            ];
+        }
+    }
+@endphp
+
+{{-- Hidden div for property ID --}}
+<div id="hidden-property-id" style="display: none;" data-property-id="{{ $propertyId }}">
+    @php
+        // Debugging the propertyId
+        echo '<pre>';
+        var_dump($propertyId);
+        echo '</pre>';
+    @endphp
+</div>
+
+{{-- Show table only if there is data --}}
+@if($ownerGroups->isNotEmpty())
+    {{-- Dynamic table component --}}
+    <x-backend.dynamic-table-new
+        :headers="$headers"
+        :rows="$rows"
+        :dropdownOptions="$dropdownOptions"
+        actionBtn={{True}}
+        class=""
+    />
+@else
+    <p>No data available</p>
+@endif

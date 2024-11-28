@@ -59,7 +59,7 @@
         <li class="sidebar-list-item">
             <a class="{{ request()->routeIs('contact-categories.index') ? 'active' : '' }}" href="{{ route('contact-categories.index') }}">
                 <img src="{{ asset('asset/images/svg/contacts.svg') }}" alt="contacts">
-                Owners Categories
+                Categories
             </a>
         </li>
 

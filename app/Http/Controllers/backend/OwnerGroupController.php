@@ -84,7 +84,18 @@ class OwnerGroupController
         ]);
 
         $ownerGroup->update($validatedData);
-        return redirect()->route('owner_groups.index')->with('success', 'Owner Group updated successfully');
+        // $response = [
+        //     'status' => true,
+        //     'notification' => 'Owner Group Deleted successfully!',
+        // ];
+
+        // return response()->json($response);
+        // return back()->with('success', 'Owner Group deleted successfully');
+
+        flash('Owner Group Updated successfully!')->success();
+        return back();
+
+        // return redirect()->route('owner_groups.index')->with('success', 'Owner Group updated successfully');
     }
 
     /**
@@ -94,6 +105,17 @@ class OwnerGroupController
     {
         $ownerGroup = OwnerGroup::findOrFail($id);
         $ownerGroup->delete();
-        return redirect()->route('owner_groups.index')->with('success', 'Owner Group deleted successfully');
+        // Return response
+        $response = [
+            'status' => true,
+            'notification' => 'Owner Group Deleted successfully!',
+        ];
+
+        return response()->json($response);
+        // return back()->with('success', 'Owner Group deleted successfully');
+
+        // flash('Owner Group deleted successfully!')->success();
+        // return back();
+        // return redirect()->route('owner_groups.index')->with('success', 'Owner Group deleted successfully');
     }
 }

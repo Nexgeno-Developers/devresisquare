@@ -17,19 +17,11 @@
                 <div class="pv_card_wrapper">
                     {{-- Dev Note: if select property from list add class 'current' to property card --}}
                     @foreach ($properties as $property)
-                    <x-backend.property-card
-                        class="property-card"
-                        propertyName="{{$property['prop_name']}}"
-                        bed="{{$property['bedroom']}}"
-                        bath="{{$property['bathroom']}}"
-                        floor="{{$property['floor']}}"
-                        living="{{$property['reception']}}"
-                        {{-- living="{{$property['living']}}" --}}
-                        type="{{$property['property_type']}}"
-                        available="{{$property['available_from']}}"
-                        price="{{$property['price']}}"
-                        cardStyle=""
-                        propertyId="{{ $property['id'] }}"                    />
+                        <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}"
+                            bed="{{ $property['bedroom'] }}" bath="{{ $property['bathroom'] }}"
+                            floor="{{ $property['floor'] }}" living="{{ $property['reception'] }}" {{-- living="{{$property['living']}}" --}}
+                            type="{{ $property['property_type'] }}" available="{{ $property['available_from'] }}"
+                            price="{{ $property['price'] }}" cardStyle="" propertyId="{{ $property['id'] }}" />
                     @endforeach
 
                 </div>
@@ -40,13 +32,13 @@
         <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
             <div class="pv_detail_wrapper">
 
-                <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs"/>
+                <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs" />
 
                 <div class="pv_detail_content">
                     <div class="pv_detail_header">
                         <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
                         <div class="pvdh_btns_wrapper">
-                            <x-backend.link-button class="tab-owners-btn popup-tab-owners d-none" name="Add Owner"
+                            <x-backend.link-button class="tab-owners-btn popup-tab-owners-create d-none" name="Add Owner"
                                 link="{{ route('admin.owner-groups.create') }}" onClick="" />
                             <x-backend.link-button class="tab-offers-btn d-none" name="Add Offer"
                                 link="{{ route('admin.properties.quick') }}" onClick="" />
@@ -68,32 +60,31 @@
             </div>
             <div class="mobile_footer mobile_only">
                 <div class="pvdh_btns_wrapper">
-                    <x-backend.mobile-button  name="Add Tenacy" link="{{ route('admin.properties.quick') }}" iconName="file-plus" />
-                    <x-backend.mobile-button  name="Add Offer" link="{{ route('admin.properties.quick') }}" iconName="file-text" />
-                    <x-backend.mobile-button  name="Edit Property" link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
-                    <x-backend.main-button
-                        class="add_property_mobile"
-                        name=""
-                        type="secondary"
-                        size="sm"
-                        isOutline="{{false}}"
-                        isLinkBtn={{false}}
-                        link="https://#"
-                        onClick="copyHtml()"
-                    />
+                    <x-backend.mobile-button name="Add Tenacy" link="{{ route('admin.properties.quick') }}"
+                        iconName="file-plus" />
+                    <x-backend.mobile-button name="Add Offer" link="{{ route('admin.properties.quick') }}"
+                        iconName="file-text" />
+                    <x-backend.mobile-button name="Edit Property"
+                        link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
+                    <x-backend.main-button class="add_property_mobile" name="" type="secondary" size="sm"
+                        isOutline="{{ false }}" isLinkBtn={{ false }} link="https://#"
+                        onClick="copyHtml()" />
                 </div>
             </div>
         </div>
     </div>
 
-<!-- Include the Modal Component -->
-@include('backend.components.modal')
-
+    <!-- Include the Modal Component -->
+    @include('backend.components.modal')
 @endsection
 
 @section('page.scripts')
     <script>
-        $(document).ready(function () {
+        var responseHandler = function(response) {
+            location.reload();
+        }
+        $(document).ready(function() {
+
             // Function to check if the device is mobile
             function is_mobile() {
                 return (
@@ -105,31 +96,51 @@
                 $(document).on('click', '.property-card', function() {
                     $('#backBtn').addClass('property_bk_btn_show');
                     $('.property_detail_wrapper').removeClass('hide_this');
-                    $('.property_list_wrapper').toggleClass('hide_this');   // Hide left column
-                    $('.property_detail_wrapper').addClass('show_this');  // Show right column
+                    $('.property_list_wrapper').toggleClass('hide_this'); // Hide left column
+                    $('.property_detail_wrapper').addClass('show_this'); // Show right column
                 });
 
                 $(document).on('click', '#backBtn', function() {
                     $('#backBtn').removeClass('property_bk_btn_show');
                     $('.property_detail_wrapper').addClass('hide_this');
-                    $('.property_detail_wrapper').toggleClass('show_this');  // Hide right column
-                    $('.property_list_wrapper').toggleClass('hide_this');   // Show left column
+                    $('.property_detail_wrapper').toggleClass('show_this'); // Hide right column
+                    $('.property_list_wrapper').toggleClass('hide_this'); // Show left column
                 });
             }
 
-            // Trigger the modal when an element with the 'popup-tab-owners' class is clicked
-            $('.popup-tab-owners').click(function(e) {
+            // Trigger the modal when an element with the 'popup-tab-owners-create' class is clicked
+            $(document).on('click', '.popup-tab-owners-create', function(e) {
                 e.preventDefault(); // Prevent the default action (e.g., following the link)
 
                 // Get the URL from the link (you can dynamically get the URL as needed)
                 var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
                 var header = 'Add Owner'; // You can set a custom header or get it dynamically
                 // Access the data-property-id using JavaScript
-                var propertyId = document.getElementById('hidden-property-id').getAttribute('data-property-id') ?? '';
+                var propertyId = document.getElementById('hidden-property-id').getAttribute(
+                    'data-property-id') ?? '';
 
                 smallModal(url, header);
                 // Ensure the modal content is loaded and then set the property_id in the hidden input field inside the modal form
-                $('#smallModal').on('shown.bs.modal', function () {
+                $('#smallModal').on('shown.bs.modal', function() {
+                    // Set the property_id in the hidden input field inside the modal form
+                    $("input[name='property_id']").val(propertyId);
+                });
+            });
+
+            // Trigger the modal when an element with the 'popup-tab-owners-edit' class is clicked
+            $(document).on('click', '.popup-tab-owners-edit', function(e) {
+                e.preventDefault(); // Prevent the default action (e.g., following the link)
+
+                // Get the URL from the link (you can dynamically get the URL as needed)
+                var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
+                var header = 'Edit Owner'; // You can set a custom header or get it dynamically
+                // Access the data-property-id using JavaScript
+                var propertyId = document.getElementById('hidden-property-id').getAttribute(
+                    'data-property-id') ?? '';
+
+                smallModal(url, header);
+                // Ensure the modal content is loaded and then set the property_id in the hidden input field inside the modal form
+                $('#smallModal').on('shown.bs.modal', function() {
                     // Set the property_id in the hidden input field inside the modal form
                     $("input[name='property_id']").val(propertyId);
                 });
@@ -455,8 +466,5 @@
         //     // Call the simulateTabClickAndPropertyCard function on document ready
         //     simulateTabClickAndPropertyCard();
         // });
-
-
-
     </script>
 @endsection

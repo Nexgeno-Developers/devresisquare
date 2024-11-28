@@ -289,21 +289,25 @@
                 <div class="row gap-16 ml_0">
                     <div class="h_section">
                         <div class="">
-                            <h6>Responsive Table</h6>
+                            <h6>Responsive Table Without Action Button</h6>
                             {{-- table  compoent start--}}
-                                @php
-                                $headers = ['id','Name', 'Position', 'Phone', 'email', 'City'];
-                                $rows = [
-                                    [1, 'John Doe', 'Owner', '456798462', 'john@example.com', 'London'],
-                                    [2, 'Jane Smith', 'Owner', '974511268', 'jane@example.com', 'Mumbai'],
-                                ];
+                            @php
+                            $headers = ['id','Status', 'Sub Status', 'Price', 'Frequency', 'Estate Agent', 'Move in', 'Move out'];
+                            $rows = [
+                                ['id' => 1,'Status' => 'Active', 'Sub Status' => 'Ready', 'Price' => '300', 'Frequency' => 'Quarterly', 'Estate Agent' => 'Tenant','Move in'=>'22/11/24', 'Move out'=>'21/02/25'],
+                                ['id' => 1,'Status' => 'Inactive', 'Sub Status' => 'Not Ready', 'Price' => '2500', 'Frequency' => 'Yearly', 'Estate Agent' => 'Tenant','Move in'=>'22/11/25', 'Move out'=>'21/02/26'],
+                            ];
                             @endphp
-                            <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='' />
+                            
+                            <x-backend.dynamic-table-new  :headers="$headers" :rows="$rows" dropdownOptions="" actionBtn={{False}} class="" />
+                            
                             <blockquote>
-                                &lt;x-backend.dynamic-table
-                                    :headers="&#36;headers"
-                                    :rows="&#36;rows"
-                                    class = ""
+                                &lt;x-backend.dynamic-table-new  
+                                headers="$headers" 
+                                rows="$rows" 
+                                dropdownOptions="" 
+                                actionBtn=&#x2774;&#x2774; &#36;False&#x2775;&#x2775;
+                                class="" 
                                 /&gt;
                             </blockquote>
                         </div>

@@ -45,7 +45,10 @@ public function login(Request $request)
         'password' => 'required',
     ]);
 
-    if (Auth::attempt($request->only('email', 'password'))) {
+    // Attempt to log the user in with 'remember' option
+    $remember = $request->has('remember'); // Check if 'remember' checkbox is checked
+
+    if (Auth::attempt($request->only('email', 'password'), $remember)) {
         $user = Auth::user();
 
         // Check if user has one of the specified role IDs
@@ -86,8 +89,9 @@ public function login(Request $request)
             'role_id' => 6, // Default to 'user' role
         ]);
 
-        // Log the user in
-        Auth::login($user);
+        // Log the user in and remember if checked
+        $remember = $request->has('remember'); // Check if 'remember' checkbox is checked
+        Auth::login($user, $remember); // Pass $remember to remember the user
 
         // Redirect to the backend dashboard
         return redirect()->route('backend.dashboard')->with('success', 'Registration successful!'); // Flash success message
@@ -108,7 +112,7 @@ public function login(Request $request)
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-    
+
         // Create a new user
         $user = User::create([
             'name' => $request->name,
@@ -116,18 +120,18 @@ public function login(Request $request)
             'password' => Hash::make($request->password),
             'role_id' => 6, // Default to 'user' role
         ]);
-    
+
         // Log in the user
         Auth::login($user);
-    
+
         // Flash a success message to the session
         session()->flash('success', 'Registration successful! You are now logged in.');
-    
+
         // Redirect to the admin dashboard
         return redirect()->route('admin.dashboard');
     }
         */
-    
+
 
     public function logout(Request $request)
     {

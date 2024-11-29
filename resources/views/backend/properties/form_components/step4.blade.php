@@ -11,19 +11,43 @@
         data-step-title="Current Status"></div>
 
     <div class="steps_wrapper">
-        <div class="form-group">
-            <label for="current_status">Current Status</label>
-            <select name="current_status" id="current_status" class="form-control">
-                <option value="for sale" {{ (isset($property) && $property->current_status == 'for sale') ? 'selected' : ''  }}>For Sale</option>
-                <option value="under offer" {{ (isset($property) && $property->current_status == 'under offer') ? 'selected' : ''  }}>Under Offer</option>
-                <option value="sold STC" {{ (isset($property) && $property->current_status == 'sold STC') ? 'selected' : '' }}>Sold STC</option>
-                <option value="available" {{ (isset($property) && $property->current_status == 'available') ? 'selected' : ''  }}>Available</option>
-                <option value="let agreed" {{ (isset($property) && $property->current_status == 'let agreed') ? 'selected' : ''  }}>Let Agreed</option>
-            </select>
-            @error('current_status')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
+        @if(isset($property) && ($property->property_type == 'sales' || $property->property_type == 'both'))
+            <div class="form-group">
+                <label for="sales_current_status">Sales Status</label>
+                <select name="sales_current_status" id="sales_current_status" class="form-control" required>
+                    <option value="" disabled {{ (isset($property) && $property->sales_current_status == '') ? 'selected' : ''  }}>Select a Status</option>
+                    <option value="for sale" {{ (isset($property) && $property->sales_current_status == 'for sale') ? 'selected' : '' }}>For Sale</option>
+                    <option value="on hold" {{ (isset($property) && $property->sales_current_status == 'on hold') ? 'selected' : '' }}>On Hold</option>
+                    <option value="under offer" {{ (isset($property) && $property->sales_current_status == 'under offer') ? 'selected' : '' }}>Under Offer</option>
+                    <option value="sold" {{ (isset($property) && $property->sales_current_status == 'sold') ? 'selected' : '' }}>Sold</option>
+                    <option value="sold STC" {{ (isset($property) && $property->sales_current_status == 'sold STC') ? 'selected' : '' }}>Sold STC</option>
+                    <option value="sold by other" {{ (isset($property) && $property->sales_current_status == 'sold by other') ? 'selected' : '' }}>Sold By Other</option>
+                    <option value="exchanged" {{ (isset($property) && $property->sales_current_status == 'exchanged') ? 'selected' : '' }}>Exchanged</option>
+                    <option value="available" {{ (isset($property) && $property->sales_current_status == 'available') ? 'selected' : '' }}>Available</option>
+                    <option value="let agreed" {{ (isset($property) && $property->sales_current_status == 'let agreed') ? 'selected' : '' }}>Let Agreed</option>
+                </select>
+                @error('sales_current_status')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        @endif
+
+        @if(isset($property) && ($property->property_type == 'lettings' || $property->property_type == 'both'))
+            <div class="form-group">
+                <label for="letting_current_status">Letting Status</label>
+                <select name="letting_current_status" id="letting_current_status" class="form-control" required>
+                    <option value="" disabled {{ (isset($property) && $property->letting_current_status == '') ? 'selected' : ''  }}>Select a Status</option>
+                    <option value="not available" {{ (isset($property) && $property->letting_current_status == 'not available') ? 'selected' : '' }}>Not Available</option>
+                    <option value="available" {{ (isset($property) && $property->letting_current_status == 'available') ? 'selected' : '' }}>Available</option>
+                    <option value="let agreed" {{ (isset($property) && $property->letting_current_status == 'let agreed') ? 'selected' : '' }}>Let Agreed</option>
+                    <option value="let by other" {{ (isset($property) && $property->letting_current_status == 'let by other') ? 'selected' : '' }}>Let By Other</option>
+                </select>
+                @error('letting_current_status')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        @endif
+
 
         <div class="form-group">
             <label for="status_description">Description</label>
@@ -43,6 +67,15 @@
             @enderror
         </div>
 
+        @if(isset($property) && $property->property_type == 'lettings')
+            <div class="form-group">
+                <input type="checkbox" name="pets_allow" id="pets_allow" style="width: 3%;" value="" {{ isset($property) && $property->pets_allow == 1 ? 'checked' : '' }} />
+                <label for="pets_allow">Pets Allowed</label>
+                @error('pets_allow')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        @endif
 
         <div class="form-group">
             <label for="market_on">Market On</label>
@@ -69,3 +102,12 @@
         </div>
 
 </form>
+<script>
+// jQuery to handle setting the value
+$(document).ready(function() {
+    $('#pets_allow').change(function() {
+        // Set the value to 1 if checked, otherwise set to 0
+        this.value = this.checked ? 1 : 0;
+    });
+});
+</script>

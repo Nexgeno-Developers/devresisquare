@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
+            $table->string('prop_ref_no')->nullable();
             $table->string('prop_name')->nullable();
             $table->string('line_1')->nullable();
             $table->string('line_2')->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration {
             $table->string('bathroom')->nullable();
             $table->string('reception')->nullable();
             $table->string('parking')->nullable();
+            $table->string('parking_location',50)->nullable();
             $table->string('balcony')->nullable();
             $table->string('garden')->nullable();
             $table->string('service')->nullable();
@@ -34,9 +36,11 @@ return new class extends Migration {
             $table->decimal('square_feet', 10, 4)->nullable();
             $table->decimal('square_meter', 10, 4)->nullable();
             $table->string('aspects')->nullable();
-            $table->string('current_status')->nullable();
-            $table->string('status_description',555)->nullable();
+            $table->string('sales_current_status',155)->nullable();
+            $table->string('letting_current_status',155)->nullable();
+            $table->json('status_description')->nullable();
             $table->date('available_from')->nullable();
+            $table->boolean('pets_allow')->default(0)->comment('1 for yes, 0 for no');
             $table->json('market_on')->nullable();
             $table->json('features')->nullable(); // Stores multiple photo URLs as JSON array
             $table->string('furniture',555)->nullable();

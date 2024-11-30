@@ -32,12 +32,12 @@ body.show-sidebar #menu {
     margin-left: 40px;
     width: calc(100% - 30%);
     transition: margin-left 0.3s;
-    height: calc(100% - 36px)
+    height: calc(100vh - 36px)
 }
 
 #wrapper .container-fluid,
-#wrapper .container-fluid .row {
-    height: calc(100% - 36px)
+#wrapper .container-fluid>.row {
+    height: calc(100vh - 36px)
 }
 
 #header {
@@ -383,9 +383,9 @@ ul#propertiesSubmenu li.sidebar-sub-list-item:hover a {
 }
 /* ================================= */
 
-.main_content{
+/* .main_content{
     padding-top: 16px;
-}
+} */
 
 .property_list_wrapper{
     &.show_this{
@@ -537,7 +537,8 @@ input[type="radio"]:checked+label::before {
 
 .rs_steps .main_title {
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 600;
+    margin-top: 24px;
     margin-bottom: 32px;
 }
 
@@ -549,6 +550,20 @@ input[type="radio"]:checked+label::before {
 
 .rs_steps .steps_wrapper {
     gap: 22px;
+    .pt_wrapper{
+        border: 1px solid var(--primary-300);
+        width: fit-content;
+        padding: 16px;
+        border-radius: 6px;
+        background: var(--primary-100);
+    }
+    .form-group>label {
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 14px;
+        margin-top: 14px;
+    }
+    padding-bottom: 24px;
 }
 
 .rs_steps .steps_wrapper .form-group {
@@ -1104,10 +1119,6 @@ input[type="radio"]:checked+label::before {
         width: 100%;
     }
 
-    .left_inner_menu {
-        display: none;
-    }
-
 }
 
 
@@ -1138,8 +1149,14 @@ input[type="radio"]:checked+label::before {
 
 @media (max-width: 766px) {
 
+/* common */
+
 .mobile_only{
     display: block;
+}
+
+.left_inner_menu {
+    display: none;
 }
 
 .hide_this{
@@ -1155,6 +1172,20 @@ input[type="radio"]:checked+label::before {
         &.show_this{
             display: block;
         }
+
+
+    .radio_bts_square{
+        flex-wrap: wrap;
+        gap: 12px;
+        label{
+            padding: 18px 24px;
+            flex-grow: 1;
+            /* &[for="bedroomStudio"],
+            &[for="bedroom6"]{
+                flex-grow: 1;
+            } */
+        }
+    }
 
 /*sidebar */
 body.show-sidebar #menu.sidebar {
@@ -1280,6 +1311,10 @@ body.show-sidebar #menu.sidebar {
             padding: 16px;
             padding-top: 24px;
         }
+    }
+
+    .rs_steps{
+        padding: 0;
     }
 
     /* components */

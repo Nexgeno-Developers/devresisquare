@@ -1,5 +1,6 @@
+@php $currentStep = 8 ; @endphp
 <!-- resources/views/backend/properties/form_components/step8.blade.php -->
-<form id="property-form-step-8" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}"
+<form id="property-form-step-{{ $currentStep }}" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}"
     enctype="multipart/form-data">
     @csrf
     <!-- Hidden field for property ID with isset check -->
@@ -8,7 +9,7 @@
 
     <label class="main_title">Media</label>
 
-    <div class="steps_wrapper" data-step-name="Media" data-step-number="8" data-step-title="Media">
+    <div class="steps_wrapper" data-step-name="Media" data-step-number="{{ $currentStep }}" data-step-title="Media">
 {{--
 <!-- old-code -->
         <div class="form-group rs_upload_btn">
@@ -112,12 +113,12 @@
 
         <div class="row">
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="7"
-                    data-current-step="8">Previous</button>
+                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}"
+                    data-current-step="{{ $currentStep }}">Previous</button>
             </div>
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-primary w-100 next-step" data-next-step="9"
-                    data-current-step="8">Next</button>
+                <button type="button" class="btn btn-primary w-100 next-step" data-next-step="{{ $currentStep + 1 }}"
+                    data-current-step="{{ $currentStep }}">Next</button>
             </div>
         </div>
 </form>

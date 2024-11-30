@@ -1,3 +1,4 @@
+@php $currentStep = 6 ; @endphp
 <!-- resources/views/backend/properties/form_components/step6.blade.php -->
 @php
 if(isset($property)){
@@ -23,14 +24,14 @@ if(isset($property)){
 }
 @endphp
 
-<form id="property-form-step-6" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
+<form id="property-form-step-{{ $currentStep }}" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
     <input type="hidden" id="property_id" class="property_id" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
 
     <label class="main_title">Price</label>
 
-    <div class="property-form-data-attribute" data-step-name="Price" data-step-number="6" data-step-title="Price"></div>
+    <div class="property-form-data-attribute" data-step-name="Price" data-step-number="{{ $currentStep }}" data-step-title="Price"></div>
 
     <div class="steps_wrapper">
 
@@ -127,10 +128,10 @@ if(isset($property)){
 
         <div class="row">
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="5" data-current-step="6">Previous</button>
+                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
             </div>
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-primary w-100 next-step" data-next-step="7" data-current-step="6">Next</button>
+                <button type="button" class="btn btn-primary w-100 next-step" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
         </div> 
     </div> 
 </form>

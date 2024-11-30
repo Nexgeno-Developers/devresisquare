@@ -1,13 +1,14 @@
+@php $currentStep = 9 ; @endphp
 <!-- resources/views/backend/properties/form_components/step9.blade.php -->
-<form id="property-form-step-9" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
+<form id="property-form-step-{{ $currentStep }}" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
     <input type="hidden" id="property_id" class="property_id" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
-    <input type="hidden" name="step" value="9">
+    <input type="hidden" name="step" value="{{ $currentStep }}">
 
     <label class="main_title">Responsibility</label>
 
-    <div class="steps_wrapper property-form-data-attribute" data-step-name="Responsibility" data-step-number="9" data-step-title="Responsibility">
+    <div class="steps_wrapper property-form-data-attribute" data-step-name="Responsibility" data-step-number="{{ $currentStep }}" data-step-title="Responsibility">
 
 
         <div class="form-group">
@@ -59,11 +60,12 @@
 
         <div class="row">
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="8" data-current-step="9">Previous</button>
+                <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
             </div>
             <div class="col-12 col-md-6">
-                <button type="submit" class="btn btn-primary w-100 last-step-submit" data-current-step="9">Submit</button>
+                <button type="submit" class="btn btn-primary w-100 last-step-submit" data-current-step="{{ $currentStep }}">Submit</button>
         </div>
     </div>
 
 </form>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    

@@ -1,13 +1,14 @@
+@php $currentStep = 2 ; @endphp
 <!-- resources/views/backend/properties/form_components/step2.blade.php -->
-<form id="property-form-step-2" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
+<form id="property-form-step-{{ $currentStep }}" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
     <input type="hidden" id="property_id" class="property_id" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
 
-    <div class="property-form-data-attribute" data-step-name="Property Type" data-step-number="2" data-step-title="Property Type"></div>
+    <div class="property-form-data-attribute" data-step-name="Property Type" data-step-number="{{ $currentStep }}" data-step-title="Property Type"></div>
     <label class="main_title">Property Type</label>
     <div class="steps_wrapper">
-        <div class="form-group">
+        <div class="form-group pt_wrapper">
             <div class="rs_radio_btns">
                 <div>
                     <input type="radio" name="property_type" id="property_type_sales" value="sales" {{ (isset($property) && $property->property_type == 'sales') ? 'checked' : '' }} required /> 
@@ -70,10 +71,10 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-secondary previous-step w-100" data-previous-step="1" data-current-step="2">Previous</button>
+                <button type="button" class="btn btn-secondary previous-step w-100" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
             </div>
             <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-primary next-step w-100" data-next-step="3" data-current-step="2">Next</button>
+                <button type="button" class="btn btn-primary next-step w-100" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
             </div>
         </div>
     </div>

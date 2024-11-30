@@ -564,6 +564,10 @@ input[type="radio"]:checked+label::before {
         margin-top: 14px;
     }
     padding-bottom: 24px;
+    .input_tag{
+        font-size: 14px;
+        color: var(--primary-500);
+    }
 }
 
 .rs_steps .steps_wrapper .form-group {

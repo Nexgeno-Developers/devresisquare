@@ -60,12 +60,14 @@
                     @enderror
                 </div>
 
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <button type="button" class="btn btn_outline_secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
+                <div class="footer_btn">
+                    <div class="row ">
+                        <div class="col-6">
+                            <button type="button" class="btn btn_outline_secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn_secondary w-100 last-step-submit" data-current-step="{{ $currentStep }}">Submit</button>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <button type="submit" class="btn btn_secondary w-100 last-step-submit" data-current-step="{{ $currentStep }}">Submit</button>
                 </div>
             </div>
         </div>

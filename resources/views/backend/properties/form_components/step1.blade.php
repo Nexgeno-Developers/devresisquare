@@ -55,7 +55,9 @@
                 @enderror
             </div>
         </div>
-        <button type="button" class="btn btn_secondary btn-sm next-step" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
+        <div class="footer_btn">
+            <button type="button" class="btn btn_secondary btn-sm next-step w-100" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
+        </div>
     </div>
     </form>
 </div>

@@ -105,6 +105,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </form>
 <script>
 // jQuery to handle setting the value

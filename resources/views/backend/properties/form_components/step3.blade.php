@@ -1,12 +1,13 @@
+@php $currentStep = 3 ; @endphp
 <!-- resources/views/backend/properties/form_components/step3.blade.php -->
-<form id="property-form-step-3" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
+<form id="property-form-step-{{ $currentStep }}" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
     <!-- Hidden field for property ID with isset check -->
     <input type="hidden" id="property_id" class="property_id" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
 
     <label class="main_title">Property Information</label>
 
-    <div class="property-form-data-attribute" data-step-name="Property Information" data-step-number="3" data-step-title="Property Information"></div>
+    <div class="property-form-data-attribute" data-step-name="Property Information" data-step-number="{{ $currentStep }}" data-step-title="Property Information"></div>
     <div class="steps_wrapper">
         <div class="form-group">
             <label>Bedrooms</label>
@@ -111,14 +112,18 @@
 
         <div class="form-group">
             <label>Service</label>
-            <select name="service" class="form-control" required>
-                <option value="" disabled {{ (isset($property) && $property->service == '') ? 'selected' : '' }}>Select a service</option>
-                <option value="fully manged" {{ (isset($property) && $property->service == 'fully manged') ? 'selected' : '' }}>Fully Manged</option>
-                <option value="let and rent collect" {{ (isset($property) && $property->service == 'let and rent collect') ? 'selected' : '' }}>Let And Rent Collect</option>
-            </select>
-            @error('service')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <select name="service" class="form-control" required>
+                        <option value="" disabled {{ (isset($property) && $property->service == '') ? 'selected' : '' }}>Select a service</option>
+                        <option value="fully manged" {{ (isset($property) && $property->service == 'fully manged') ? 'selected' : '' }}>Fully Manged</option>
+                        <option value="let and rent collect" {{ (isset($property) && $property->service == 'let and rent collect') ? 'selected' : '' }}>Let And Rent Collect</option>
+                    </select>
+                    @error('service')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
@@ -140,14 +145,18 @@
 
         <div class="form-group">
             <label>Floor</label>
-            <select name="floor" class="form-control" required>
-                <option value="" disabled {{ (isset($property) && $property->floor == '') ? 'selected' : '' }}>Select a floor</option>
-                <option value="furnished " {{ (isset($property) && $property->floor == 'furnished') ? 'selected' : '' }}>Furnished</option>
-                <option value="unfurnished" {{ (isset($property) && $property->floor == 'unfurnished') ? 'selected' : '' }}>Unfurnished</option>
-            </select>
-            @error('floor')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <select name="floor" class="form-control" required>
+                        <option value="" disabled {{ (isset($property) && $property->floor == '') ? 'selected' : '' }}>Select a floor</option>
+                        <option value="furnished " {{ (isset($property) && $property->floor == 'furnished') ? 'selected' : '' }}>Furnished</option>
+                        <option value="unfurnished" {{ (isset($property) && $property->floor == 'unfurnished') ? 'selected' : '' }}>Unfurnished</option>
+                    </select>
+                    @error('floor')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
@@ -172,27 +181,31 @@
                     </div>
                 </div>
             </div>
-        
+        </div>
 
         <div class="form-group">
             <label>Aspects</label>
-            <select name="aspects" class="form-control" required>
-                <option value="" disabled {{ (isset($property) && $property->aspects == '') ? 'selected' : ''  }}>Select an aspect</option>
-                <option value="north" {{ (isset($property) && $property->aspects == 'north') ? 'selected' : ''  }}>North</option>
-                <option value="south" {{ (isset($property) && $property->aspects == 'south') ? 'selected' : ''  }}>South</option>
-                <option value="west" {{ (isset($property) && $property->aspects == 'west') ? 'selected' : ''  }}>West</option>
-                <option value="east" {{ (isset($property) && $property->aspects == 'east') ? 'selected' : ''  }}>East</option>
-            </select>
-            @error('aspects')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <select name="aspects" class="form-control" required>
+                        <option value="" disabled {{ (isset($property) && $property->aspects == '') ? 'selected' : ''  }}>Select an aspect</option>
+                        <option value="north" {{ (isset($property) && $property->aspects == 'north') ? 'selected' : ''  }}>North</option>
+                        <option value="south" {{ (isset($property) && $property->aspects == 'south') ? 'selected' : ''  }}>South</option>
+                        <option value="west" {{ (isset($property) && $property->aspects == 'west') ? 'selected' : ''  }}>West</option>
+                        <option value="east" {{ (isset($property) && $property->aspects == 'east') ? 'selected' : ''  }}>East</option>
+                    </select>
+                    @error('aspects')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>    
+            </div>    
         </div>    
         <div class="row">
-            <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-secondary w-100 previous-step w-100" data-previous-step="2" data-current-step="3">Previous</button>
+            <div class="col-6">
+                <button type="button" class="btn btn_outline_secondary previous-step w-100" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
             </div>
-            <div class="col-12 col-md-6">
-                <button type="button" class="btn btn-primary w-100 next-step w-100" data-next-step="4" data-current-step="3">Next</button>
+            <div class="col-6">
+                <button type="button" class="btn btn_secondary next-step w-100" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
             </div>
         </div>    
     </div>

@@ -9,10 +9,11 @@
         3 => 'Property Information',
         4 => 'Current Status',
         5 => 'Features',
-        6 => 'Price',
-        7 => 'Valid EPC',
-        8 => 'Media',
-        9 => 'Responsibility',
+        6 => 'Accessiblity',
+        7 => 'Price',
+        8 => 'Valid EPC',
+        9 => 'Media',
+        10 => 'Responsibility',
     ];
 
     // Determine the last enabled step based on $property->step or default to 1

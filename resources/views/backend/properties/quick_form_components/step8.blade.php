@@ -20,6 +20,7 @@
                 <input type="hidden" id="property_id" class="property_id" name="property_id"
                     value="{{ (isset($property) ? $property->id : '') }}">
                 <div data-step-name="Property Address" data-step-number="{{$currentStep}}"></div>
+                <input type="hidden" name="step" value="{{$currentStep}}">{{-- note IMP to redirect thank you page rather than next step--}}
                 <div class="right_content_wrapper">
                     <div class="">
                         <div class="rc_title">Price</div>
@@ -34,7 +35,7 @@
                             isDate={{False}}
                          />
                     </div>
-                    <div class="">
+                    {{-- <div class="">
                         <div class="rc_title">Tenancy Start Date</div>
                         <x-backend.input-comp
                             class="tenancy_date"
@@ -93,7 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="">
                         <div class="">
                             <input required type="radio" class="management-radio" name="management" id="management1"
@@ -104,8 +105,8 @@
                             <input required type="radio" class="premium-management-radio" name="management" id="management2"
                                 value="premium management" {{ (isset($property) && $property->management == 'premium management') ? 'checked' : '' }} />
                             <label for="management2"> Premium Management </label>
+                        </div>
                     </div>
-                </div>
                 <div class="d-flex gap-3">
                     <button type="submit" class="btn btn_secondary margin-top-5 mt-5 w-100 last-step-submit" data-current-step="{{ $currentStep }}">Submit</button>
                 </div>

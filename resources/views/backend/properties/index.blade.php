@@ -40,7 +40,7 @@
                         <div class="pvdh_btns_wrapper">
                             <x-backend.link-button class="tab-owners-btn popup-tab-owners-create d-none" name="Add Owner"
                                 link="{{ route('admin.owner-groups.create') }}" onClick="" />
-                            <x-backend.link-button class="tab-offers-btn d-none" name="Add Offer"
+                            <x-backend.link-button class="tab-offers-btn popup-tab-offer-create d-none" name="Add Offer"
                                 link="{{ route('admin.properties.quick') }}" onClick="" />
                             @if (isset($property) && isset($property->id))
                                 <x-backend.outline-link-button class="" name="Edit Property"
@@ -115,6 +115,25 @@
                 // Get the URL from the link (you can dynamically get the URL as needed)
                 var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
                 var header = 'Add Owner'; // You can set a custom header or get it dynamically
+                // Access the data-property-id using JavaScript
+                var propertyId = document.getElementById('hidden-property-id').getAttribute(
+                    'data-property-id') ?? '';
+
+                smallModal(url, header);
+                // Ensure the modal content is loaded and then set the property_id in the hidden input field inside the modal form
+                $('#smallModal').on('shown.bs.modal', function() {
+                    // Set the property_id in the hidden input field inside the modal form
+                    $("input[name='property_id']").val(propertyId);
+                });
+            });
+
+            // Trigger the modal when an element with the 'popup-tab-owners-create' class is clicked
+            $(document).on('click', '.popup-tab-offer-create', function(e) {
+                e.preventDefault(); // Prevent the default action (e.g., following the link)
+
+                // Get the URL from the link (you can dynamically get the URL as needed)
+                var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
+                var header = 'Add Offer'; // You can set a custom header or get it dynamically
                 // Access the data-property-id using JavaScript
                 var propertyId = document.getElementById('hidden-property-id').getAttribute(
                     'data-property-id') ?? '';

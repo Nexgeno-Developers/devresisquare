@@ -169,6 +169,9 @@ private function getTabContent($tabname, $propertyId, $property)
                 // Create new property only on the first step
                 if ($request->step == 1) {
                     // Log the data before creation
+                    // Generate Property Reference Number
+                    $validatedData['prop_ref_no'] = $this->generatePropertyRefNumber();
+                    Log::info('Creating new pref', $validatedData['prop_ref_no']);
                     Log::info('Creating new property', $validatedData);
                     $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id(), 'step' => $request->step]));
                     // session()->forget('current_step');
@@ -226,6 +229,9 @@ private function getTabContent($tabname, $propertyId, $property)
                 // Create new property only empty property id
                 if (empty($property_id)) {
                     $validatedData['quick_step'] = $request->step;
+                    // Generate Property Reference Number
+                    $validatedData['prop_ref_no'] = $this->generatePropertyRefNumber();
+                    // Log::info('Creating new pref', $validatedData['prop_ref_no']);
                     Log::info('Creating new property', $validatedData);
                     $property = Property::create(array_merge($validatedData, ['added_by' => Auth::id()]));
                     // $request->session()->put('property_id', $property->id);
@@ -638,6 +644,7 @@ private function getTabContent($tabname, $propertyId, $property)
                     'bathroom' => 'required|string',
                     'reception' => 'required|string',
                     'parking' => 'required|boolean',
+                    'parking_location' => 'nullable',
                     'balcony' => 'required|boolean',
                     'garden' => 'required|boolean',
                     'service' => 'required|string',
@@ -649,7 +656,9 @@ private function getTabContent($tabname, $propertyId, $property)
                 ];
             case 4:
                 return [
-                    'current_status' => 'required|string',
+                    'sales_current_status' => 'required_if:property_type,sales, both|string',
+                    'letting_current_status' => 'required_if:property_type,lettings, both|string',
+                    'pets_allow' => 'required',
                     'status_description' => 'nullable|string',
                     'available_from' => 'required|date',
                     'market_on' => 'required',
@@ -762,4 +771,22 @@ private function getTabContent($tabname, $propertyId, $property)
             $property->save();
         }
     }
+
+    // Generate a unique property reference number
+    private function generatePropertyRefNumber()
+    {
+        // Find the last inserted property
+        $lastProperty = Property::orderBy('id', 'desc')->first();
+
+        // Extract and increment the numeric part
+        if ($lastProperty && preg_match('/RESISQP(\d+)/', $lastProperty->prop_ref_no, $matches)) {
+            $number = (int)$matches[1] + 1;
+        } else {
+            $number = 1; // Start from 1 if no property exists
+        }
+
+        // Format the new reference number (e.g., RESISQP0000001)
+        return 'RESISQP' . str_pad($number, 7, '0', STR_PAD_LEFT);
+    }
+
 }

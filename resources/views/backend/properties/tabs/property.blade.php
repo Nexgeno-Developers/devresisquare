@@ -30,6 +30,7 @@
             // Join all parts with commas and spaces
             $address = implode(', ', $addressParts);
 
+            $propRefNo = $property->prop_ref_no ?? '';
             $propertyType = $property->property_type ?? '';
             $transactionType = $property->transaction_type ?? '';
             $specificPropertyType = $property->specific_property_type ?? '';
@@ -94,7 +95,7 @@
 
     <div class="pv_content">
 
-        <div class="pvc_ref_id">Ref: 1234SSSD</div>
+        <div class="pvc_ref_id">Ref: {{$propRefNo}}</div>
         <div class="pvc_poperty_name">{{ $address }}</div>
         <div class="rs_property_icons">
             <div class="bed_icon rs_tooltip">

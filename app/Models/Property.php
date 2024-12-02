@@ -13,6 +13,7 @@ class Property extends Model
 
     // Define the fillable properties
     protected $fillable = [
+        "prop_ref_no",
         'prop_name',
         'line_1',
         'line_2',
@@ -26,6 +27,7 @@ class Property extends Model
         'bathroom',
         'reception',
         'parking',
+        'parking_location',
         'balcony',
         'garden',
         'service',
@@ -35,9 +37,11 @@ class Property extends Model
         'square_feet',
         'square_meter',
         'aspects',
-        'current_status',
+        'sales_current_status',
+        'letting_current_status' ,
         'status_description',
         'available_from',
+        'pets_allow',
         'market_on',
         'furniture',
         'kitchen',

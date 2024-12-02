@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\EstateChargeController;
 use App\Http\Controllers\Backend\EstateChargeItemController;
 use App\Http\Controllers\Backend\OwnerGroupController;
+use App\Http\Controllers\Backend\OfferController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -76,7 +77,12 @@ Route::middleware('auth')->group(function () {
         Route::put('owner-groups/{ownerGroup}/update', [OwnerGroupController::class, 'update'])->name('owner-groups.update');
         Route::post('owner-groups/{ownerGroup}/delete', [OwnerGroupController::class, 'destroy'])->name('owner-groups.destroy');
 
+        // Offer
+        Route::get('offers', [OfferController::class, 'index'])->name('offers.index');
+        Route::get('offers/create', [OfferController::class, 'create'])->name('offers.create');
+        Route::post('offers/store', [OfferController::class, 'store'])->name('offers.store');
+        Route::get('offers/{offer}/edit', [OfferController::class, 'edit'])->name('offers.edit');
+        Route::put('offers/{offer}/update', [OfferController::class, 'update'])->name('offers.update');
+        Route::delete('offers/{offer}/delete', [OfferController::class, 'destroy'])->name('offers.destroy');
     });
-
-
 });

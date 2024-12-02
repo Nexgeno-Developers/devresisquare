@@ -9,6 +9,11 @@
     <input type="hidden" name="property_id" value="{{ session('property_id') ?? (isset($property) ? $property->id : '') }}">
     <label class="main_title">Property Address</label>
 
+    <div class="form-group">
+        <label for="address_search">Search Property Address</label>
+        <input type="text" id="address_search" class="form-control" placeholder="Enter UK property address">
+    </div>
+
     <div class="steps_wrapper">
         <div class="property-form-data-attribute" data-step-name="Property Address" data-step-number="{{ $currentStep }}"
             data-step-title="Property address"></div>

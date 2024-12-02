@@ -108,11 +108,23 @@
     </div>
 </form>
 <script>
+
 // jQuery to handle setting the value
-$(document).ready(function() {
-    $('#pets_allow').change(function() {
+// $(document).ready(function() {
+//     $('#pets_allow').change(function() {
+//         // Set the value to 1 if checked, otherwise set to 0
+//         this.value = this.checked ? 1 : 0;
+//     });
+// });
+
+// JavaScript to handle setting the value
+document.addEventListener('DOMContentLoaded', function() {
+    var petsAllowCheckbox = document.getElementById('pets_allow');
+
+    petsAllowCheckbox.addEventListener('change', function() {
         // Set the value to 1 if checked, otherwise set to 0
-        this.value = this.checked ? 1 : 0;
+        petsAllowCheckbox.value = petsAllowCheckbox.checked ? 1 : 0;
     });
 });
+
 </script>

@@ -199,6 +199,10 @@
                         <option value="south" {{ (isset($property) && $property->aspects == 'south') ? 'selected' : ''  }}>South</option>
                         <option value="west" {{ (isset($property) && $property->aspects == 'west') ? 'selected' : ''  }}>West</option>
                         <option value="east" {{ (isset($property) && $property->aspects == 'east') ? 'selected' : ''  }}>East</option>
+                        <option value="north-east" {{ (isset($property) && $property->aspects == 'north-east') ? 'selected' : ''  }}>North-East</option>
+                        <option value="south-east" {{ (isset($property) && $property->aspects == 'south-east') ? 'selected' : ''  }}>South-East</option>
+                        <option value="south-west" {{ (isset($property) && $property->aspects == 'south-west') ? 'selected' : ''  }}>South-West</option>
+                        <option value="north-west" {{ (isset($property) && $property->aspects == 'north-west') ? 'selected' : ''  }}>North-West</option>
                     </select>
                     @error('aspects')
                         <div class="text-danger">{{ $message }}</div>

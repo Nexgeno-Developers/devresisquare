@@ -70,9 +70,9 @@
                     @enderror
                 </div>
 
-                @if(isset($property) && $property->property_type == 'lettings')
+                @if(isset($property) && $property->property_type == 'lettings' || $property->property_type == 'both')
                     <div class="form-group">
-                        <input type="checkbox" name="pets_allow" id="pets_allow" style="width: 3%;" value="" {{ isset($property) && $property->pets_allow == 1 ? 'checked' : '' }} />
+                        <input type="checkbox" name="pets_allow" id="pets_allow" style="width: 5%;" value="{{ isset($property) && $property->pets_allow == 1 ? 1 : 0 }}" {{ isset($property) && $property->pets_allow == 1 ? 'checked' : '' }} />
                         <label for="pets_allow">Pets Allowed</label>
                         @error('pets_allow')
                             <div class="text-danger">{{ $message }}</div>
@@ -110,21 +110,21 @@
 <script>
 
 // jQuery to handle setting the value
-// $(document).ready(function() {
-//     $('#pets_allow').change(function() {
-//         // Set the value to 1 if checked, otherwise set to 0
-//         this.value = this.checked ? 1 : 0;
-//     });
-// });
-
-// JavaScript to handle setting the value
-document.addEventListener('DOMContentLoaded', function() {
-    var petsAllowCheckbox = document.getElementById('pets_allow');
-
-    petsAllowCheckbox.addEventListener('change', function() {
+$(document).ready(function() {
+    $('#pets_allow').change(function() {
         // Set the value to 1 if checked, otherwise set to 0
-        petsAllowCheckbox.value = petsAllowCheckbox.checked ? 1 : 0;
+        this.value = this.checked ? 1 : 0;
     });
 });
+
+// JavaScript to handle setting the value
+// document.addEventListener('DOMContentLoaded', function() {
+//     var petsAllowCheckbox = document.getElementById('pets_allow');
+
+//     petsAllowCheckbox.addEventListener('change', function() {
+//         // Set the value to 1 if checked, otherwise set to 0
+//         petsAllowCheckbox.value = petsAllowCheckbox.checked ? 1 : 0;
+//     });
+// });
 
 </script>

@@ -3,24 +3,26 @@
 @php
 if(isset($property)){
     $propertyType = $property->property_type ?? '';
-    $propertyPrice = $property->price ?? ''; 
-    $lettingPrice = $property->letting_price ?? ''; 
-    $groundRent = $property->ground_rent ?? ''; 
-    $serviceCharge = $property->service_charge ?? ''; 
-    $annualCouncilTax = $property->annual_council_tax ?? ''; 
-    $councilTaxBand = $property->council_tax_band ?? ''; 
-    $tenure = $property->tenure ?? ''; 
-    $lengthOfLease = $property->length_of_lease ?? ''; 
+    $propertyPrice = $property->price ?? '';
+    $lettingPrice = $property->letting_price ?? '';
+    $groundRent = $property->ground_rent ?? '';
+    $serviceCharge = $property->service_charge ?? '';
+    $estateCharge = $property->estate_charge ?? '';
+    $annualCouncilTax = $property->annual_council_tax ?? '';
+    $councilTaxBand = $property->council_tax_band ?? '';
+    $tenure = $property->tenure ?? '';
+    $lengthOfLease = $property->length_of_lease ?? '';
 }else{
     $propertyType = '';
-    $propertyPrice = ''; 
-    $lettingPrice = ''; 
-    $groundRent = ''; 
-    $serviceCharge = ''; 
-    $annualCouncilTax = ''; 
-    $councilTaxBand = ''; 
-    $tenure = ''; 
-    $lengthOfLease = ''; 
+    $propertyPrice = '';
+    $lettingPrice = '';
+    $groundRent = '';
+    $serviceCharge = '';
+    $estateCharge = '';
+    $annualCouncilTax = '';
+    $councilTaxBand = '';
+    $tenure = '';
+    $lengthOfLease = '';
 }
 @endphp
 
@@ -65,7 +67,7 @@ if(isset($property)){
                             @enderror
                         </div>
                     @endif
-
+                    @if($propertyType == 'sales' || $propertyType == 'both')
                     <div class="form-group">
                         <label for="ground_rent">Ground Rent</label>
                         <div class="price_input_wrapper">
@@ -88,6 +90,17 @@ if(isset($property)){
                         @enderror
                     </div>
 
+                    <div class="form-group">
+                        <label for="estate_charge">Estate Charge</label>
+                        <div class="price_input_wrapper">
+                            <div class="pound_sign">{{ getPoundSymbol() }}</div>
+                            <input type="text" name="estate_charge" id="estate_charge" class="form-control" value="{{ $estateCharge }}">
+                        </div>
+                        @error('estate_charge')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    @endif
                     <div class="form-group">
                         <label for="annual_council_tax">Annual Council Tax</label>
                         <div class="price_input_wrapper">
@@ -113,21 +126,26 @@ if(isset($property)){
                     <div class="form-group">
                         <label for="tenure">Tenure</label>
                         <select name="tenure" id="tenure" class="form-control">
-                            <option value="leasehold" {{ $tenure == 'leasehold' ? 'selected' : '' }}>Leasehold</option>
-                            <option value="leasehold2" {{ $tenure == 'leasehold2' ? 'selected' : '' }}>Leasehold 2</option>
+                            <option value="leasehold" {{ isset($property) && $property->tenure == 'leasehold' ? 'selected' : '' }}>Leasehold</option>
+                            <option value="freehold" {{ isset($property) && $property->tenure == 'freehold' ? 'selected' : '' }}>Freehold</option>
+                            <option value="commonhold" {{ isset($property) && $property->tenure == 'commonhold' ? 'selected' : '' }}>Commonhold</option>
+                            <option value="feudal" {{ isset($property) && $property->tenure == 'feudal' ? 'selected' : '' }}>Feudal</option>
+                            <option value="share_of_freehold" {{ isset($property) && $property->tenure == 'share_of_freehold' ? 'selected' : '' }}>Share of Freehold</option>
                         </select>
                         @error('tenure')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
 
+                    @if($propertyType == 'sales' || $propertyType == 'both')
                     <div class="form-group">
-                        <label for="length_of_lease">Length of Lease</label>
+                        <label for="length_of_lease">Length of Lease (in year)</label>
                         <input type="text" name="length_of_lease" id="length_of_lease" class="form-control" value="{{ $lengthOfLease }}">
                         @error('length_of_lease')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    @endif
 
                 </div>
                 <div class="row">
@@ -136,8 +154,8 @@ if(isset($property)){
                     </div>
                     <div class="col-6">
                         <button type="button" class="btn btn_secondary w-100 next-step" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
-                </div> 
-            </div> 
-        </div> 
-    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

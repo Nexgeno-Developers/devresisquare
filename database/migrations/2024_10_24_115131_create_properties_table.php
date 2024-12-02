@@ -42,12 +42,18 @@ return new class extends Migration {
             $table->date('available_from')->nullable();
             $table->boolean('pets_allow')->default(0)->comment('1 for yes, 0 for no');
             $table->json('market_on')->nullable();
-            $table->json('features')->nullable(); // Stores multiple photo URLs as JSON array
+            $table->json('features')->nullable(); // Stores as JSON array
             $table->string('furniture',555)->nullable();
             $table->string('kitchen',555)->nullable();
             $table->string('heating_cooling',555)->nullable();
             $table->string('safety',555)->nullable();
             $table->string('other',555)->nullable();
+            $table->string('access_arrangement',255)->nullable();
+            $table->string('key_highlights',255)->nullable();
+            $table->json('nearest_station')->nullable();
+            $table->json('nearest_school')->nullable();
+            $table->json('nearest_religious_places')->nullable();
+            $table->string('useful_information',255)->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('ground_rent', 10, 2)->nullable();
             $table->decimal('service_charge', 10, 2)->nullable();

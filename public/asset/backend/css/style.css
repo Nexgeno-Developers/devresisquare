@@ -233,8 +233,8 @@ a, a:hover{text-decoration: none !important ;}
     }
     &:has(.right_icon){
         width: fit-content;
-    }  
-    
+    }
+
 }
 
 
@@ -1097,7 +1097,7 @@ input[type="radio"]:checked+label::before {
 ==========================================*/
 
 /* Mobile */
-@media (min-width:766px) {
+@media (max-width:768px) {
 
     #wrapper {
         margin-left: unset;

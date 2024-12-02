@@ -678,7 +678,7 @@ private function getTabContent($tabname, $propertyId, $property)
                     'other' => 'array|nullable',
                     // 'other.*' => 'in:Roof Garden,Business Centre,Concierge,Lift,Pets Allowed,Pets Allowed With Licence,TV,Fireplace,Wood flooring,Double glazing,Not suitable for wheelchair users,Gym,None',
                 ];
-            case 6:
+            case 7:
                 return [
                     // 'price' => 'required|numeric',
                     'letting_price' => 'nullable|numeric',
@@ -689,12 +689,12 @@ private function getTabContent($tabname, $propertyId, $property)
                     'tenure' => 'required',
                     'length_of_lease' => 'nullable|integer',
                 ];
-            case 7:
+            case 8:
                 return [
                     'epc_rating' => 'required',
                     'is_gas' => 'required   ',
                 ];
-            case 8:
+            case 9:
                 return [
                     // Validate that 'photos' is a comma-separated list of integers (file IDs)
                     'photos' => 'nullable|string',  // The input is a string of IDs
@@ -713,7 +713,7 @@ private function getTabContent($tabname, $propertyId, $property)
                     // 'view_360.*' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif|max:2048', // For 360 view
                     'video_url' => 'nullable|url|max:255', // For the video URL
                 ];
-            case 9:
+            case 10:
                 return [
                     'designation' => 'required',
                     'branch' => 'required',

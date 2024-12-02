@@ -32,12 +32,12 @@ body.show-sidebar #menu {
     margin-left: 40px;
     width: calc(100% - 30%);
     transition: margin-left 0.3s;
-    height: calc(100% - 36px)
+    height: calc(100vh - 36px)
 }
 
 #wrapper .container-fluid,
-#wrapper .container-fluid .row {
-    height: calc(100% - 36px)
+#wrapper .container-fluid>.row {
+    height: calc(100vh - 36px)
 }
 
 #header {
@@ -108,7 +108,13 @@ a, a:hover{text-decoration: none !important ;}
         overflow-x: auto;
     }
 
-
+.rs_sub_title,
+.form-group>label{
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    margin-top: 14px;
+}
 /* ========================================
           Components
 ==========================================*/
@@ -383,9 +389,9 @@ ul#propertiesSubmenu li.sidebar-sub-list-item:hover a {
 }
 /* ================================= */
 
-.main_content{
+/* .main_content{
     padding-top: 16px;
-}
+} */
 
 .property_list_wrapper{
     &.show_this{
@@ -537,7 +543,8 @@ input[type="radio"]:checked+label::before {
 
 .rs_steps .main_title {
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 600;
+    margin-top: 24px;
     margin-bottom: 32px;
 }
 
@@ -549,10 +556,30 @@ input[type="radio"]:checked+label::before {
 
 .rs_steps .steps_wrapper {
     gap: 22px;
+    padding-bottom: 24px;
+    .pt_wrapper{
+        border: 1px solid var(--primary-300);
+        width: fit-content;
+        padding: 16px;
+        border-radius: 6px;
+        background: var(--primary-100);
+    }
+    .input_tag{
+        font-size: 14px;
+        color: var(--primary-500);
+    }
 }
 
-.rs_steps .steps_wrapper .form-group {
+.rs_steps .steps_wrapper .step_price .form-group {
     gap: 6px;
+    min-width: 45%;
+}
+
+.step_price{
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-self: stretch;
 }
 
 /* ========================================
@@ -580,8 +607,12 @@ input[type="radio"]:checked+label::before {
 
 .media_wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 24px;
+    flex-wrap: wrap;
+    .input-group{
+        width: unset;
+    }
 }
 
 .media_wrapper .media_content {
@@ -603,8 +634,8 @@ input[type="radio"]:checked+label::before {
 }
 
 .media_wrapper .media_content .image_wrapper .media_images {
-    width: 200px;
-    height: 200px;
+    width: var(--media-thumb-width);
+    height: var(--media-thumb-height);
     overflow: hidden;
     border: 1px solid var(--primary-300);
     border-radius: 5px;
@@ -635,6 +666,25 @@ input[type="radio"]:checked+label::before {
     object-position: center;
     width: 100%;
     height: 100%;
+}
+
+.file-preview.box.sm .file-preview-item{
+    width: var(--media-thumb-width);
+    height: var(--media-thumb-height);
+    .thumb{
+        width: var(--media-thumb-width);
+        height: var(--media-thumb-height);
+        position: relative;
+        img{
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .col.body{
+        display: none;
+    }
 }
 
 .rs_upload_btn label[for="video_url"] {
@@ -1104,10 +1154,6 @@ input[type="radio"]:checked+label::before {
         width: 100%;
     }
 
-    .left_inner_menu {
-        display: none;
-    }
-
 }
 
 
@@ -1138,8 +1184,14 @@ input[type="radio"]:checked+label::before {
 
 @media (max-width: 766px) {
 
+/* common */
+
 .mobile_only{
     display: block;
+}
+
+.left_inner_menu {
+    display: none;
 }
 
 .hide_this{
@@ -1155,6 +1207,20 @@ input[type="radio"]:checked+label::before {
         &.show_this{
             display: block;
         }
+
+
+    .radio_bts_square{
+        flex-wrap: wrap;
+        gap: 12px;
+        label{
+            padding: 18px 24px;
+            flex-grow: 1;
+            /* &[for="bedroomStudio"],
+            &[for="bedroom6"]{
+                flex-grow: 1;
+            } */
+        }
+    }
 
 /*sidebar */
 body.show-sidebar #menu.sidebar {
@@ -1282,6 +1348,13 @@ body.show-sidebar #menu.sidebar {
         }
     }
 
+    .rs_steps{
+        padding: 0;
+    }
+
+    .rs_steps .steps_wrapper .form-group {
+        min-width: 100%;
+    }
     /* components */
 
     .dynamic_div{

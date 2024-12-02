@@ -207,6 +207,11 @@ a.btn{
 a:hover {
     --bs-link-color-rgb: unset;
 }
+
+.form-control:focus{
+    box-shadow: 0 0 0 .25rem rgb(201 201 201 / 25%);
+    border-color: var(--secondary)
+}
 /* ========================================
               Basics
 ==========================================*/
@@ -241,9 +246,8 @@ a:hover {
 .justify_end{ justify-content: end; }
 
 .gap_8 {gap: 8px; }
-
 .gap_16 {gap: 16px; }
-
+.gap_24 {gap: 24px; }
 .gap_32 {gap: 32px; }
 
 

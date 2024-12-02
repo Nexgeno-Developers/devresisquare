@@ -1,7 +1,7 @@
 @php $currentStep = 1 ; @endphp
 <!-- resources/views/backend/properties/form_components/step1.blade.php -->
 <div class="row">
-<div class="col-md-8">
+<div class="col-md-5">
 
     <form id="property-form-step-{{ $currentStep }}" class="rs_steps" method="POST" action="{{ route('admin.properties.store') }}">
     @csrf
@@ -38,22 +38,24 @@
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-        <div class="form-group">
-            <label for="country">Country</label>
-            <input required type="text" name="country" id="country" class="form-control" value="{{ (isset($property) && $property->country) ? $property->country : '' }}">
-            @error('country')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
+        <div class="row">
+            <div class="form-group col-lg-8 col-12">
+                <label for="country">Country</label>
+                <input required type="text" name="country" id="country" class="form-control" value="{{ (isset($property) && $property->country) ? $property->country : '' }}">
+                @error('country')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group col-lg-4 col-12">
+                <label for="postcode">Postcode</label>
+                <input required type="text" name="postcode" id="postcode" class="form-control"
+                    value="{{ (isset($property) && $property->postcode) ? $property->postcode : '' }}">
+                @error('postcode')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
-        <div class="form-group">
-            <label for="postcode">Postcode</label>
-            <input required type="text" name="postcode" id="postcode" class="form-control"
-                value="{{ (isset($property) && $property->postcode) ? $property->postcode : '' }}">
-            @error('postcode')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <button type="button" class="btn btn-primary btn-sm next-step" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
+        <button type="button" class="btn btn_secondary btn-sm next-step" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
     </div>
     </form>
 </div>

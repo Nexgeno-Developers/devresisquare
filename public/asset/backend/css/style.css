@@ -108,7 +108,13 @@ a, a:hover{text-decoration: none !important ;}
         overflow-x: auto;
     }
 
-
+.rs_sub_title,
+.form-group>label{
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    margin-top: 14px;
+}
 /* ========================================
           Components
 ==========================================*/
@@ -550,6 +556,7 @@ input[type="radio"]:checked+label::before {
 
 .rs_steps .steps_wrapper {
     gap: 22px;
+    padding-bottom: 24px;
     .pt_wrapper{
         border: 1px solid var(--primary-300);
         width: fit-content;
@@ -557,29 +564,22 @@ input[type="radio"]:checked+label::before {
         border-radius: 6px;
         background: var(--primary-100);
     }
-    .form-group>label {
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 14px;
-        margin-top: 14px;
-    }
-    padding-bottom: 24px;
     .input_tag{
         font-size: 14px;
         color: var(--primary-500);
     }
 }
 
-.rs_steps .steps_wrapper .form-group {
+.rs_steps .steps_wrapper .step_price .form-group {
     gap: 6px;
     min-width: 45%;
 }
 
 .step_price{
     display: flex;
-        gap: 24px;
-        flex-wrap: wrap;
-        align-self: stretch;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-self: stretch;
 }
 
 /* ========================================

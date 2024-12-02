@@ -34,101 +34,102 @@ if(isset($property)){
     <div class="property-form-data-attribute" data-step-name="Price" data-step-number="{{ $currentStep }}" data-step-title="Price"></div>
 
     <div class="row">
-        <div class="col-lg-6 col-12">
+        <div class="col-lg-8 col-12">
 
             <div class="steps_wrapper">
+                <div class="step_price">
+                <!-- Listing Sale Price Input (Show only if type is sales or both) -->
+                    @if($propertyType == 'sales' || $propertyType == 'both')
+                        <div class="form-group">
+                            <label for="lprice">Listing Sale Price</label>
+                            <div class="price_input_wrapper">
+                                <div class="pound_sign">{{ getPoundSymbol() }}</div>
+                                <input type="text" name="price" id="price" class="form-control" value="{{ $propertyPrice }}">
+                            </div>
+                            @error('price')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    @endif
 
-            <!-- Listing Sale Price Input (Show only if type is sales or both) -->
-            @if($propertyType == 'sales' || $propertyType == 'both')
+                    <!-- Letting Price Input (Show only if type is letting or both) -->
+                    @if($propertyType == 'lettings' || $propertyType == 'both')
+                        <div class="form-group">
+                            <label for="letting_price">Letting Price</label>
+                            <div class="price_input_wrapper">
+                                <div class="pound_sign">{{ getPoundSymbol() }}</div>
+                                <input type="text" name="letting_price" id="letting_price" class="form-control" value="{{ $lettingPrice }}">
+                            </div>
+                            @error('letting_price')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    @endif
+
                     <div class="form-group">
-                        <label for="lprice">Listing Sale Price</label>
+                        <label for="ground_rent">Ground Rent</label>
                         <div class="price_input_wrapper">
                             <div class="pound_sign">{{ getPoundSymbol() }}</div>
-                            <input type="text" name="price" id="price" class="form-control" value="{{ $propertyPrice }}">
+                            <input type="text" name="ground_rent" id="ground_rent" class="form-control" value="{{ $groundRent }}">
                         </div>
-                        @error('price')
+                        @error('ground_rent')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                @endif
 
-                <!-- Letting Price Input (Show only if type is letting or both) -->
-                @if($propertyType == 'lettings' || $propertyType == 'both')
                     <div class="form-group">
-                        <label for="letting_price">Letting Price</label>
+                        <label for="service_charge">Service Charge</label>
                         <div class="price_input_wrapper">
                             <div class="pound_sign">{{ getPoundSymbol() }}</div>
-                            <input type="text" name="letting_price" id="letting_price" class="form-control" value="{{ $lettingPrice }}">
+                            <input type="text" name="service_charge" id="service_charge" class="form-control" value="{{ $serviceCharge }}">
                         </div>
-                        @error('letting_price')
+                        @error('service_charge')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                @endif
 
-                <div class="form-group">
-                    <label for="ground_rent">Ground Rent</label>
-                    <div class="price_input_wrapper">
-                        <div class="pound_sign">{{ getPoundSymbol() }}</div>
-                        <input type="text" name="ground_rent" id="ground_rent" class="form-control" value="{{ $groundRent }}">
+                    <div class="form-group">
+                        <label for="annual_council_tax">Annual Council Tax</label>
+                        <div class="price_input_wrapper">
+                            <div class="pound_sign">{{ getPoundSymbol() }}</div>
+                            <input type="text" name="annual_council_tax" id="annual_council_tax" class="form-control" value="{{ $annualCouncilTax }}">
+                        </div>
+                        @error('annual_council_tax')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('ground_rent')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <div class="form-group">
-                    <label for="service_charge">Service Charge</label>
-                    <div class="price_input_wrapper">
-                        <div class="pound_sign">{{ getPoundSymbol() }}</div>
-                        <input type="text" name="service_charge" id="service_charge" class="form-control" value="{{ $serviceCharge }}">
+                    <div class="form-group">
+                        <label for="council_tax_band">Council Tax Band</label>
+                        <div class="price_input_wrapper">
+                            <div class="pound_sign">{{ getPoundSymbol() }}</div>
+                            <input type="text" name="council_tax_band" id="council_tax_band" class="form-control" value="{{ $councilTaxBand }}">
+                        </div>
+                        @error('council_tax_band')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('service_charge')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <div class="form-group">
-                    <label for="annual_council_tax">Annual Council Tax</label>
-                    <div class="price_input_wrapper">
-                        <div class="pound_sign">{{ getPoundSymbol() }}</div>
-                        <input type="text" name="annual_council_tax" id="annual_council_tax" class="form-control" value="{{ $annualCouncilTax }}">
+                    <div class="form-group">
+                        <label for="tenure">Tenure</label>
+                        <select name="tenure" id="tenure" class="form-control">
+                            <option value="leasehold" {{ $tenure == 'leasehold' ? 'selected' : '' }}>Leasehold</option>
+                            <option value="leasehold2" {{ $tenure == 'leasehold2' ? 'selected' : '' }}>Leasehold 2</option>
+                        </select>
+                        @error('tenure')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('annual_council_tax')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <div class="form-group">
-                    <label for="council_tax_band">Council Tax Band</label>
-                    <div class="price_input_wrapper">
-                        <div class="pound_sign">{{ getPoundSymbol() }}</div>
-                        <input type="text" name="council_tax_band" id="council_tax_band" class="form-control" value="{{ $councilTaxBand }}">
+                    <div class="form-group">
+                        <label for="length_of_lease">Length of Lease</label>
+                        <input type="text" name="length_of_lease" id="length_of_lease" class="form-control" value="{{ $lengthOfLease }}">
+                        @error('length_of_lease')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('council_tax_band')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <div class="form-group">
-                    <label for="tenure">Tenure</label>
-                    <select name="tenure" id="tenure" class="form-control">
-                        <option value="leasehold" {{ $tenure == 'leasehold' ? 'selected' : '' }}>Leasehold</option>
-                        <option value="leasehold2" {{ $tenure == 'leasehold2' ? 'selected' : '' }}>Leasehold 2</option>
-                    </select>
-                    @error('tenure')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
                 </div>
-
-                <div class="form-group">
-                    <label for="length_of_lease">Length of Lease</label>
-                    <input type="text" name="length_of_lease" id="length_of_lease" class="form-control" value="{{ $lengthOfLease }}">
-                    @error('length_of_lease')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
                 <div class="row">
                     <div class="col-6">
                         <button type="button" class="btn btn-secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>

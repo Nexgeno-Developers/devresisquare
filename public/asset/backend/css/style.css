@@ -607,8 +607,12 @@ input[type="radio"]:checked+label::before {
 
 .media_wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 24px;
+    flex-wrap: wrap;
+    .input-group{
+        width: unset;
+    }
 }
 
 .media_wrapper .media_content {
@@ -630,8 +634,8 @@ input[type="radio"]:checked+label::before {
 }
 
 .media_wrapper .media_content .image_wrapper .media_images {
-    width: 200px;
-    height: 200px;
+    width: var(--media-thumb-width);
+    height: var(--media-thumb-height);
     overflow: hidden;
     border: 1px solid var(--primary-300);
     border-radius: 5px;
@@ -662,6 +666,25 @@ input[type="radio"]:checked+label::before {
     object-position: center;
     width: 100%;
     height: 100%;
+}
+
+.file-preview.box.sm .file-preview-item{
+    width: var(--media-thumb-width);
+    height: var(--media-thumb-height);
+    .thumb{
+        width: var(--media-thumb-width);
+        height: var(--media-thumb-height);
+        position: relative;
+        img{
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .col.body{
+        display: none;
+    }
 }
 
 .rs_upload_btn label[for="video_url"] {

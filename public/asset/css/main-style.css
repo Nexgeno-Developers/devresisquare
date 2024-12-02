@@ -49,6 +49,9 @@
     --secondary-bg-dark: var(--secondary-color-dark);
     --secondary-bg-light: var(--secondary-color-light);
 
+    --media-thumb-width: 200px;
+    --media-thumb-height: 200px;
+
 }
 
 /* color classes */

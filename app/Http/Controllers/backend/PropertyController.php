@@ -678,6 +678,15 @@ private function getTabContent($tabname, $propertyId, $property)
                     'other' => 'array|nullable',
                     // 'other.*' => 'in:Roof Garden,Business Centre,Concierge,Lift,Pets Allowed,Pets Allowed With Licence,TV,Fireplace,Wood flooring,Double glazing,Not suitable for wheelchair users,Gym,None',
                 ];
+            case 6:
+                return [
+                    'access_arrangement' => 'required|string',
+                    'key_highlights' => 'required|string',
+                    'nearest_station' => 'required|array',
+                    'nearest_school' => 'required|array',
+                    'nearest_religious_places' => 'required|array',
+                    'useful_information' => 'required|string',
+                ];
             case 7:
                 return [
                     // 'price' => 'required|numeric',

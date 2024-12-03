@@ -9,7 +9,19 @@ class AuthenticateController
 {
     public function index()
     {
-        return view('backend.login'); // Return the login view
+        // Check if the user is already authenticated
+        if (Auth::check()) {
+            // Redirect based on user role
+            $user = Auth::user();
+            if (in_array($user->role_id, [1, 2, 3])) { // Admin roles
+                return redirect()->route('backend.dashboard');
+            } else {
+                return redirect()->route('home');
+            }
+        }
+
+        // If not authenticated, show the login view
+        return view('backend.login');
     }
 
     public function login(Request $request)

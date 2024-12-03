@@ -67,6 +67,9 @@
             background: #fff;
         }
        
+        .pv_card_wrapper{
+            height: auto;
+        }
 
         @media (max-width: 766px) {
             .h_section{
@@ -328,7 +331,11 @@
                             $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ];
                             $selectedCountry = 'ca';
                             @endphp
+<<<<<<< HEAD
                             <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}} class=""/>
+=======
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}}  class=""/>
+>>>>>>> 94c53ef90baf3af83a2771efa73e8c287cf02640
                             <blockquote>
                                 &lt;x-backend.dropdown
                                     :options="&#36;countries"
@@ -346,7 +353,11 @@
                             $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ];
                             $selectedCountry = 'edit';
                             @endphp
+<<<<<<< HEAD
                             <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} class=""/>
+=======
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}}  class="" />
+>>>>>>> 94c53ef90baf3af83a2771efa73e8c287cf02640
                             <blockquote>
                                 &lt;x-backend.dropdown
                                     :options="&#36;countries"
@@ -399,7 +410,10 @@
                     <div class="h_section">
                         <div class="">
                             <h6>Price without Label</h6>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 94c53ef90baf3af83a2771efa73e8c287cf02640
                             <x-backend.input-comp
                                 class=""
                                 inputOpt="input_price"

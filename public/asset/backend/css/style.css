@@ -1205,10 +1205,18 @@ input[type="radio"]:checked+label::before {
     padding: 16px 0;
     .stepformcomponents{
         flex-direction: row;
+        gap: 24px;
         .form-check {
             label{
-            color: var(--primary-700);
+            color: var(--primary-800);
             width: max-content;
+            padding-left: 0;
+            &:hover{
+                color: inherit;
+            }
+            &::before{
+                content: unset;
+            }
             }
             input[type="radio"]:checked+label{
                 color: var(--secondary-color);

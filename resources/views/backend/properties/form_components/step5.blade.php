@@ -8,7 +8,7 @@
     <label class="main_title">Features</label>
 
     <div class="property-form-data-attribute" data-step-name="Features" data-step-number="{{ $currentStep}}" data-step-title="Features"></div>
-    <div class="row">
+    <div class="row h_100_vh">
         <div class="col-lg-7 col-12">
             <h3>Features</h3>
 

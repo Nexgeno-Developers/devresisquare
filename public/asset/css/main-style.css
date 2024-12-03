@@ -254,6 +254,8 @@ a:hover {
 .gap_24 {gap: 24px; }
 .gap_32 {gap: 32px; }
 
+.h_100_vw{ width: 100vw; }
+.h_100_vh{ height: 100vh; }
 
 .border_bottom{
     border-bottom: 1px solid var(--primary-300);

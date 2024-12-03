@@ -8,8 +8,8 @@ use Illuminate\View\Component;
 
 class InputComp extends Component
 {
-    public $class, $inputName, $inputOpt,$inputType, $rightIcon, $placeHolder, $isLabel,  $label, $isDate ;
-    public function __construct($class, $inputName=null, $inputOpt = null, $inputType = "text", $rightIcon=null, $placeHolder=null, $isLabel = false, $label=null, $isDate = false)
+    public $class, $inputName, $inputOpt,$inputType, $rightIcon, $placeHolder, $isLabel,  $label, $isDate, $isIcon, $iconName, $onIconClick ;
+    public function __construct($class, $inputName=null, $inputOpt = null, $inputType = "text", $rightIcon=null, $placeHolder=null, $isLabel = false, $label=null, $isDate = false, $isIcon = false,  $iconName = null, $onIconClick="" )
     {
         $this->class = $class;
         $this->inputName = $inputName; //input name
@@ -20,6 +20,9 @@ class InputComp extends Component
         $this->isLabel = $isLabel; // True | False
         $this->label = $label; // input Label
         $this->isDate = $isDate; // True | False
+        $this->isIcon = $isIcon; // True | False 
+        $this->iconName = $iconName; // icon name from bootstrap icon 
+        $this->onIconClick = $onIconClick; // for jquery function
         
     }
 

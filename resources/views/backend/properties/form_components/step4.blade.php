@@ -12,7 +12,7 @@
         data-step-title="Current Status"></div>
 
     <div class="steps_wrapper">
-        <div class="row">
+        <div class="row h_100_vh">
             <div class="col-lg-5 col-12">
                 @if(isset($property) && ($property->property_type == 'sales' || $property->property_type == 'both'))
                     <div class="form-group">

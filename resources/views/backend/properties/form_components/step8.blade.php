@@ -18,7 +18,7 @@ if(isset($property)){
 
     <div class="property-form-data-attribute" data-step-name="Valid EPC" data-step-number="{{ $currentStep }}" data-step-title="Valid EPC"></div>
     
-    <div class="row">
+    <div class="row h_100_vh">
         <div class="col-lg-6 col-12">
 
             <div class="steps_wrapper">

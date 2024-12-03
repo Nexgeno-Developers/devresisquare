@@ -66,6 +66,9 @@
             background: #fff;
         }
        
+        .pv_card_wrapper{
+            height: auto;
+        }
 
         @media (max-width: 766px) {
             .h_section{
@@ -327,7 +330,7 @@
                             $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ];
                             $selectedCountry = 'ca';
                             @endphp
-                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}} />
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}}  class=""/>
                             <blockquote>
                                 &lt;x-backend.dropdown
                                     :options="&#36;countries"
@@ -345,7 +348,7 @@
                             $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ];
                             $selectedCountry = 'edit';
                             @endphp
-                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} />
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}}  class="" />
                             <blockquote>
                                 &lt;x-backend.dropdown
                                     :options="&#36;countries"

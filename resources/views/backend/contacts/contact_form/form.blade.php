@@ -13,7 +13,7 @@ $stepNames = [
 @endphp
 
 
-    <h4 class="mb-4">Quick Add Property</h4>
+    <h4 class="mb-4">Quick Add Contact</h4>
     <div class="qap_breadcrumb">
             @for ($i = 1; $i <= count($stepNames); $i++)
                 <div class="form-check {{ $currentStep == $i ? 'active' : '' }}">
@@ -34,7 +34,7 @@ $stepNames = [
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 render_blade">
-            @include('backend.properties.quick_form_components.step' . session('current_step', 1))
+            @include('backend.contacts.contact_form.step' . session('current_step', 1))
             <!-- Default to step 1 -->
         </div>
     </div>
@@ -90,7 +90,7 @@ $(document).ready(function() {
             formData.append('property_id', propertyId);
         }
         $.ajax({
-            url: '{{ route("admin.properties.quick_store") }}',
+            url: '{{ route("admin.contacts.contact_store") }}',
             method: 'POST',
             data: formData,
             processData: false,
@@ -115,8 +115,8 @@ $(document).ready(function() {
     // Define the URL based on the condition if $property exists
     @php
     $formStepRenderUrl = isset($property) ?
-        route('admin.properties.contact_step', ['step' => ':step', 'property_id' => $property->id]) :
-        route('admin.properties.contact_step', ['step' => ':step']);
+        route('admin.contacts.contact_step', ['step' => ':step', 'property_id' => $property->id]) :
+        route('admin.contacts.contact_step', ['step' => ':step']);
     @endphp
     // Function to render the view for a specific step
     function renderStep(step) {

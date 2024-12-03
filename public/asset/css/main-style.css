@@ -292,6 +292,10 @@ input:is([type="checkbox"], [type="radio"]),
 input:is([type="range"]){
     accent-color: var(--primary);
 }
+.form-check-input:checked{
+    background-color: var(--primary);
+    border-color:var(--primary)
+}
 
 
 /* ========================================
@@ -311,7 +315,7 @@ Alerts
 /* ========================================
 Radio Buttons
 ==========================================*/
-.rs_radio_btns{
+/* .rs_radio_btns{
     display: flex;
     gap: 42px;
     flex-wrap: wrap;
@@ -357,7 +361,7 @@ Radio Buttons
 .rs_radio_btns input[type="radio"]:checked+label{
     color: var(--primary);
     font-weight: 500;
-}
+} */
 
 /* ----------- Radio Square buttons ------------ */
 .radio_bts_square{

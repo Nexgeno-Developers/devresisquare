@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             CurrencySeeder::class,
+            StationNamesTableSeeder::class,
+            SchoolNamesTableSeeder::class,
+            ReligiousPlacesTableSeeder::class,
         ]);
 
         // User::factory()->create([

@@ -35,7 +35,7 @@ if(isset($property)){
 
     <div class="property-form-data-attribute" data-step-name="Price" data-step-number="{{ $currentStep }}" data-step-title="Price"></div>
 
-    <div class="row">
+    <div class="row h_100_vh">
         <div class="col-lg-8 col-12">
 
             <div class="steps_wrapper">
@@ -148,12 +148,14 @@ if(isset($property)){
                     @endif
 
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <button type="button" class="btn btn_outline_secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
+                <div class="footer_btn">
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="button" class="btn btn_outline_secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn_secondary w-100 next-step" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
                     </div>
-                    <div class="col-6">
-                        <button type="button" class="btn btn_secondary w-100 next-step" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
                 </div>
             </div>
         </div>

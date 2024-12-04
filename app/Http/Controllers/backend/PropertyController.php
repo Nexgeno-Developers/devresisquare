@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Models\Property;
 use App\Models\OwnerGroup;
+use App\Models\StationName;
+use App\Models\SchoolName;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -194,7 +196,14 @@ private function getTabContent($tabname, $propertyId, $property)
                 return redirect()->route('admin.properties.index');
                 // return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
             }
+            // If step 6, fetch station names and school names, and return view with data
+            if ($request->step == 5) {
+                $allstations = StationName::select('id', 'name')->get();  // Fetch all station names
+                $allschools = SchoolName::select('id', 'name')->get();    // Fetch all school names
 
+                // Return the view with stations, schools, and property data
+                return view('backend.properties.form_components.step' . ($request->step + 1), compact('property', 'allstations', 'allschools'));
+            }
             // Load the next step view
             // return view('backend.properties.form_components.step' . ($request->step + 1));
             // return view('backend.properties.form_components.step' . ($request->step + 1))->withInput();
@@ -274,6 +283,16 @@ private function getTabContent($tabname, $propertyId, $property)
 
         // Check if the step is valid
         if ($step > 0 && $step <= $totalSteps) {
+
+            // If step is 6, fetch the station names and school names
+            if ($step == 6) {
+                $allstations = StationName::select('id', 'name')->get();  // Fetch all station names
+                $allschools = SchoolName::select('id', 'name')->get();    // Fetch all school names
+
+                // Return the view with the stations and schools
+                return view('backend.properties.form_components.step' . $step, compact('property', 'allstations', 'allschools'));
+            }
+
             return view('backend.properties.form_components.step' . $step, compact('property')); // Return the corresponding Blade view
         } else {
             // Return a view with an error message if the step is invalid
@@ -347,7 +366,30 @@ private function getTabContent($tabname, $propertyId, $property)
     public function edit($id)
     {
         $property = Property::findOrFail($id); // Fetch property by ID
+
+        // Check if the request step is 6
+        if ($property->step == 5) {
+            // Fetch all station names and school names
+            $allstations = StationName::select('id', 'name')->get();  // Fetch all station names
+            $allschools = SchoolName::select('id', 'name')->get();    // Fetch all school names
+
+            // Get the nearest station IDs and nearest school IDs from the property (these will be comma-separated strings)
+            $stationIds = explode(',', $property->nearest_station);  // Convert to an array
+            $schoolIds = explode(',', $property->nearest_school);    // Convert to an array
+
+            // Fetch the station and school names using the IDs
+            $stations = StationName::whereIn('id', $stationIds)->pluck('name', 'id');
+            $schools = SchoolName::whereIn('id', $schoolIds)->pluck('name', 'id');
+
+            // Return the edit view with the property data, stations, and schools
+            return view('backend.properties.edit', compact('property', 'allstations', 'allschools', 'stations', 'schools'));
+        }
+
+        // If step is not 6, just return the property edit view
         return view('backend.properties.edit', compact('property'));
+
+        // $property = Property::findOrFail($id); // Fetch property by ID
+        // return view('backend.properties.edit', compact('property'));
     }
     public function view($id)
     {

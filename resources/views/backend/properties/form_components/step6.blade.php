@@ -150,7 +150,7 @@
     </div>
 </form>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    $(document).ready(function(){
         const stations = @json($allstations); // Fetch all station names with IDs
         const schools = @json($allschools); // Fetch all school names with IDs
 

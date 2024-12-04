@@ -724,8 +724,8 @@ private function getTabContent($tabname, $propertyId, $property)
                 return [
                     'access_arrangement' => 'required|string',
                     'key_highlights' => 'required|string',
-                    'nearest_station' => 'required|array',
-                    'nearest_school' => 'required|array',
+                    'nearest_station' => 'required',
+                    'nearest_school' => 'required',
                     'nearest_religious_places' => 'required|array',
                     'useful_information' => 'required|string',
                 ];

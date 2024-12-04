@@ -50,8 +50,8 @@ return new class extends Migration {
             $table->string('other',555)->nullable();
             $table->string('access_arrangement',255)->nullable();
             $table->string('key_highlights',255)->nullable();
-            $table->json('nearest_station')->nullable();
-            $table->json('nearest_school')->nullable();
+            $table->string('nearest_station')->nullable();
+            $table->string('nearest_school')->nullable();
             $table->json('nearest_religious_places')->nullable();
             $table->string('useful_information',255)->nullable();
             $table->decimal('price', 10, 2)->nullable();
@@ -59,6 +59,7 @@ return new class extends Migration {
             $table->decimal('service_charge', 10, 2)->nullable();
             $table->decimal('annual_council_tax', 10, 2)->nullable();
             $table->string('council_tax_band')->nullable();
+            $table->string('local_authority',255)->nullable();
             $table->decimal('letting_price', 10, 2)->nullable();
             $table->string('tenure')->nullable();
             $table->integer('length_of_lease')->nullable();

@@ -249,7 +249,8 @@ a, a:hover{text-decoration: none !important ;}
         border: unset;
         width: 100%;
     }
-    &.input_price{
+    &.input_price,
+    &.input_search{
         border-radius: 5px;
         padding: 8px 12px;
         border: 1px solid var(--primary-300);
@@ -261,6 +262,11 @@ a, a:hover{text-decoration: none !important ;}
                 outline: unset;
             }
             width: 65%;
+        }
+    }
+    &.input_search{
+        input{
+            width: 88%;
         }
     }
     &.input_custom_icon{

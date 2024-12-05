@@ -20,32 +20,33 @@
                 <div class="steps_wrapper">
                     <div class="row">
                         <div class="col-md-6 col-12">
-                            <div class="from-group">
+                            <div class="from-group mt-lg-0 mt-4">
                                 <label class="mb-2" for="search_property">Search Property</label>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-8">
 
-                                        <div class="rs_input with_label with_icon">
+                                        <div class="rs_input input_search">
                                             <input type="text" id="search_property" name="search_property" placeholder="Search Property" />
-                                            <div class="right_icon">se</div>
+                                            <div class="right_icon"><i class="bi bi-search"></i></div>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <div class="from-group">
                                             <x-backend.main-button
-                                                    class=""
-                                                    name="Attach"
-                                                    type="secondary"
-                                                    size="sm"
-                                                    isOutline=""
-                                                    isLinkBtn=
-                                                    link="https://#"
-                                                    onclick=""
-                                                    />
+                                                class="w-100"
+                                                name="Attach"
+                                                type="secondary"
+                                                size="sm"
+                                                isOutline=""
+                                                isLinkBtn=
+                                                link="https://#"
+                                                onclick=""
+                                                />
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {{-- from-group end --}}
                         </div>
                     </div>
                 </div>

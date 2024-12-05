@@ -3,9 +3,7 @@
 $stepNames = [
     1 => 'Category',
     2 => 'Personal Information',
-    3 => 'Emergency Contact',
-    4 => 'Bank Details',
-    5 => 'Related Properties',
+    3 => 'Related Properties',
 ];
 
     // Determine the last enabled step based on $property->step or default to 1
@@ -34,7 +32,7 @@ $stepNames = [
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 render_blade">
-            @include('backend.contacts.contact_form.step' . session('current_step', 1))
+            @include('backend.contacts.contact_form.step' . session('current_step', 3))
             <!-- Default to step 1 -->
         </div>
     </div>

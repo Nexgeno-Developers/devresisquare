@@ -8,6 +8,7 @@ if(isset($property)){
     $groundRent = $property->ground_rent ?? '';
     $serviceCharge = $property->service_charge ?? '';
     $estateCharge = $property->estate_charge ?? '';
+    $miscellaneousCharge = $property->miscellaneous_charge ?? '';
     $annualCouncilTax = $property->annual_council_tax ?? '';
     $councilTaxBand = $property->council_tax_band ?? '';
     $localAuthority = $property->local_authority ?? '';
@@ -20,6 +21,7 @@ if(isset($property)){
     $groundRent = '';
     $serviceCharge = '';
     $estateCharge = '';
+    $miscellaneousCharge = '';
     $annualCouncilTax = '';
     $councilTaxBand = '';
     $localAuthority = '';
@@ -71,7 +73,7 @@ if(isset($property)){
                     @endif
                     @if($propertyType == 'sales' || $propertyType == 'both')
                     <div class="form-group">
-                        <label for="ground_rent">Ground Rent</label>
+                        <label for="ground_rent">Ground Rent (annual)</label>
                         <div class="price_input_wrapper">
                             <div class="pound_sign">{{ getPoundSymbol() }}</div>
                             <input type="text" name="ground_rent" id="ground_rent" class="form-control" value="{{ $groundRent }}">
@@ -82,7 +84,7 @@ if(isset($property)){
                     </div>
 
                     <div class="form-group">
-                        <label for="service_charge">Service Charge</label>
+                        <label for="service_charge">Service Charge (annual)</label>
                         <div class="price_input_wrapper">
                             <div class="pound_sign">{{ getPoundSymbol() }}</div>
                             <input type="text" name="service_charge" id="service_charge" class="form-control" value="{{ $serviceCharge }}">
@@ -93,7 +95,7 @@ if(isset($property)){
                     </div>
 
                     <div class="form-group">
-                        <label for="estate_charge">Estate Charge</label>
+                        <label for="estate_charge">Estate Charge (annual)</label>
                         <div class="price_input_wrapper">
                             <div class="pound_sign">{{ getPoundSymbol() }}</div>
                             <input type="text" name="estate_charge" id="estate_charge" class="form-control" value="{{ $estateCharge }}">
@@ -102,9 +104,22 @@ if(isset($property)){
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    {{-- <div class="form-group">
+                        <label for="estate_charges[amount]">Estate Charge</label>
+                        <div class="price_input_wrapper">
+                            <div class="pound_sign">{{ getPoundSymbol() }}</div>
+                            <input required type="text" name="estate_charges[amount]" id="estate_charges" class="form-control" value="{{ old('estate_charges.amount', $property->estateCharge->amount ?? '') }}">
+                        </div>
+                        @error('estate_charges.amount')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
+
                     @endif
+
                     <div class="form-group">
-                        <label for="annual_council_tax">Annual Council Tax</label>
+                        <label for="annual_council_tax">Annual Council Tax (annual)</label>
                         <div class="price_input_wrapper">
                             <div class="pound_sign">{{ getPoundSymbol() }}</div>
                             <input type="text" name="annual_council_tax" id="annual_council_tax" class="form-control" value="{{ $annualCouncilTax }}">
@@ -115,15 +130,34 @@ if(isset($property)){
                     </div>
 
                     <div class="form-group">
-                        <label for="council_tax_band">Council Tax Band</label>
+                        <label for="miscellaneous_charge">Miscellaneous Charge (annual)</label>
                         <div class="price_input_wrapper">
                             <div class="pound_sign">{{ getPoundSymbol() }}</div>
-                            <input type="text" name="council_tax_band" id="council_tax_band" class="form-control" value="{{ $councilTaxBand }}">
+                            <input type="text" name="miscellaneous_charge" id="miscellaneous_charge" class="form-control" value="{{ $miscellaneousCharge }}">
                         </div>
+                        @error('miscellaneous_charge')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="council_tax_band">Council Tax Band</label>
+                        <select name="council_tax_band" id="council_tax_band" class="form-control">
+                            <option value="" disabled selected>Select a band</option>
+                            <option value="A" {{ old('council_tax_band', $councilTaxBand) == 'A' ? 'selected' : '' }}>A</option>
+                            <option value="B" {{ old('council_tax_band', $councilTaxBand) == 'B' ? 'selected' : '' }}>B</option>
+                            <option value="C" {{ old('council_tax_band', $councilTaxBand) == 'C' ? 'selected' : '' }}>C</option>
+                            <option value="D" {{ old('council_tax_band', $councilTaxBand) == 'D' ? 'selected' : '' }}>D</option>
+                            <option value="E" {{ old('council_tax_band', $councilTaxBand) == 'E' ? 'selected' : '' }}>E</option>
+                            <option value="F" {{ old('council_tax_band', $councilTaxBand) == 'F' ? 'selected' : '' }}>F</option>
+                            <option value="G" {{ old('council_tax_band', $councilTaxBand) == 'G' ? 'selected' : '' }}>G</option>
+                            <option value="H" {{ old('council_tax_band', $councilTaxBand) == 'H' ? 'selected' : '' }}>H</option>
+                        </select>
                         @error('council_tax_band')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
 
                     <div class="form-group">
                         <label for="local_authority">Local Authority</label>

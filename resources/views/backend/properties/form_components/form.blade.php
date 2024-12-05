@@ -97,6 +97,23 @@
 
     </div>
 </div>
+<!-- Modal for confirmation -->
+<div class="modal fade" id="smallModal2" tabindex="-1" aria-labelledby="smallModal2-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="smallModal2-label">Gas Safe Confirmation</h5>
+                <a type="button" class="btn-close" onclick="closeModal();" data-bs-dismiss="modal" aria-label="Close"></a>
+            </div>
+            <div class="modal-body">
+                <p>I acknowledge that it's my legal duty to provide tenants with a GAS SAFE certificate before the tenancy begins.</p>
+                <p>I understand it's a criminal offence to rent out a property with gas appliances or a gas supply that hasn't been inspected by a GAS SAFE Registered Engineer within the last 12 months.</p>
+                <button id="confirm_gas" class="btn btn-primary">I Acknowledge</button>
+                <button id="cancel_gas" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('page.scripts')
@@ -108,6 +125,45 @@
 <script>
 
     $(document).ready(function () {
+        function handleGasSafeModal() {
+            // Check if hidden input has value 1 and is_gas is 1, if so, no need to show the popup
+            if ($('#gas_safe_acknowledged').val() != '1' && $('#is_gas_yes').is(':checked')) {
+                // If both conditions are true, skip showing the popup
+                $('#smallModal2').modal('show');
+            }
+
+            // Show warning and modal when "Yes" is selected
+            $('#is_gas_yes').change(function() {
+                // Check if the hidden input is already acknowledged, skip popup if true
+                if ($('#gas_safe_acknowledged').val() !== '1') {
+                    $('#smallModal2').modal('show'); // Show the modal
+                }
+            });
+
+            // Show warning if "No" is selected and reset hidden input
+            $('#is_gas_no').change(function() {
+                $('#gas_safe_acknowledged').val('0'); // Reset the hidden field value to 0
+            });
+
+            // Confirm gas acknowledgment and set the hidden field
+            $('#confirm_gas').click(function(event) {
+                event.preventDefault(); // Prevent any form submission or button default action
+                $('#gas_safe_acknowledged').val('1'); // Set acknowledgment to 1
+                $('#smallModal2').modal('hide'); // Hide the modal
+            });
+
+            // Close modal without setting acknowledgment
+            $('#cancel_gas').click(function(event) {
+                event.preventDefault(); // Prevent any form submission or button default action
+                $('#smallModal2').modal('hide'); // Hide the modal
+            });
+
+            // Close modal without setting acknowledgment (button in modal header)
+            function closeModal() {
+                $('#smallModal2').modal('hide'); // Hide the modal
+            }
+        }
+
         // Utility function to initialize Tagify dynamically based on data attributes
         function initDynamicTagify() {
             const tagifyInputs = document.querySelectorAll('.tagify-input');
@@ -191,6 +247,9 @@
         @if ($currentStep == 6)
             // reinitializeTagify();
             initDynamicTagify();
+        @endif
+        @if ($currentStep == 8)
+            handleGasSafeModal();
         @endif
 
         // // Fetching all stations and schools as JSON objects from PHP (these are arrays of objects)
@@ -336,12 +395,15 @@
                 contentType: false,
                 success: function (response) {
                     $('.render_blade').html(response);
-                    if(step == 7){
+                    if(step == 8){
                         AIZ.uploader.previewGenerate();
                     }
                     if(step == 5){
                         // reinitializeTagify();
                         initDynamicTagify();
+                    }
+                    if(step == 7){
+                        handleGasSafeModal();
                     }
                 },
                 error: function (jqXHR) {
@@ -377,12 +439,15 @@
                 method: 'GET',
                 success: function (response) {
                     $('.render_blade').html(response);
-                    if(step == 8){
-                        AIZ.uploader.previewGenerate();
-                    }
                     if(step == 6){
                         // reinitializeTagify();
                         initDynamicTagify();
+                    }
+                    if(step === 8){
+                        handleGasSafeModal();
+                    }
+                    if(step == 9){
+                        AIZ.uploader.previewGenerate();
                     }
                     // Find id="property_id" and put the propertyId if it’s missing
                     if (!$('#property_id').val()) {

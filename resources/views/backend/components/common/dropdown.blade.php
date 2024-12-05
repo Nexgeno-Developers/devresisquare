@@ -16,7 +16,6 @@
 
     <div class="dropdown-menu {{$isIcon == True ? 'right_icon' : ''}}" aria-labelledby="{{$dropdownId }}">
         @foreach ($options as $option)
-            {{-- <a class="dropdown-item" href="{{ $option['url'] }}">{{ $option['label'] }}</a> --}}
             @if (isset($option['url']) && isset($option['label'])) <!-- Check if both 'url' and 'label' are set -->
                 <a class="dropdown-item {{ $option['class'] ?? '' }}" href="{{ $option['url'] }}" onclick="{{ $option['onclick'] ?? ''}}">
                     {{ $option['label'] }}

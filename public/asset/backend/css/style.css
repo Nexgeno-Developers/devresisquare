@@ -184,7 +184,14 @@ a, a:hover{text-decoration: none !important ;}
 }
 
 .dropdown{
-
+    background-color: var(--white);
+    padding: 8px 16px;
+    border-radius: 6px;
+    &:has(.rs_icon_dropdown){
+        background-color: unset;
+        width: fit-content;
+        padding: unset;
+    }
     .rs_icon_dropdown{
         width: 32px;
         height: 32px;

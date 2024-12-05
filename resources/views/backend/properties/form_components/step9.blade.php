@@ -27,7 +27,7 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    
+
                     @if($property && $property->photos)
                         @foreach(json_decode($property->photos) as $photoPath)
                             <img src="{{ asset('storage/' . $photoPath) }}" alt="Uploaded Photo" width="100">
@@ -55,7 +55,7 @@
 
 --}}
         <div class="form-group rs_upload_btn">
-            <h5 class="sub_title mt-4">Photos</h5>
+            <h5 class="sub_title mt-4">Photos <small>(Living Room, Reception, Bed Room, Bath Room, Garden, Hallway, Exterior - Cover Image)</small></h5>
             <div class="media_wrapper">
                 <div class="input-group" data-toggle="aizuploader" data-type="image" data-multiple="true">
                     <label class="col-form-label" for="photos">Photos</label>
@@ -112,7 +112,7 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-        
+
                 <div class="footer_btn">
                     <div class="row mt-lg-4">
                         <div class="col-6">

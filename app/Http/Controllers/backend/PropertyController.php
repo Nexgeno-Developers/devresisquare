@@ -7,6 +7,7 @@ use App\Models\Property;
 use App\Models\OwnerGroup;
 use App\Models\StationName;
 use App\Models\SchoolName;
+use App\Models\EstateCharge;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -159,6 +160,21 @@ private function getTabContent($tabname, $propertyId, $property)
             if ($property_id) {
                 $property = Property::find($property_id);
                 if ($property) {
+
+                    // // If estate charge exists, update it(for enter amount and auto generate estate charge record)
+                    // if ($property->estate_charges_id) {
+                    //     $estateCharge = EstateCharge::find($property->estate_charges_id);
+                    //     if ($estateCharge) {
+                    //         $estateCharge->update(['amount' => $request->estate_charges['amount']]);
+                    //     }
+                    // } else {
+                    //     // If no estate charge exists, create a new one
+                    //     $estateCharge = EstateCharge::create([
+                    //         'amount' => $request->estate_charges['amount'],
+                    //     ]);
+                    // }
+                    // $property->estate_charges_id = $estateCharge->id; // Associate the new charge
+
                     // Log the data before updating
                     Log::info('Updating property with ID ' . $property_id, $validatedData);
                     $validatedData['video_url'] = $request->video_url ?: null;
@@ -739,13 +755,16 @@ private function getTabContent($tabname, $propertyId, $property)
                     'council_tax_band' => 'nullable|string|max:50',
                     'local_authority' => 'nullable|string|max:50',
                     'estate_charge' => 'nullable|numeric|max:50',
+                    'miscellaneous_charge' => 'nullable|numeric|max:50',
+                    // 'estate_charges.amount' => 'nullable|numeric|max:50',
                     'tenure' => 'required',
                     'length_of_lease' => 'nullable|integer',
                 ];
             case 8:
                 return [
                     'epc_rating' => 'required',
-                    'is_gas' => 'required   ',
+                    'is_gas' => 'required',
+                    'gas_safe_acknowledged' => 'nullable',
                 ];
             case 9:
                 return [

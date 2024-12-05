@@ -6,14 +6,14 @@
                     @foreach($headers as $header)
                             <th class="{{$header === 'id' ? 'id' : ''}}">{{ $header }}</th>
                     @endforeach
-                    <th>Actions</th> <!-- Add an extra header for the actions column -->
+                    <th></th> <!-- Add an extra header for the actions column -->
                 </tr>
             </thead>
             <tbody>
                 @foreach($rows as $row)
-                    <tr>
+                    <tr> 
                         @foreach($row as $key => $cell)
-                            <td class="{{$key == 'id' ? 'id' : ''}}">{{ $cell }}</td>
+                            <td class="td-{{$key+1}} {{$key == 'id' ? 'id' : ''}}">{{ $cell }}</td>
                         @endforeach
                         <td>
                             @php 

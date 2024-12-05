@@ -47,6 +47,17 @@
                                 </div>
                             </div>
                             {{-- from-group end --}}
+                            <div class="mt-4">
+                                {{-- table  compoent start--}}
+                                    @php
+                                    $headers = ['id','Address', 'Type', 'Price', 'Availibility'];
+                                    $rows = [
+                                        [1, '73-79 Balham High Road, London, SW12 9AP', 'Flat', '12500', '13/02/25'],
+                                        [2, '75-90 Balham High Road, London, SW12 9AP', 'Flat', '12500', '13/02/25'],
+                                    ];
+                                @endphp
+                                <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='' />
+                            </div>
                         </div>
                     </div>
                 </div>

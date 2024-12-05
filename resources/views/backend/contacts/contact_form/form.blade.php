@@ -1,11 +1,11 @@
 <!-- resources/views/backend/contact/contact_form/form.blade.php -->
 @php
 $stepNames = [
-1 => 'Category',
-2 => 'Personal Information',
-3 => 'Emergency Contact',
-4 => 'Bank Details',
-5 => 'Related Properties',
+    1 => 'Category',
+    2 => 'Personal Information',
+    3 => 'Emergency Contact',
+    4 => 'Bank Details',
+    5 => 'Related Properties',
 ];
 
     // Determine the last enabled step based on $property->step or default to 1
@@ -180,25 +180,6 @@ $(document).ready(function() {
 
         handleStepChange(currentStep3, targetStep4);
     });
-    // // Function to check if both Bedrooms and Reception Rooms have been selected
-    // function checkSelectionsAndSubmit() {
-    //     const bedroomSelected = $('input[name="bedroom"]:checked').val();
-    //     const receptionSelected = $('input[name="reception"]:checked').val();
-
-    //     // If both Bedrooms and Reception Rooms are selected, submit the form
-    //     if (bedroomSelected && receptionSelected) {
-    //         const currentStep3 = $('.next-step').data('current-step');
-    //         const targetStep4 = $('.next-step').data('next-step');
-
-    //         handleStepChange(currentStep3, targetStep4);
-    //     }
-    // }
-
-    // // Event listeners for Bedrooms and Reception Rooms radio buttons, class-based with delegation
-    // $(document).on('click', '.bedroom-radio', checkSelectionsAndSubmit);
-    // $(document).on('click', '.reception-radio', checkSelectionsAndSubmit);
-
-    // Function to check if both Bedrooms and Reception Rooms have been selected
 
 /* Quick Step 3 */
     // Handle Next and Previous button clicks

@@ -3,25 +3,33 @@
         <table class="table rs_table {{ $class }}">
             <thead>
                 <tr>
-                    @foreach($headers as $header)
-                            <th class="{{$header === 'id' ? 'id' : ''}}">{{ $header }}</th>
+                    @foreach ($headers as $header)
+                        @if ($header !== 'id')
+                            <th>{{ $header }}</th>
+                        @endif
                     @endforeach
-                    <th></th> <!-- Add an extra header for the actions column -->
+                    @if($actionBtn == True)
+                        <th></th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
-                @foreach($rows as $row)
-                    <tr> 
-                        @foreach($row as $key => $cell)
-                            <td class="td-{{$key+1}} {{$key == 'id' ? 'id' : ''}}">{{ $cell }}</td>
+                @foreach ($rows as $row)
+                    <tr>
+                        @foreach ($row as $key => $value)
+                            @if ($key !== 'id')
+                                <td>{{ $value }}</td>
+                            @endif
                         @endforeach
-                        <td>
-                            @php 
-                            $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ]; 
-                            $selectedCountry = 'edit'; 
-                            @endphp
-                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} class="right_icon" />
-                        </td> <!-- Add an action cell with an icon -->
+                        @if($actionBtn == True )
+                            <td>
+                                @php 
+                                    $options = [ 'edit' => 'Edit', 'delete' => 'Delete' ]; 
+                                    $selectedOptions = 'edit'; 
+                                @endphp
+                                <x-backend.dropdown :options="$options" :selected="$selectedOptions" isIcon={{true}} class="right_icon" />
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
@@ -34,11 +42,11 @@
                     @foreach($row as $index => $value)
                         <div class="tr_row">
                             <div>{{ $headers[$index] }}</div>
-                            <div>{{ $value }}</div>
+                            <div class="text_right fw_normal">{{ $value }}</div>
                         </div>
                     @endforeach
                     <div class="flex">
-                        @foreach($countries as $value => $label)
+                        @foreach($options as $value => $label)
                         <a class="btn" href="#" onclick="selectOption('{{ $value }}', '{{ $label }}')">{{ $label }}</a>
                         @endforeach
                     </div>

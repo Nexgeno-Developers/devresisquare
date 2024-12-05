@@ -59,3 +59,31 @@
     </div>
     {{-- mobile_only end  --}}
 </div>
+
+
+
+
+{{-- <thead>
+    <tr>
+        @foreach($headers as $header)
+                <th class="{{$header === 'id' ? 'id' : ''}}">{{ $header }}</th>
+        @endforeach
+        <th></th> <!-- Add an extra header for the actions column -->
+    </tr>
+</thead>
+<tbody>
+    @foreach($rows as $row)
+        <tr> 
+            @foreach($row as $key => $cell)
+                <td class="td-{{$key+1}} {{$key == 'id' ? 'id' : ''}}">{{ $cell }}</td>
+            @endforeach
+            <td>
+                @php 
+                $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ]; 
+                $selectedCountry = 'edit'; 
+                @endphp
+                <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} class="right_icon" />
+            </td> <!-- Add an action cell with an icon -->
+        </tr>
+    @endforeach
+</tbody> --}}

@@ -1235,16 +1235,31 @@ input[type="radio"]:checked+label::before {
 
 
 /* ========================================
+          Contacts
+==========================================*/
+
+/* ---------- Add Contact ------------ */
+.contact_add_property{
+    .td-2{
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 30%;
+    }
+}
+
+/* ========================================
           Responsive
 ==========================================*/
 
 /* Mobile */
 @media (min-width:766px) {
 
-    #wrapper {
+    /* #wrapper {
         margin-left: unset;
         width: 100%;
-    }
+    } */
 
 }
 

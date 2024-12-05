@@ -250,6 +250,11 @@ a:hover {
 .gap_24 {gap: 24px; }
 .gap_32 {gap: 32px; }
 
+.text_left{ text-align: left; }
+.text_center{ text-align: center; }
+.text_right{ text-align: right; }
+
+.fw_normal{ font-weight: 300; }
 
 .border_bottom{
     border-bottom: 1px solid var(--primary-300);

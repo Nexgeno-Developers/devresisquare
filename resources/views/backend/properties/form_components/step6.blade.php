@@ -1,4 +1,8 @@
-@php $currentStep = 6 ; @endphp
+@php
+    $currentStep = 6 ;
+    $stations = isset($property->nearest_station) ? $property->nearest_station : '';
+    $schools = isset($property->nearest_school) ? $property->nearest_school : '';
+@endphp
 <!-- resources/views/backend/properties/form_components/step6.blade.php -->
 
 
@@ -60,19 +64,15 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <!-- Nearest Station -->
+                {{-- <!-- Nearest Station -->
                 <div class="form-group">
                     <div class="rs_sub_title">Nearest Station</div>
                     @php
                         // If nearest_station is not null, decode the comma-separated string into an array
-                        $stations =
-                            isset($property) && $property->nearest_station
-                                ? explode(',', $property->nearest_station) // Convert to an array of IDs
-                                : [];
+                        $stations = isset($property->nearest_station) ? $property->nearest_station : '';
                     @endphp
                     <input id="station_name" type="text" class="tagify-input" placeholder="Station Name">
-                    <input type="hidden" name="nearest_station" value="{{ $property->nearest_station }}"
-                        class="hidden-input" required>
+                    <input type="hidden" name="nearest_station" value="{{ $stations }}" class="hidden-input" required>
                     @error('nearest_station')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -82,15 +82,39 @@
                 <div class="form-group">
                     <div class="rs_sub_title">Nearest School</div>
                     @php
-                        // If nearest_school is not null, decode the comma-separated string into an array
-                        $schools =
-                            isset($property) && $property->nearest_school
-                                ? explode(',', $property->nearest_school) // Convert to an array of IDs
-                                : [];
+                        // Get nearest_school as comma-separated IDs
+                        $schools = isset($property->nearest_school) ? $property->nearest_school : '';
                     @endphp
                     <input id="school_name" type="text" class="tagify-input" placeholder="School Name">
-                    <input type="hidden" name="nearest_school" value="{{ implode(',', $schools) }}"
-                        class="hidden-input" required>
+                    <input type="hidden" name="nearest_school" value="{{ $schools }}" class="hidden-input" required>
+                    @error('nearest_school')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div> --}}
+
+                <!-- Nearest Station -->
+                <div class="form-group">
+                    <div class="rs_sub_title">Nearest Station</div>
+                    <input id="station_name" type="text" class="tagify-input" placeholder="Station Name"
+                           data-source="stations"
+                           data-values="{{ $stations }}"
+                           data-id-value="{{ json_encode($allstations) }}"
+                           data-options="{{ json_encode(['maxTags' => 5, 'dropdownEnabled' => 1, 'maxItems' => 10, 'searchKeys' => ['name'], 'closeOnSelect' => false])  }}">
+                    <input type="hidden" name="nearest_station" value="{{ $stations }}" class="hidden-input" required>
+                    @error('nearest_station')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Nearest School -->
+                <div class="form-group">
+                    <div class="rs_sub_title">Nearest School</div>
+                    <input id="school_name" type="text" class="tagify-input" placeholder="School Name"
+                           data-source="schools"
+                           data-values="{{ $schools }}"
+                           data-id-value="{{ json_encode($allschools) }}"
+                           data-options="{{ json_encode(['maxTags' => 5, 'dropdownEnabled' => 1, 'maxItems' => 10, 'searchKeys' => ['name'], 'closeOnSelect' => false])  }}">
+                    <input type="hidden" name="nearest_school" value="{{ $schools }}" class="hidden-input" required>
                     @error('nearest_school')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -150,6 +174,7 @@
     </div>
 </form>
 <script>
+    /*
     document.addEventListener("DOMContentLoaded", function() {
         const stations = @json($allstations); // Fetch all station names with IDs
         const schools = @json($allschools); // Fetch all school names with IDs
@@ -194,14 +219,29 @@
             });
 
             // Populate Tagify with existing selected items
+            // if (Array.isArray(data) && data.length > 0) {
+            //     const selectedTags = type === 'station' ? {!! json_encode($stations) !!} :
+            //     {!! json_encode($schools) !!}; // The selected IDs from the database
+            //     const selectedNames = selectedTags.map(id => {
+            //         const item = data.find(item => item.id == id);
+            //         return item ? item.name : '';
+            //     });
+            //     tagify.addTags(selectedNames);
+            // }
+
+            // Populate Tagify with existing selected items
             if (Array.isArray(data) && data.length > 0) {
                 const selectedTags = type === 'station' ? {!! json_encode($stations) !!} :
                 {!! json_encode($schools) !!}; // The selected IDs from the database
-                const selectedNames = selectedTags.map(id => {
+                // Convert object to an array of IDs
+                const selectedIds = Object.keys(selectedTags);  // Extracts keys as an array ["1", "3", "5"]
+
+                const selectedNames = selectedIds.map(id => {
                     const item = data.find(item => item.id == id);
-                    return item ? item.name : '';
-                });
-                tagify.addTags(selectedNames);
+                    return item ? item.name : '';  // Map IDs to names
+                }).filter(name => name);  // Remove any empty names
+
+                tagify.addTags(selectedNames);  // Add initial tags to Tagify
             }
         }
 
@@ -260,4 +300,5 @@
         // });
 
     });
+    */
 </script>

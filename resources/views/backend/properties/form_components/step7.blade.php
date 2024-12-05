@@ -10,6 +10,7 @@ if(isset($property)){
     $estateCharge = $property->estate_charge ?? '';
     $annualCouncilTax = $property->annual_council_tax ?? '';
     $councilTaxBand = $property->council_tax_band ?? '';
+    $localAuthority = $property->local_authority ?? '';
     $tenure = $property->tenure ?? '';
     $lengthOfLease = $property->length_of_lease ?? '';
 }else{
@@ -21,6 +22,7 @@ if(isset($property)){
     $estateCharge = '';
     $annualCouncilTax = '';
     $councilTaxBand = '';
+    $localAuthority = '';
     $tenure = '';
     $lengthOfLease = '';
 }
@@ -119,6 +121,14 @@ if(isset($property)){
                             <input type="text" name="council_tax_band" id="council_tax_band" class="form-control" value="{{ $councilTaxBand }}">
                         </div>
                         @error('council_tax_band')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="local_authority">Local Authority</label>
+                            <input type="text" name="local_authority" id="local_authority" class="form-control" value="{{ $localAuthority }}">
+                        @error('local_authority')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>

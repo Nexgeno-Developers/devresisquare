@@ -59,9 +59,11 @@ class Property extends Model
         'service_charge',
         'annual_council_tax',
         'council_tax_band',
+        'local_authority',
         'letting_price',
         'tenure',
         'length_of_lease',
+        'estate_charges_id',
         'epc_rating',
         'is_gas',
         'photos',
@@ -90,4 +92,9 @@ class Property extends Model
     //         $property->added_by = Auth::id(); // Automatically set the added_by field
     //     });
     // }
+
+    public function estateCharge()
+    {
+        return $this->belongsTo(EstateCharge::class, 'estate_charges_id');
+    }
 }

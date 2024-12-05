@@ -368,7 +368,7 @@ private function getTabContent($tabname, $propertyId, $property)
         $property = Property::findOrFail($id); // Fetch property by ID
 
         // Check if the request step is 6
-        if ($property->step == 5) {
+        // if ($property->step == 5) {
             // Fetch all station names and school names
             $allstations = StationName::select('id', 'name')->get();  // Fetch all station names
             $allschools = SchoolName::select('id', 'name')->get();    // Fetch all school names
@@ -383,10 +383,10 @@ private function getTabContent($tabname, $propertyId, $property)
 
             // Return the edit view with the property data, stations, and schools
             return view('backend.properties.edit', compact('property', 'allstations', 'allschools', 'stations', 'schools'));
-        }
+        // }
 
         // If step is not 6, just return the property edit view
-        return view('backend.properties.edit', compact('property'));
+        // return view('backend.properties.edit', compact('property'));
 
         // $property = Property::findOrFail($id); // Fetch property by ID
         // return view('backend.properties.edit', compact('property'));
@@ -724,8 +724,8 @@ private function getTabContent($tabname, $propertyId, $property)
                 return [
                     'access_arrangement' => 'required|string',
                     'key_highlights' => 'required|string',
-                    'nearest_station' => 'required|array',
-                    'nearest_school' => 'required|array',
+                    'nearest_station' => 'required',
+                    'nearest_school' => 'required',
                     'nearest_religious_places' => 'required|array',
                     'useful_information' => 'required|string',
                 ];
@@ -737,6 +737,8 @@ private function getTabContent($tabname, $propertyId, $property)
                     'service_charge' => 'nullable|numeric',
                     'annual_council_tax' => 'nullable|numeric',
                     'council_tax_band' => 'nullable|string|max:50',
+                    'local_authority' => 'nullable|string|max:50',
+                    'estate_charge' => 'nullable|numeric|max:50',
                     'tenure' => 'required',
                     'length_of_lease' => 'nullable|integer',
                 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Property;
 use App\Models\Contact;
 use App\Models\ContactCategory;
 use Illuminate\Support\Facades\Auth;
@@ -23,11 +24,11 @@ class ContactController
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Contact $contact)
     {
-        // $categories = ContactCategory::all();
-        // return view('backend.contacts.create', compact('categories'));
-        return view('backend.contacts.create'); // Return the create property view
+        $categories = ContactCategory::all();
+        return view('backend.contacts.create', compact('contact', 'categories'));
+        // return view('backend.contacts.create'); // Return the create contact view
     }
 
     public function contactStore(Request $request)
@@ -37,26 +38,40 @@ class ContactController
             // Validate the request data
             $validatedData = $request->validate($this->getValidationRulesQuick($request->step));
 
-            // Get property_id from the request
-            $property_id = $request->property_id;
+            // Get contact_id from the request
+            $contact_id = $request->contact_id;
 
+            // Check if contact_id is provided in the request
+            if ($contact_id) {
+                $contact = Contact::find($contact_id);
+                if ($contact) {
+                    // Log the data before updating
+                    Log::info('Updating contact with ID ' . $contact_id, $validatedData);
+                    //update step
+                    $validatedData['quick_step'] = $request->step;
+                    $contact->update($validatedData);
+                }
+            } else {
+                // Create new contact only empty contact id
+                if (empty($contact_id)) {
+                    $validatedData['quick_step'] = $request->step;
+                    Log::info('Creating new contact', $validatedData);
+                    $contact = Contact::create(array_merge($validatedData, ['added_by' => Auth::id()]));
+
+                }
+            }
             // Get total number of steps
             $totalSteps = $this->getTotalQuickSteps();
 
             // Check if the current step is the last one
             if ($request->step >= $totalSteps) {
-                // Flush all session data except specified keys in one line
-                //$this->flushSessionExcept(['_token', 'url', '_previous', '_flash', 'login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d']);
 
                 // Final submission handling
-                return view('backend.properties.quick_form_components.thankyou');
-                //return redirect()->route('admin.properties.index')->with('success', 'Property Added/Updated successfully!');
+                flash("Contact Added/Updated successfully!")->success();
+                return view('backend.contacts.contact_form.thankyou');
             }
 
-            // Load the next step view
-            // return view('backend.properties.form_components.step' . ($request->step + 1));
-            // return view('backend.properties.form_components.step' . ($request->step + 1))->withInput();
-            return view('backend.properties.quick_form_components.step' . ($request->step + 1), compact('property'));
+            return view('backend.contacts.contact_form.step' . ($request->step + 1), compact('contact'));
         } else {
             // If no step is present, return a message (optional)
             return response()->json(['message' => 'Invalid step from quick store.']);
@@ -68,37 +83,31 @@ class ContactController
         switch ($step) {
             case 1:
                 return [
-                    'line_1' => 'required|string|max:255',
-                    'line_2' => 'nullable|string|max:255',
-                    'city' => 'required|string|max:100',
-                    'country' => 'required|string|max:100',
-                    'postcode' => 'required|string|max:20',
+                    'category_id' => 'required',
                 ];
             case 2:
                 return [
-                    'specific_property_type' => 'required|string',
+                    'first_name' => 'required|string|max:55',
+                    'middle_name' => 'nullable|string|max:55',
+                    'last_name' => 'required|string|max:55',
+                    'phone' => 'required|string|max:20',
+                    'email' => 'required|email|max:55',
+                    'address_line_1' => 'required|string|max:255',
+                    'address_line_2' => 'nullable|string|max:255',
+                    'postcode' => 'required|string|max:15',
+                    'city' => 'required|string|max:55',
+                    'country' => 'required|string|max:55',
                 ];
             case 3:
                 return [
-                    // 'specific_property_type' => 'required|string',
-                    'bedroom' => 'required|string',
-                ];
-            case 4:
-                return [
-                    'bathroom' => 'required|string',
-
-                ];
-            case 5:
-                return [
-                    'reception' => 'required|string',
-
+                    'status' => 'required|in:0,1',
                 ];
 
             default:
                 return [];
         }
     }
-    
+
     private function getTotalQuickSteps()
     {
         // Specify the directory where your Blade files for steps are located
@@ -106,6 +115,46 @@ class ContactController
 
         // Get all Blade files in the directory that start with 'step' and count them
         return count(glob($stepsDirectory . '/step*.blade.php'));
+    }
+
+     // Method to handle the AJAX property search
+     public function searchProperties(Request $request)
+     {
+         // Get the search query from the request
+         $query = $request->input('query');
+
+         // Search for properties based on multiple fields
+         $properties = Property::where('prop_ref_no', 'LIKE', '%' . $query . '%')
+             ->orWhere('prop_name', 'LIKE', '%' . $query . '%')
+             ->orWhere('line_1', 'LIKE', '%' . $query . '%')
+             ->orWhere('line_2', 'LIKE', '%' . $query . '%')
+             ->orWhere('city', 'LIKE', '%' . $query . '%')
+             ->orWhere('country', 'LIKE', '%' . $query . '%')
+             ->orWhere('postcode', 'LIKE', '%' . $query . '%')
+             ->limit(10)  // Limit the results to 10
+             ->get(['id', 'prop_ref_no', 'prop_name', 'city']);  // Return only necessary fields
+
+         // Return the properties as JSON response
+         return response()->json($properties);
+     }
+
+    public function getQuickStepView($step, Request $request)
+    {
+        // Get contact_id from the session or request
+        $contact_id = $request->contact_id;
+        $contact = Contact::find($contact_id);
+        $categories = ContactCategory::all();
+
+        // Get the total number of steps dynamically
+        $totalSteps = $this->getTotalQuickSteps();
+
+        // Check if the step is valid
+        if ($step > 0 && $step <= $totalSteps) {
+            return view('backend.contacts.contact_form.step' . $step, compact('contact','categories')); // Return the corresponding Blade view
+        } else {
+            // Return a view with an error message if the step is invalid
+            return view('backend.contacts.contact_form.error', ['message' => 'Invalid step.']);
+        }
     }
 
     public function store(Request $request)
@@ -162,7 +211,7 @@ class ContactController
         return view('backend.contacts.edit', compact('contact', 'categories'));
     }
 
-    
+
     public function update(Request $request, $id)
     {
         // Validate the incoming request data

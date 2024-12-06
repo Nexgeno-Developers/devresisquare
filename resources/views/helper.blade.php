@@ -293,10 +293,10 @@
                             <h6>Responsive Table</h6>
                             {{-- table  compoent start--}}
                                 @php
-                                $headers = ['id','Name', 'Position', 'Phone', 'email', 'City'];
+                                $headers = ['id'=>'id','Name', 'Position', 'Phone', 'email', 'City'];
                                 $rows = [
-                                    [1, 'John Doe', 'Owner', '456798462', 'john@example.com', 'London'],
-                                    [2, 'Jane Smith', 'Owner', '974511268', 'jane@example.com', 'Mumbai'],
+                                    ['id'=>1, 'John Doe', 'Owner', '456798462', 'john@example.com', 'London'],
+                                    ['id'=>2, 'Jane Smith', 'Owner', '974511268', 'jane@example.com', 'Mumbai'],
                                 ];
                             @endphp
                             <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='' />

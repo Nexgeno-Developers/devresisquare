@@ -32,7 +32,7 @@ $stepNames = [
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 render_blade">
-            @include('backend.contacts.contact_form.step' . session('current_step', 3))
+            @include('backend.contacts.contact_form.step' . session('current_step', 1))
             <!-- Default to step 1 -->
         </div>
     </div>

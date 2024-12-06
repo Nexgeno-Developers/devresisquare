@@ -22,7 +22,7 @@
 
                     <div class="row">
                         <div class="form-group col-12">
-                            <input required type="text" name="category" id="category" class="form-control"
+                            <input required type="text" name="category" id="category" class="form-control" placeholder="Category Name"
                                 value="{{ (isset($property) && $property->category) ? $property->category : '' }}">
                             @error('category')
                                 <div class="text-danger">{{ $message }}</div>

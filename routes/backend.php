@@ -48,6 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('contact-categories', ContactCategoryController::class);
     Route::resource('contacts', ContactController::class);
 
+    Route::prefix('contacts')->name('admin.contacts.')->group(function () {
+        Route::get('/create', [ContactController::class, 'create'])->name('create_contact');
+        Route::get('/contact_step/{step}', [ContactController::class, 'getQuickStepView'])->name('contact_step');
+        Route::post('/contact-store', [ContactController::class, 'contactStore'])->name('contact_store');
+        
+    });
+
     Route::name('admin.')->group(function () {
 
         // Estate Charges

@@ -8,19 +8,25 @@ use Illuminate\View\Component;
 
 class Dropdown extends Component
 {
-    public $class, $options, $isIcon;
+    public $options, $selected, $class, $isIcon;
 
     /**
      * Create a new component instance.
      *
+     * @param array $options
+     * @param string|null $selected
+     * @param string|null $class
+     * @param boolean|null $isIcon
      * @return void
      */
-    public function __construct($class=null, $options,$isIcon=false)
+    public function __construct(array $options, $selected = null,  $class=null, $isIcon=false)
     {
         $this->class = $class;
         $this->options = $options;
-        $this->isIcon = $isIcon;
+        $this->selected = $selected;
+        $this->isIcon = $isIcon; // True | False
     }
+
 
 
     public function render(): View|Closure|string

@@ -110,7 +110,7 @@ a, a:hover{text-decoration: none !important ;}
 
 .rs_sub_title,
 .form-group>label{
-    font-weight: 600;
+    font-weight: 500;
     font-size: 16px;
     margin-bottom: 8px;
     margin-top: 14px;
@@ -184,31 +184,43 @@ a, a:hover{text-decoration: none !important ;}
 }
 
 .dropdown{
-
-    .rs_dropdown{
-        border: 1px solid var(--primary-200);
-        border-radius: 6px;
-        padding: 8px;
-        position: relative;
+    background-color: var(--white);
+    padding: 8px 16px;
+    border-radius: 6px;
+    &:has(.rs_icon_dropdown){
+        background-color: unset;
+        width: fit-content;
+        padding: unset;
+    }
+    .rs_icon_dropdown{
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        background: var(--white);
-        &::after {
-            display: inline-block;
-            content: "";
-            border-top: .3em solid;
-            border-right: .3em solid transparent;
-            border-bottom: 0;
-            border-left: .3em solid transparent;
-            position: absolute;
-            right: 8px;
-            top: 18px;
+        position: relative;
+        &::after{
+            content: "\f013";
+            -webkit-font-smoothing: antialiased;
+            display: var(--fa-display, inline-block);
+            font-style: normal;
+            font-variant: normal;
+            line-height: 1;
+            text-rendering: auto;
+            font-family: var(--fa-style-family, "Font Awesome 6 Free");
+            font-weight: var(--fa-style, 900);
+        }
+        &:hover{
+            background-color: var(--primary-200);
+            border-radius: 6px;
         }
     }
-    .dropdown-menu{
-        width: 100%;
-        &.right_icon {
+    &:has(.right_icon){
+        width: fit-content;
+        .dropdown-menu {
             right: 0;
-            left: unset !important;
+            left: unset;
         }
     }
 
@@ -239,8 +251,8 @@ a, a:hover{text-decoration: none !important ;}
     }
     &:has(.right_icon){
         width: fit-content;
-    }
-
+    }  
+    
 }
 
 
@@ -249,7 +261,8 @@ a, a:hover{text-decoration: none !important ;}
         border: unset;
         width: 100%;
     }
-    &.input_price{
+    &.input_price,
+    &.input_search{
         border-radius: 5px;
         padding: 8px 12px;
         border: 1px solid var(--primary-300);
@@ -261,6 +274,11 @@ a, a:hover{text-decoration: none !important ;}
                 outline: unset;
             }
             width: 65%;
+        }
+    }
+    &.input_search{
+        input{
+            width: 88%;
         }
     }
     &.input_custom_icon{
@@ -791,7 +809,8 @@ input[type="radio"]:checked+label::before {
 }
 
 
-.quick_add_property {
+.quick_add_property,
+.quick_add_form {
     min-height: 500px;
 
 .left_col {
@@ -1216,18 +1235,33 @@ input[type="radio"]:checked+label::before {
 
 
 /* ========================================
+          Contacts
+==========================================*/
+
+/* ---------- Add Contact ------------ */
+.contact_add_property{
+    .td-2{
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 30%;
+    }
+}
+
+/* ========================================
           Responsive
 ==========================================*/
 
 /* Mobile */
-@media (max-width:768px) {
+/* @media (min-width:766px) {
 
-    #wrapper {
+     #wrapper {
         margin-left: unset;
         width: 100%;
-    }
+    } 
 
-}
+}*/
 
 
 /* Desktop large screen */
@@ -1454,14 +1488,13 @@ body.show-sidebar #menu.sidebar {
         padding: 0;
     }
 
-    .rs_steps .steps_wrapper
-    {
+    .steps_wrapper{
         padding-bottom: 150px;
         .form-group {
             min-width: 100% !important;
         }
     }
-    .rs_steps .steps_wrapper .footer_btn {
+    .footer_btn {
         position: fixed;
         bottom: 0;
         left: 0;
@@ -1528,4 +1561,38 @@ body.show-sidebar #menu.sidebar {
             position: relative;
         }
     }
+
+
+    /* ============  Breadcrumb ===========  */
+    .qap_breadcrumb{
+        overflow: hidden;
+        overflow-x: auto;
+        width: 92vw;
+        label{
+            width: max-content;
+        }
+    }
+
+    /* ============  Quick Add Forms ===========  */
+    .quick_add_property,
+    .quick_add_form{
+        .left_col{
+            padding: 0;
+            border: unset;
+            display: block;
+            .left_content_wrapper {
+                align-items: center;
+
+                .left_title{
+                    text-align: center;
+                    font-size: 28px;
+                }
+            }
+        }
+        .right_col{
+            padding: 0;
+            display: block;
+        }
+    }
 }
+    

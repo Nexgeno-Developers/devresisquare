@@ -1233,7 +1233,10 @@ input[type="radio"]:checked+label::before {
 
 /* Mobile */
 @media (min-width:766px) {
-
+    .mobile_only{
+        display: none !important;
+    }
+    
      /* #wrapper {
         margin-left: unset;
         width: 100%;

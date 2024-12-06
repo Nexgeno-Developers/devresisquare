@@ -6,22 +6,22 @@
         <div class="pvc_poperty_name">{{ $propertyName }}</div>
         <div class="rs_property_icons">
             @if($bed)
-                <div class="bed_icon rs_tooltip">
+                <div class="bed_icon rs_tooltip" data-label="bedroom">
                     <img src=" {{asset('asset/images/svg/icons/bed.svg')}} " alt="bedroom" > {{ $bed }}
                 </div>
             @endif
             @if($bath)
-            <div class="bath_icon rs_tooltip">
+            <div class="bath_icon rs_tooltip" data-label="bathroom">
                 <img src=" {{asset('asset/images/svg/icons/bath.svg')}} " alt="bathroom"> {{ $bath }}
             </div>
             @endif
             @if($floor)
-                <div class="floors_icon rs_tooltip">
+                <div class="floors_icon rs_tooltip" data-label="Floors">
                     <img src=" {{asset('asset/images/svg/icons/floor.svg')}} " alt="Floors"> {{ $floor }}
                 </div>
             @endif
             @if($living)
-                <div class="living_icon rs_tooltip">
+                <div class="living_icon rs_tooltip" data-label="Sofa">
                     <img src=" {{asset('asset/images/svg/icons/sofa.svg')}} " alt="sofa"> {{ $living }}
                 </div>
             @endif

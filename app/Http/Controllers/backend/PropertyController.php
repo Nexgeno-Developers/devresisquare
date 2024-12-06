@@ -442,6 +442,25 @@ private function getTabContent($tabname, $propertyId, $property)
 
         return redirect()->route('admin.properties.index')->with('success', 'Property updated successfully.');
     }
+    public function search(Request $request)
+    {
+        // Get the search query from the request
+        $query = $request->input('query');
+
+        // Search for properties based on multiple criteria
+        $properties = Property::where('prop_ref_no', 'LIKE', '%' . $query . '%')
+            ->orWhere('prop_name', 'LIKE', '%' . $query . '%')
+            ->orWhere('line_1', 'LIKE', '%' . $query . '%')
+            ->orWhere('line_2', 'LIKE', '%' . $query . '%')
+            ->orWhere('city', 'LIKE', '%' . $query . '%')
+            ->orWhere('country', 'LIKE', '%' . $query . '%')
+            ->orWhere('postcode', 'LIKE', '%' . $query . '%')
+            ->limit(10)  // Limit the results to 10
+            ->get(['id', 'prop_ref_no', 'prop_name', 'city']);  // Return only necessary fields
+
+        // Return the properties as JSON
+        return response()->json($properties);
+    }
 
     public function destroy($id)
     {

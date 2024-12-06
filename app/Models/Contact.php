@@ -25,7 +25,9 @@ class Contact extends Model
         'city',
         'country',
         'status',
+        'quick_step',
         'updated_by',
+        'added_by',
     ];
 
     // Relationship with ContactCategory model

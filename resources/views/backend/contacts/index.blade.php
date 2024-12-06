@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-fluid">
     <h1>Contacts</h1>
-    <a href="{{ route('contacts.create') }}" class="btn btn-primary">Create Contact</a>
-    <table class="table mt-3">
+    <a href="{{ route('admin.contacts.create') }}" class="btn btn-primary">Create Contact</a>
+    <table id="contacts-table" class="table table-striped mt-3">
         <thead>
             <tr>
                 <th>Name</th>
@@ -24,16 +24,23 @@
                     <td>{{ $contact->status ? 'Active' : 'Inactive' }}</td>
                     <td>{{ $contact->category->name }}</td>
                     <td>
-                        <a href="{{ route('contacts.edit', $contact->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        <a href="{{ route('admin.contacts.edit', $contact->id) }}" class="btn btn-warning">Edit</a>
+                        <a href="javascript:void(0);" class="action-icon" onclick="confirmModal('{{ url(route('admin.contacts.delete', $contact->id)) }}', responseHandler)"><i class="mdi mdi-delete" title="Delete"></i>Delete</a>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+@endsection
+@section('page.scripts')
+<script>
+    $(document).ready(function () {
+        $('#contacts-table').DataTable();
+    });
+
+    var responseHandler = function(response) {
+        location.reload();
+    }
+</script>
 @endsection

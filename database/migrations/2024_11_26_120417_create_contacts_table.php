@@ -14,20 +14,22 @@ return new class extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained('contacts_categories');
-            $table->string('first_name', 55);
+            $table->string('first_name', 55)->nullable();
             $table->string('middle_name', 55)->nullable();
-            $table->string('last_name', 55);
+            $table->string('last_name', 55)->nullable();
             $table->string('full_name', 155)->nullable();
-            $table->string('phone', 20);
-            $table->string('email', 55);
-            $table->string('address_line_1', 255);
+            $table->string('phone', 20)->nullable();
+            $table->string('email', 55)->nullable();
+            $table->string('address_line_1', 255)->nullable();
             $table->string('address_line_2', 255)->nullable();
-            $table->string('postcode', 15);
-            $table->string('city', 55);
-            $table->string('country', 55);
+            $table->string('postcode', 15)->nullable();
+            $table->string('city', 55)->nullable();
+            $table->string('country', 55)->nullable();
             $table->boolean('status')->default(1)->comment('1 for active, 0 for inactive');
+            $table->integer('quick_step')->nullable();
+            $table->integer('added_by')->nullable();
             $table->timestamps();
-            $table->integer('updated_by');
+            $table->integer('updated_by')->nullable();
         });
     }
     /**

@@ -46,16 +46,21 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('contact-categories', ContactCategoryController::class);
-    Route::resource('contacts', ContactController::class);
 
-    Route::prefix('contacts')->name('admin.contacts.')->group(function () {
-        Route::get('/create', [ContactController::class, 'create'])->name('create_contact');
-        Route::get('/contact_step/{step}', [ContactController::class, 'getQuickStepView'])->name('contact_step');
-        Route::post('/contact-store', [ContactController::class, 'contactStore'])->name('contact_store');
-        
-    });
 
     Route::name('admin.')->group(function () {
+
+        // Contacts
+        Route::get('contacts', [ContactController::class, 'index'])->name('contacts.index');
+        Route::get('contacts/create', [ContactController::class, 'create'])->name('contacts.create');
+        Route::get('contacts/contact_step/{step}', [ContactController::class, 'getQuickStepView'])->name('contacts.contact_step');
+        Route::post('contacts/store', [ContactController::class, 'contactStore'])->name('contacts.store');
+        Route::get('contacts/properties/search', [ContactController::class, 'searchProperties'])->name('contacts.properties.search');
+        // Route::post('contacts/store', [ContactController::class, 'store'])->name('contacts.store');
+        Route::get('contacts/{Contact}/show', [ContactController::class, 'show'])->name('contacts.show');
+        Route::get('contacts/{Contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+        Route::put('contacts/{Contact}/update', [ContactController::class, 'update'])->name('contacts.update');
+        Route::get('contacts/{Contact}/destroy', [ContactController::class, 'destroy'])->name('contacts.delete');
 
         // Estate Charges
         Route::get('estate-charges', [EstateChargeController::class, 'index'])->name('estate-charges.index');

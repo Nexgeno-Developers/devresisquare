@@ -6,8 +6,8 @@ $stepNames = [
     3 => 'Related Properties',
 ];
 
-    // Determine the last enabled step based on $property->step or default to 1
-    $currentStep = isset($property->contact_step) ? $property->contact_step+1 : 1;
+    // Determine the last enabled step based on $contact->step or default to 1
+    $currentStep = isset($contact->quick_step) ? $contact->quick_step+1 : 1;
 @endphp
 
 
@@ -21,7 +21,7 @@ $stepNames = [
                         name="step"
                         id="step{{ $i }}"
                         value="{{ $i }}"
-                        {{ $currentStep == $i || ($i == 1 && !$property) ? 'checked' : '' }}
+                        {{ $currentStep == $i || ($i == 1 && !$contact) ? 'checked' : '' }}
                         {{ $i <= $currentStep ? '' : 'disabled' }}>
 
                     <label class="form-check-label {{ $currentStep == $i ? 'active' : '' }}" for="step{{ $i }}">{{ $stepNames[$i] ?? 'Unknown Step'}}</label>
@@ -32,8 +32,7 @@ $stepNames = [
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 render_blade">
-            @include('backend.contacts.contact_form.step' . session('current_step', 1))
-            <!-- Default to step 1 -->
+            @include('backend.contacts.contact_form.step' . $currentStep )
         </div>
     </div>
 </div>
@@ -53,7 +52,7 @@ $(document).ready(function() {
         }
 
         // Validate the current step form only when moving forward
-        const isValid = initValidate('#property-form-step-' + currentStep);
+        const isValid = initValidate('#contact-form-step-' + currentStep);
 
         // If validation passed, proceed to send data and update to the next step
         if (isValid) {
@@ -69,26 +68,26 @@ $(document).ready(function() {
 
     // Function to send form data for a specific step
     function sendFormData(step) {
-        const formData = new FormData($('#property-form-step-' + step)[0]);
+        const formData = new FormData($('#contact-form-step-' + step)[0]);
         formData.append('step', step);
-        // Add property_id to the form data if it doesn't already exist
-        const propertyId = $('#property_id').val(); // Get the property_id from the hidden input
-        let propertyIdExists = false;
+        // Add contact_id to the form data if it doesn't already exist
+        const contactId = $('#contact_id').val(); // Get the contact_id from the hidden input
+        let contactIdExists = false;
 
-        // Check if property_id already exists in the formData
+        // Check if contact_id already exists in the formData
         for (let [key, value] of formData.entries()) {
-            if (key === 'property_id') {
-                propertyIdExists = true;
+            if (key === 'contact_id') {
+                contactIdExists = true;
                 break;
             }
         }
 
-        // Append property_id only if it doesn't exist already
-        if (propertyId && !propertyIdExists) {
-            formData.append('property_id', propertyId);
+        // Append contact_id only if it doesn't exist already
+        if (contactId && !contactIdExists) {
+            formData.append('contact_id', contactId);
         }
         $.ajax({
-            url: '{{ route("admin.contacts.contact_store") }}',
+            url: '{{ route("admin.contacts.store") }}',
             method: 'POST',
             data: formData,
             processData: false,
@@ -107,25 +106,22 @@ $(document).ready(function() {
         });
     }
 
-    // Function to render the view for a specific step
-    // function renderStep(step) {
-    //     const formStepRenderUrl = '{{-- route("admin.properties.contact_step", ":step") --}}'.replace(':step', step);
-    // Define the URL based on the condition if $property exists
     @php
-    $formStepRenderUrl = isset($property) ?
-        route('admin.contacts.contact_step', ['step' => ':step', 'property_id' => $property->id]) :
+    $formStepRenderUrl = isset($contact) ?
+        route('admin.contacts.contact_step', ['step' => ':step', 'contact_id' => $contact->id]) :
         route('admin.contacts.contact_step', ['step' => ':step']);
     @endphp
+
     // Function to render the view for a specific step
     function renderStep(step) {
-        // Get property_id from the hidden input field if available
-        const propertyId = $('#property_id').val();
+        // Get contact_id from the hidden input field if available
+        const contactId = $('#contact_id').val();
         // Replace ':step' with the actual step in the URL
         let formStepRenderUrl = '{{ $formStepRenderUrl }}'.replace(':step', step);
 
-        // Check if 'property_id' is already present in the URL
-        if (propertyId && !formStepRenderUrl.includes('property_id')) {
-            formStepRenderUrl += `?property_id=${propertyId}`;
+        // Check if 'contact_id' is already present in the URL
+        if (contactId && !formStepRenderUrl.includes('contact_id')) {
+            formStepRenderUrl += `?contact_id=${contactId}`;
         }
 
         $.ajax({
@@ -134,9 +130,9 @@ $(document).ready(function() {
             success: function(response) {
                 $('.render_blade').html(response);
 
-                // Find id="property_id" and put the propertyId if it’s missing
-                if (!$('#property_id').val()) {
-                    $('#property_id').val(propertyId);
+                // Find id="contact_id" and put the contactId if it’s missing
+                if (!$('#contact_id').val()) {
+                    $('#contact_id').val(contactId);
                 }
             },
             error: function() {
@@ -170,84 +166,81 @@ $(document).ready(function() {
         renderStep(selectedStep); // Render the corresponding Blade view
     });
 
-    // Handle Next and Previous button clicks
-    $(document).on('click', '.propertyType', function(e) {
-        e.preventDefault();
-        const currentStep3 = $('.next-step').data('current-step');
-        const targetStep4 = $('.next-step').data('next-step');
-
-        handleStepChange(currentStep3, targetStep4);
-    });
-
-/* Quick Step 3 */
-    // Handle Next and Previous button clicks
-    $(document).on('click', '.bedroom-radio', function(e) {
-        e.preventDefault();
-        const currentStep5 = $('.next-step').data('current-step');
-        const targetStep6 = $('.next-step').data('next-step');
-
-        handleStepChange(currentStep5, targetStep6);
-    });
-/* Quick Step 4 */
-    // Handle Next and Previous button clicks
-    $(document).on('click', '.bathroom-radio', function(e) {
-        e.preventDefault();
-        const currentStep7 = $('.next-step').data('current-step');
-        const targetStep8 = $('.next-step').data('next-step');
-
-        handleStepChange(currentStep7, targetStep8);
-    });
-    /* Quick Step 5 */
-    // Handle Next and Previous button clicks
-    $(document).on('click', '.reception-radio', function(e) {
-        e.preventDefault();
-        const currentStep9 = $('.next-step').data('current-step');
-        const targetStep10 = $('.next-step').data('next-step');
-
-        handleStepChange(currentStep9, targetStep10);
-    });
-    /* Quick Step 6 */
-    $(document).on('click', '.furnish-radio', function(e) {
-        e.preventDefault();
-        const currentStep11 = $('.next-step').data('current-step');
-        const targetStep12 = $('.next-step').data('next-step');
-
-        handleStepChange(currentStep11, targetStep12);
-    });
-/* Quick Step 7 */
-    function checkSelectionsAndSubmit() {
-        const parkingSelected = $('input[name="parking"]:checked').val();
-        const gardenSelected = $('input[name="garden"]:checked').val();
-        const balconySelected = $('input[name="balcony"]:checked').val();
-
-        // If both parkings and balcony Rooms are selected, submit the form
-        if (parkingSelected && gardenSelected && balconySelected) {
-            const currentStep13 = $('.next-step').data('current-step');
-            const targetStep14 = $('.next-step').data('next-step');
-
-            handleStepChange(currentStep13, targetStep14);
-        }
-    }
-    $(document).on('click', '.parking-radio', checkSelectionsAndSubmit);
-    $(document).on('click', '.garden-radio', checkSelectionsAndSubmit);
-    $(document).on('click', '.balcony-radio', checkSelectionsAndSubmit);
-
-    /* Quick Step 8 */
-    function checkStep8AndSubmit() {
-        const priceSelected = $('input[name="price"]').val();
-        const managementSelected = $('input[name="management"]:checked').val();
-
-        // If both parkings and balcony Rooms are selected, submit the form
-        if (priceSelected  && managementSelected ) {
-            const currentStep13 = $('.next-step').data('current-step');
-            const targetStep14 = $('.next-step').data('next-step');
-
-            handleStepChange(currentStep13, targetStep14);
-        }
-    }
-    $(document).on('click', '.prince_input', checkStep8AndSubmit);
-    $(document).on('click', '.management-radio', checkStep8AndSubmit);
-
 });
+$(document).ready(function() {
+    // Function to handle property search
+    function searchProperties(query) {
+        // Perform the AJAX request to search properties
+        $.ajax({
+            url: '{{ route('admin.contacts.properties.search') }}',  // Define the route for search
+            method: 'GET',
+            data: { query: query },
+            success: function(response) {
+                // Clear previous search results
+                $('#property_results').empty();
+
+                // Check if there are any results
+                if (response.length > 0) {
+                    response.forEach(function(property) {
+                        // Create a list item for each result
+                        var listItem = '<li class="list-group-item property-result" data-id="' + property.id + '">' +
+                                           property.prop_ref_no + ' - ' + property.prop_name + ' (' + property.city + ') ' + '</li>';
+                        $('#property_results').append(listItem);
+                    });
+                } else {
+                    $('#property_results').append('<li class="list-group-item">No properties found.</li>');
+                }
+            },
+            error: function() {
+                $('#property_results').append('<li class="list-group-item">Error fetching results.</li>');
+            }
+        });
+    }
+
+    $(document).on('keyup keydown', '#search_property1', function() {
+        var query = $(this).val().trim();  // Get the search query
+
+        if (query.length >= 3) {  // Trigger search when 3 or more characters are entered
+            searchProperties(query);
+            $('#error_message').hide(); // Hide the error message if the query length is valid
+        } else {
+            $('#property_results').empty(); // Clear the results if query length is less than 3 characters
+
+            // Show an error message telling the user to write at least 3 letters
+            $('#error_message').text('Please enter at least 3 characters to search.').show();
+        }
+    });
+
+
+    // Handle property selection
+    $(document).on('click', '.property-result', function() {
+        var propertyId = $(this).data('id');  // Get selected property ID
+
+        // Check if the property is already selected
+        if ($('#selected_properties').find('.selected-property[data-id="' + propertyId + '"]').length === 0) {
+            // Create an element to show the selected property
+            var selectedPropertyItem = '<div class="selected-property" data-id="' + propertyId + '">' +
+                                           '<span>' + $(this).text() + '</span>' +
+                                           '<button type="button" class="btn btn-warning btn-sm remove-property" data-id="' + propertyId + '">Remove</button>' +
+                                         '</div>';
+            // Append the selected property to the selected list
+            $('#selected_properties').append(selectedPropertyItem);
+        }
+
+        // Clear search results
+        $('#property_results').empty();
+        $('#search_property1').val(''); // Optionally clear the search input field
+    });
+
+    // Handle property removal from the selected list
+    $(document).on('click', '.remove-property', function() {
+        var propertyId = $(this).data('id'); // Get the property ID to be removed
+
+        // Remove the property from the selected list
+        $('#selected_properties').find('.selected-property[data-id="' + propertyId + '"]').remove();
+    });
+});
+
+
 </script>
 @endsection

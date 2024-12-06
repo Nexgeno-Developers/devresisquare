@@ -108,7 +108,7 @@
                 <img src=" {{ asset('asset/images/svg/icons/floor.svg') }} " alt="Floors"> {{$floor}}
             </div>
             <div class="living_icon rs_tooltip" data-label="Sofa">
-                <img src=" {{ asset('asset/images/svg/icons/sofa.svg') }} " alt="sofa"> {{ $living }}
+                <img src=" {{ asset('asset/images/svg/icons/sofa.svg') }} " alt="sofa"> {{ $reception }}
             </div>
         </div>
         <div class="pvc_price">
@@ -170,7 +170,7 @@
                 <img src=" {{ asset('asset/images/svg/icons/floor.svg') }} " alt="Floors">{{$floor}}
             </div>
             <div class="living_icon rs_tooltip"  data-label="Sofa">
-                <img src=" {{ asset('asset/images/svg/icons/sofa.svg') }} " alt="sofa"> {{ $living }}
+                <img src=" {{ asset('asset/images/svg/icons/sofa.svg') }} " alt="sofa"> {{ $reception }}
             </div>
         </div>
         <div class="pvc_ref_id">Ref: 1234SSSD</div>

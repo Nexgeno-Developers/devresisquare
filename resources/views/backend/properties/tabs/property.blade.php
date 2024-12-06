@@ -98,16 +98,16 @@
         <div class="pvc_ref_id">Ref: {{$propRefNo}}</div>
         <div class="pvc_poperty_name">{{ $address }}</div>
         <div class="rs_property_icons">
-            <div class="bed_icon rs_tooltip">
+            <div class="bed_icon rs_tooltip" data-label="Bedroom">
                 <img src=" {{ asset('asset/images/svg/icons/bed.svg') }} " alt="bedroom"> {{$bedroom}}
             </div>
-            <div class="bath_icon rs_tooltip">
+            <div class="bath_icon rs_tooltip" data-label="Bathroom">
                 <img src=" {{ asset('asset/images/svg/icons/bath.svg') }} " alt="bathroom"> {{$bathroom}}
             </div>
-            <div class="floors_icon rs_tooltip">
+            <div class="floors_icon rs_tooltip" data-label="Floors">
                 <img src=" {{ asset('asset/images/svg/icons/floor.svg') }} " alt="Floors"> {{$floor}}
             </div>
-            <div class="living_icon rs_tooltip">
+            <div class="living_icon rs_tooltip" data-label="Sofa">
                 <img src=" {{ asset('asset/images/svg/icons/sofa.svg') }} " alt="sofa"> 2
             </div>
         </div>

@@ -1,6 +1,6 @@
 
 @props([
-   'class', 
+   'class'=>'', 
    'inputName'=>null, 
    'inputOpt'=>null,
    'inputType'=>'text',
@@ -17,7 +17,7 @@
 @if($isLabel == True)
 <label class="mb-2" for="{{ $inputName }}">{{ $label }}</label>
 @endif
-<div class="{{$attributes->merge([ 'class' => 'rs_input'])}}  {{ $inputOpt }} {{ $isLabel == True ? "with_label" : ""}} {{ $isDate == True? "with_date" : "" }} ">
+<div class='rs_input | {{ $inputOpt }} {{ $isLabel == True ? "with_label" : ""}} {{ $isDate == True? "with_date" : "" }} {{$class}} ' >
    @if ($inputOpt == 'input_price')
       {{ getPoundSymbol() }}
    @endif

@@ -15,6 +15,13 @@
     {{-- <link href="{{ asset('asset/css/toastr.min.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('asset/backend/css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Tagify CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet">
+
+
+
+
     {{-- <link href="{{ asset('asset/backend/css/aiz-core.css') }}" rel="stylesheet"> --}}
     {{-- <link href="{{ asset('asset/backend/css/media.css') }}" rel="stylesheet"> --}}
     {{-- <link href="{{ asset('asset/backend/css/vendors.css') }}" rel="stylesheet"> --}}
@@ -76,6 +83,8 @@
     <script src="{{ asset('asset/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('asset/backend/js/Init.js') }}"></script>
     <script src="{{ asset('asset/backend/js/vendors.js') }}"></script>
+    <!-- Tagify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.min.js"></script>
     <script src="{{ asset('asset/backend/js/style.js') }}"></script>
     <!-- <script src="{{ asset('asset/js/dataTables.bootstrap5.min.js') }}"></script> -->
     <script>

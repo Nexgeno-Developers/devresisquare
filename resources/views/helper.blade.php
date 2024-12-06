@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="{{ asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/main-style.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/backend/css/style.css') }}" rel="stylesheet">
@@ -324,7 +325,8 @@
                             $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ];
                             $selectedCountry = 'ca';
                             @endphp
-                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}} />
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}} class=""/>
+
                             <blockquote>
                                 &lt;x-backend.dropdown
                                     :options="&#36;countries"
@@ -342,7 +344,7 @@
                             $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ];
                             $selectedCountry = 'edit';
                             @endphp
-                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} />
+                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} class=""/>
                             <blockquote>
                                 &lt;x-backend.dropdown
                                     :options="&#36;countries"
@@ -445,6 +447,42 @@
                                     isLabel=&#x2774;&#x2774;False&#x2775;&#x2775;
                                     label=""
                                     isDate=&#x2774;&#x2774;True&#x2775;&#x2775;
+                                /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    {{-- h_section end  --}}
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Custom Icon Input</h6>
+                            <x-backend.input-comp
+                                class=""
+                                inputOpt="input_custom_icon"
+                                inputType="text"
+                                rightIcon=""
+                                inputName="custom"
+                                placeHolder="Custom Icon"
+                                isLabel={{False}}
+                                label=""
+                                isDate={{false}}
+                                isIcon={{true}}
+                                iconName="bi-gear-fill"
+                                onIconClick="onClick"
+                            />
+                            <blockquote>
+                                &lt;x-backend.input-comp
+                                    class=""
+                                    inputOpt="input_custom_icon"
+                                    inputType="text"
+                                    rightIcon=""
+                                    inputName="custom"
+                                    placeHolder="Custom Icon"
+                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775;
+                                    label=""
+                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775;
+                                    isIcon=&#x2774;&#x2774;True&#x2775;&#x2775;
+                                    iconName="bi-gear-fill"
+                                    onIconClick="onClick"
                                 /&gt;
                             </blockquote>
                         </div>

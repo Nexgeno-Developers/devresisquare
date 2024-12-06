@@ -35,10 +35,10 @@ body.show-sidebar #menu {
     height: calc(100vh - 36px)
 }
 
-#wrapper .container-fluid,
+/* #wrapper .container-fluid,
 #wrapper .container-fluid>.row {
     height: calc(100vh - 36px)
-}
+} */
 
 #header {
     background: var(--white);
@@ -1254,14 +1254,14 @@ input[type="radio"]:checked+label::before {
 ==========================================*/
 
 /* Mobile */
-@media (min-width:766px) {
+/* @media (min-width:766px) {
 
-    /* #wrapper {
+     #wrapper {
         margin-left: unset;
         width: 100%;
-    } */
+    } 
 
-}
+}*/
 
 
 /* Desktop large screen */

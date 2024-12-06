@@ -8,7 +8,7 @@
 
     <label class="main_title">Responsibility</label>
 
-    <div class="row">
+    <div class="row h_100_vh">
         <div class="col-lg-4 col-12">
             <div class="steps_wrapper property-form-data-attribute" data-step-name="Responsibility" data-step-number="{{ $currentStep }}" data-step-title="Responsibility">
 
@@ -60,12 +60,14 @@
                     @enderror
                 </div>
 
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <button type="button" class="btn btn_outline_secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
+                <div class="footer_btn">
+                    <div class="row ">
+                        <div class="col-6">
+                            <button type="button" class="btn btn_outline_secondary w-100 previous-step" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn_secondary w-100 last-step-submit" data-current-step="{{ $currentStep }}">Submit</button>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <button type="submit" class="btn btn_secondary w-100 last-step-submit" data-current-step="{{ $currentStep }}">Submit</button>
                 </div>
             </div>
         </div>

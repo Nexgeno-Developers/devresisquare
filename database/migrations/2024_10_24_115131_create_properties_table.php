@@ -50,20 +50,32 @@ return new class extends Migration {
             $table->string('other',555)->nullable();
             $table->string('access_arrangement',255)->nullable();
             $table->string('key_highlights',255)->nullable();
-            $table->json('nearest_station')->nullable();
-            $table->json('nearest_school')->nullable();
+            $table->string('nearest_station')->nullable();
+            $table->string('nearest_school')->nullable();
             $table->json('nearest_religious_places')->nullable();
             $table->string('useful_information',255)->nullable();
-            $table->decimal('price', 10, 2)->nullable();
-            $table->decimal('ground_rent', 10, 2)->nullable();
-            $table->decimal('service_charge', 10, 2)->nullable();
+            $table->decimal('price', 12, 2)->nullable();
+            $table->decimal('ground_rent', 12, 2)->nullable();
+            $table->decimal('service_charge', 12, 2)->nullable();
+            $table->decimal('estate_charge', 12, 2)->nullable();
+            $table->decimal('miscellaneous_charge', 12, 2)->nullable();
+            // $table->unsignedBigInteger('estate_charges_id')->nullable(); // Create the column
+
+            // // Define the foreign key constraint
+            // $table->foreign('estate_charges_id')
+            //       ->references('id')
+            //       ->on('estate_charges')
+            //       ->onDelete('cascade'); // Automatically delete related records when estate_charges is deleted
+
             $table->decimal('annual_council_tax', 10, 2)->nullable();
             $table->string('council_tax_band')->nullable();
+            $table->string('local_authority',255)->nullable();
             $table->decimal('letting_price', 10, 2)->nullable();
             $table->string('tenure')->nullable();
             $table->integer('length_of_lease')->nullable();
             $table->string('epc_rating')->nullable();
             $table->boolean('is_gas')->nullable();
+            $table->boolean('gas_safe_acknowledged')->nullable();
             $table->string('photos', 2000)->nullable();
             $table->string('floor_plan', 2000)->nullable();
             $table->string('view_360', 2000)->nullable();
@@ -81,6 +93,7 @@ return new class extends Migration {
             $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
+
         });
 
         // Schema::create('properties', function (Blueprint $table) {
@@ -122,9 +135,9 @@ return new class extends Migration {
 
     protected $casts = [
         'market_on' => 'array',
-        'photos' => 'array',
-        'floor_plan' => 'array',
-        'view_360' => 'array',
+        // 'photos' => 'array',
+        // 'floor_plan' => 'array',
+        // 'view_360' => 'array',
         // 'video_url' => 'array',
     ];
 

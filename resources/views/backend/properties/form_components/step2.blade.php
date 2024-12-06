@@ -8,7 +8,7 @@
     <div class="property-form-data-attribute" data-step-name="Property Type" data-step-number="{{ $currentStep }}" data-step-title="Property Type"></div>
     <label class="main_title">Property Type</label>
     <div class="steps_wrapper">
-        <div class="row">
+        <div class="row h_100_vh">
             <div class="col-lg-6 col-12">
                 <div class="flex gap_24 flex_col">
                     <div class="form-group pt_wrapper">
@@ -73,12 +73,14 @@
                         @enderror
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-12 col-md-6">
-                        <button type="button" class="btn btn_outline_secondary previous-step w-100" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <button type="button" class="btn btn_secondary next-step w-100" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
+                <div class="footer_btn">
+                    <div class="row mt-lg-4">
+                        <div class="col-6">
+                            <button type="button" class="btn btn_outline_secondary previous-step w-100" data-previous-step="{{ $currentStep - 1 }}" data-current-step="{{ $currentStep }}">Previous</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn_secondary next-step w-100" data-next-step="{{ $currentStep + 1 }}" data-current-step="{{ $currentStep }}">Next</button>
+                        </div>
                     </div>
                 </div>
             </div>

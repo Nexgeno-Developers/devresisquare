@@ -12,4 +12,7 @@
    @if ($rightIcon)
    <div class="right_icon">{{ $rightIcon }}</div>
    @endif
+   @if ($isIcon)
+   <div class="right_icon" onClick="{{ $onIconClick }}()"><i class="bi {{ $iconName }}"></i></div>
+   @endif
 </div>

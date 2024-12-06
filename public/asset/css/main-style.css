@@ -49,8 +49,12 @@
     --secondary-bg-dark: var(--secondary-color-dark);
     --secondary-bg-light: var(--secondary-color-light);
 
+    /*desktop */
     --media-thumb-width: 200px;
     --media-thumb-height: 200px;
+    /*mobile */
+    --media-thumb-sm-width: 140px;
+    --media-thumb-sm-height: 140px;
 
 }
 
@@ -440,8 +444,8 @@ File upload
 .rs_upload_btn label{
     border: 2px dotted var(--primary-400);
     border-radius: 5px;
-    width: 200px;
-    height: 200px;
+    width: var(--media-thumb-width);
+    height: var(--media-thumb-width);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -449,6 +453,13 @@ File upload
     text-align: center;
 }
 
+@media (max-width: 766px) {
+    .rs_upload_btn label {
+        width: var(--media-thumb-sm-width);
+        height: var(--media-thumb-sm-width);
+        padding: 8px;
+    }
+}
 /* ========================================
 scrollbar
 ==========================================*/

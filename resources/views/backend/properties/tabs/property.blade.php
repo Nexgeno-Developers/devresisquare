@@ -161,13 +161,13 @@
     <div class="pv_content mobile_only">
         <div class="rs_property_icons">
             <div class="bed_icon rs_tooltip"  data-label="Bedroom">
-                <img src=" {{ asset('asset/images/svg/icons/bed.svg') }} " alt="bedroom"> 2
+                <img src=" {{ asset('asset/images/svg/icons/bed.svg') }} " alt="bedroom"> {{$bedroom}}
             </div>
             <div class="bath_icon rs_tooltip"  data-label="Bathroom">
-                <img src=" {{ asset('asset/images/svg/icons/bath.svg') }} " alt="bathroom"> 1
+                <img src=" {{ asset('asset/images/svg/icons/bath.svg') }} " alt="bathroom"> {{$bathroom}}
             </div>
             <div class="floors_icon rs_tooltip"  data-label="Floors">
-                <img src=" {{ asset('asset/images/svg/icons/floor.svg') }} " alt="Floors">2
+                <img src=" {{ asset('asset/images/svg/icons/floor.svg') }} " alt="Floors">{{$floor}}
             </div>
             <div class="living_icon rs_tooltip"  data-label="Sofa">
                 <img src=" {{ asset('asset/images/svg/icons/sofa.svg') }} " alt="sofa"> 2

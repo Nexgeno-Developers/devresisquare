@@ -23,7 +23,7 @@
                         @endforeach
                         @if($actionBtn == True )
                             <td>
-                                <x-backend.dropdown :options="$dropdownOptions" class="" isIcon={{True}} />
+                                <x-backend.forms.dropdown :options="$dropdownOptions" class="" isIcon={{True}} />
                             </td>
                         @endif
                     </tr>
@@ -82,7 +82,7 @@
                 $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ]; 
                 $selectedCountry = 'edit'; 
                 @endphp
-                <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} class="right_icon" />
+                <x-backend.forms.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} class="right_icon" />
             </td> <!-- Add an action cell with an icon -->
         </tr>
     @endforeach

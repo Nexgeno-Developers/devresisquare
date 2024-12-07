@@ -2,10 +2,18 @@
     $dropdownId = 'dropdownMenuButton' . uniqid();
 @endphp
 
+    @props([
+    'class'=>'', 
+    'options'=>'', 
+    'selected'=>'',
+    'isIcon'=>false,
+    ])
+
 <div class="dropdown">
     @if($isIcon == false)
         <div class="rs_dropdown dropdown_click {{ $class }}" id="{{ $dropdownId }}" aria-expanded="false" onclick="toggleDropdown('{{ $dropdownId }}')">
             Select Option
+            <i class="bi bi-chevron-down"></i>
         </div>
     @else
         <div class="rs_icon_dropdown dropdown_click {{ $class }}" id="{{ $dropdownId }}"  aria-expanded="false" onclick="toggleDropdown('{{ $dropdownId }}')"></div>
@@ -20,7 +28,7 @@
 </div>
 <input type="hidden" id="selectedOption_{{ $dropdownId }}" name="selectedOption" value="{{ $selected }}">
 
-{{-- <script>
+<script>
     function toggleDropdown(dropdownId) {
         var dropdownMenu = document.getElementById('dropdownMenu_' + dropdownId);
         dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
@@ -44,7 +52,7 @@
             }
         }
     }
-</script> --}}
+</script>
 
 
 

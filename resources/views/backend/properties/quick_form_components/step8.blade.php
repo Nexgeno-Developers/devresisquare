@@ -24,7 +24,7 @@
                 <div class="right_content_wrapper">
                     <div class="">
                         <div class="rc_title">Price</div>
-                        <x-backend.input-comp
+                        <x-backend.forms.input
                             class="prince_input"
                             inputOpt="input_price"
                             inputType="number"

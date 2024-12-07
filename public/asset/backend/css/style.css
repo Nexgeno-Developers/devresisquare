@@ -286,19 +286,6 @@ ul#propertiesSubmenu li.sidebar-sub-list-item:hover a {
 .mobile_only{
     display: none;
 }
-.backdrop{
-    display: none;
-}
-.side-menu-closed.show-sidebar .backdrop{
-    display: block;
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--backdrop);
-    z-index: 99;
-}
 
 /* ========================================
 Header
@@ -1069,6 +1056,19 @@ input[type="radio"]:checked+label::before {
 
 .mobile_only{
     display: block;
+}
+.backdrop{
+    display: none;
+}
+.side-menu-closed.show-sidebar .backdrop{
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--backdrop);
+    z-index: 99;
 }
 
 #header{

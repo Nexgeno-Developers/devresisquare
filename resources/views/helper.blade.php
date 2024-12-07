@@ -141,7 +141,7 @@
                                 size="sm"
                                 isOutline=&#x2774;&#x2774; false &#x2775;&#x2775;
                                 isLinkBtn=&#x2774;&#x2774; false &#x2775;&#x2775;
-                                link="https://#"
+                                link=""
                                 onclick="copyHtml()"
                             /&gt;
                             </blockquote>
@@ -169,7 +169,7 @@
                                 size="sm"
                                 isOutline=&#x2774;&#x2774; false &#x2775;&#x2775;
                                 isLinkBtn=&#x2774;&#x2774; false &#x2775;&#x2775;
-                                link="https://#"
+                                link=""
                                 onclick=""
                             /&gt;
                             </blockquote>
@@ -196,7 +196,7 @@
                                 size="sm"
                                 isOutline=&#x2774;&#x2774; true &#x2775;&#x2775;
                                 isLinkBtn=&#x2774;&#x2774; false &#x2775;&#x2775;
-                                link="https://#"
+                                link=""
                                 onclick=""
                             /&gt;
                             </blockquote>
@@ -224,7 +224,62 @@
                                 size="sm"
                                 isOutline=&#x2774;&#x2774; true &#x2775;&#x2775;
                                 isLinkBtn=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                link=""
+                                onclick=""
+                            /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Secondary Link(&lt;a&gt;) Button</h6>
+                           <p>isLink button need to be 'True'</p>
+                            <x-backend.forms.button 
+                                class=''
+                                name='Secondary'
+                                type='secondary'
+                                size='sm'
+                                isOutline={{false}}
+                                isLinkBtn={{true}}
+                                link='https://#'
+                                onClick='copyHtml()'
+                            />
+                            <blockquote>
+                            &lt;x-backend.forms.button 
+                                class=""
+                                name="Secondary"
+                                type="secondary"
+                                size="sm"
+                                isOutline=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                isLinkBtn=&#x2774;&#x2774; true &#x2775;&#x2775;
                                 link="https://#"
+                                onclick=""
+                            /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Primary Outline Link(&lt;a&gt;) Button</h6>
+                            <x-backend.forms.button 
+                                class=''
+                                name='Outline Primary'
+                                type='primary'
+                                size='sm'
+                                isOutline={{true}}
+                                isLinkBtn={{true}}
+                                link='https://#'
+                                onClick='copyHtml()'
+                            />
+                            <blockquote>
+                                &lt;x-bbackend.forms.button
+                                class=""
+                                name="Outline primary"
+                                type="primary"
+                                size="sm"
+                                isOutline=&#x2774;&#x2774; true &#x2775;&#x2775;
+                                isLinkBtn=&#x2774;&#x2774; true &#x2775;&#x2775;
+                                link=""
                                 onclick=""
                             /&gt;
                             </blockquote>

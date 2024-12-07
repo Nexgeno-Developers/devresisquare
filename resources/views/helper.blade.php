@@ -10,8 +10,7 @@
     <link href="{{ asset('asset/backend/css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <title>Help Document</title>
-
+    <title>Help Document v1.2</title>
     <style>
         html, body, .row{
             height: 100%;
@@ -78,6 +77,30 @@
     </style>
 </head>
 <body>
+    {{-- 
+    code usage
+    &#x2774; = {
+    &#x2775; = }
+    &#36;    = $
+    &lt;     = < 
+    &gt;     = > 
+    --}}
+
+
+    <x-backend.forms.input
+        class='' 
+        inputName='' 
+        placeHolder='Input Name'
+        inputOpt=''
+        inputType='' 
+        rightIcon=''
+        isLabel=''
+        label=''
+        isDate={{false}}
+        isIcon={{false}}
+        iconName='' 
+        onIconClick=''
+    />
     <div class="row">
         <div class="col-lg-2">
             <div class="h_sidebar">
@@ -104,111 +127,115 @@
                     <div class="h_section">
                         <div class="" >
                             <h6>Primary Link Button</h6>
-                            <x-backend.main-button
-                                class=""
-                                name="Primary"
-                                type="primary"
-                                size="sm"
-                                isOutline="{{false}}"
+                            
+                            <x-backend.forms.button 
+                                class=''
+                                name='Primary'
+                                type='primary'
+                                size='sm'
+                                isOutline={{false}}
                                 isLinkBtn={{false}}
-                                link="https://#"
-                                onClick="copyHtml()"
+                                link='https://#'
+                                onClick='copyHtml()'
                             />
-                            <xmp id="primary_btn">
-                            < x-backend.main-button
+                            <blockquote id="primary_btn">
+                            &lt;x-backend.forms.button
                                 class=""
                                 name="Primary"
                                 type="primary"
                                 size="sm"
-                                isOutline="{{false}}"
-                                isLinkBtn={{false}}
+                                isOutline=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                isLinkBtn=&#x2774;&#x2774; false &#x2775;&#x2775;
                                 link="https://#"
-                                onclick=""
-                            / >
-                            </xmp>
+                                onclick="copyHtml()"
+                            /&gt;
+                            </blockquote>
                         </div>
                     </div>
                     <div class="h_section">
                         <div class="">
                             <h6>Secondary Link Button</h6>
-                            <x-backend.main-button
-                                class=""
-                                name="Secondary"
-                                type="secondary"
-                                size="sm"
-                                isOutline="{{false}}"
+                           
+                            <x-backend.forms.button 
+                                class=''
+                                name='Secondary'
+                                type='secondary'
+                                size='sm'
+                                isOutline={{false}}
                                 isLinkBtn={{false}}
-                                link="https://#"
-                                onclick=""
+                                link='https://#'
+                                onClick='copyHtml()'
                             />
-                            <xmp>
-                            < x-backend.main-button
+                            <blockquote>
+                            &lt;x-backend.forms.button 
                                 class=""
                                 name="Secondary"
                                 type="secondary"
                                 size="sm"
-                                isOutline="{{false}}"
-                                isLinkBtn={{false}}
+                                isOutline=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                isLinkBtn=&#x2774;&#x2774; false &#x2775;&#x2775;
                                 link="https://#"
                                 onclick=""
-                            / >
-                            </xmp>
+                            /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Primary Outline Link Button</h6>
+                            <x-backend.forms.button 
+                                class=''
+                                name='Outline Primary'
+                                type='primary'
+                                size='sm'
+                                isOutline={{true}}
+                                isLinkBtn={{false}}
+                                link='https://#'
+                                onClick='copyHtml()'
+                            />
+                            <blockquote>
+                                &lt;x-bbackend.forms.button
+                                class=""
+                                name="Outline primary"
+                                type="primary"
+                                size="sm"
+                                isOutline=&#x2774;&#x2774; true &#x2775;&#x2775;
+                                isLinkBtn=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                link="https://#"
+                                onclick=""
+                            /&gt;
+                            </blockquote>
                         </div>
                     </div>
                     <div class="h_section">
                         <div class="">
                             <h6>Secondary Outline Link Button</h6>
-                            <x-backend.main-button
+                            
+                            <x-backend.forms.button 
+                                class=''
+                                name='Outline Secondary'
+                                type='secondary'
+                                size='sm'
+                                isOutline={{true}}
+                                isLinkBtn={{false}}
+                                link='https://#'
+                                onClick='copyHtml()'
+                            />
+                            <blockquote>
+                            &lt;x-backend.forms.button 
                                 class=""
                                 name="Outline Secondary"
                                 type="secondary"
                                 size="sm"
-                                isOutline="{{true}}"
-                                isLinkBtn={{false}}
+                                isOutline=&#x2774;&#x2774; true &#x2775;&#x2775;
+                                isLinkBtn=&#x2774;&#x2774; false &#x2775;&#x2775;
                                 link="https://#"
                                 onclick=""
-                            />
-                            <xmp>
-                            < x-backend.main-button
-                                class=""
-                                name="Outline Secondary"
-                                type="secondary"
-                                size="sm"
-                                isOutline="{{true}}"
-                                isLinkBtn={{false}}
-                                link="https://#"
-                                onclick=""
-                            / >
-                            </xmp>
+                            /&gt;
+                            </blockquote>
                         </div>
                     </div>
-                    <div class="h_section">
-                        <div class="">
-                            <h6>Pecondary Outline Link Button</h6>
-                            <x-backend.main-button
-                                class=""
-                                name="Outline Primary"
-                                type="primary"
-                                size="sm"
-                                isOutline="{{true}}"
-                                isLinkBtn={{false}}
-                                link="https://#"
-                                onclick=""
-                            />
-                            <xmp>
-                            < x-backend.main-button
-                                class=""
-                                name="Outline primary"
-                                type="primary"
-                                size="sm"
-                                isOutline="{{true}}"
-                                isLinkBtn={{false}}
-                                link="https://#"
-                                onclick=""
-                            / >
-                            </xmp>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <div class="h_section_wrapper" id="cards">
@@ -367,28 +394,36 @@
                     <div class="h_section">
                         <div class="">
                             <h6>Text Input With Label</h6>
-                            <x-backend.input-comp
-                                class=""
-                                inputOpt=""
-                                inputType="text"
-                                rightIcon=""
-                                inputName="full_name"
-                                placeHolder="Full Name"
-                                isLabel={{True}}
-                                label="Name"
-                                isDate={{False}}
+                            
+                            <x-backend.forms.input
+                                class='' 
+                                inputName='full_name' 
+                                placeHolder='Full Name'
+                                inputOpt=''
+                                inputType='text' 
+                                rightIcon=''
+                                isLabel=''
+                                label='Full Name'
+                                isDate={{True}}
+                                isIcon={{false}}
+                                iconName='' 
+                                onIconClick=''
                             />
                             <blockquote>
-                                &lt;x-backend.input-comp
+                                &lt;x-backend.forms.input
                                     class=""
-                                    inputOpt=""
-                                    inputType="text"
-                                    rightIcon=""
                                     inputName="full_name"
                                     placeHolder="Full Name"
-                                    isLabel=&#x2774;&#x2774;True&#x2775;&#x2775;
-                                    label="Name"
-                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775;
+                                    inputOpt=""
+                                    inputType="text"
+                                    inputType='text' 
+                                    rightIcon=''
+                                    isLabel=''
+                                    label='Full Name'
+                                    isDate=&#x2774;&#x2774; True &#x2775;&#x2775;
+                                    isIcon=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                    iconName='' 
+                                    onIconClick='copyHtml()'
                                 /&gt;
                             </blockquote>
                         </div>
@@ -398,26 +433,35 @@
                     <div class="h_section">
                         <div class="">
                             <h6>Price without Label</h6>
-                            <x-backend.input-comp
-                                class=""
-                                inputOpt="input_price"
-                                inputType="number"
-                                rightIcon="Per Month"
-                                inputName="price"
-                                isLabel={{False}}
-                                label="Price"
-                                isDate={{False}}
+                            <x-backend.forms.input
+                                class='' 
+                                inputName='price' 
+                                placeHolder='Full Name'
+                                inputOpt='input_price'
+                                inputType='number' 
+                                rightIcon='Per Month'
+                                isLabel={{false}}
+                                label='Price'
+                                isDate={{false}}
+                                isIcon={{false}}
+                                iconName='' 
+                                onIconClick=''
                             />
                             <blockquote>
-                                &lt;x-backend.input-comp
-                                    class=""
-                                    inputOpt="input_price"
-                                    inputType="number"
-                                    rightIcon="Per Month"
-                                    inputName="price"
-                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775;
-                                    label="Price"
-                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775;
+                                
+                                &lt;x-backend.forms.input
+                                    class='' 
+                                    inputName='price' 
+                                    placeHolder='Full Name'
+                                    inputOpt='input_price'
+                                    inputType='number' 
+                                    rightIcon='Per Month'
+                                    isLabel=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                    label='Price'
+                                    isDate=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                    isIcon=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                    iconName='' 
+                                    onIconClick=''
                                 /&gt;
                             </blockquote>
                         </div>
@@ -427,26 +471,34 @@
                     <div class="h_section">
                         <div class="">
                             <h6>Date Input</h6>
-                            <x-backend.input-comp
-                                class=""
-                                inputOpt=""
-                                inputType="date"
-                                rightIcon=""
-                                inputName="from_date"
-                                isLabel={{False}}
-                                label=""
-                                isDate={{True}}
+                            <x-backend.forms.input
+                                class='' 
+                                inputName='from_date' 
+                                placeHolder=''
+                                inputOpt=''
+                                inputType='date' 
+                                rightIcon=''
+                                isLabel={{false}}
+                                label=''
+                                isDate={{true}}
+                                isIcon={{false}}
+                                iconName='' 
+                                onIconClick=''
                             />
                             <blockquote>
-                                &lt;x-backend.input-comp
-                                    class=""
-                                    inputOpt=""
-                                    inputType="date"
-                                    rightIcon=""
-                                    inputName="from_date"
-                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775;
-                                    label=""
-                                    isDate=&#x2774;&#x2774;True&#x2775;&#x2775;
+                                &lt;x-backend.forms.input
+                                    class='' 
+                                    inputName='from_date' 
+                                    placeHolder=''
+                                    inputOpt=''
+                                    inputType='date' 
+                                    rightIcon=''
+                                    isLabel=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                    label=''
+                                    isDate=&#x2774;&#x2774; true &#x2775;&#x2775;
+                                    isIcon=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                    iconName='' 
+                                    onIconClick=''
                                 /&gt;
                             </blockquote>
                         </div>
@@ -455,34 +507,34 @@
                     <div class="h_section">
                         <div class="">
                             <h6>Custom Icon Input</h6>
-                            <x-backend.input-comp
-                                class=""
-                                inputOpt="input_custom_icon"
-                                inputType="text"
-                                rightIcon=""
-                                inputName="custom"
-                                placeHolder="Custom Icon"
-                                isLabel={{False}}
-                                label=""
+                            <x-backend.forms.input
+                                class='' 
+                                inputName='custom' 
+                                placeHolder='Custom Icon'
+                                inputOpt='input_custom_icon'
+                                inputType='text' 
+                                rightIcon=''
+                                isLabel={{false}}
+                                label=''
                                 isDate={{false}}
                                 isIcon={{true}}
-                                iconName="bi-gear-fill"
-                                onIconClick="onClick"
+                                iconName='bi-gear-fill' 
+                                onIconClick='onClick()'
                             />
                             <blockquote>
                                 &lt;x-backend.input-comp
-                                    class=""
-                                    inputOpt="input_custom_icon"
-                                    inputType="text"
-                                    rightIcon=""
-                                    inputName="custom"
-                                    placeHolder="Custom Icon"
-                                    isLabel=&#x2774;&#x2774;False&#x2775;&#x2775;
-                                    label=""
-                                    isDate=&#x2774;&#x2774;False&#x2775;&#x2775;
-                                    isIcon=&#x2774;&#x2774;True&#x2775;&#x2775;
-                                    iconName="bi-gear-fill"
-                                    onIconClick="onClick"
+                                    class='' 
+                                    inputName='custom' 
+                                    placeHolder='Custom Icon'
+                                    inputOpt='input_custom_icon'
+                                    inputType='text' 
+                                    rightIcon=''
+                                    isLabel=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                    label=''
+                                    isDate=&#x2774;&#x2774; false &#x2775;&#x2775;
+                                    isIcon=&#x2774;&#x2774; true &#x2775;&#x2775;
+                                    iconName='bi-gear-fill' 
+                                    onIconClick=''
                                 /&gt;
                             </blockquote>
                         </div>

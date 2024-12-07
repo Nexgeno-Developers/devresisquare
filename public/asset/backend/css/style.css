@@ -30,8 +30,8 @@ body.show-sidebar #menu {
 }
 
 #wrapper {
-    margin-left: 40px;
-    width: calc(100% - 30%);
+    padding-left: 24px;
+    width: 100vw;
     transition: margin-left 0.3s;
     height: calc(100vh - 36px)
 }
@@ -285,6 +285,19 @@ ul#propertiesSubmenu li.sidebar-sub-list-item:hover a {
 }
 .mobile_only{
     display: none;
+}
+.backdrop{
+    display: none;
+}
+.side-menu-closed.show-sidebar .backdrop{
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--backdrop);
+    z-index: 99;
 }
 
 /* ========================================
@@ -871,60 +884,6 @@ input[type="radio"]:checked+label::before {
 
 }
 
-.view_properties{
-    .mobile_footer{
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: var(--white);
-        padding: 16px;
-        box-shadow: 0px -3px 5px #0000005c;
-        border-radius: 20px 20px 0 0;
-
-        .pvdh_btns_wrapper{
-            display: flex;
-            gap: 16px;
-            a{
-                width: 100%;
-            }
-            .add_property_mobile{
-                min-height: 50px;
-                min-width: 50px;
-                border-radius: 100%;
-                right: 15px;
-                bottom: 104px;
-                position: fixed;
-                width: 50px;
-                height: 50px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                .icon_btn{
-                    position: relative;
-                    &::after{
-                        content: '+';
-                        position: absolute;
-                        top: -44px;
-                        left: -20px;
-                        font-size: 60px;
-                        font-weight: 600;
-                    }
-                }
-            }
-        }
-        a.mobile_icon_btn{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--primary-700);
-            text-align: center;
-            i.bi{
-                font-size: 20px;
-            }
-         }
-    }
-}
 
 /* -------------- Tabs --------------------- */
 .property_detail_wrapper{
@@ -1252,14 +1211,14 @@ body.show-sidebar #menu.sidebar {
      }
     #wrapper{
         width: 100%;
-        margin-left: 0;
+        padding-left: 0;
     }
 
     .pv_header .pv_btn {
         position: fixed;
-        bottom: 54px;
+        bottom: 75px;
         right: 15px;
-        z-index: 9999999;
+        z-index: 80;
         a.btn{
             height: 50px;
             width: 50px;

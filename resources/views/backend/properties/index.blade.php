@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row view_properties">
-        <div class="col-lg-5 col-12 property_list_wrapper ">
+        <div class="col-lg-5 col-12 property_list_wrapper pt-lg-4 pt-2 ">
             <div class="pv_wrapper">
                 <div class="pv_header">
                     <div class="pv_title">Properties</div>
@@ -37,7 +37,7 @@
             </div>
             {{-- pv_wrapper end  --}}
         </div>
-        <div class="col-lg-7 col-12 property_detail_wrapper hide_this">
+        <div class="col-lg-7 col-12 property_detail_wrapper hide_thisp pt-lg-4 pt-0">
             <div class="pv_detail_wrapper">
 
                 <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs" />
@@ -68,22 +68,24 @@
             </div>
             <div class="mobile_footer mobile_only">
                 <div class="pvdh_btns_wrapper">
-                    <x-backend.mobile-button name="Add Tenacy" link="{{ route('admin.properties.quick') }}"
-                        iconName="file-plus" />
-                    <x-backend.mobile-button name="Add Offer" link="{{ route('admin.properties.quick') }}"
-                        iconName="file-text" />
-                    <x-backend.mobile-button name="Edit Property"
-                        link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
-                        <x-backend.forms.button
-                        class="add_property_mobile"
-                        name="Secondary"
-                        type="secondary"
-                        size="sm"
-                        isOutline={{false }}
-                        isLinkBtn={{false }}
-                        link=""
-                        onclick=""
-                        />
+                    <x-backend.forms.mobile_button
+                        class=''
+                        name='Add Tenacy'
+                        link="{{ route('admin.properties.quick') }}"
+                        iconName='file-plus'
+                    />    
+                    <x-backend.forms.mobile_button
+                        class=''
+                        name='Add Offer'
+                        link="{{ route('admin.properties.quick') }}"
+                        iconName='file-text'
+                    />    
+                    <x-backend.forms.mobile_button
+                        class=''
+                        name='Edit Property'
+                        link="{{ route('admin.properties.edit', ['id' => $property->id]) }}"
+                        iconName='pencil-square'
+                    />    
                 </div>
             </div>
         </div>

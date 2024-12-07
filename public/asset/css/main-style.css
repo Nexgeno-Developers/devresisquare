@@ -32,6 +32,8 @@
     --secondary-800:#8C3310 ;
     --secondary-900:#6B270C ;
 
+    --backdrop: #00000094;
+
     --primary-color: var(--primary);
     --primary-color-dark: var(--primary-600);
     --primary-color-light: var(--primary-400);

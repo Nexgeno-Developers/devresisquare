@@ -166,7 +166,9 @@ with icon || without icon || dates input || price input
         justify-content: space-between;
     }
     .dropdown-menu{
-        width: 98%;
+        left: 0;
+        right: 0;
+        top: 40px;
     }
 }
 /* =============================================================================

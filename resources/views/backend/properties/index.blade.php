@@ -9,8 +9,16 @@
                     <x-backend.search-comp class="" value="" placeholder="Search" onclick="" />
 
                     <div class="pv_btn">
-                        <x-backend.main-button class="" name="Add Property" type="secondary" size="sm"
-                            isLinkBtn={{ true }} link="{{ route('admin.properties.quick') }}" onclick="" />
+                        <x-backend.forms.button 
+                            class=''
+                            name='Add Property'
+                            type='secondary'
+                            size='sm'
+                            isOutline={{false}}
+                            isLinkBtn={{true}}
+                            link="{{ route('admin.properties.quick') }}"
+                            onClick='copyHtml()'
+                        />
                     </div>
                 </div>
                 {{-- pv_header end --}}
@@ -66,9 +74,16 @@
                         iconName="file-text" />
                     <x-backend.mobile-button name="Edit Property"
                         link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" iconName="pencil-square" />
-                    <x-backend.main-button class="add_property_mobile" name="" type="secondary" size="sm"
-                        isOutline="{{ false }}" isLinkBtn={{ false }} link="https://#"
-                        onClick="copyHtml()" />
+                        <x-backend.forms.button
+                        class="add_property_mobile"
+                        name="Secondary"
+                        type="secondary"
+                        size="sm"
+                        isOutline={{false }}
+                        isLinkBtn={{false }}
+                        link=""
+                        onclick=""
+                        />
                 </div>
             </div>
         </div>

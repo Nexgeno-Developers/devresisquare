@@ -98,6 +98,7 @@
                     <li><a href="#tables"> Tables</a></li>
                     <li><a href="#dropdown"> Dropdown</a></li>
                     <li><a href="#inputs"> Inputs</a></li>
+                    <li><a href="#search"> Search</a></li>
                 </ul>
             </div>
         </div>
@@ -595,6 +596,37 @@
 
                 </div>
             </div>
+            {{-- h_section_wrapper end --}}
+            <div class="h_section_wrapper" id="inputs">
+                <h2>Search</h2>
+                <blockquote>
+                    
+                </blockquote>
+
+                <div class="row gap-16 ml_0">
+                    <div class="h_section">
+                        <div class="">
+                            <h6>Search Input</h6>
+                            <x-backend.forms.search 
+                                class=''
+                                placeholder='Search'
+                                value=''
+                                onClick='onClick()'
+                            />
+                            <blockquote>
+                                &lt;x-backend.forms.search 
+                                    class=''
+                                    placeholder='Search'
+                                    type='secondary'
+                                    onClick='onClick()'
+                                /&gt;
+                            </blockquote>
+                        </div>
+                    </div>
+                    {{-- h_section end  --}}
+                </div>
+            </div>
+            {{-- h_section_wrapper end --}}
         </div>
     </div>
 

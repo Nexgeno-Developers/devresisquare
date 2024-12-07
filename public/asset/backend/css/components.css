@@ -181,6 +181,7 @@ with icon || without icon || dates input || price input
     padding: 2px 8px;
     display: flex;
     align-items: center;
+    background: var(--white);
     input{
         border: unset;
         &:focus,

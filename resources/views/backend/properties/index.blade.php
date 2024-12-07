@@ -10,7 +10,7 @@
                     <x-backend.forms.search 
                         class=''
                         placeholder='Search'
-                        type='secondary'
+                        value=''
                         onClick='onClick()'
                     />
                     <div class="pv_btn">

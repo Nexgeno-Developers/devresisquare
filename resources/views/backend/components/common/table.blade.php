@@ -27,7 +27,12 @@
                                     $options = [ 'edit' => 'Edit', 'delete' => 'Delete' ]; 
                                     $selectedOptions = 'edit'; 
                                 @endphp
-                                <x-backend.dropdown :options="$options" :selected="$selectedOptions" isIcon={{true}} class="right_icon" />
+                                <x-backend.forms.dropdown
+                                class='right_icon'
+                                :options="$options"
+                                :selected="$selectedOptions"
+                                isIcon="{{true}}"
+                            />
                             </td>
                         @endif
                     </tr>

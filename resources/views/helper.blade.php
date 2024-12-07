@@ -65,6 +65,9 @@
         .pv_content_wrapper{
             background: #fff;
         }
+        .pv_card_wrapper{
+            height: unset;
+        }
 
 
 
@@ -434,10 +437,10 @@
                             />
                             <blockquote>
                                 &lt;x-backend.forms.dropdown
+                                    class="right_icon"
                                     :options="&#36;action"
                                     :selected="&#36;selectedAction"
                                     isIcon=&#x2774;&#x2774;true &#x2775;&#x2775;
-                                    class=""
                                 /&gt;
                             </blockquote>
                         </div>

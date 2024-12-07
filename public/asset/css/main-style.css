@@ -284,7 +284,7 @@ ul{
     }
 }
 
-form{ width: 100%;}
+/* form{ width: max-content;} */
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

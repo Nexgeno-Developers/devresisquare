@@ -21,7 +21,7 @@
                 <input type="hidden" id="property_id" class="property_id" name="property_id"
                     value="{{ (isset($property) ? $property->id : '') }}">
                 <div data-step-name="Property Address" data-step-number="{{$currentStep}}"></div>
-                <div class="right_content_wrapper row w-100">
+                <div class="right_content_wrapper w-100">
                     <div class="row">
                         <div class="col-lg-7 col-12">
                             <div class="row">

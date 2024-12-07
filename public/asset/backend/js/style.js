@@ -6,10 +6,13 @@ $(document).ready(function () {
         );
     }
 
+    if(window.matchMedia('(max-width: 480px)').matches){
+        $('body').removeClass('show-sidebar').addClass('hide-sidebar')
+    }
     // Define content_wrapper
     var content_wrapper = $('.content-wrapper');
 
-    $(".hide-menu").click(function (e) {
+    $('.hide-menu').add('.backdrop').click(function (e) {
         e.preventDefault();
         $("body").hasClass("hide-sidebar")
             ? $("body").removeClass("hide-sidebar").addClass("show-sidebar")

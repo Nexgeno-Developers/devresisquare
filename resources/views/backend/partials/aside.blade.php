@@ -125,4 +125,4 @@
         </li>
     </ul>
 </aside>
-<div class="backdrop hide"></div>
+<div class="backdrop"></div>

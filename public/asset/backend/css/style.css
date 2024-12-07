@@ -1211,7 +1211,7 @@ body.show-sidebar #menu.sidebar {
      }
     #wrapper{
         width: 100%;
-        padding-left: 0;
+        padding: 0;
     }
 
     .pv_header .pv_btn {
@@ -1366,6 +1366,9 @@ body.show-sidebar #menu.sidebar {
         .right_col{
             padding: 0;
             display: block;
+            .right_content_wrapper{
+                width: 100%;
+            }
         }
     }
 }

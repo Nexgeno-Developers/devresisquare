@@ -1,6 +1,6 @@
 <div class="flex justify_between align_center w-100">
     <div class="sub_title">EPC</div>
-    <x-backend.main-button
+    <x-backend.forms.button
         class=""
         name="Add EPC"
         type="secondary"

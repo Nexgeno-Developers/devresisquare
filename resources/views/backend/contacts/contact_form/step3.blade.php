@@ -68,13 +68,13 @@
                                     </div>
                                     <div class="col-4">
                                         <div class="from-group">
-                                            <x-backend.main-button
+                                            <x-backend.forms.button
                                                 class="w-100"
                                                 name="Attach"
                                                 type="secondary"
                                                 size="sm"
                                                 isOutline=""
-                                                isLinkBtn=
+                                                isLinkBtn=''
                                                 link="https://#"
                                                 onclick=""
                                                 />

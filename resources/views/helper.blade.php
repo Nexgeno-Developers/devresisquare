@@ -88,17 +88,6 @@
     &lt;     = < 
     &gt;     = > 
     --}}
-
-    @php
-        $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ];
-        $selectedCountry = 'ca';
-    @endphp
-    <x-backend.forms.dropdown
-        class=''
-        :options="$countries"
-        :selected="$selectedCountry"
-        isIcon="{{false}}"
-    />
     <div class="row">
         <div class="col-lg-2">
             <div class="h_sidebar">
@@ -412,7 +401,7 @@
                                 isIcon="{{false}}"
                             />
                             <blockquote>
-                                &lt;x-backend.dropdown
+                                &lt;x-backend.forms.dropdown
                                     class=''
                                     :options="&#36;countries"
                                     :selected="&#36;selectedCountry"

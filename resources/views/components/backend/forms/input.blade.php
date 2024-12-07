@@ -6,7 +6,7 @@
    'inputType'=>'text',
    'rightIcon'=>null,
    'placeHolder'=>null,
-   'isLabel',
+   'isLabel'=>false,
    'label'=>null,
    'isDate'=>false,
    'isIcon'=>false,

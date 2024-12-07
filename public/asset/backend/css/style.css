@@ -314,9 +314,10 @@ a, a:hover{text-decoration: none !important ;}
     }
     &.with_label{
         input{
-            border-radius: 5px;
+            /* border-radius: 5px;
             padding: 8px 12px;
-            border: 1px solid var(--primary-300);
+            border: 1px solid var(--primary-300); */
+            border:0;
             &:focus-visible{
                 outline: unset;
             }

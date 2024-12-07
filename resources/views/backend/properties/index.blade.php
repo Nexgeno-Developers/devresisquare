@@ -6,8 +6,13 @@
             <div class="pv_wrapper">
                 <div class="pv_header">
                     <div class="pv_title">Properties</div>
-                    <x-backend.search-comp class="" value="" placeholder="Search" onclick="" />
-
+                    {{-- <x-backend.search-comp class="" value="" placeholder="Search" onclick="" /> --}}
+                    <x-backend.forms.search 
+                        class=''
+                        placeholder='Search'
+                        type='secondary'
+                        onClick='onClick()'
+                    />
                     <div class="pv_btn">
                         <x-backend.forms.button 
                             class=''
@@ -17,7 +22,7 @@
                             isOutline={{false}}
                             isLinkBtn={{true}}
                             link="{{ route('admin.properties.quick') }}"
-                            onClick='copyHtml()'
+                            onClick='onClick()'
                         />
                     </div>
                 </div>
@@ -25,7 +30,7 @@
                 <div class="pv_card_wrapper">
                     {{-- Dev Note: if select property from list add class 'current' to property card --}}
                     @foreach ($properties as $property)
-                        <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}"
+                        <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}{{$property['line_1'] ? ', ' : ''}}{{ $property['line_1'] }}{{$property['line_2'] ? ', ' : ''}}{{ $property['line_2'] }}{{$property['city'] ? ', ' : ''}}{{$property['city']}}"
                             bed="{{ $property['bedroom'] }}" bath="{{ $property['bathroom'] }}"
                             floor="{{ $property['floor'] }}" living="{{ $property['reception'] }}" {{-- living="{{$property['living']}}" --}}
                             type="{{ $property['property_type'] }}" available="{{ $property['available_from'] }}"
@@ -46,13 +51,43 @@
                     <div class="pv_detail_header">
                         <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
                         <div class="pvdh_btns_wrapper">
-                            <x-backend.link-button class="tab-owners-btn popup-tab-owners-create d-none" name="Add Owner"
-                                link="{{ route('admin.owner-groups.create') }}" onClick="" />
-                            <x-backend.link-button class="tab-offers-btn popup-tab-offer-create d-none" name="Add Offer"
-                                link="{{ route('admin.properties.quick') }}" onClick="" />
+                            {{-- <x-backend.link-button class="tab-owners-btn popup-tab-owners-create d-none" name="Add Owner"
+                                link="{{ route('admin.owner-groups.create') }}" onClick="" /> --}}
+                                <x-backend.forms.button
+                                class="d-none"
+                                name="Add Owner"
+                                type="secondary"
+                                size="sm"
+                                isOutline={{false}}
+                                isLinkBtn={{true}}
+                                link="{{ route('admin.owner-groups.create') }}"
+                                onclick=""
+                                />
+                            {{-- <x-backend.link-button class="tab-offers-btn popup-tab-offer-create d-none" name="Add Offer"
+                                link="{{ route('admin.properties.quick') }}" onClick="" /> --}}
+                                <x-backend.forms.button
+                                    class="d-none"
+                                    name="Add Offer"
+                                    type="secondary"
+                                    size="sm"
+                                    isOutline={{false}}
+                                    isLinkBtn={{true}}
+                                    link="{{ route('admin.properties.quick') }}"
+                                    onclick=""
+                                    />
                             @if (isset($property) && isset($property->id))
-                                <x-backend.outline-link-button class="" name="Edit Property"
-                                    link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" />
+                                {{-- <x-backend.outline-link-button class="" name="Edit Property"
+                                    link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" /> --}}
+                                <x-backend.forms.button
+                                class=""
+                                name="Edit Property"
+                                type="secondary"
+                                size="sm"
+                                isOutline={{false}}
+                                isLinkBtn={{true}}
+                                link="{{ route('admin.properties.edit', ['id' => $property->id]) }}"
+                                onclick=""
+                                />
                             @endif
                         </div>
                     </div>

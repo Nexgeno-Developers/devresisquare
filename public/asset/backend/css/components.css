@@ -171,28 +171,26 @@ with icon || without icon || dates input || price input
         top: 40px;
     }
 }
+
 /* =============================================================================
-                                    Tables  
-                                         
-
+                                    Search  
 =============================================================================*/
-
-.rs_table {
-    
-    th, td {
-        padding: 8px 12px;
-        border-bottom: 1px solid var(--primary-300);
-        text-align: left;
-    }
-    th {
-        background-color: var(--primary-100);
-    }
-    tr td{
-        img.img_thumb{
-            width: 120px;
+.rs_search{
+    border: 1px solid var(--primary-200);
+    border-radius: 6px;
+    padding: 2px 8px;
+    display: flex;
+    align-items: center;
+    input{
+        border: unset;
+        &:focus,
+        &:focus-visible{
+            border: unset;
+            outline: unset;
         }
     }
 }
+
 /* =============================================================================
                                     Buttons  
                                          

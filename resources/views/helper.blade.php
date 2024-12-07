@@ -86,20 +86,15 @@
     &gt;     = > 
     --}}
 
-
-    <x-backend.forms.input
-        class='' 
-        inputName='' 
-        placeHolder='Input Name'
-        inputOpt=''
-        inputType='' 
-        rightIcon=''
-        isLabel=''
-        label=''
-        isDate={{false}}
-        isIcon={{false}}
-        iconName='' 
-        onIconClick=''
+    @php
+        $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ];
+        $selectedCountry = 'ca';
+    @endphp
+    <x-backend.forms.dropdown
+        class=''
+        :options="$countries"
+        :selected="$selectedCountry"
+        isIcon="{{false}}"
     />
     <div class="row">
         <div class="col-lg-2">
@@ -352,15 +347,20 @@
                             $countries = [ 'us' => 'United States', 'ca' => 'Canada', 'uk' => 'United Kingdom', ];
                             $selectedCountry = 'ca';
                             @endphp
-                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{false}} class=""/>
-
+                            <x-backend.forms.dropdown
+                                class=''
+                                :options="$countries"
+                                :selected="$selectedCountry"
+                                isIcon="{{false}}"
+                            />
                             <blockquote>
                                 &lt;x-backend.dropdown
+                                    class=''
                                     :options="&#36;countries"
                                     :selected="&#36;selectedCountry"
                                     isIcon=&#x2774;&#x2774;false &#x2775;&#x2775;
-                                    class=""
                                 /&gt;
+                                
                             </blockquote>
                         </div>
                     </div>
@@ -368,14 +368,19 @@
                         <div class="">
                             <h6>Dropdown Icon Button</h6>
                             @php
-                            $countries = [ 'edit' => 'Edit', 'delete' => 'Delete' ];
-                            $selectedCountry = 'edit';
+                            $action = [ 'edit' => 'Edit', 'delete' => 'Delete' ];
+                            $selectedAction = 'edit';
                             @endphp
-                            <x-backend.dropdown :options="$countries" :selected="$selectedCountry" isIcon={{true}} class=""/>
+                            <x-backend.forms.dropdown
+                                class=''
+                                :options="$action"
+                                :selected="$selectedAction"
+                                isIcon="{{true}}"
+                            />
                             <blockquote>
-                                &lt;x-backend.dropdown
-                                    :options="&#36;countries"
-                                    :selected="&#36;selectedCountry"
+                                &lt;x-backend.forms.dropdown
+                                    :options="&#36;action"
+                                    :selected="&#36;selectedAction"
                                     isIcon=&#x2774;&#x2774;true &#x2775;&#x2775;
                                     class=""
                                 /&gt;
@@ -522,7 +527,7 @@
                                 onIconClick='onClick()'
                             />
                             <blockquote>
-                                &lt;x-backend.input-comp
+                                &lt;x-backend.forms.input
                                     class='' 
                                     inputName='custom' 
                                     placeHolder='Custom Icon'

@@ -31,7 +31,7 @@ body.show-sidebar #menu {
 
 #wrapper {
     padding-left: 24px;
-    width: 100vw;
+    width: 86vw;
     transition: margin-left 0.3s;
     height: calc(100vh - 36px)
 }
@@ -1212,6 +1212,7 @@ body.show-sidebar #menu.sidebar {
     #wrapper{
         width: 100%;
         padding: 0;
+        padding-left: 10px;
     }
 
     .pv_header .pv_btn {

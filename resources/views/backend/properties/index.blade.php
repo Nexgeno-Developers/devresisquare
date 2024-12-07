@@ -42,7 +42,7 @@
             </div>
             {{-- pv_wrapper end  --}}
         </div>
-        <div class="col-lg-7 col-12 property_detail_wrapper hide_thisp pt-lg-4 pt-0">
+        <div class="col-lg-7 col-12 property_detail_wrapper hide_this pt-lg-4 pt-0">
             <div class="pv_detail_wrapper">
 
                 <x-backend.properties-tabs :tabs="$tabs" class="poperty_tabs" />

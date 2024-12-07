@@ -597,7 +597,7 @@
                 </div>
             </div>
             {{-- h_section_wrapper end --}}
-            <div class="h_section_wrapper" id="inputs">
+            <div class="h_section_wrapper" id="search">
                 <h2>Search</h2>
                 <blockquote>
                     

@@ -14,7 +14,7 @@
                 @csrf
 
                 <input type="hidden" id="contact_id" class="contact_id" name="contact_id" value="{{ (isset($contact) ? $contact->id : '') }}">
-                <div class="right_content_wrapper row w-100">
+                <div class="right_content_wrapper w-100">
                     <div class="row">
                         <div class="form-group col-12">
                             <select name="category_id" class="form-select" required>

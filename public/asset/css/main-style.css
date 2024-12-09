@@ -32,6 +32,8 @@
     --secondary-800:#8C3310 ;
     --secondary-900:#6B270C ;
 
+    --backdrop: #00000094;
+
     --primary-color: var(--primary);
     --primary-color-dark: var(--primary-600);
     --primary-color-light: var(--primary-400);
@@ -282,7 +284,9 @@ ul{
     }
 }
 
-form{ width: 100%;}
+.pointer{cursor: pointer;}
+
+/* form{ width: max-content;} */
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

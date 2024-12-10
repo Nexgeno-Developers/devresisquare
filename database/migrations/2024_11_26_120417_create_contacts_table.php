@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained('contacts_categories');
+            $table->json('selected_properties')->nullable();
             $table->string('first_name', 55)->nullable();
             $table->string('middle_name', 55)->nullable();
             $table->string('last_name', 55)->nullable();

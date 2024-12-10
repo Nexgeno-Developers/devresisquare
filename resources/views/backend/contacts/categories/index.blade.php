@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1>Contact Categories</h1>
+    <h1>Categories</h1>
     <a href="{{ route('contact-categories.create') }}" class="btn btn-primary">Create Category</a>
     <table class="table mt-3">
         <thead>

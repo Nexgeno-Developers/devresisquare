@@ -13,6 +13,7 @@ class Contact extends Model
 
     protected $fillable = [
         'category_id',
+        'selected_properties',
         'first_name',
         'middle_name',
         'last_name',
@@ -35,4 +36,9 @@ class Contact extends Model
     {
         return $this->belongsTo(ContactCategory::class, 'category_id');
     }
+
+    protected $casts = [
+        'selected_properties' => 'array', // Automatically casts JSON to an array
+    ];
+
 }

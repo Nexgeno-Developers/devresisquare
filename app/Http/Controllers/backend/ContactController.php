@@ -49,6 +49,12 @@ class ContactController
                     Log::info('Updating contact with ID ' . $contact_id, $validatedData);
                     //update step
                     $validatedData['quick_step'] = $request->step;
+
+                    // Merge new selected properties if provided
+                    if ($request->has('selected_properties')) {
+                        $validatedData['selected_properties'] = $request->selected_properties;
+                    }
+
                     $contact->update($validatedData);
                 }
             } else {
@@ -100,7 +106,7 @@ class ContactController
                 ];
             case 3:
                 return [
-                    'status' => 'required|in:0,1',
+                    'selected_properties' => 'nullable',
                 ];
 
             default:
@@ -117,26 +123,67 @@ class ContactController
         return count(glob($stepsDirectory . '/step*.blade.php'));
     }
 
-     // Method to handle the AJAX property search
-     public function searchProperties(Request $request)
-     {
-         // Get the search query from the request
-         $query = $request->input('query');
+    public function searchProperties(Request $request)
+    {
+        // Check if we are passing specific property IDs
+        $ids = $request->input('ids');
 
-         // Search for properties based on multiple fields
-         $properties = Property::where('prop_ref_no', 'LIKE', '%' . $query . '%')
-             ->orWhere('prop_name', 'LIKE', '%' . $query . '%')
-             ->orWhere('line_1', 'LIKE', '%' . $query . '%')
-             ->orWhere('line_2', 'LIKE', '%' . $query . '%')
-             ->orWhere('city', 'LIKE', '%' . $query . '%')
-             ->orWhere('country', 'LIKE', '%' . $query . '%')
-             ->orWhere('postcode', 'LIKE', '%' . $query . '%')
-             ->limit(10)  // Limit the results to 10
-             ->get(['id', 'prop_ref_no', 'prop_name', 'city']);  // Return only necessary fields
+        // If IDs are provided, fetch properties by IDs
+        if ($ids) {
+            $properties = Property::whereIn('id', $ids)
+                ->get(['id', 'prop_ref_no', 'prop_name', 'line_1', 'line_2', 'city', 'country', 'postcode', 'specific_property_type', 'available_from']);  // Return only necessary fields
+        } else {
+            // If no IDs are passed, search properties based on the query (default behavior)
+            $query = $request->input('query');
+            $properties = Property::where('prop_ref_no', 'LIKE', '%' . $query . '%')
+                ->orWhere('prop_name', 'LIKE', '%' . $query . '%')
+                ->orWhere('line_1', 'LIKE', '%' . $query . '%')
+                ->orWhere('line_2', 'LIKE', '%' . $query . '%')
+                ->orWhere('city', 'LIKE', '%' . $query . '%')
+                ->orWhere('country', 'LIKE', '%' . $query . '%')
+                ->orWhere('postcode', 'LIKE', '%' . $query . '%')
+                ->limit(10)
+                ->get(['id', 'prop_ref_no', 'prop_name', 'line_1', 'line_2', 'city', 'country', 'postcode', 'specific_property_type', 'available_from']);
+        }
 
-         // Return the properties as JSON response
-         return response()->json($properties);
-     }
+        // Return the properties as JSON response
+        return response()->json($properties->map(function($property) {
+            return [
+                'id' => $property->id,
+                'address' => trim($property->line_1 . ' ' . $property->line_2 . ', ' . $property->city . ', ' . $property->postcode) ?: 'N/A',
+                'type' => trim($property->specific_property_type) ?: 'N/A',
+                'availability' => trim($property->available_from) ?: 'N/A',
+                'prop_ref_no' => trim($property->prop_ref_no) ?: 'N/A',
+                'prop_name' => trim($property->prop_name) ?: 'N/A',
+            ];
+        }));
+    }
+
+
+
+    // public function searchProperties(Request $request)
+    // {
+    //     // Get the search query from the request
+    //     $query = $request->input('query');
+    //     $properties = null;
+
+    //     if($query){
+    //         // Search for properties based on multiple fields
+    //         $properties = Property::where('prop_ref_no', 'LIKE', '%' . $query . '%')
+    //             ->orWhere('prop_name', 'LIKE', '%' . $query . '%')
+    //             ->orWhere('line_1', 'LIKE', '%' . $query . '%')
+    //             ->orWhere('line_2', 'LIKE', '%' . $query . '%')
+    //             ->orWhere('city', 'LIKE', '%' . $query . '%')
+    //             ->orWhere('country', 'LIKE', '%' . $query . '%')
+    //             ->orWhere('postcode', 'LIKE', '%' . $query . '%')
+    //             ->limit(10)  // Limit the results to 10
+    //             ->get(['id', 'prop_ref_no', 'prop_name', 'line_1', 'line_2', 'city', 'country', 'postcode', 'specific_property_type', 'available_from', 'property_type', 'price', 'letting_price']);
+    //     }
+
+    //     // Return the properties as JSON response
+    //     return view('backend.contacts.contact_form.property_search_results', compact('properties'));
+    // }
+
 
     public function getQuickStepView($step, Request $request)
     {
@@ -144,13 +191,13 @@ class ContactController
         $contact_id = $request->contact_id;
         $contact = Contact::find($contact_id);
         $categories = ContactCategory::all();
-
+        $selectedProperties = $selectedProperties = json_decode($contact->selected_properties, true);
         // Get the total number of steps dynamically
         $totalSteps = $this->getTotalQuickSteps();
 
         // Check if the step is valid
         if ($step > 0 && $step <= $totalSteps) {
-            return view('backend.contacts.contact_form.step' . $step, compact('contact','categories')); // Return the corresponding Blade view
+            return view('backend.contacts.contact_form.step' . $step, compact('contact','categories', 'selectedProperties')); // Return the corresponding Blade view
         } else {
             // Return a view with an error message if the step is invalid
             return view('backend.contacts.contact_form.error', ['message' => 'Invalid step.']);
@@ -205,11 +252,15 @@ class ContactController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Contact $contact)
-    {
-        $categories = ContactCategory::all();
-        return view('backend.contacts.edit', compact('contact', 'categories'));
-    }
+
+     public function edit($id)
+     {
+         $contact = Contact::findOrFail($id); // Fetch the contact by ID
+         $categories = ContactCategory::all(); // Fetch all categories
+         $selectedProperties = json_decode($contact->selected_properties, true);
+         return view('backend.contacts.edit', compact('contact', 'categories', 'selectedProperties'));
+     }
+
 
 
     public function update(Request $request, $id)
@@ -263,9 +314,11 @@ class ContactController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contact $contact)
+    public function destroy($id)
     {
-        $contact->delete();
+        // Find the contact to be updated
+        $contact = Contact::findOrFail($id);
+        $contact->id->delete();
         return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully.');
     }
 }

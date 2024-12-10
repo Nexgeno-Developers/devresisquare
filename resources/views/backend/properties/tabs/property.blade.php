@@ -20,8 +20,8 @@
             if (isset($property) && isset($property->city)) {
                 $addressParts[] = $property->city;
             }
-            if (isset($property) && isset($property->state)) {
-                $addressParts[] = $property->state;
+            if (isset($property) && isset($property->country)) {
+                $addressParts[] = $property->country;
             }
             if (isset($property) && isset($property->postcode)) {
                 $addressParts[] = $property->postcode;

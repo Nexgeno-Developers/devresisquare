@@ -245,7 +245,7 @@ class ContactController
 
         // Redirect or return a response
         flash("Contact Added Successfully!")->success();
-        return redirect()->route('contacts.index');
+        return redirect()->route('admin.contacts.index');
         // return redirect()->route('contacts.index')->with('success', 'Contact created successfully!');
     }
 
@@ -307,18 +307,27 @@ class ContactController
 
         // Redirect or return a response
         flash("Contact Updated Successfully!")->success();
-        return redirect()->route('contacts.index');
-        // return redirect()->route('contacts.index')->with('success', 'Contact updated successfully!');
+        return redirect()->route('admin.contacts.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        // Find the contact to be updated
+        // Find the contact to be deleted
         $contact = Contact::findOrFail($id);
-        $contact->id->delete();
-        return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully.');
+
+        // Delete the contact
+        $contact->delete();
+        $response = [
+            'status' => true,
+            'notification' => 'Contact Deleted successfully!',
+        ];
+
+        return response()->json($response);
+
+        // flash("Contact deleted successfully!")->success();
+        // return redirect()->route('admin.contacts.index');
     }
 }

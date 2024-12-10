@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             StationNamesTableSeeder::class,
             SchoolNamesTableSeeder::class,
             ReligiousPlacesTableSeeder::class,
+            BranchesTableSeeder::class,
         ]);
 
         // User::factory()->create([

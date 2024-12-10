@@ -69,6 +69,21 @@
                 Owners
             </a>
         </li>
+
+        <li class="sidebar-list-item">
+            <a class="{{ request()->routeIs('admin.branches.index') ? 'active' : '' }}" href="{{ route('admin.branches.index') }}">
+                <img src="{{ asset('asset/images/svg/contacts.svg') }}" alt="branches">
+                Branches
+            </a>
+        </li>
+
+        <li class="sidebar-list-item">
+            <a class="{{ request()->routeIs('admin.designations.index') ? 'active' : '' }}" href="{{ route('admin.designations.index') }}">
+                <img src="{{ asset('asset/images/svg/contacts.svg') }}" alt="branches">
+                Designation
+            </a>
+        </li>
+
         <li class="sidebar-list-item">
             <a href="#">
                 <img src="{{ asset('asset/images/svg/dashboard.svg') }}" alt="tenancies">

@@ -11,6 +11,8 @@ use App\Http\Controllers\Backend\EstateChargeController;
 use App\Http\Controllers\Backend\EstateChargeItemController;
 use App\Http\Controllers\Backend\OwnerGroupController;
 use App\Http\Controllers\Backend\OfferController;
+use App\Http\Controllers\Backend\BranchController;
+use App\Http\Controllers\Backend\DesignationController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -50,6 +52,26 @@ Route::middleware('auth')->group(function () {
 
     Route::name('admin.')->group(function () {
 
+        // Designation
+        Route::prefix('/designations')->group(function () {
+            Route::get('/', [DesignationController::class, 'index'])->name('designations.index'); // List all designation
+            Route::get('/create', [DesignationController::class, 'create'])->name('designations.create'); // Show create form
+            Route::post('/store', [DesignationController::class, 'store'])->name('designations.store'); // Store new branch
+            Route::get('/edit/{branch}', [DesignationController::class, 'edit'])->name('designations.edit'); // Show edit form
+            Route::put('/update/{branch}', [DesignationController::class, 'update'])->name('designations.update'); // Update branch
+            Route::delete('/delete/{branch}', [DesignationController::class, 'destroy'])->name('designations.destroy'); // Delete branch
+        });
+
+        // Branch
+        Route::prefix('/branches')->group(function () {
+            Route::get('/', [BranchController::class, 'index'])->name('branches.index'); // List all branches
+            Route::get('/create', [BranchController::class, 'create'])->name('branches.create'); // Show create form
+            Route::post('/store', [BranchController::class, 'store'])->name('branches.store'); // Store new branch
+            Route::get('/edit/{branch}', [BranchController::class, 'edit'])->name('branches.edit'); // Show edit form
+            Route::put('/update/{branch}', [BranchController::class, 'update'])->name('branches.update'); // Update branch
+            Route::delete('/delete/{branch}', [BranchController::class, 'destroy'])->name('branches.destroy'); // Delete branch
+        });
+
         // Contacts
         Route::get('contacts', [ContactController::class, 'index'])->name('contacts.index');
         Route::get('contacts/create', [ContactController::class, 'create'])->name('contacts.create');
@@ -59,8 +81,8 @@ Route::middleware('auth')->group(function () {
         // Route::post('contacts/store', [ContactController::class, 'store'])->name('contacts.store');
         Route::get('contacts/show/{id}', [ContactController::class, 'show'])->name('contacts.show');
         Route::get('contacts/edit/{id}', [ContactController::class, 'edit'])->name('contacts.edit');
-        Route::put('contacts/update/{id}', [ContactController::class, 'update'])->name('contacts.update');
-        Route::get('contacts/destroy/{id}', [ContactController::class, 'destroy'])->name('contacts.delete');
+        Route::post('contacts/update/{id}', [ContactController::class, 'update'])->name('contacts.update');
+        Route::post('contacts/delete/{id}', [ContactController::class, 'delete'])->name('contacts.delete');
 
         // Estate Charges
         Route::get('estate-charges', [EstateChargeController::class, 'index'])->name('estate-charges.index');

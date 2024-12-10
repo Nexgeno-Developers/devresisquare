@@ -41,6 +41,7 @@ $stepNames = [
 @section('page.scripts')
 <script>
 $(document).ready(function() {
+
     // General function to handle sending form data and navigating steps
     function handleStepChange(currentStep, targetStep, previous = null) {
         // Check if navigating to a previous step
@@ -94,6 +95,9 @@ $(document).ready(function() {
             contentType: false,
             success: function(response) {
                 $('.render_blade').html(response);
+                if(step == 2){
+                    initSelectedProperties();
+                }
             },
             error: function(jqXHR) {
                 if (jqXHR.status === 422) {
@@ -129,7 +133,10 @@ $(document).ready(function() {
             method: 'GET',
             success: function(response) {
                 $('.render_blade').html(response);
-
+                if(step == 3){
+                    console.log('rune');
+                    initSelectedProperties();
+                }
                 // Find id="contact_id" and put the contactId if it’s missing
                 if (!$('#contact_id').val()) {
                     $('#contact_id').val(contactId);
@@ -166,26 +173,33 @@ $(document).ready(function() {
         renderStep(selectedStep); // Render the corresponding Blade view
     });
 
-});
-$(document).ready(function() {
-    // Function to handle property search
+
+    // Handle the search input events (keyup and keydown)
+    $(document).on('keyup keydown', '#search_property1', function() {
+        var query = $(this).val().trim();  // Get the search query
+
+        if (query.length >= 3) {  // Trigger search when 3 or more characters are entered
+            searchProperties(query);
+            $('#error_message').hide(); // Hide the error message if the query length is valid
+        } else {
+            $('#property_results').empty(); // Clear the results if query length is less than 3 characters
+            $('#error_message').text('Please enter at least 3 characters to search.').show(); // Show the error message
+        }
+    });
+
+    // Function to perform the AJAX request for searching properties
     function searchProperties(query) {
-        // Perform the AJAX request to search properties
         $.ajax({
-            url: '{{ route('admin.contacts.properties.search') }}',  // Define the route for search
+            url: '{{ route('admin.contacts.properties.search') }}',
             method: 'GET',
             data: { query: query },
             success: function(response) {
-                // Clear previous search results
                 $('#property_results').empty();
-
-                // Check if there are any results
                 if (response.length > 0) {
                     response.forEach(function(property) {
-                        // Create a list item for each result
-                        var listItem = '<li class="list-group-item property-result" data-id="' + property.id + '">' +
-                                           property.prop_ref_no + ' - ' + property.prop_name + ' (' + property.city + ') ' + '</li>';
-                        $('#property_results').append(listItem);
+                        if (!$('#property_results li[data-id="' + property.id + '"]').length) {
+                            appendPropertyToResults(property);
+                        }
                     });
                 } else {
                     $('#property_results').append('<li class="list-group-item">No properties found.</li>');
@@ -197,49 +211,94 @@ $(document).ready(function() {
         });
     }
 
-    $(document).on('keyup keydown', '#search_property1', function() {
-        var query = $(this).val().trim();  // Get the search query
+    // Function to add a property to the results list
+    function appendPropertyToResults(property) {
+        var address = property.address || 'N/A';
+        var propRefNo = property.prop_ref_no || 'N/A';
+        var propName = property.prop_name || 'N/A';
+        var listItem = `<li class="list-group-item property-result" data-id="${property.id}" data-type="${property.type}" data-price="${property.price}" data-availability="${property.availability}">
+                            ${address} - ${propRefNo} - ${propName}
+                        </li>`;
+        $('#property_results').append(listItem);
+    }
 
-        if (query.length >= 3) {  // Trigger search when 3 or more characters are entered
-            searchProperties(query);
-            $('#error_message').hide(); // Hide the error message if the query length is valid
-        } else {
-            $('#property_results').empty(); // Clear the results if query length is less than 3 characters
-
-            // Show an error message telling the user to write at least 3 letters
-            $('#error_message').text('Please enter at least 3 characters to search.').show();
-        }
-    });
-
-
-    // Handle property selection
+    // Handle property selection and append it to the dynamic table
     $(document).on('click', '.property-result', function() {
-        var propertyId = $(this).data('id');  // Get selected property ID
-
-        // Check if the property is already selected
-        if ($('#selected_properties').find('.selected-property[data-id="' + propertyId + '"]').length === 0) {
-            // Create an element to show the selected property
-            var selectedPropertyItem = '<div class="selected-property" data-id="' + propertyId + '">' +
-                                           '<span>' + $(this).text() + '</span>' +
-                                           '<button type="button" class="btn btn-warning btn-sm remove-property" data-id="' + propertyId + '">Remove</button>' +
-                                         '</div>';
-            // Append the selected property to the selected list
-            $('#selected_properties').append(selectedPropertyItem);
+        var propertyId = $(this).data('id');
+        if ($('#dynamic_property_table tbody tr[data-id="' + propertyId + '"]').length === 0) {  // Prevent duplicates
+            var newRow = `<tr data-id="${propertyId}">
+                            <td>${$(this).text()}</td>
+                            <td>${$(this).data('type')}</td>
+                            <td>${$(this).data('availability')}</td>
+                            <td><button class="btn btn-danger remove-btn">Remove</button></td>
+                        </tr>`;
+            $('#dynamic_property_table tbody').append(newRow);
+            updateSelectedProperties();
         }
-
-        // Clear search results
         $('#property_results').empty();
-        $('#search_property1').val(''); // Optionally clear the search input field
+        $('#search_property1').val('');
     });
 
-    // Handle property removal from the selected list
-    $(document).on('click', '.remove-property', function() {
-        var propertyId = $(this).data('id'); // Get the property ID to be removed
+    // Update the hidden input with the current list of selected property IDs
+    function updateSelectedProperties() {
+        var selectedPropertyIds = [];
+        $('#dynamic_property_table tbody tr').each(function() {
+            selectedPropertyIds.push($(this).data('id'));
+        });
+        $('#selected_properties').val(JSON.stringify(selectedPropertyIds));
+    }
 
-        // Remove the property from the selected list
-        $('#selected_properties').find('.selected-property[data-id="' + propertyId + '"]').remove();
+    // Remove function - Remove the row when the "Remove" button is clicked
+    $(document).on('click', '.remove-btn', function() {
+        $(this).closest('tr').remove();
+        updateSelectedProperties();
     });
-});
+
+    // Function to initialize the selected properties when at step 3
+    function initSelectedProperties() {
+        const selectedProperties_f = JSON.parse($('#selected_properties').val()); // Assuming selected properties are stored in a hidden field
+        if (selectedProperties_f && selectedProperties_f.length > 0) {
+            searchPropertiesByIds(selectedProperties_f); // Call the function to fetch and display selected properties
+        }
+    }
+
+    // Get and display the pre-selected properties when the page loads
+    const selectedProperties = JSON.parse($('#selected_properties').val());
+    if (selectedProperties && selectedProperties.length > 0) {
+        searchPropertiesByIds(selectedProperties);
+    }
+
+    // Function to fetch property details by IDs
+    function searchPropertiesByIds(propertyIds) {
+        $.ajax({
+            url: '{{ route('admin.contacts.properties.search') }}',
+            method: 'GET',
+            data: { ids: propertyIds },
+            success: function(response) {
+                $('#dynamic_property_table tbody').empty();
+                response.forEach(function(property) {
+                    if ($('#dynamic_property_table tbody tr[data-id="' + property.id + '"]').length === 0) {  // Prevent duplicates
+                        var address = property.address || 'N/A';
+                        var propRefNo = property.prop_ref_no || 'N/A';
+                        var propName = property.prop_name || 'N/A';
+                        var newRow = `<tr data-id="${property.id}">
+                                        <td>${address} - ${propRefNo} - ${propName}</td>
+                                        <td>${property.type}</td>
+                                        <td>${property.availability}</td>
+                                        <td><button class="btn btn-danger remove-btn">Remove</button></td>
+                                    </tr>`;
+                        $('#dynamic_property_table tbody').append(newRow);
+                    }
+                });
+                updateSelectedProperties();
+            },
+            error: function() {
+                toastr.error('Error fetching properties by IDs.', 'Error');
+            }
+        });
+    }
+
+    });
 
 
 </script>

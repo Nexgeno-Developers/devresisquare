@@ -1,9 +1,19 @@
+<!-- resources/views/backend/contacts/edit.blade.php -->
+@extends('backend.layout.app')
+
+@section('content')
+<div class="container">
+    <!-- Include the step add form -->
+    @include('backend.contacts.contact_form.form', ['contact' => $contact])
+</div>
+@endsection
+{{--
 @extends('backend.layout.app')
 
 @section('content')
     <div class="container-fluid">
         <h1>Edit Contact</h1>
-        <form class="contact-edit-form" action="{{ route('contacts.update', $contact->id) }}" method="POST">
+        <form class="contact-edit-form" action="{{ route('admin.contacts.update', $contact->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -131,4 +141,4 @@
             });
         });
     </script>
-@endsection
+@endsection --}}

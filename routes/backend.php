@@ -57,10 +57,10 @@ Route::middleware('auth')->group(function () {
         Route::post('contacts/store', [ContactController::class, 'contactStore'])->name('contacts.store');
         Route::get('contacts/properties/search', [ContactController::class, 'searchProperties'])->name('contacts.properties.search');
         // Route::post('contacts/store', [ContactController::class, 'store'])->name('contacts.store');
-        Route::get('contacts/{Contact}/show', [ContactController::class, 'show'])->name('contacts.show');
-        Route::get('contacts/{Contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
-        Route::put('contacts/{Contact}/update', [ContactController::class, 'update'])->name('contacts.update');
-        Route::get('contacts/{Contact}/destroy', [ContactController::class, 'destroy'])->name('contacts.delete');
+        Route::get('contacts/show/{id}', [ContactController::class, 'show'])->name('contacts.show');
+        Route::get('contacts/edit/{id}', [ContactController::class, 'edit'])->name('contacts.edit');
+        Route::put('contacts/update/{id}', [ContactController::class, 'update'])->name('contacts.update');
+        Route::get('contacts/destroy/{id}', [ContactController::class, 'destroy'])->name('contacts.delete');
 
         // Estate Charges
         Route::get('estate-charges', [EstateChargeController::class, 'index'])->name('estate-charges.index');

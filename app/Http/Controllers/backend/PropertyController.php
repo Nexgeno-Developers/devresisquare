@@ -7,7 +7,11 @@ use App\Models\Property;
 use App\Models\OwnerGroup;
 use App\Models\StationName;
 use App\Models\SchoolName;
-use App\Models\EstateCharge;
+use App\Models\User;
+use App\Models\Designation;
+use App\Models\Branch;
+use App\Models\PropertyResponsibility;
+// use App\Models\EstateCharge;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -155,7 +159,45 @@ private function getTabContent($tabname, $propertyId, $property)
             //$userId = $request->session()->get('user_id'); // Retrieve the user ID from the session
 
             // Get property_id from the session or request
-            $property_id =  $request->property_id;
+            $property_id = $request->property_id;
+
+            // Collect responsibility data from the form
+            $responsibility_ids = $request->input('PropertyResponsibility_id', []);
+            $user_ids = $request->input('user_id', []);
+            $designation_ids = $request->input('designation_id', []);
+            $branch_ids = $request->input('branch_id', []);
+            $commission_percentages = $request->input('commission_percentage', []);
+            $commission_amounts = $request->input('commission_amount', []);
+
+            $submitted_ids = []; // Track IDs of processed responsibilities
+
+            // Iterate through the responsibilities and update or create them
+            foreach ($user_ids as $index => $user_id) {
+                $data = [
+                    'property_id' => $property_id,
+                    'user_id' => $user_id,
+                    'designation_id' => $designation_ids[$index] ?? null,
+                    'branch_id' => $branch_ids[$index] ?? null,
+                    'commission_percentage' => $commission_percentages[$index] ?? null,
+                    'commission_amount' => $commission_amounts[$index] ?? null,
+                ];
+
+                // Update or create the responsibility
+                $responsibility = PropertyResponsibility::updateOrCreate(
+                    ['id' => $responsibility_ids[$index] ?? null], // Match by ID if provided
+                    $data
+                );
+
+                $submitted_ids[] = $responsibility->id; // Track the ID of the responsibility
+            }
+
+            // Remove responsibilities that are not in the submitted IDs
+            if (!empty($submitted_ids)) {
+                PropertyResponsibility::where('property_id', $property_id)
+                    ->whereNotIn('id', $submitted_ids)
+                    ->delete();
+            }
+
             // Check if property_id is provided in the request
             if ($property_id) {
                 $property = Property::find($property_id);
@@ -397,8 +439,20 @@ private function getTabContent($tabname, $propertyId, $property)
             $stations = StationName::whereIn('id', $stationIds)->pluck('name', 'id');
             $schools = SchoolName::whereIn('id', $schoolIds)->pluck('name', 'id');
 
+            // Fetch required data for dropdowns
+            $users = User::select('id', 'name')->get(); // Fetch all users
+            $designations = Designation::select('id', 'title')->get(); // Fetch all designations
+            $branches = Branch::select('id', 'name')->get(); // Fetch all branches
+
+            // Fetch PropertyResponsibility related to the current property
+            // $PropertyResponsibility = PropertyResponsibility::where('property_id', $property->id)
+            // ->select('id', 'responsibility')
+            // ->get();
+
+            $PropertyResponsibility = PropertyResponsibility::where('property_id', $property->id)->get();
+            $propertyResponsibilityIds = $PropertyResponsibility->pluck('id')->implode(',');
             // Return the edit view with the property data, stations, and schools
-            return view('backend.properties.edit', compact('property', 'allstations', 'allschools', 'stations', 'schools'));
+            return view('backend.properties.edit', compact('property', 'allstations', 'allschools', 'stations', 'schools', 'users', 'designations', 'branches', 'PropertyResponsibility' ,'propertyResponsibilityIds'));
         // }
 
         // If step is not 6, just return the property edit view
@@ -697,6 +751,7 @@ private function getTabContent($tabname, $propertyId, $property)
                 return [];
         }
     }
+
     private function getValidationRules($step)
     {
         switch ($step) {
@@ -806,15 +861,17 @@ private function getTabContent($tabname, $propertyId, $property)
                 ];
             case 10:
                 return [
-                    'designation' => 'required',
-                    'branch' => 'required',
-                    'commission_percentage' => 'required',
-                    'commission_amount' => 'required',
+                    'user_id.*' => 'required|exists:users,id',
+                    'designation_id.*' => 'required|exists:designations,id',
+                    'branch_id.*' => 'required|exists:branches,id',
+                    'commission_percentage.*' => 'required|numeric|min:0|max:100',
+                    'commission_amount.*' => 'required|numeric|min:0',
                 ];
             default:
                 return [];
         }
     }
+
     private function handleImageUploads(Request $request, $property)
     {
         // Handle photos upload

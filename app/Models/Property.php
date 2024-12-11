@@ -73,10 +73,10 @@ class Property extends Model
         'floor_plan',
         'view_360',
         'video_url',
-        'designation',
-        'branch',
-        'commission_percentage',
-        'commission_amount',
+        // 'designation',
+        // 'branch',
+        // 'commission_percentage',
+        // 'commission_amount',
         'step',
         'quick_step',
         'added_by',
@@ -95,6 +95,11 @@ class Property extends Model
     //         $property->added_by = Auth::id(); // Automatically set the added_by field
     //     });
     // }
+
+    public function responsibilities()
+    {
+        return $this->hasMany(PropertyResponsibility::class, 'property_id');
+    }
 
     public function estateCharge()
     {

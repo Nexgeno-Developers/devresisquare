@@ -83,10 +83,10 @@ return new class extends Migration {
             // $table->json('floor_plan')->nullable(); // Stores multiple floor plan URLs as JSON array
             // $table->json('view_360')->nullable(); // Stores multiple 360-view URLs if needed
             $table->string('video_url', 255)->nullable(); // Stores multiple video URLs if needed
-            $table->string('designation')->nullable();
-            $table->string('branch')->nullable();
-            $table->decimal('commission_percentage', 5, 2)->nullable();
-            $table->decimal('commission_amount', 10, 2)->nullable();
+            // $table->string('designation')->nullable();
+            // $table->string('branch')->nullable();
+            // $table->decimal('commission_percentage', 5, 2)->nullable();
+            // $table->decimal('commission_amount', 10, 2)->nullable();
             $table->integer('step')->nullable();
             $table->integer('quick_step')->nullable();
             $table->foreignId('added_by')->constrained('users')->onDelete('cascade');

@@ -32,7 +32,9 @@
         </tbody>
     </table>
 </div>
+@include('backend.components.modal')
 @endsection
+
 @section('page.scripts')
 <script>
     $(document).ready(function () {
@@ -40,7 +42,9 @@
     });
 
     var responseHandler = function(response) {
-        location.reload();
-    }
+        console.log("Reloading the page"); // Debugging log
+        window.location.reload(true); // Force reload
+    };
+
 </script>
 @endsection

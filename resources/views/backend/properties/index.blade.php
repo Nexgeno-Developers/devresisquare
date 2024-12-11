@@ -7,14 +7,14 @@
                 <div class="pv_header">
                     <div class="pv_title">Properties</div>
                     {{-- <x-backend.search-comp class="" value="" placeholder="Search" onclick="" /> --}}
-                    <x-backend.forms.search 
+                    <x-backend.forms.search
                         class=''
                         placeholder='Search'
                         value=''
                         onClick='onClick()'
                     />
                     <div class="pv_btn">
-                        <x-backend.forms.button 
+                        <x-backend.forms.button
                             class=''
                             name='Add Property'
                             type='secondary'
@@ -75,19 +75,19 @@
                                     link="{{ route('admin.properties.quick') }}"
                                     onclick=""
                                     />
-                            @if (isset($property) && isset($property->id))
+                            @if (isset($property) && isset($propertyId))
                                 {{-- <x-backend.outline-link-button class="" name="Edit Property"
                                     link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" /> --}}
-                                <x-backend.forms.button
-                                class=""
-                                name="Edit Property"
-                                type="secondary"
-                                size="sm"
-                                isOutline={{false}}
-                                isLinkBtn={{true}}
-                                link="{{ route('admin.properties.edit', ['id' => $property->id]) }}"
-                                onclick=""
-                                />
+                                    <x-backend.forms.button
+                                    class="edit-property-btn d-none"
+                                    name="Edit Property"
+                                    type="secondary"
+                                    size="sm"
+                                    isOutline={{false}}
+                                    isLinkBtn={{true}}
+                                    link="{{ route('admin.properties.edit', ['id' => $propertyId]) }}"
+                                    onclick=""
+                                    />
                             @endif
                         </div>
                     </div>
@@ -108,19 +108,19 @@
                         name='Add Tenacy'
                         link="{{ route('admin.properties.quick') }}"
                         iconName='file-plus'
-                    />    
+                    />
                     <x-backend.forms.mobile_button
                         class=''
                         name='Add Offer'
                         link="{{ route('admin.properties.quick') }}"
                         iconName='file-text'
-                    />    
+                    />
                     <x-backend.forms.mobile_button
                         class=''
                         name='Edit Property'
                         link="{{ route('admin.properties.edit', ['id' => $property->id]) }}"
                         iconName='pencil-square'
-                    />    
+                    />
                 </div>
             </div>
         </div>
@@ -246,7 +246,7 @@
             }
 
             // Function to update the title dynamically
-            function updateTitle(tabName) {
+            function updateTitle(tabName, propertyId = null) {
                 // Capitalize the first letter of the tab name for display
                 var formattedTitle = tabName.charAt(0).toUpperCase() + tabName.slice(1);
 
@@ -263,6 +263,14 @@
                     $('.tab-offers-btn').removeClass('d-none'); // Show the button for 'owner' tab
                 } else {
                     $('.tab-offers-btn').addClass('d-none'); // Hide the button for other tabs
+                }
+                   // Update the "Edit Property" button dynamically if property ID exists
+                if (propertyId) {
+                    var editButtonLink = '{{ route('admin.properties.edit', ['id' => ':id']) }}'.replace(':id', propertyId);
+                    $('.pvdh_btns_wrapper .edit-property-btn').removeClass('d-none').attr('href', editButtonLink);
+                        console.log(editButtonLink);
+                } else {
+                    $('.pvdh_btns_wrapper .edit-property-btn').addClass('d-none'); // Hide the button if no property ID
                 }
 
             }
@@ -360,7 +368,7 @@
                         // You might want to populate the content into a specific div
                         // Example: $('.pv_content_detail').html(response.content);
                         $('.pv_content_detail').html(response.content);
-                        updateTitle(tabName);
+                        updateTitle(tabName, propertyId);
                         // Update URL (optional, for browser navigation)
                         window.history.pushState(null, null, url);
                     },

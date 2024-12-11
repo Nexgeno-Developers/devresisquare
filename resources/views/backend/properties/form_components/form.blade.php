@@ -482,6 +482,59 @@
             renderStep(selectedStep); // Render the corresponding Blade view
         });
 
+
+        //step10
+        function updateRowNumbers() {
+            const rows = $(".commission-row");
+            rows.each(function(index) {
+                const rowNumber = $(this).find(".row-number");
+                rowNumber.text(index + 1);  // Update row number based on position
+            });
+        }
+
+        function updateRemoveButtons() {
+            const rows = $(".commission-row");
+            rows.each(function (index) {
+                const removeBtn = $(this).find(".remove-btn-commission");
+                if (rows.length === 1) {
+                    removeBtn.hide(); // Hide the remove button for the only row
+                } else {
+                    removeBtn.show(); // Show the remove button for all rows if more than one
+                }
+            });
+        }
+
+        // Add a new row
+        $(document).on("click", ".add-btn-commission", function () {
+            const newRow = $(".commission-row").first().clone();
+            newRow.find("input, select").val(""); // Reset input and select values
+            newRow.find(".remove-btn-commission").show(); // Show the remove button for new rows
+            // Add empty hidden input for new record
+            newRow.find("input[name='PropertyResponsibility_id[]']").val("");
+            $("#commission-wrapper").append(newRow); // Append the cloned row
+
+            updateRemoveButtons(); // Update button visibility
+            updateRowNumbers(); // Update row numbers
+        });
+
+        // Remove a row
+        $(document).on("click", ".remove-btn-commission", function () {
+            const rows = $(".commission-row");
+            const currentRow = $(this).closest(".commission-row");
+
+            if (rows.length > 1) {
+                currentRow.remove(); // Remove the current row
+            } else {
+                currentRow.find("input, select").val(""); // Reset inputs if it's the only row
+            }
+            updateRemoveButtons(); // Update button visibility
+            updateRowNumbers(); // Update row numbers
+        });
+
+        // Initial setup
+        updateRemoveButtons(); // Update button visibility
+        updateRowNumbers(); // Update row numbers
+
     });
 
 

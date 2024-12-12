@@ -19,11 +19,19 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            CurrencySeeder::class,
+            DesignationSeeder::class,
+            BranchesTableSeeder::class,
             StationNamesTableSeeder::class,
             SchoolNamesTableSeeder::class,
             ReligiousPlacesTableSeeder::class,
-            BranchesTableSeeder::class,
+            EstateChargesItemsSeeder::class,
+            EstateChargesSeeder::class,
+            OwnerGroupSeeder::class,
+            ContactCategorySeeder::class,
+            ContactsSeeder::class,
+            CurrencySeeder::class,
+            PropertiesTableSeeder::class,
+            PropertyResponsibilitySeeder::class,
         ]);
 
         // User::factory()->create([

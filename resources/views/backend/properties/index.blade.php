@@ -75,7 +75,7 @@
                                     link="{{ route('admin.properties.quick') }}"
                                     onclick=""
                                     />
-                            @if (isset($property) && isset($propertyId))
+                            {{-- @if (isset($property) && isset($propertyId)) --}}
                                 {{-- <x-backend.outline-link-button class="" name="Edit Property"
                                     link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" /> --}}
                                     <x-backend.forms.button
@@ -85,10 +85,11 @@
                                     size="sm"
                                     isOutline={{false}}
                                     isLinkBtn={{true}}
-                                    link="{{ route('admin.properties.edit', ['id' => $propertyId]) }}"
+                                    {{-- link="{{ route('admin.properties.edit', ['id' => $propertyId]) }}" --}}
+                                    link="#"
                                     onclick=""
                                     />
-                            @endif
+                            {{-- @endif --}}
                         </div>
                     </div>
                     <div class="pv_content_detail_wrapper">

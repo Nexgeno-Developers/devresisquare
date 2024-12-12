@@ -180,7 +180,13 @@ private function getTabContent($tabname, $propertyId, $property)
                     'branch_id' => $branch_ids[$index] ?? null,
                     'commission_percentage' => $commission_percentages[$index] ?? null,
                     'commission_amount' => $commission_amounts[$index] ?? null,
+                    // 'added_by' => Auth::id(),
                 ];
+
+                // Set 'added_by' only when creating a new responsibility
+                if (empty($responsibility_ids[$index])) {
+                    $data['added_by'] = Auth::id(); // Only set 'added_by' for new records
+                }
 
                 // Update or create the responsibility
                 $responsibility = PropertyResponsibility::updateOrCreate(
@@ -193,6 +199,12 @@ private function getTabContent($tabname, $propertyId, $property)
 
             // Remove responsibilities that are not in the submitted IDs
             if (!empty($submitted_ids)) {
+                PropertyResponsibility::where('property_id', $property_id)
+                ->whereNotIn('id', $submitted_ids)
+                ->whereNull('deleted_at')  // Ensure we're only soft-deleting active records
+                ->update(['deleted_by' => Auth::id()]); // Set 'deleted_by' to the authenticated user
+
+                // Soft delete the records
                 PropertyResponsibility::where('property_id', $property_id)
                     ->whereNotIn('id', $submitted_ids)
                     ->delete();
@@ -220,7 +232,11 @@ private function getTabContent($tabname, $propertyId, $property)
                     // Log the data before updating
                     Log::info('Updating property with ID ' . $property_id, $validatedData);
                     $validatedData['video_url'] = $request->video_url ?: null;
-                    $validatedData['step'] = $request->step;
+                    // Add a condition to prevent updating the step if it's the final step
+                    if ($request->step < $this->getTotalSteps()) {
+                        $validatedData['step'] = $request->step; // Update step only if it's not the last step
+                    }
+                    // $validatedData['step'] = $request->step;
                     $property->update($validatedData);
                     // session()->forget('property_id');
                     // session()->forget('current_step');

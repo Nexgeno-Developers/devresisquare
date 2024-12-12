@@ -89,7 +89,8 @@ return new class extends Migration {
             // $table->decimal('commission_amount', 10, 2)->nullable();
             $table->integer('step')->nullable();
             $table->integer('quick_step')->nullable();
-            $table->foreignId('added_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('added_by')->nullable()->constrained('users')->onDelete('set null');
+            // $table->foreignId('added_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();

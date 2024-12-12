@@ -19,8 +19,10 @@ return new class extends Migration
             $table->foreignId('designation_id')->constrained('designations');
             $table->decimal('commission_percentage', 5, 2);
             $table->decimal('commission_amount', 10, 2);
-            $table->timestamps();
+            $table->foreignId('added_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 

@@ -80,6 +80,7 @@ class Property extends Model
         'step',
         'quick_step',
         'added_by',
+        'deleted_by',
     ];
     protected $casts = [
         'market_on' => 'json',

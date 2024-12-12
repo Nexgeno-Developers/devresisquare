@@ -17,7 +17,9 @@ class PropertyResponsibility extends Model
         'branch_id',
         'designation_id',
         'commission_percentage',
-        'commission_amount'
+        'commission_amount',
+        'added_by',
+        'deleted_by',
     ];
 
     // Define relationships if needed

@@ -296,7 +296,7 @@
                 if (propertyId) {
                     var editButtonLink = '{{ route('admin.properties.edit', ['id' => ':id']) }}'.replace(':id', propertyId);
                     $('.pvdh_btns_wrapper .edit-property-btn').removeClass('d-none').attr('href', editButtonLink);
-                        console.log(editButtonLink);
+                        // console.log(editButtonLink);
                 } else {
                     $('.pvdh_btns_wrapper .edit-property-btn').addClass('d-none'); // Hide the button if no property ID
                 }

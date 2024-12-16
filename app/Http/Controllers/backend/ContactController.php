@@ -41,6 +41,15 @@ class ContactController
             // Get contact_id from the request
             $contact_id = $request->contact_id;
 
+            // Check if first name, middle name, and last name are present
+            $fullName = trim($request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name);
+
+            // Store full name if it's not empty
+            if (!empty($fullName)) {
+                $validatedData['full_name'] = $fullName;
+            }
+
+
             // Check if contact_id is provided in the request
             if ($contact_id) {
                 $contact = Contact::find($contact_id);
@@ -62,6 +71,7 @@ class ContactController
                 if (empty($contact_id)) {
                     $validatedData['quick_step'] = $request->step;
                     Log::info('Creating new contact', $validatedData);
+
                     $contact = Contact::create(array_merge($validatedData, ['added_by' => Auth::id()]));
 
                 }

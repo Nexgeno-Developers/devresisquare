@@ -53,8 +53,8 @@
                         <div class="pvdh_btns_wrapper">
                             {{-- <x-backend.link-button class="tab-owners-btn popup-tab-owners-create d-none" name="Add Owner"
                                 link="{{ route('admin.owner-groups.create') }}" onClick="" /> --}}
-                                <x-backend.forms.button
-                                class="d-none"
+                                {{-- <x-backend.forms.button
+                                class="tab-owners-btn d-none"
                                 name="Add Owner"
                                 type="secondary"
                                 size="sm"
@@ -62,11 +62,11 @@
                                 isLinkBtn={{true}}
                                 link="{{ route('admin.owner-groups.create') }}"
                                 onclick=""
-                                />
+                                /> --}}
                             {{-- <x-backend.link-button class="tab-offers-btn popup-tab-offer-create d-none" name="Add Offer"
                                 link="{{ route('admin.properties.quick') }}" onClick="" /> --}}
                                 <x-backend.forms.button
-                                    class="d-none"
+                                    class="tab-offers-btn d-none"
                                     name="Add Offer"
                                     type="secondary"
                                     size="sm"
@@ -75,6 +75,16 @@
                                     link="{{ route('admin.properties.quick') }}"
                                     onclick=""
                                     />
+                                    <a href="javascript:void(0);"
+                                    class="popup-tab-owners-create btn btn_secondary btn-sm tab-owners-btn"
+                                    onclick="smallModal('{{ route('admin.owner-groups.create') }}', 'Add Owner')"
+                                    role="button"
+                                    aria-label="Add Owner">
+                                     <span>Add Owner</span>
+                                     <span class="icon_btn"></span>
+                                 </a>
+
+
                             {{-- @if (isset($property) && isset($propertyId)) --}}
                                 {{-- <x-backend.outline-link-button class="" name="Edit Property"
                                     link="{{ route('admin.properties.edit', ['id' => $property->id]) }}" onClick="" /> --}}
@@ -180,7 +190,7 @@
                 });
             });
 
-            // Trigger the modal when an element with the 'popup-tab-owners-create' class is clicked
+            // Trigger the modal when an element with the 'popup-tab-offer-create' class is clicked
             $(document).on('click', '.popup-tab-offer-create', function(e) {
                 e.preventDefault(); // Prevent the default action (e.g., following the link)
 
@@ -206,6 +216,23 @@
                 // Get the URL from the link (you can dynamically get the URL as needed)
                 var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
                 var header = 'Edit Owner'; // You can set a custom header or get it dynamically
+                // Access the data-property-id using JavaScript
+                var propertyId = document.getElementById('hidden-property-id').getAttribute(
+                    'data-property-id') ?? '';
+
+                smallModal(url, header);
+                // Ensure the modal content is loaded and then set the property_id in the hidden input field inside the modal form
+                $('#smallModal').on('shown.bs.modal', function() {
+                    // Set the property_id in the hidden input field inside the modal form
+                    $("input[name='property_id']").val(propertyId);
+                });
+            });
+            $(document).on('click', '.popup-tab-owners-create', function(e) {
+                e.preventDefault(); // Prevent the default action (e.g., following the link)
+
+                // Get the URL from the link (you can dynamically get the URL as needed)
+                var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
+                var header = 'Create Owner'; // You can set a custom header or get it dynamically
                 // Access the data-property-id using JavaScript
                 var propertyId = document.getElementById('hidden-property-id').getAttribute(
                     'data-property-id') ?? '';

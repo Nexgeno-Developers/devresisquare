@@ -13,7 +13,8 @@
                 [
                     'label' => 'Edit',
                     'class' => 'popup-tab-owners-edit',
-                    'url' => route('admin.owner-groups.edit', $ownerGroup->id),  // Dynamic URL for edit
+                    'url' => "javascript:void(0);",
+                    'onclick' => "smallModal('" . route('admin.owner-groups.edit', $ownerGroup->id) . "', 'Edit Owner');"
                 ],
                 [
                     'label' => 'Delete',
@@ -77,7 +78,7 @@
             @endforeach
         </tbody>
     </table>
-    <button class="btn btn-primary">Add New</button>  {{-- Example Add New button --}}
+
 @else
     <p>No data available</p>
 @endif

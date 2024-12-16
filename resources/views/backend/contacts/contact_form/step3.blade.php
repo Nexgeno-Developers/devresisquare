@@ -1,5 +1,7 @@
 <!-- resources/views/backend/properties/quick_form_components/step4.blade.php -->
-@php $currentStep = 3 ; @endphp
+@php $currentStep = 3 ;
+$selectedProperties = '';
+@endphp
 <div class="container-fluid mt-4 quick_add_contact">
     <div class="row">
         <div class="col-md-6 col-12 left_col">

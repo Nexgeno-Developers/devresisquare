@@ -59,7 +59,7 @@
 
  @php
     // Table headers
-    $headers = ['id', 'Name', 'Position', 'Phone', 'Email', 'City'];
+    $headers = ['id' => 'id', 'name' => 'Name', 'position' => 'Position', 'phone' => 'Phone', 'email' => 'Email', 'city' => 'City'];
 
     // Prepare rows from $ownerGroups
     $rows = [];
@@ -83,8 +83,9 @@
             ];
 
             // Add this row to the table with its corresponding dropdown options
+
             $rows[] = [
-                'id' => $index,  // Use the actual ID of the ownerGroup for identification
+                'id' => $index+1,  // Use the actual ID of the ownerGroup for identification
                 'name' => $ownerGroup->contact->full_name ?? 'N/A',
                 'position' => $ownerGroup->contact->category->name ?? 'N/A',  // Assuming category relationship exists
                 'phone' => $ownerGroup->contact->phone ?? 'N/A',
@@ -108,7 +109,7 @@
 {{-- Show table only if there is data --}}
 @if($ownerGroups->isNotEmpty())
     {{-- Dynamic table component --}}
-    <x-backend.dynamic-table-new
+    <x-backend.dynamic-table
         :headers="$headers"
         :rows="$rows"
         :dropdownOptions="$dropdownOptions"

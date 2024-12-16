@@ -16,9 +16,14 @@
             <tbody>
                 @foreach ($rows as $row)
                     <tr>
+                        {{-- {{dd($rows)}} --}}
                         @foreach ($row as $key => $value)
-                            @if ($key !== 'id')
-                                <td>{{ $value }}</td>
+                            @if ($key !== 'id' && $key !== 'updated_at')
+                                @if ($key === 'created_at' && $value)
+                                    <td>{{ \Carbon\Carbon::parse($value)->format('d-m-Y') }}</td>
+                                @else
+                                    <td>{{ $value }}</td>
+                                @endif
                             @endif
                         @endforeach
                         @if($actionBtn == True )
@@ -44,10 +49,12 @@
         <div class="rs_mobile_table">
             @foreach($rows as $row)
                 <div class="data-row">
-                    @foreach($row as $index => $value)
+                    @foreach($row as $key => $value)
                         <div class="tr_row">
-                            <div>{{ $headers[$index] }}</div>
-                            <div class="text_right fw_normal">{{ $value }}</div>
+                            {{-- <div>{{ $headers[$index] }}</div> --}}
+                            @if ($key !== 'id')
+                                <div class="text_right fw_normal">{{ $value }}</div>
+                            @endif
                         </div>
                     @endforeach
                     <div class="flex">

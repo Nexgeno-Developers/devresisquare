@@ -1,10 +1,18 @@
 @extends('backend.layout.app')
 
 @section('content')
+
+
+@php
+    // Table headers
+    $headers = ['id' => 'id', 'name' => 'Name', 'status' => 'Status', 'Actions' => ''];
+
+@endphp
+
 <div class="container-fluid">
     <h1>Categories</h1>
     <a href="{{ route('contact-categories.create') }}" class="btn btn-primary">Create Category</a>
-    <table class="table mt-3">
+    {{-- <table class="table mt-3">
         <thead>
             <tr>
                 <th>Name</th>
@@ -12,8 +20,14 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach($categories as $category)
+        <tbody> --}}
+            <x-backend.dynamic-table
+            :headers="$headers"
+            :rows="$categories"
+            class=""
+            />
+
+            {{-- @foreach($categories as $category)
                 <tr>
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->status ? 'Active' : 'Inactive' }}</td>
@@ -28,6 +42,6 @@
                 </tr>
             @endforeach
         </tbody>
-    </table>
+    </table> --}}
 </div>
 @endsection

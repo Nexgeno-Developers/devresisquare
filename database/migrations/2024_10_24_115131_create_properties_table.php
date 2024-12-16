@@ -38,7 +38,7 @@ return new class extends Migration {
             $table->string('aspects')->nullable();
             $table->string('sales_current_status',155)->nullable();
             $table->string('letting_current_status',155)->nullable();
-            $table->json('status_description')->nullable();
+            $table->string('status_description')->nullable();
             $table->date('available_from')->nullable();
             $table->boolean('pets_allow')->default(0)->comment('1 for yes, 0 for no');
             $table->json('market_on')->nullable();
@@ -59,7 +59,7 @@ return new class extends Migration {
             $table->decimal('service_charge', 12, 2)->nullable();
             $table->decimal('estate_charge', 12, 2)->nullable();
             $table->decimal('miscellaneous_charge', 12, 2)->nullable();
-            // $table->unsignedBigInteger('estate_charges_id')->nullable(); // Create the column
+            $table->unsignedBigInteger('estate_charges_id')->nullable(); // Create the column
 
             // // Define the foreign key constraint
             // $table->foreign('estate_charges_id')
@@ -83,10 +83,10 @@ return new class extends Migration {
             // $table->json('floor_plan')->nullable(); // Stores multiple floor plan URLs as JSON array
             // $table->json('view_360')->nullable(); // Stores multiple 360-view URLs if needed
             $table->string('video_url', 255)->nullable(); // Stores multiple video URLs if needed
-            // $table->string('designation')->nullable();
-            // $table->string('branch')->nullable();
-            // $table->decimal('commission_percentage', 5, 2)->nullable();
-            // $table->decimal('commission_amount', 10, 2)->nullable();
+            $table->string('designation')->nullable();
+            $table->string('branch')->nullable();
+            $table->decimal('commission_percentage', 5, 2)->nullable();
+            $table->decimal('commission_amount', 10, 2)->nullable();
             $table->integer('step')->nullable();
             $table->integer('quick_step')->nullable();
             $table->foreignId('added_by')->nullable()->constrained('users')->onDelete('set null');

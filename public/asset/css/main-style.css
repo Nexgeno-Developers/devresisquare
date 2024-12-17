@@ -51,6 +51,8 @@
     --secondary-bg-dark: var(--secondary-color-dark);
     --secondary-bg-light: var(--secondary-color-light);
 
+    --btn-shadow: 0px -4px 5px #00000042;
+
     /*desktop */
     --media-thumb-width: 200px;
     --media-thumb-height: 200px;
@@ -107,6 +109,8 @@
     .secondary-bg{ background-color: var(--secondary-bg);}
     .secondary-bg-dark{ background-color: var(--secondary-bg-dark);}
     .secondary-bg-light{ background-color: var(--secondary-bg-light); }
+
+
 
 body{
     font-family: 'Poppins', Arial, Helvetica, sans-serif;

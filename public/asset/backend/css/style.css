@@ -88,6 +88,7 @@ body.show-sidebar #menu {
 ==========================================*/
 a, a:hover{text-decoration: none !important ;}
 
+.top_button{ margin-top: 20px;}
 .rs_table {
     
     th, td {
@@ -1061,6 +1062,25 @@ input[type="radio"]:checked+label::before {
 @media (max-width: 766px) {
 
 /* common */
+.alert{
+    bottom: 50px;
+}
+.top_button{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    box-shadow: var(--btn-shadow);
+    margin: 0;
+    .btn{
+        width: 100%;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
 
 .mobile_only{
     display: block;

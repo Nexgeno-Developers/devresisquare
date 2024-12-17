@@ -1359,6 +1359,14 @@ body.show-sidebar #menu.sidebar {
 
     /*poperties view page */
 
+    .view_properties{
+        .property_list_wrapper{
+            padding-right: 0;
+        }
+        .pv_card_wrapper{
+            padding-right: 0;
+        }
+    }
     .pv_wrapper{
         padding-left: 16px;
         padding-right: 16px;

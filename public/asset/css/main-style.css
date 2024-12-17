@@ -115,12 +115,8 @@ body{
 /* ========================================
               Over write
 ==========================================*/
-.btn{
-    height: 48px;
-}
-a.btn{
+a.btn, button.btn{
     padding: 8px 10px;
-    height: unset;
 }
 .btn:hover {
     background-color: var(--primary-bg-dark);

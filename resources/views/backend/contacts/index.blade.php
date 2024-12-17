@@ -1,13 +1,13 @@
 @extends('backend.layout.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container-fluid rs_container_fluid">
     <h1>Contacts</h1>
     <div class="top_button">
         <a href="{{ route('admin.contacts.create') }}" class="btn btn_secondary">Create Contact</a>
     </div>
     <div class="contact_content_Detail">
-        <table id="contacts-table" class="table table-striped mt-3">
+        <table id="contacts-table" class="table table-striped mt-3 rs_responsive_table">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -21,12 +21,12 @@
             <tbody>
                 @foreach($contacts as $contact)
                     <tr>
-                        <td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
-                        <td>{{ $contact->phone }}</td>
-                        <td>{{ $contact->email }}</td>
-                        <td>{{ $contact->status ? 'Active' : 'Inactive' }}</td>
-                        <td>{{ $contact->category->name }}</td>
-                        <td>
+                        <td><span class="mobile_only">Name</span> <span> {{ $contact->first_name }} {{ $contact->last_name }}</span></td>
+                        <td><span class="mobile_only">Phone</span> <span> {{ $contact->phone }}</span></td>
+                        <td><span class="mobile_only">Email</span> <span> {{ $contact->email }}</span></td>
+                        <td><span class="mobile_only">Status</span> <span> {{ $contact->status ? 'Active' : 'Inactive' }}</span></td>
+                        <td><span class="mobile_only">Category</span> <span> {{ $contact->category->name }}</span></td>
+                        <td class="action_btns">
                             <a href="{{ route('admin.contacts.edit', $contact->id) }}" class="btn btn_primary me-2">Edit</a>
                             <a href="javascript:void(0);" class="action-icon btn btn-danger" onclick="confirmModal('{{ url(route('admin.contacts.delete', $contact->id)) }}', responseHandler)"><i class="mdi mdi-delete" title="Delete"></i>Delete</a>
                         </td>

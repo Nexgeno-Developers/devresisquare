@@ -20,7 +20,7 @@
                     </select>
                 </div>
                 <div class="top_button">
-                    <button type="submit" class="btn btn_primary">Create</button>
+                    <button type="submit" class="btn btn_secondary">Create</button>
                 </div>
             </form>
         </div>

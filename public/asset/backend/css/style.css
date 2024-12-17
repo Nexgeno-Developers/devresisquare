@@ -1013,6 +1013,58 @@ input[type="radio"]:checked+label::before {
     }
 }
 
+/* ---------- View Contact ------------ */
+.contact_content_Detail{
+    margin-top: 30px;
+    .dataTables_wrapper {
+        .dataTables_length{
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        .dataTables_filter{
+            float: left;
+            margin-bottom: 20px;
+            label{
+                input{
+                    margin-left: 10px;
+                    border: 1px solid var(--primary-300);
+                    border-radius: 5px;
+                    padding: 2px 8px;
+                    &:focus{
+                        outline: unset;
+                    }
+                }
+            }
+        }
+        .dataTables_info{
+            float: left;
+            margin-top: 30px;
+        }
+        .dataTables_paginate {
+            float: right;
+            display: flex;
+            gap: 8px;
+            margin-top: 30px;
+            align-items: center;
+            .paginate_button:not(.next, .previous) {
+                border: 1px solid var(--primary-300);
+                width: 26px;
+                height: 26px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 3px;
+                &.current{
+                    border: unset;
+                    background-color: var(--secondary-color);
+                    color: var(--white);
+                }
+            }
+        }
+    }
+}
+
 /* ========================================
           Responsive
 ==========================================*/

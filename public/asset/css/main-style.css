@@ -209,6 +209,8 @@ a.btn, button.btn{
     --bs-gradient: none;
 }
 
+.btn-sm{min-height: 40px;}
+.btn-lg{min-height: 48px;}
 
 a:hover {
     --bs-link-color-rgb: unset;

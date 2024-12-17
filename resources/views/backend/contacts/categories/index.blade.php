@@ -11,7 +11,9 @@
 
 <div class="container-fluid">
     <h1>Categories</h1>
-    <a href="{{ route('contact-categories.create') }}" class="btn btn-primary">Create Category</a>
+    <div class="top_button">
+        <a href="{{ route('contact-categories.create') }}" class="btn btn_primary">Create Category</a>
+    </div>
 
         <table class="table mt-3 | rs_table ">
             <thead>

@@ -51,6 +51,8 @@
     --secondary-bg-dark: var(--secondary-color-dark);
     --secondary-bg-light: var(--secondary-color-light);
 
+    --btn-shadow: 0px -4px 5px #00000042;
+
     /*desktop */
     --media-thumb-width: 200px;
     --media-thumb-height: 200px;
@@ -108,6 +110,8 @@
     .secondary-bg-dark{ background-color: var(--secondary-bg-dark);}
     .secondary-bg-light{ background-color: var(--secondary-bg-light); }
 
+
+
 body{
     font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
@@ -115,12 +119,8 @@ body{
 /* ========================================
               Over write
 ==========================================*/
-.btn{
-    height: 48px;
-}
-a.btn{
+a.btn, button.btn{
     padding: 8px 10px;
-    height: unset;
 }
 .btn:hover {
     background-color: var(--primary-bg-dark);
@@ -209,6 +209,8 @@ a.btn{
     --bs-gradient: none;
 }
 
+.btn-sm{min-height: 40px;}
+.btn-lg{min-height: 48px;}
 
 a:hover {
     --bs-link-color-rgb: unset;

@@ -126,3 +126,9 @@ function updateFileInput(input, selectedFiles) {
     input.files = dataTransfer.files;
 }
 
+// Hide alert after click on it
+    $(".alert").click(function showAlert() {
+        $(".alert").fadeTo(1000, 500).slideUp(500, function() {
+        $(".alert").slideUp(500);
+        });
+    });

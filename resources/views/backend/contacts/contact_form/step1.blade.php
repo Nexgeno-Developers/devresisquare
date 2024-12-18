@@ -33,7 +33,7 @@
                     <div class="footer_btn">
                         <div class="row mt-lg-4">
                             <div class="col-md-6 col-12">
-                                <button type="button" class="btn btn_secondary btn-sm next-step mt-4 w-100" data-next-step="{{$currentStep+1}}" data-current-step="{{$currentStep}}">Next</button>
+                                <button type="button" class="btn btn_secondary btn-sm next-step mt-lg-4 w-100" data-next-step="{{$currentStep+1}}" data-current-step="{{$currentStep}}">Next</button>
                         </div>
                     </div>
                 </div>

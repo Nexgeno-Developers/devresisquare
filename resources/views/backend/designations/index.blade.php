@@ -2,7 +2,9 @@
 
 @section('content')
     <h1>Designations</h1>
-    <a href="{{ route('admin.designations.create') }}" class="btn btn-primary">Add New Designation</a>
+    <div class="top_button">
+        <a href="{{ route('admin.designations.create') }}" class="btn btn_secondary btn-sm">Add New Designation</a>
+    </div>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -22,11 +24,11 @@
                     <td>{{ $designation->id }}</td>
                     <td>{{ $designation->title }}</td>
                     <td>
-                        <a href="{{ route('admin.designations.edit', $designation->id) }}" class="btn btn-warning">Edit</a>
+                        <a href="{{ route('admin.designations.edit', $designation->id) }}" class="btn btn_outline_primary btn-sm me-2">Edit</a>
                         <form action="{{ route('admin.designations.destroy', $designation->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
                 </tr>

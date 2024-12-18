@@ -57,11 +57,11 @@ $selectedProperties = '';
                 <div class="footer_btn">
                     <div class="row mt-lg-4">
                         <div class="col-6">
-                            <button type="button" class="btn btn_outline_secondary previous-step mt-2 w-100" data-previous-step="{{$currentStep-1}}"
+                            <button type="button" class="btn btn_outline_secondary btn-sm previous-step mt-lg-2 w-100" data-previous-step="{{$currentStep-1}}"
                                 data-current-step="{{$currentStep}}">Previous</button>
                         </div>
                         <div class="col-6">
-                            <button type="button" class="btn btn_secondary btn-sm next-step mt-2 w-100" data-next-step="{{$currentStep+1}}"
+                            <button type="button" class="btn btn_secondary btn-sm next-step mt-lg-2 w-100" data-next-step="{{$currentStep+1}}"
                         data-current-step="{{$currentStep}}">Submit</button>
                     </div>
                 </div>

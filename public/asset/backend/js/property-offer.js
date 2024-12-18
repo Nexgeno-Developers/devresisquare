@@ -1,0 +1,311 @@
+
+    let currentStep = 1; // Active step
+    let tenantForms = [{ id: 1 }]; // Initial tenant
+    let nextTenantId = 2;  // Counter to generate new tenant IDs
+    const tenantFormsContainer = document.getElementById('tenant-forms');
+    const backButton = document.getElementById('backButton');
+    const nextButton = document.getElementById('nextButton');
+    const addTenantButton = document.getElementById('addTenantButton');
+    const submitButton = document.getElementById('submitButton');
+    const offerStep = document.getElementById('offer-step');
+
+    // Function to save tenant form data
+    function saveTenantFormData() {
+        tenantForms.forEach((tenant, index) => {
+            const tenantForm = document.querySelector(`.tenant-form[data-step='${index + 1}']`);
+            if (tenantForm) {
+                tenant.name = document.getElementById(`tenantName_${tenant.id}`).value || '';
+                tenant.phone = document.getElementById(`tenantPhone_${tenant.id}`).value || '';
+                tenant.email = document.getElementById(`tenantEmail_${tenant.id}`).value || '';
+                tenant.employmentStatus = document.getElementById(`employmentStatus_${tenant.id}`).value || '';
+                tenant.businessName = document.getElementById(`businessName_${tenant.id}`).value || '';
+                tenant.guarantee = document.getElementById(`guarantee_${tenant.id}`).value || '';
+                tenant.previouslyRented = document.getElementById(`previouslyRented_${tenant.id}`).value || '';
+                tenant.poorCredit = document.getElementById(`poorCredit_${tenant.id}`).value || '';
+                tenant.mainPerson = document.getElementById(`mainPerson_${tenant.id}`).checked;
+            }
+        });
+        // Update hidden field for main person
+        const mainPersonId = tenantForms.find(tenant => tenant.mainPerson)?.id || null;
+        document.getElementById('mainPersonId').value = mainPersonId;
+
+    }
+
+    // Function to render tenant forms dynamically
+    function renderTenantForms() {
+        saveTenantFormData(); // Save current form data before rendering
+        tenantFormsContainer.innerHTML = '';
+
+        tenantForms.forEach((tenant, index) => {
+            const tenantForm = document.createElement('div');
+            tenantForm.className = `tenant-form step ${currentStep === index + 1 ? '' : 'hidden'}`;
+            tenantForm.setAttribute('data-step', index + 1);
+            tenantForm.innerHTML = `
+                <h6 class="mb-3">Tenant ${index + 1} Detail</h6>
+                <div class="row g-3 tenant-section">
+                    <div class="form-group">
+                        <input type="checkbox" class="form-check-input" id="mainPerson_${tenant.id}"
+                            name="mainPerson_${tenant.id}" ${tenant.mainPerson ? 'checked' : ''}
+                            onclick="setMainPerson(${index})"
+                            ${tenant.mainPerson || tenant.isFilled ? '' : 'disabled'}>
+                        <label class="form-check-label" for="mainPerson_${tenant.id}">Check if main person</label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tenantName_${tenant.id}" class="form-label">Tenant Name</label>
+                            <input type="text" class="form-control" id="tenantName_${tenant.id}"
+                                name="tenantName_${tenant.id}" placeholder="Tenant Name" value="${tenant.name || ''}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tenantPhone_${tenant.id}" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="tenantPhone_${tenant.id}"
+                                name="tenantPhone_${tenant.id}" placeholder="1234567890" value="${tenant.phone || ''}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tenantEmail_${tenant.id}" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="tenantEmail_${tenant.id}"
+                                name="tenantEmail_${tenant.id}" placeholder="tenant.email@gmail.com" value="${tenant.email || ''}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="employmentStatus_${tenant.id}" class="form-label">Employment Status</label>
+                            <select class="form-select" id="employmentStatus_${tenant.id}"
+                                name="employmentStatus_${tenant.id}" required>
+                                <option disabled ${!tenant.employmentStatus ? 'selected' : ''}>Choose...</option>
+                                <option ${tenant.employmentStatus === 'Self Employed' ? 'selected' : ''}>Self Employed</option>
+                                <option ${tenant.employmentStatus === 'Employed' ? 'selected' : ''}>Employed</option>
+                                <option ${tenant.employmentStatus === 'Unemployed' ? 'selected' : ''}>Unemployed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="businessName_${tenant.id}" class="form-label">Business Name</label>
+                            <input type="text" class="form-control" id="businessName_${tenant.id}"
+                                name="businessName_${tenant.id}" placeholder="Rainbow Ltd." value="${tenant.businessName || ''}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="guarantee_${tenant.id}" class="form-label">Guarantee Required</label>
+                            <select class="form-select" id="guarantee_${tenant.id}"
+                                name="guarantee_${tenant.id}" required>
+                                <option ${tenant.guarantee === 'No' ? 'selected' : ''}>No</option>
+                                <option ${tenant.guarantee === 'Yes' ? 'selected' : ''}>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="previouslyRented_${tenant.id}" class="form-label">Previously Rented</label>
+                            <select class="form-select" id="previouslyRented_${tenant.id}"
+                                name="previouslyRented_${tenant.id}" required>
+                                <option ${tenant.previouslyRented === 'No' ? 'selected' : ''}>No</option>
+                                <option ${tenant.previouslyRented === 'Yes' ? 'selected' : ''}>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="poorCredit_${tenant.id}" class="form-label">Poor Credit History</label>
+                            <select class="form-select" id="poorCredit_${tenant.id}"
+                                name="poorCredit_${tenant.id}" required>
+                                <option ${tenant.poorCredit === 'No' ? 'selected' : ''}>No</option>
+                                <option ${tenant.poorCredit === 'Yes' ? 'selected' : ''}>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                ${index > 0 ? `<button type="button" class="btn btn-danger btn-sm mt-3" onclick="deleteTenant(${index})">Delete</button>` : ''}
+            `;
+            tenantFormsContainer.appendChild(tenantForm);
+                    // Add event listeners for all required fields
+            const requiredFields = tenantForm.querySelectorAll('input[required], select[required]');
+            requiredFields.forEach(field => {
+                field.addEventListener(field.type === "radio" || field.type === "checkbox" ? 'change' : 'input', () => {
+                    checkAndEnableMainPersonCheckbox(tenant.id); // Check if all fields are filled
+                });
+            });
+        });
+    }
+
+    // Function to check if all required fields are filled and enable the checkbox
+    function checkAndEnableMainPersonCheckbox(tenantId) {
+        const tenantForm = document.querySelector(`.tenant-form[data-step='${tenantId}']`);
+        if (!tenantForm) return; // Ensure the form exists
+
+        const requiredFields = tenantForm.querySelectorAll('input[required], select[required]');
+        const allFieldsFilled = Array.from(requiredFields).every(field => {
+            return field.value.trim() !== ''; // Check if input/select has a value
+        });
+
+        const mainPersonCheckbox = document.getElementById(`mainPerson_${tenantId}`);
+        if (allFieldsFilled) {
+            mainPersonCheckbox.disabled = false; // Enable the checkbox if all fields are filled
+        } else {
+            mainPersonCheckbox.disabled = true; // Disable the checkbox if fields are missing
+        }
+
+        // Also track if the tenant's form is completely filled
+        const tenant = tenantForms.find(t => t.id === tenantId);
+        tenant.isFilled = allFieldsFilled;
+    }
+
+    // Function to ensure only one "main person" is selected
+    function setMainPerson(selectedIndex) {
+        tenantForms.forEach((tenant, index) => {
+            // Uncheck all main person checkboxes and reset their mainPerson status
+            const checkbox = document.getElementById(`mainPerson_${tenant.id}`);
+            checkbox.checked = false;  // Uncheck the checkbox
+            tenant.mainPerson = false; // Set mainPerson status to false
+        });
+
+        // Set the selected tenant as the main person
+        tenantForms[selectedIndex].mainPerson = true;
+
+        // Update the checkbox of the selected tenant and set it as checked
+        const mainPersonCheckbox = document.getElementById(`mainPerson_${tenantForms[selectedIndex].id}`);
+        mainPersonCheckbox.checked = true;
+
+        // Update hidden input field with the ID of the main person
+        document.getElementById('mainPersonId').value = tenantForms[selectedIndex].id;
+
+        // Re-render the tenant forms to reflect the changes
+        renderTenantForms();
+    }
+
+    // Navigation Logic
+    function updateStep() {
+        const totalSteps = tenantForms.length + 1;
+        backButton.classList.toggle('hidden', currentStep === 1);
+        nextButton.classList.toggle('hidden', currentStep === totalSteps);
+        addTenantButton.classList.toggle('hidden', currentStep !== tenantForms.length);
+        submitButton.classList.toggle('hidden', currentStep !== totalSteps);
+        offerStep.classList.toggle('hidden', currentStep !== totalSteps);
+
+        document.querySelectorAll('.tenant-form').forEach((form, index) => {
+            form.classList.toggle('hidden', currentStep !== index + 1);
+        });
+    }
+
+    // Validate the current tenant form
+    function validateTenantForm() {
+        const currentForm = document.querySelector(`.tenant-form[data-step='${currentStep}']`);
+        const inputs = currentForm.querySelectorAll('input, select');
+        for (const input of inputs) {
+            if (!input.checkValidity()) {
+                input.focus();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Add Tenant
+    function addTenant() {
+        if (!validateTenantForm()) {
+            initValidate('.tenantOfferForm');
+            // alert("Please fill out all required fields for the current tenant.");
+            return;
+        }
+        saveTenantFormData();
+        // tenantForms.push({ id: Date.now() });
+
+        // Add a new tenant with a proper ID
+        tenantForms.push({ id: nextTenantId, mainPerson: false });
+        nextTenantId++;  // Increment the tenant ID counter
+        currentStep = tenantForms.length;
+        renderTenantForms();
+        updateStep();
+    }
+
+    // Delete Tenant
+    function deleteTenant(index) {
+        tenantForms.splice(index, 1);
+        if (currentStep > tenantForms.length) currentStep--;
+        renderTenantForms();
+        updateStep();
+    }
+
+    // Event Listeners
+    nextButton.addEventListener('click', () => {
+        if (validateTenantForm()) {
+            saveTenantFormData();
+            if (currentStep <= tenantForms.length) currentStep++;
+            updateStep();
+        } else {
+            initValidate('.tenantOfferForm');
+            // alert("Please fill out all required fields for the current tenant.");
+        }
+    });
+
+    backButton.addEventListener('click', () => {
+        saveTenantFormData();
+        if (currentStep > 1) currentStep--;
+        updateStep();
+    });
+
+    submitButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Ensure that at least one tenant is selected as the "main person"
+        const mainPersonSelected = tenantForms.some(tenant => tenant.mainPerson);
+
+        if (!mainPersonSelected) {
+            alert("Please select at least one tenant as the main person.");
+            return; // Prevent form submission
+        }
+        if (validateTenantForm()) {
+            saveTenantFormData();
+            const formData = new FormData(document.getElementById('tenantOfferForm'));
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            alert('Form Submitted Successfully!');
+        }else {
+            initValidate('.tenantOfferForm');
+            // alert("Please fill out all required fields for the current tenant.");
+        }
+    });
+
+    // Event listener for modal close (Cancel or Close button)
+    document.getElementById('addOfferModal').addEventListener('hidden.bs.modal', function () {
+        clearForm();
+    });
+
+    // Function to clear the form
+    function clearForm() {
+        // Reset the main person ID hidden field
+        document.getElementById('mainPersonId').value = '';
+
+        // Reset the form elements (all inputs, selects, etc.)
+        const form = document.getElementById('tenantOfferForm');
+        form.reset();
+
+        // Reset tenant data and remove any main person selection
+        tenantForms = [{ id: 1 }]; // Reset to initial tenant
+        nextTenantId = 2; // Reset tenant ID counter
+        renderTenantForms(); // Re-render tenant forms
+
+        // Optionally, reset the offer step fields if the modal includes them
+        const offerFields = offerStep.querySelectorAll('input, select');
+        offerFields.forEach(field => {
+            field.value = ''; // Clear offer fields
+        });
+
+        // Hide the submit button and other steps if needed
+        submitButton.classList.add('hidden');
+        offerStep.classList.add('hidden');
+
+        // Reset current step and show the first step again
+        currentStep = 1;
+        updateStep();
+    }
+
+    // Initialize
+    renderTenantForms();
+    updateStep();

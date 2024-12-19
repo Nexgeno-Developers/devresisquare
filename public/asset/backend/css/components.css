@@ -247,7 +247,7 @@ with icon || without icon || dates input || price input
         color: var(--primary-700);
         text-align: center;
         span{
-            font-size: 12px;
+            font-size: 14px;
         }
         i.bi{
             font-size: 24px;

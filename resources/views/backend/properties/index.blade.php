@@ -132,13 +132,13 @@
                         class=''
                         name='Add Tenacy'
                         link="{{ route('admin.properties.quick') }}"
-                        iconName='file-plus'
+                        iconName='plus-circle'
                     />
                     <x-backend.forms.mobile_button
                         class=''
                         name='Add Offer'
                         link="{{ route('admin.properties.quick') }}"
-                        iconName='file-text'
+                        iconName='journal-plus'
                     />
                     <x-backend.forms.mobile_button
                         class=''

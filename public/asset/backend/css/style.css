@@ -126,6 +126,11 @@ a, a:hover{text-decoration: none !important ;}
     margin-top: 14px;
 }
 
+/* datatable search input fixed */
+div.dataTables_wrapper div.dataTables_filter input {
+    width: 100%;
+}
+
 /* ========================================
           Components
 ==========================================*/
@@ -796,11 +801,11 @@ input[type="radio"]:checked+label::before {
     gap: 24px;
     /* height: calc(100% - 76px); */
     .pv_header{
-        display: flex;
-        gap: 5px;
+        /* display: flex; */
+        /* gap: 5px;
         justify-content: space-between;
         align-items: center;
-        width: 100%;
+        width: 100%; */
 
         .pv_title{
             font-weight: 500;

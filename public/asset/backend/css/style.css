@@ -1299,12 +1299,8 @@ body.show-sidebar #menu.sidebar {
                     font-weight: 600;
                 }
                 .pv_content_detail{
-                    padding: 24px;
-                    &:has(.pv_image){
-                        padding-left: 12px;
-                    }
                     .owners_table{
-                        padding-left: 12px;
+                        padding: 16px;
                     }
                     .pv_content{
                         display: none;
@@ -1361,6 +1357,7 @@ body.show-sidebar #menu.sidebar {
         bottom: 75px;
         right: 15px;
         z-index: 80;
+        width: unset;
         a.btn{
             height: 50px;
             width: 50px;

@@ -1,46 +1,54 @@
 @extends('backend.layout.app')
 
 @section('content')
-    <div class="row view_properties">
-        <div class="col-lg-5 col-12 property_list_wrapper pt-lg-4 pt-2 ">
-            <div class="pv_wrapper">
-                <div class="pv_header">
-                    <div class="pv_title">Properties</div>
-                    {{-- <x-backend.search-comp class="" value="" placeholder="Search" onclick="" /> --}}
-                    <x-backend.forms.search
-                        class=''
-                        placeholder='Search'
-                        value=''
-                        onClick='onClick()'
-                    />
-                    <div class="pv_btn">
-                        <x-backend.forms.button
-                            class=''
-                            name='Add Property'
-                            type='secondary'
-                            size='sm'
-                            isOutline={{false}}
-                            isLinkBtn={{true}}
-                            link="{{ route('admin.properties.quick') }}"
-                            onClick='onClick()'
-                        />
-                    </div>
-                </div>
-                {{-- pv_header end --}}
-                <div class="pv_card_wrapper">
-                    {{-- Dev Note: if select property from list add class 'current' to property card --}}
-                    @foreach ($properties as $property)
-                        <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}{{$property['line_1'] ? ', ' : ''}}{{ $property['line_1'] }}{{$property['line_2'] ? ', ' : ''}}{{ $property['line_2'] }}{{$property['city'] ? ', ' : ''}}{{$property['city']}}"
-                            bed="{{ $property['bedroom'] }}" bath="{{ $property['bathroom'] }}"
-                            floor="{{ $property['floor'] }}" living="{{ $property['reception'] }}" {{-- living="{{$property['living']}}" --}}
-                            type="{{ $property['property_type'] }}" available="{{ $property['available_from'] }}"
-                            price="{{ $property['price'] }}" cardStyle="" propertyId="{{ $property['id'] }}" />
-                    @endforeach
+    <div class="row g-0 view_properties">
+        <div class="col-lg-5 col-12">
+            <div class="property_list_wrapper pt-lg-4 pt-2 ">
+                <div class="pv_wrapper">
+                    <div class="pv_header">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="pv_title">Properties</div>
+                            </div>
+                            <div class="col-9">
+                                <x-backend.forms.search
+                                    class=''
+                                    placeholder='Search'
+                                    value=''
+                                    onClick='onClick()'
+                                />
+                            </div>
+                            <div class="pv_btn">
+                                <x-backend.forms.button
+                                    class=''
+                                    name='Add Property'
+                                    type='secondary'
+                                    size='sm'
+                                    isOutline={{false}}
+                                    isLinkBtn={{true}}
+                                    link="{{ route('admin.properties.quick') }}"
+                                    onClick='onClick()'
+                                />
+                            </div>
+                        </div>
 
+                    </div>
+                    {{-- pv_header end --}}
+                    <div class="pv_card_wrapper">
+                        {{-- Dev Note: if select property from list add class 'current' to property card --}}
+                        @foreach ($properties as $property)
+                            <x-backend.property-card class="property-card" propertyName="{{ $property['prop_name'] }}{{$property['line_1'] ? ', ' : ''}}{{ $property['line_1'] }}{{$property['line_2'] ? ', ' : ''}}{{ $property['line_2'] }}{{$property['city'] ? ', ' : ''}}{{$property['city']}}"
+                                bed="{{ $property['bedroom'] }}" bath="{{ $property['bathroom'] }}"
+                                floor="{{ $property['floor'] }}" living="{{ $property['reception'] }}" {{-- living="{{$property['living']}}" --}}
+                                type="{{ $property['property_type'] }}" available="{{ $property['available_from'] }}"
+                                price="{{ $property['price'] }}" cardStyle="" propertyId="{{ $property['id'] }}" />
+                        @endforeach
+
+                    </div>
+                    {{-- pv_card_wrapper end  --}}
                 </div>
-                {{-- pv_card_wrapper end  --}}
+                {{-- pv_wrapper end  --}}
             </div>
-            {{-- pv_wrapper end  --}}
         </div>
         <div class="col-lg-7 col-12 property_detail_wrapper hide_this pt-lg-4 pt-0">
             <div class="pv_detail_wrapper">

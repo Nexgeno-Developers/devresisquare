@@ -50,7 +50,7 @@
                 <div class="pv_detail_content">
                     <div class="pv_detail_header">
                         <div class="pv_main_title">{{ ucfirst($tabName) }} Detail</div>
-                        <div class="pvdh_btns_wrapper">
+                        <div class="pvdh_btns_wrapper d-flex gap-3">
                             {{-- <x-backend.link-button class="tab-owners-btn popup-tab-owners-create d-none" name="Add Owner"
                                 link="{{ route('admin.owner-groups.create') }}" onClick="" /> --}}
                                 {{-- <x-backend.forms.button

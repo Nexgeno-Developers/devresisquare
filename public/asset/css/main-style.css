@@ -121,6 +121,8 @@ body{
 ==========================================*/
 a.btn, button.btn{
     padding: 8px 10px;
+    display: flex;
+    align-items: center;
 }
 .btn:hover {
     background-color: var(--primary-bg-dark);

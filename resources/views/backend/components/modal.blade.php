@@ -1,7 +1,7 @@
 
 <!-- property offer add Modal -->
 <div class="modal fade" id="addOfferModal" tabindex="-1" aria-labelledby="addOfferModal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="addOfferModal-label">Add Offer</h5>
@@ -19,30 +19,46 @@
                     <!-- Offer Details Step -->
                     <div id="offer-step" class="step hidden">
                         <h6>Offer Details</h6>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="price" class="form-label">Price</label>
-                                <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" required>
+                        <div class="row">
+                          <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="price" class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="deposit" class="form-label">Deposit</label>
-                                <input type="number" class="form-control" id="deposit" name="deposit" placeholder="Enter deposit amount" required>
+                          </div>
+                          <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="deposit" class="form-label">Deposit</label>
+                                    <input type="number" class="form-control" id="deposit" name="deposit" placeholder="Enter deposit amount" required>
+                                </div>
                             </div>
+                          </div>
                         </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="term" class="form-label">Term</label>
-                                <input type="text" class="form-control" id="term" name="term" placeholder="Enter term" required>
+                        
+                        <div class="row">
+                          <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="term" class="form-label">Term</label>
+                                    <input type="text" class="form-control" id="term" name="term" placeholder="Enter term" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="moveInDate" class="form-label">Move-in Date</label>
-                                <input type="date" class="form-control" id="moveInDate" name="moveInDate" required>
+                          </div>
+                          <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="moveInDate" class="form-label">Move-in Date</label>
+                                    <input type="date" class="form-control" id="moveInDate" name="moveInDate" required>
+                                </div>
                             </div>
+                          </div>
                         </div>
+                        
+                        
+                        
                     </div>
                 </div>
             </form>
@@ -53,7 +69,7 @@
             <button type="button" class="btn btn_outline_secondary btn-sm" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
             <button id="backButton" type="button" class="btn btn_secondary btn-md hidden">Back</button>
             <button id="nextButton" type="button" class="btn btn_secondary btn-md ">Next</button>
-            <button id="submitButton" type="submit" form="tenantOfferForm" class="btn btn-success btn-md hidden">Submit</button>
+            <button id="submitButton" type="submit" form="tenantOfferForm" class="btn btn_secondary btn-md hidden">Submit</button>
         </div>
       </div>
     </div>

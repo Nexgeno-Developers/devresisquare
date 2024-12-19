@@ -1084,6 +1084,11 @@ input[type="radio"]:checked+label::before {
         padding: 66px 24px 0 24px;
       } */
 
+    .modal-dialog {
+        height: 92vh;
+        display: flex;
+    }
+
 }
 
 

@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                             <div class="col-3 d-flex justify-content-center align-items-center gap-3">
-                                <button type="button" class="btn btn-success add-btn-commission">Add</button>
+                                <button type="button" class="btn btn_secondary add-btn-commission">Add</button>
                                 <button type="button" class="btn btn-danger remove-btn-commission" style="display:none;">Remove</button>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                             <div class="col-3 d-flex justify-content-center align-items-center gap-3">
-                                <button type="button" class="btn btn-success add-btn-commission">Add</button>
+                                <button type="button" class="btn btn_secondary add-btn-commission">Add</button>
                                 <button type="button" class="btn btn-danger remove-btn-commission" style="display:none;">Remove</button>
                             </div>
                         </div>

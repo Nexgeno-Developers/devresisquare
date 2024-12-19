@@ -43,7 +43,7 @@
             tenantForm.innerHTML = `
                 <h6 class="mb-3">Tenant ${index + 1} Detail</h6>
                 <div class="row g-3 tenant-section">
-                    <div class="form-group">
+                    <div class="form-group d-flex align-items-center gap-2">
                         <input type="checkbox" class="form-check-input" id="mainPerson_${tenant.id}"
                             name="mainPerson_${tenant.id}" ${tenant.mainPerson ? 'checked' : ''}
                             onclick="setMainPerson(${index})"

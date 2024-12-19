@@ -9,6 +9,6 @@
             <label for="title">Title</label>
             <input type="text" name="title" id="title" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-success mt-3">Create Designation</button>
+        <button type="submit" class="btn btn_secondary mt-3">Create Designation</button>
     </form>
 @endsection

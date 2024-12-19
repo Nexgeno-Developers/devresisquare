@@ -33,7 +33,7 @@
             <input type="text" name="status" class="form-control" value="{{ $estateCharge->status }}" required>
         </div>
 
-        <button type="submit" class="btn btn-success">Update</button>
+        <button type="submit" class="btn btn_secondary">Update</button>
     </form>
 </div>
 @endsection

@@ -6,7 +6,7 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
           <div class="card bg-light" style="border-radius: 1rem;">
-            <div class="card-body p-5 text-center">
+            <div class="card-body p-md-5 p-4 text-center">
   
                 <form action="{{ route('login.post') }}" method="POST">
                     @csrf

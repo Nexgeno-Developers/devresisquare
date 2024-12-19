@@ -9,6 +9,24 @@
     const submitButton = document.getElementById('submitButton');
     const offerStep = document.getElementById('offer-step');
 
+
+    // Function to retrieve query parameter from URL
+    function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name); // Return the value of the parameter
+    }
+
+    // When the modal is shown
+    $('#addOfferModal').on('shown.bs.modal', function() {
+        // Get the property_id from the URL
+        var propertyId = getUrlParameter('property_id');
+
+        // If propertyId exists, set it in the hidden input field
+        if (propertyId) {
+            $("input[name='property_id']").val(propertyId);
+        }
+    });
+
     // Function to save tenant form data
     function saveTenantFormData() {
         tenantForms.forEach((tenant, index) => {
@@ -252,59 +270,154 @@
 
     submitButton.addEventListener('click', (e) => {
         e.preventDefault();
+
+        console.log('Submit button clicked');
+
         // Ensure that at least one tenant is selected as the "main person"
         const mainPersonSelected = tenantForms.some(tenant => tenant.mainPerson);
+        console.log('Main person selected:', mainPersonSelected);
 
         if (!mainPersonSelected) {
             alert("Please select at least one tenant as the main person.");
             return; // Prevent form submission
         }
-        if (validateTenantForm()) {
-            saveTenantFormData();
+
+        // Validate the form before proceeding
+        if (initValidate('.tenantOfferForm')) {
+            console.log('Form validation passed');
+            // Get the form's action and method
+            const formAction = document.getElementById('tenantOfferForm').getAttribute('action');
+            const formMethod = document.getElementById('tenantOfferForm').getAttribute('method');
+            console.log('Form action:', formAction);
+            console.log('Form method:', formMethod);
+
+            // Serialize the form data
             const formData = new FormData(document.getElementById('tenantOfferForm'));
-            for (const [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-            alert('Form Submitted Successfully!');
-        }else {
-            initValidate('.tenantOfferForm');
-            // alert("Please fill out all required fields for the current tenant.");
+            console.log('Form data:', formData);
+
+            // Send the AJAX request
+            $.ajax({
+                url: formAction, // Use the action (URL) from the form
+                method: formMethod, // Use the method (POST) from the form
+                data: formData, // Send the serialized form data
+                processData: false, // Don't process the data
+                contentType: false, // Don't set content type (important for FormData)
+                success: function (response) {
+                    console.log('Form submitted successfully');
+                    alert('Form Submitted Successfully!');
+                    console.log('Response:', response);
+                    // Optionally clear the form and close the modal here
+                    clearForm();
+                    $('#addOfferModal').modal('hide');  // Close modal (if using Bootstrap modal)
+                },
+                error: function (xhr, status, error) {
+                    // Handle error (e.g., display an error message)
+                    alert('An error occurred. Please try again later.');
+                    console.error('AJAX Error:', error);
+                }
+            });
+
+        } else {
+            console.log('Form validation failed');
         }
     });
 
+
+    // submitButton.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     // Ensure that at least one tenant is selected as the "main person"
+    //     const mainPersonSelected = tenantForms.some(tenant => tenant.mainPerson);
+
+    //     if (!mainPersonSelected) {
+    //         alert("Please select at least one tenant as the main person.");
+    //         return; // Prevent form submission
+    //     }
+    //     if (validateTenantForm()) {
+    //         saveTenantFormData();
+    //         const formData = new FormData(document.getElementById('tenantOfferForm'));
+    //         for (const [key, value] of formData.entries()) {
+    //             console.log(`${key}: ${value}`);
+    //         }
+    //         alert('Form Submitted Successfully!');
+    //     }else {
+    //         initValidate('.tenantOfferForm');
+    //         // alert("Please fill out all required fields for the current tenant.");
+    //     }
+    // });
+
     // Event listener for modal close (Cancel or Close button)
     document.getElementById('addOfferModal').addEventListener('hidden.bs.modal', function () {
+        console.log("Modal hidden event triggered");
         clearForm();
     });
 
+
     // Function to clear the form
     function clearForm() {
+        console.log('Clear form initiated');
+
         // Reset the main person ID hidden field
         document.getElementById('mainPersonId').value = '';
+        console.log('Main person ID reset');
 
         // Reset the form elements (all inputs, selects, etc.)
         const form = document.getElementById('tenantOfferForm');
-        form.reset();
+        if (form) {
+            form.reset();  // This will reset the form inputs
+            console.log('Form reset');
+        } else {
+            console.error('Form not found!');
+        }
 
         // Reset tenant data and remove any main person selection
-        tenantForms = [{ id: 1 }]; // Reset to initial tenant
-        nextTenantId = 2; // Reset tenant ID counter
-        renderTenantForms(); // Re-render tenant forms
+        tenantForms = [{ id: 1 }];  // Reset to initial tenant
+        nextTenantId = 2;  // Reset tenant ID counter
 
-        // Optionally, reset the offer step fields if the modal includes them
-        const offerFields = offerStep.querySelectorAll('input, select');
+        // Ensure renderTenantForms is called properly
+        if (typeof renderTenantForms === 'function') {
+            console.log('Rendering tenant forms');
+            renderTenantForms();  // Re-render tenant forms
+        } else {
+            console.error('renderTenantForms function not found!');
+        }
+
+        // Reset all offer fields, including checkboxes and radio buttons
+        const offerFields = form.querySelectorAll('input, select'); // Get all inputs and selects (includes checkbox, radio, etc.)
         offerFields.forEach(field => {
-            field.value = ''; // Clear offer fields
+            // Reset input fields (text, number, etc.)
+            if (field.type === 'text' || field.type === 'number' || field.type === 'date') {
+                field.value = '';
+            }
+            // Reset radio buttons
+            if (field.type === 'radio') {
+                field.checked = false;  // Uncheck radio buttons
+            }
+            // Reset checkboxes
+            if (field.type === 'checkbox') {
+                field.checked = false;  // Uncheck checkboxes
+            }
+            // Reset select elements
+            if (field.tagName === 'SELECT') {
+                field.selectedIndex = 1;  // Reset the selected index
+            }
         });
+        console.log('Offer fields cleared');
 
         // Hide the submit button and other steps if needed
         submitButton.classList.add('hidden');
         offerStep.classList.add('hidden');
+        console.log('Submit button and offer step hidden');
 
         // Reset current step and show the first step again
         currentStep = 1;
-        updateStep();
+        if (typeof updateStep === 'function') {
+            console.log('Updating step');
+            updateStep(); // Update step (show the first step)
+        } else {
+            console.error('updateStep function not found!');
+        }
     }
+
 
     // Initialize
     renderTenantForms();

@@ -1270,7 +1270,14 @@ body.show-sidebar #menu.sidebar {
         .property_detail_wrapper{
             padding: 0;
             .poperty_tabs{
-                display: none;
+                margin: 20px 24px 0 55px;
+                overflow: hidden;
+                overflow-x: auto;
+                border: unset;
+                ul{
+                    width: unset;
+                    overflow: unset;
+                }
             }
             .pv_detail_header{
                 display: none;
@@ -1280,14 +1287,20 @@ body.show-sidebar #menu.sidebar {
                 #backBtn{
                     display: block !important;
                     position: absolute;
-                    top: 16px;
+                    top: -48px;
                     left: 16px;
                     z-index: 99;
                     font-size: 28px;
                     font-weight: 600;
                 }
                 .pv_content_detail{
-                    padding: 0;
+                    padding: 24px;
+                    &:has(.pv_image){
+                        padding-left: 12px;
+                    }
+                    .owners_table{
+                        padding-left: 12px;
+                    }
                     .pv_content{
                         display: none;
                         &.mobile_only{
@@ -1388,6 +1401,7 @@ body.show-sidebar #menu.sidebar {
 
     }
     .pv_detail_wrapper {
+        gap: unset;
         .pv_tabs {
             ul {
                 width: 100vw;
@@ -1440,6 +1454,10 @@ body.show-sidebar #menu.sidebar {
         .data-row {
             display: flex; flex-direction: column; margin-bottom: 10px;
             border-bottom: 1px solid var(--primary-200);
+            padding-bottom: 20px;
+            &:last-child{
+                border-bottom: unset;
+            }
         .tr_row{
             display: flex;
             justify-content: space-between;

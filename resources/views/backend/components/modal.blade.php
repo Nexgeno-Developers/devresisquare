@@ -9,7 +9,9 @@
         </div>
         <div class="modal-body">
             <!-- Main Form -->
-            <form class="tenantOfferForm" id="tenantOfferForm">
+            <form action="{{ route('admin.offers.store') }}" method="POST" class="tenantOfferForm" id="tenantOfferForm">
+                @csrf
+                <input type="hidden" name="property_id" class="form-control" value="">
                 <!-- Steps Container -->
                 <div id="steps-container">
                     <input type="hidden" id="mainPersonId" name="mainPersonId">
@@ -37,7 +39,7 @@
                             </div>
                           </div>
                         </div>
-                        
+
                         <div class="row">
                           <div class="col-lg-6 col-12">
                             <div class="mb-3">
@@ -50,15 +52,14 @@
                           <div class="col-lg-6 col-12">
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <label for="moveInDate" class="form-label">Move-in Date</label>
+                                    <label for="move_in_date" class="form-label">Move-in Date</label>
                                     <input type="date" class="form-control" id="moveInDate" name="moveInDate" required>
                                 </div>
                             </div>
-                          </div>
                         </div>
-                        
-                        
-                        
+
+
+
                     </div>
                 </div>
             </form>

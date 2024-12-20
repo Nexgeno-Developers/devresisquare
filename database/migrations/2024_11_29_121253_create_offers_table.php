@@ -18,6 +18,8 @@ return new class extends Migration
             $table->decimal('deposit', 10, 2);
             $table->string('term', 255); // Use varchar(255) for term instead of enum
             $table->date('move_in_date');
+            $table->json('tenant_details');
+            $table->enum('status', ['Pending', 'Accepted', 'Rejected'])->default('Pending');
             $table->timestamps();
 
             // Foreign key constraint

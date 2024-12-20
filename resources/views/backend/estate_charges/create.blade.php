@@ -31,7 +31,7 @@
             <input type="text" name="status" class="form-control" required>
         </div>
 
-        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn_secondary">Save</button>
     </form>
 </div>
 @endsection

@@ -34,4 +34,4 @@
         value="{{ old('contact_phone', $branch->contact_phone ?? '') }}" >
 </div>
 
-<button type="submit" class="btn btn-success">{{ $buttonText ?? 'Save' }}</button>
+<button type="submit" class="btn btn_secondary">{{ $buttonText ?? 'Save' }}</button>

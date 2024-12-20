@@ -45,7 +45,7 @@
             </select>
         </div>
 
-        <button type="submit" class="float-end mt-3 btn btn-success">Update</button>
+        <button type="submit" class="float-end mt-3 btn btn_secondary">Update</button>
     </form>
 {{-- </div>
 @endsection --}}

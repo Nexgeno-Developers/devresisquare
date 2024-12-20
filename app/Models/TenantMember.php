@@ -11,7 +11,7 @@ class TenantMember extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tenancy_id', 'name', 'email', 'phone', 'is_main_person', 'group_id'
+        'tenancy_id', 'name', 'email', 'phone', 'employment_status', 'business_name', 'guarantee', 'previously_rented', 'poor_credit', 'is_main_person', 'group_id'
     ];
 
     public function tenancy()

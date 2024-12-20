@@ -16,13 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('property_id')->nullable(); // Explicitly defining the type
             $table->unsignedBigInteger('offer_id')->nullable();   // Explicitly defining the type
             $table->string('sub_status')->nullable();
-            $table->date('move_in');
-            $table->date('move_out');
+            $table->date('move_in')->nullable();
+            $table->date('move_out')->nullable();
             $table->integer('tenancy_length')->nullable();  // in months
             $table->date('extension_date')->nullable();
             $table->decimal('price', 10, 2)->nullable();  // Rent price
             $table->decimal('deposit', 10, 2)->nullable();  // Rent deposit
-            $table->enum('frequency', ['Monthly', 'Weekly']);
+            $table->enum('frequency', ['Monthly', 'Weekly'])->nullable();
             $table->enum('status', ['Active', 'Inactive', 'Terminated', 'Archived'])->default('Active');
             $table->timestamps();
 

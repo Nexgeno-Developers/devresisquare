@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('previously_rented')->nullable(); // Added data type for previouslyRented
             $table->boolean('poor_credit')->nullable();      // Added data type for poorCredit
             $table->boolean('is_main_person')->default(false);
-            $table->unsignedBigInteger('group_id')->nullable(); // Grouping family members
+            $table->string('group_id',255)->nullable()->after('is_main_person'); // Grouping family members
             $table->timestamps();
             $table->foreign('tenancy_id')->references('id')->on('tenancies')->onDelete('set null');
         });

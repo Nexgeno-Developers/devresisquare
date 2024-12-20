@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Offer;
 use App\Models\Property;
+use App\Models\Tenancy;
+use App\Models\TenantMember;
 use Illuminate\Http\Request;
 
 class OfferController
@@ -114,4 +116,87 @@ class OfferController
         $offer->delete();
         return redirect()->route('offers.index')->with('success', 'Offer deleted successfully.');
     }
+
+
+    public function setMainPerson(Request $request, $id)
+    {
+        $offer = Offer::findOrFail($id);
+        $tenantDetails = collect(json_decode($offer->tenant_details, true));
+
+        // Update main person
+        $tenantDetails = $tenantDetails->map(function ($tenant) use ($request) {
+            $tenant['mainPerson'] = $tenant['tenantName'] === $request->member['tenantName'];
+            return $tenant;
+        });
+
+        $offer->tenant_details = json_encode($tenantDetails);
+        $offer->save();
+
+        return response()->json(['status' => true, 'message' => 'Main person updated successfully.']);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $offer = Offer::findOrFail($id);
+        $offer->status = $request->status;
+        // Check if the status is 'Accepted'
+        if ($offer->status === 'Accepted') {
+            // Assuming $tenantDetails is stored in JSON format in offer->tenant_details
+            $tenantDetails = json_decode($offer->tenant_details, true);
+
+            // Create the tenancy record
+            $tenancy = Tenancy::create([
+                'offer_id' => $offer->id, // Link the tenancy to the offer
+                'property_id' => $offer->property_id, // You can also store property_id here if needed
+                'move_in' => $offer->move_in_date, // Example: Extract move-in date from tenant details
+                'move_out' => null,
+                'price' => $offer->price, // Assuming price is the same for tenancy
+                'deposit' => $offer->deposit, // Assuming deposit is the same for tenancy
+                'frequency' => $tenantDetails['frequency'] ?? 'Monthly', // Default to 'Monthly'
+                'status' => 'Active', // Default status can be 'Active'
+            ]);
+
+            // Generate a unique group ID (e.g., GROUP_1, GROUP_2)
+            $groupId = 'GROUP_' . $tenancy->id;
+
+            // Now insert tenant members
+            if (isset($tenantDetails)) {
+                // Insert tenant members
+                foreach ($tenantDetails as $tenantMember) {
+                    TenantMember::create([
+                        'tenancy_id' => $tenancy->id, // Link to the created tenancy
+                        'name' => $tenantMember['tenantName'],
+                        'email' => $tenantMember['tenantEmail'],
+                        'phone' => $tenantMember['tenantPhone'],
+                        'employment_status' => $tenantMember['employmentStatus'] ?? null,
+                        'business_name' => $tenantMember['businessName'] ?? null,
+                        'guarantee' => $tenantMember['guarantee'] ?? null,
+                        'previously_rented' => $tenantMember['previouslyRented'] ?? null,
+                        'poor_credit' => $tenantMember['poorCredit'] ?? null,
+                        'is_main_person' => ($tenantMember['mainPerson'] == 'Yes') ? 1 : 0, // Default to 0 if not specified
+                        'group_id' => $groupId,
+                    ]);
+                }
+            }
+
+            // Save the offer to update status
+            $offer->save();
+        } else {
+            // If the status is not 'Accepted', simply save the offer status without updating tenant details
+            $offer->save();
+        }
+
+        return response()->json(['status' => true, 'message' => 'Offer status updated successfully.']);
+    }
+
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     $offer = Offer::findOrFail($id);
+    //     $offer->status = $request->status;
+    //     $offer->save();
+
+    //     return response()->json(['status' => true, 'message' => 'Offer status updated successfully.']);
+    // }
+
+
 }

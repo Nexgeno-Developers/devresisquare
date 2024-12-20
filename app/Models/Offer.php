@@ -21,9 +21,9 @@ class Offer extends Model
     ];
 
     // Specify the attributes that should be cast to native types
-    protected $casts = [
-        'tenant_details' => 'array', // Automatically cast the 'tenant_details' field as an array
-    ];
+    // protected $casts = [
+    //     'tenant_details' => 'array', // Automatically cast the 'tenant_details' field as an array
+    // ];
 
     /**
      * Relationship with Property (One-to-Many)

@@ -152,7 +152,7 @@
     </div>
     <style>
         .hidden {
-            display: none;
+            display: none !important;
         }
         .modal-content {
             max-width: 900px;

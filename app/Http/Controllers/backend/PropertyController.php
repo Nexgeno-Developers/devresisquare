@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Designation;
 use App\Models\Branch;
 use App\Models\PropertyResponsibility;
+use App\Models\Offer;
 // use App\Models\EstateCharge;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -101,7 +102,16 @@ private function getTabContent($tabname, $propertyId, $property)
                 ->get();
             return view('backend.properties.tabs.owners', compact('propertyId', 'ownerGroups'))->render();
         case 'offers':
-            return view('backend.properties.tabs.offers', compact('propertyId'))->render();
+
+            // Fetch all offers for the specific property
+            $offers = Offer::where('property_id', $propertyId)->get();
+
+            // Decode tenant details for each offer
+            foreach ($offers as $offer) {
+                $offer->tenant_details = json_decode($offer->tenant_details, true);
+            }
+
+            return view('backend.properties.tabs.offers', compact('propertyId', 'offers'))->render();
         case 'complience':
             return view('backend.properties.tabs.complience', compact('propertyId'))->render();
         case 'tenancy':

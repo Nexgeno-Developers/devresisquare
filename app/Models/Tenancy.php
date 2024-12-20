@@ -12,7 +12,7 @@ class Tenancy extends Model
 
     protected $fillable = [
         'property_id', 'offer_id', 'sub_status', 'move_in', 'move_out',
-        'tenancy_length', 'extension_date', 'price', 'frequency', 'status'
+        'tenancy_length', 'extension_date', 'price', 'deposit', 'frequency', 'status'
     ];
 
     public function property()

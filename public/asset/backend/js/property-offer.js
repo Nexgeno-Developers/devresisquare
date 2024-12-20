@@ -113,8 +113,8 @@
                             <label for="guarantee_${tenant.id}" class="form-label">Guarantee Required</label>
                             <select class="form-select" id="guarantee_${tenant.id}"
                                 name="guarantee_${tenant.id}" required>
-                                <option ${tenant.guarantee === 'No' ? 'selected' : ''}>No</option>
-                                <option ${tenant.guarantee === 'Yes' ? 'selected' : ''}>Yes</option>
+                                <option ${tenant.guarantee === '0' ? 'selected' : ''}>No</option>
+                                <option ${tenant.guarantee === '1' ? 'selected' : ''}>Yes</option>
                             </select>
                         </div>
                     </div>
@@ -123,8 +123,8 @@
                             <label for="previouslyRented_${tenant.id}" class="form-label">Previously Rented</label>
                             <select class="form-select" id="previouslyRented_${tenant.id}"
                                 name="previouslyRented_${tenant.id}" required>
-                                <option ${tenant.previouslyRented === 'No' ? 'selected' : ''}>No</option>
-                                <option ${tenant.previouslyRented === 'Yes' ? 'selected' : ''}>Yes</option>
+                                <option ${tenant.previouslyRented === '0' ? 'selected' : ''}>No</option>
+                                <option ${tenant.previouslyRented === '1' ? 'selected' : ''}>Yes</option>
                             </select>
                         </div>
                     </div>
@@ -133,8 +133,8 @@
                             <label for="poorCredit_${tenant.id}" class="form-label">Poor Credit History</label>
                             <select class="form-select" id="poorCredit_${tenant.id}"
                                 name="poorCredit_${tenant.id}" required>
-                                <option ${tenant.poorCredit === 'No' ? 'selected' : ''}>No</option>
-                                <option ${tenant.poorCredit === 'Yes' ? 'selected' : ''}>Yes</option>
+                                <option ${tenant.poorCredit === '0' ? 'selected' : ''}>No</option>
+                                <option ${tenant.poorCredit === '1' ? 'selected' : ''}>Yes</option>
                             </select>
                         </div>
                     </div>
@@ -322,29 +322,6 @@
         }
     });
 
-
-    // submitButton.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     // Ensure that at least one tenant is selected as the "main person"
-    //     const mainPersonSelected = tenantForms.some(tenant => tenant.mainPerson);
-
-    //     if (!mainPersonSelected) {
-    //         alert("Please select at least one tenant as the main person.");
-    //         return; // Prevent form submission
-    //     }
-    //     if (validateTenantForm()) {
-    //         saveTenantFormData();
-    //         const formData = new FormData(document.getElementById('tenantOfferForm'));
-    //         for (const [key, value] of formData.entries()) {
-    //             console.log(`${key}: ${value}`);
-    //         }
-    //         alert('Form Submitted Successfully!');
-    //     }else {
-    //         initValidate('.tenantOfferForm');
-    //         // alert("Please fill out all required fields for the current tenant.");
-    //     }
-    // });
-
     // Event listener for modal close (Cancel or Close button)
     document.getElementById('addOfferModal').addEventListener('hidden.bs.modal', function () {
         console.log("Modal hidden event triggered");
@@ -422,3 +399,71 @@
     // Initialize
     renderTenantForms();
     updateStep();
+
+    $(document).ready(function () {
+        // Set as Main Person
+        $(document).on('click', '.make-main-btn', function () {
+            const id = $(this).data('id');
+            const member = $(this).data('member');
+
+            // Send AJAX request to update the main person
+            $.ajax({
+                url: `/admin/offers/${id}/set-main-person`, // Adjusted for the admin route prefix
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
+                    member: member,
+                },
+                success: function (response) {
+                    if (response.status) {
+                        alert('Main person updated successfully!');
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to update the main person.');
+                    }
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText);
+                    alert('An error occurred. Please try again.');
+                },
+            });
+        });
+
+        // Accept or Reject Offer
+        $(document).on('click', '.status-btn', function () {
+            const id = $(this).data('id');
+            const status = $(this).data('status');
+            const confirmationMessage =
+                status === 'Accepted'
+                    ? 'Are you sure you want to accept this offer?'
+                    : 'Are you sure you want to reject this offer?';
+
+            // Show confirmation dialog
+            if (confirm(confirmationMessage)) {
+                // Send AJAX request to update the status
+                $.ajax({
+                    url: `/admin/offers/${id}/update-status`, // Adjusted for the admin route prefix
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
+                        status: status,
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            alert(`Offer status updated to ${status}.`);
+                            $(`#status-${id}`).text(status); // Update the status badge dynamically
+                            if (status === 'Accepted') {
+                                $(`.status-btn[data-id="${id}"]`).hide(); // Hide buttons after accepting
+                            }
+                        } else {
+                            alert('Failed to update offer status.');
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error(xhr.responseText);
+                        alert('An error occurred. Please try again.');
+                    },
+                });
+            }
+        });
+    });

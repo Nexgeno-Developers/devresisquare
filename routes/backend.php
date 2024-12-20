@@ -118,5 +118,11 @@ Route::middleware('auth')->group(function () {
         Route::get('offers/{offer}/edit', [OfferController::class, 'edit'])->name('offers.edit');
         Route::put('offers/{offer}/update', [OfferController::class, 'update'])->name('offers.update');
         Route::delete('offers/{offer}/delete', [OfferController::class, 'destroy'])->name('offers.destroy');
+        // don't change url its used in property-offer.js file
+        Route::post('offers/{id}/set-main-person', [OfferController::class, 'setMainPerson'])->name('offers.setMainPerson');
+        Route::post('offers/{id}/update-status', [OfferController::class, 'updateStatus'])->name('offers.updateStatus');
+
     });
+
+
 });

@@ -8,6 +8,8 @@
     @endphp
 </div>
 <div class="accordion" id="offersAccordion">
+    @if(isset($offers))
+
     @foreach($offers as $key => $offer)
     @php
         // Find the main person
@@ -109,4 +111,5 @@
         </div>
     </div>
     @endforeach
+    @endif
 </div>

@@ -88,15 +88,10 @@
                                     <a type="button" class="tab-offers-btn btn btn_secondary btn-sm d-none" data-bs-toggle="modal" data-bs-target="#addOfferModal">
                                         Add Offer
                                     </a>
-
-                                    <a href="javascript:void(0);"
-                                    class="popup-tab-owners-create btn btn_secondary btn-sm tab-owners-btn d-none"
-                                    onclick="smallModal('{{ route('admin.owner-groups.create') }}', 'Add Owner')"
-                                    role="button"
-                                    aria-label="Add Owner">
-                                     <span>Add Owner</span>
-                                     <span class="icon_btn"></span>
-                                 </a>
+                                    <a data-url="{{ route('admin.owner-groups.create') }}" class="popup-tab-owners-create btn btn_secondary btn-sm tab-owners-btn d-none">
+                                        <span>Add Owner</span>
+                                        <span class="icon_btn"></span>
+                                    </a>
 
 
                             {{-- @if (isset($property) && isset($propertyId)) --}}
@@ -165,6 +160,83 @@
         }
     </style>
 
+<!-- property offer add Modal -->
+<div class="modal fade" id="addOfferModal" tabindex="-1" aria-labelledby="addOfferModal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addOfferModal-label">Add Offer</h5>
+          <a type="button" class="btn-close" onclick="closeModel();" data-bs-dismiss="modal" aria-label="Close"></a>
+        </div>
+        <div class="modal-body">
+            <!-- Main Form -->
+            <form action="{{ route('admin.offers.store') }}" method="POST" class="tenantOfferForm" id="tenantOfferForm">
+                @csrf
+                <input type="hidden" name="property_id" class="form-control" value="">
+                <!-- Steps Container -->
+                <div id="steps-container">
+                    <input type="hidden" id="mainPersonId" name="mainPersonId">
+                    <!-- Tenant Forms -->
+                    <div id="tenant-forms" class="step"></div>
+
+                    <!-- Offer Details Step -->
+                    <div id="offer-step" class="step hidden">
+                        <h6>Offer Details</h6>
+                        <div class="row">
+                          <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="price" class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" required>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="deposit" class="form-label">Deposit</label>
+                                    <input type="number" class="form-control" id="deposit" name="deposit" placeholder="Enter deposit amount" required>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="term" class="form-label">Term</label>
+                                    <input type="text" class="form-control" id="term" name="term" placeholder="Enter term" required>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="move_in_date" class="form-label">Move-in Date</label>
+                                    <input type="date" class="form-control" id="moveInDate" name="moveInDate" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </form>
+            <span id="addTenantButton" class="add-tenant-btn hidden" onclick="addTenant()">Add More Tenant</span>
+        </div>
+        <!-- Modal Footer Navigation -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn_outline_secondary btn-sm" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            <button id="backButton" type="button" class="btn btn_secondary btn-md hidden">Back</button>
+            <button id="nextButton" type="button" class="btn btn_secondary btn-md ">Next</button>
+            <button id="submitButton" type="submit" form="tenantOfferForm" class="btn btn_secondary btn-md hidden">Submit</button>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
 
     <!-- Include the Modal Component -->
     @include('backend.components.modal')
@@ -201,12 +273,11 @@
             });
         }
 
-        // Trigger the modal when an element with the 'popup-tab-owners-create' class is clicked
         $(document).on('click', '.popup-tab-owners-create', function(e) {
             e.preventDefault(); // Prevent the default action (e.g., following the link)
 
             // Get the URL from the link (you can dynamically get the URL as needed)
-            var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
+            var url = $(this).attr('data-url'); // Assuming you're passing the URL in the 'href' attribute
             var header = 'Add Owner'; // You can set a custom header or get it dynamically
             // Access the data-property-id using JavaScript
             var propertyId = document.getElementById('hidden-property-id').getAttribute(
@@ -257,23 +328,8 @@
                 $("input[name='property_id']").val(propertyId);
             });
         });
-        $(document).on('click', '.popup-tab-owners-create', function(e) {
-            e.preventDefault(); // Prevent the default action (e.g., following the link)
 
-            // Get the URL from the link (you can dynamically get the URL as needed)
-            var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
-            var header = 'Create Owner'; // You can set a custom header or get it dynamically
-            // Access the data-property-id using JavaScript
-            var propertyId = document.getElementById('hidden-property-id').getAttribute(
-                'data-property-id') ?? '';
 
-            smallModal(url, header);
-            // Ensure the modal content is loaded and then set the property_id in the hidden input field inside the modal form
-            $('#smallModal').on('shown.bs.modal', function() {
-                // Set the property_id in the hidden input field inside the modal form
-                $("input[name='property_id']").val(propertyId);
-            });
-        });
     });
 
     // document.querySelectorAll('.tab-link').forEach(tab => {

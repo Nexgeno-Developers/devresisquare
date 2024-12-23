@@ -56,12 +56,14 @@ class ContactController
                 if ($contact) {
                     // Log the data before updating
                     Log::info('Updating contact with ID ' . $contact_id, $validatedData);
-                    //update step
-                    $validatedData['quick_step'] = $request->step;
 
                     // Merge new selected properties if provided
                     if ($request->has('selected_properties')) {
                         $validatedData['selected_properties'] = $request->selected_properties;
+                    }
+                    // Add a condition to prevent updating the step if it's the final step
+                    if ($request->step < $this->getTotalQuickSteps()) {
+                        $validatedData['quick_step'] = $request->step; // Update step only if it's not the last step
                     }
 
                     $contact->update($validatedData);
@@ -212,6 +214,32 @@ class ContactController
             // Return a view with an error message if the step is invalid
             return view('backend.contacts.contact_form.error', ['message' => 'Invalid step.']);
         }
+    }
+
+    public function quicklyStoreContactFromOwner(Request $request)
+    {
+        // Validate incoming request
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:contacts,email',
+            'phone' => 'required|string|max:20',
+        ]);
+
+        // Create a new contact
+        $contact = Contact::create([
+            'category_id' => 1,
+            'full_name' => $validated['full_name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'added_by' => Auth::id(),
+        ]);
+
+        // Return the contact data as a JSON response
+        return response()->json([
+            'success' => true,
+            'contact' => $contact
+        ]);
+
     }
 
     public function store(Request $request)

@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
         Route::get('contacts/create', [ContactController::class, 'create'])->name('contacts.create');
         Route::get('contacts/contact_step/{step}', [ContactController::class, 'getQuickStepView'])->name('contacts.contact_step');
         Route::post('contacts/store', [ContactController::class, 'contactStore'])->name('contacts.store');
+        Route::post('contacts/store-owner-contact', [ContactController::class, 'quicklyStoreContactFromOwner'])->name('contacts.owner_contact_store');
         Route::get('contacts/properties/search', [ContactController::class, 'searchProperties'])->name('contacts.properties.search');
         // Route::post('contacts/store', [ContactController::class, 'store'])->name('contacts.store');
         Route::get('contacts/show/{id}', [ContactController::class, 'show'])->name('contacts.show');
@@ -105,7 +106,9 @@ Route::middleware('auth')->group(function () {
         // Owner Groups
         Route::get('owner-groups', [OwnerGroupController::class, 'index'])->name('owner-groups.index');
         Route::get('owner-groups/create', [OwnerGroupController::class, 'create'])->name('owner-groups.create');
+        Route::get('owner-groups/create-group', [OwnerGroupController::class, 'createGroup'])->name('owner-groups.create_group');
         Route::post('owner-groups/store', [OwnerGroupController::class, 'store'])->name('owner-groups.store');
+        Route::post('owner-groups/store-group', [OwnerGroupController::class, 'storeGroup'])->name('owner-groups.store_group');
         Route::get('owner-groups/{ownerGroup}/show', [OwnerGroupController::class, 'show'])->name('owner-groups.show');
         Route::get('owner-groups/{ownerGroup}/edit', [OwnerGroupController::class, 'edit'])->name('owner-groups.edit');
         Route::put('owner-groups/{ownerGroup}/update', [OwnerGroupController::class, 'update'])->name('owner-groups.update');

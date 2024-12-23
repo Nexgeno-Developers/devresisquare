@@ -92,6 +92,10 @@
                                         <span>Add Owner</span>
                                         <span class="icon_btn"></span>
                                     </a>
+                                    <a data-url="{{ route('admin.owner-groups.create_group') }}" class="popup-tab-owner-group-create btn btn_secondary btn-sm tab-owners-group-btn d-none">
+                                        <span>Add Owner Group</span>
+                                        <span class="icon_btn"></span>
+                                    </a>
 
 
                             {{-- @if (isset($property) && isset($propertyId)) --}}
@@ -245,6 +249,94 @@
 @section('page.scripts')
 <script src="{{ asset('/asset/backend/js/property-offer.js') }}"></script>
 <script>
+    $(document).ready(function() {
+
+        // Step 1: Event listener for clicks on the document for the "Add New Contact" button
+        $(document).on('click', '#addContactBtn', function() {
+            $('#mainForm').hide(); // Hide the main form
+            $('#addContactFormContainer').show(); // Show the Add Contact form
+        });
+
+        // Step 2: Event listener for clicks on the document for the "Back" button
+        $(document).on('click', '#backToMainForm', function() {
+            $('#addContactFormContainer').hide(); // Hide the Add Contact form
+            $('#mainForm').show(); // Show the main form
+        });
+
+        // Step 3: Handle the form submission for adding a new contact via AJAX
+        $(document).on('submit', '#addContactForm', function(event) {
+            event.preventDefault(); // Prevent normal form submission
+
+            // Clear any previous error messages
+            $('.is-invalid').removeClass('is-invalid');
+            $('.invalid-feedback').remove();
+
+            var formData = $(this).serialize(); // Serialize the form data
+
+            $.ajax({
+                url: '{{ route("admin.contacts.owner_contact_store") }}', // Make sure this route exists for adding contacts
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Assuming the response contains the new contact's ID and full name
+                    if (response.success) {
+                        // Add the new contact to the dropdown in the main form
+                        $('#contact_id').append(
+                            `<option value="${response.contact.id}">${response.contact.full_name}</option>`
+                        );
+
+                        // Optionally, select the new contact
+                        $('#contact_id').val(response.contact.id);
+
+                        // Hide the Add Contact form and show the Main Form
+                        $('#addContactFormContainer').hide();
+                        $('#mainForm').show();
+
+                        // Reset the Add Contact form
+                        $('#addContactForm')[0].reset();
+                    } else {
+                        alert('Failed to add contact.');
+                    }
+                },
+                error: function(xhr) {
+                    // Check if the status code is 422 (validation error)
+                    if (xhr.status === 422) {
+                        var errors = xhr.responseJSON.errors; // Assuming errors are structured like this
+                        console.log(errors); // Log the errors object for debugging
+
+                        // Clear previous error messages and styling
+                        $('input').removeClass('is-invalid');
+                        $('.invalid-feedback').remove();
+
+                        // Loop through the errors and display them in the form
+                        $.each(errors, function(field, messages) {
+                            // Check if the field exists in the form
+                            var input = $('#contact_' + field);
+
+                            if (input.length > 0) {  // Make sure the input field exists
+                                input.addClass('is-invalid'); // Add the 'is-invalid' class to the field
+
+                                // Check if the field already has an error message to avoid appending multiple messages
+                                if (input.next('.invalid-feedback').length === 0) {
+                                    input.after('<div class="invalid-feedback">' + messages[0] + '</div>');
+                                }
+                            } else {
+                                console.log('Input field with id ' + field + ' not found!');
+                            }
+                        });
+                    } else {
+                        alert('An error occurred while adding the contact.');
+                    }
+                }
+
+
+            });
+        });
+    });
+
+
+
+
     var responseHandler = function(response) {
         location.reload();
     }
@@ -290,6 +382,25 @@
                 $("input[name='property_id']").val(propertyId);
             });
         });
+
+        $(document).on('click', '.popup-tab-owner-group-create', function(e) {
+            e.preventDefault(); // Prevent the default action (e.g., following the link)
+
+            // Get the URL for the modal (you can dynamically fetch it as needed)
+            var url = $(this).attr('data-url'); // URL passed in the 'data-url' attribute
+            var header = 'Add Owner Group'; // Custom header or dynamic header
+            var propertyId = document.getElementById('hidden-property-id').getAttribute('data-property-id') ?? ''; // Fetch the property_id
+
+            // Open the modal (assuming smallModal is a function that handles modal rendering)
+            smallModal(url, header);
+
+            // Ensure modal content is loaded and set the property_id in the hidden field inside the modal form
+            $('#smallModal').on('shown.bs.modal', function() {
+                // Set the property_id in the hidden input field inside the modal form
+                $("input[name='property_id']").val(propertyId);
+            });
+        });
+
 
         // Trigger the modal when an element with the 'popup-tab-offer-create' class is clicked
         $(document).on('click', '.popup-tab-offer-create', function(e) {
@@ -370,8 +481,10 @@
             // Show or hide the button based on the tabName
             if (tabName === 'owners') {
                 $('.tab-owners-btn').removeClass('d-none'); // Show the button for 'owner' tab
+                $('.tab-owners-group-btn').removeClass('d-none'); // Show the button for 'owner' tab
             } else {
                 $('.tab-owners-btn').addClass('d-none'); // Hide the button for other tabs
+                $('.tab-owners-group-btn').addClas-groups('d-none'); // Hide the button for other tabs
             }
             if (tabName === 'offers') {
                 $('.tab-offers-btn').removeClass('d-none'); // Show the button for 'owner' tab

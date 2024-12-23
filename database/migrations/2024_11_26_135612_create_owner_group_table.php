@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('property_id'); // Foreign key referencing properties table (unsignedBigInteger)
             $table->unsignedBigInteger('contact_id')->nullable(); // Foreign key referencing contacts table (unsignedBigInteger)
+            $table->string('contact_ids', 155)->nullable(); // Foreign key referencing contacts table (unsignedBigInteger)
             $table->date('purchased_date');
             $table->date('sold_date')->nullable();
             $table->date('archived_date')->nullable();

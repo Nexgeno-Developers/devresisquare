@@ -28,6 +28,13 @@ class OwnerGroupController
         return view('backend.owner_groups.create', compact('contacts', 'properties'));
     }
 
+    public function createGroup()
+    {
+        $contacts = Contact::all();
+        $properties = Property::all();
+        return view('backend.owner_groups.create-group', compact('contacts', 'properties'));
+    }
+
     /**
      * Store a newly created OwnerGroup in storage.
      */
@@ -46,6 +53,38 @@ class OwnerGroupController
         flash("Owner Group created successfully!")->success();
         return back();
     }
+
+    public function storeGroup(Request $request)
+    {
+        // Validate the incoming data
+        $validated = $request->validate([
+            'contact_id' => 'required|array',
+            'contact_id.*' => 'exists:contacts,id',
+            'property_id' => 'required|exists:properties,id', // Ensure that the property_id exists
+            'purchased_date' => 'required|date',
+            'status' => 'required|in:active,inactive,archived',
+        ]);
+
+        // Convert contact IDs to a comma-separated string or JSON, depending on your choice
+        $contactIds = implode(',', $validated['contact_id']); // Comma-separated list
+
+        // Create a new OwnerGroup record using Eloquent
+        OwnerGroup::create([
+            'property_id' => $validated['property_id'],
+            'contact_ids' => $contactIds, // Store contact IDs as a string or JSON
+            'purchased_date' => $validated['purchased_date'],
+            'sold_date' => $request->sold_date, // optional
+            'archived_date' => $request->archived_date, // optional
+            'status' => $validated['status'],
+        ]);
+
+        // Provide a success message
+        flash("Owner Group created successfully!")->success();
+
+        // Redirect back
+        return back();
+    }
+
 
     /**
      * Display the specified OwnerGroup.

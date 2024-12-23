@@ -13,7 +13,7 @@ class DynamicTable extends Component
     {
 
         $this->headers = $headers;
-        $this->rows = $rows->toArray();
+        $this->rows = is_array($rows) ? $rows : $rows->toArray();
         $this->class = $class;
         $this->actionBtn = $actionBtn; // True | False
     }

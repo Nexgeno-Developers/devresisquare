@@ -18,6 +18,7 @@ class OwnerGroup extends Model
     protected $fillable = [
         'property_id',
         'contact_id',
+        'contact_ids',
         'purchased_date',
         'sold_date',
         'archived_date',

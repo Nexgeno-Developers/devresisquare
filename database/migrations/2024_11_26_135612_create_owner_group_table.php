@@ -14,12 +14,17 @@ return new class extends Migration
         Schema::create('owner_group', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('property_id'); // Foreign key referencing properties table (unsignedBigInteger)
-            $table->unsignedBigInteger('contact_id')->nullable(); // Foreign key referencing contacts table (unsignedBigInteger)
             $table->date('purchased_date');
             $table->date('sold_date')->nullable();
             $table->date('archived_date')->nullable();
             $table->string('status', 10)->default('active');
             $table->timestamps();
+
+            // Add soft delete timestamp column
+            $table->softDeletes();
+
+            // Add deleted_by column to track who deleted the record
+            $table->unsignedBigInteger('deleted_by')->nullable(); // Foreign key referencing users table (unsignedBigInteger)
 
             // Add the foreign key constraint for property_id
             $table->foreign('property_id')
@@ -27,10 +32,10 @@ return new class extends Migration
                 ->on('properties')
                 ->onDelete('cascade');
 
-            // Add the foreign key constraint for contact_id
-            $table->foreign('contact_id')
+            // Add the foreign key constraint for deleted_by (if you have a users table)
+            $table->foreign('deleted_by')
                 ->references('id')
-                ->on('contacts')
+                ->on('users')
                 ->onDelete('set null');
         });
     }
@@ -45,7 +50,6 @@ return new class extends Migration
         Schema::table('owner_group', function (Blueprint $table) {
             // Drop foreign key constraints before dropping the table
             $table->dropForeign(['property_id']);
-            $table->dropForeign(['contact_id']);
         });
 
         Schema::dropIfExists('owner_group');

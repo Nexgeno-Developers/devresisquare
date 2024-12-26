@@ -17,11 +17,11 @@ class OwnerGroup extends Model
     // Mass-assignable attributes
     protected $fillable = [
         'property_id',
-        'contact_id',
         'purchased_date',
         'sold_date',
         'archived_date',
         'status',
+        'deleted_by',
     ];
 
     /**
@@ -34,20 +34,20 @@ class OwnerGroup extends Model
     }
 
     /**
-     * Relationship with the Contact model.
-     * An OwnerGroup belongs to a Contact.
-     */
-    public function contact(): BelongsTo
-    {
-        return $this->belongsTo(Contact::class, 'contact_id');
-    }
-
-    /**
      * Relationship with the Property model.
      * An OwnerGroup belongs to a Property.
      */
     public function property(): BelongsTo
     {
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+    /**
+     * Relationship with the ownerGroupContacts model.
+     * An OwnerGroup can have many ownerGroupContacts.
+    */
+    public function ownerGroupContacts(): HasMany
+    {
+        return $this->hasMany(OwnerGroupContact::class);
     }
 }

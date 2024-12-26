@@ -134,7 +134,6 @@ $(document).ready(function() {
             success: function(response) {
                 $('.render_blade').html(response);
                 if(step == 3){
-                    console.log('rune');
                     initSelectedProperties();
                 }
                 // Find id="contact_id" and put the contactId if it’s missing

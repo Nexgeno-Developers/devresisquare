@@ -113,6 +113,7 @@ Route::middleware('auth')->group(function () {
         Route::get('owner-groups/{ownerGroup}/edit', [OwnerGroupController::class, 'edit'])->name('owner-groups.edit');
         Route::put('owner-groups/{ownerGroup}/update', [OwnerGroupController::class, 'update'])->name('owner-groups.update');
         Route::post('owner-groups/{ownerGroup}/delete', [OwnerGroupController::class, 'destroy'])->name('owner-groups.destroy');
+        Route::post('owner-groups/update-main/{id}', [OwnerGroupController::class, 'updateMain'])->name('owner-groups.updateMain');
 
         // Offer
         Route::get('offers', [OfferController::class, 'index'])->name('offers.index');

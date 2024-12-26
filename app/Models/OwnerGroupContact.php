@@ -14,6 +14,7 @@ class OwnerGroupContact extends Model
     protected $fillable = [
         'owner_group_id',
         'contact_id',
+        'is_main',
     ];
 
     // Define the relationship with the OwnerGroup model

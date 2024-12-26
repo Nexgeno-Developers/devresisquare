@@ -247,6 +247,8 @@
 @endsection
 
 @section('page.scripts')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{ asset('/asset/backend/js/property-offer.js') }}"></script>
 <script>
     $(document).ready(function() {
@@ -396,6 +398,7 @@
 
             // Ensure modal content is loaded and set the property_id in the hidden field inside the modal form
             $('#smallModal').on('shown.bs.modal', function() {
+                // initSelect2('.select2');
                 // Set the property_id in the hidden input field inside the modal form
                 $("input[name='property_id']").val(propertyId);
             });
@@ -484,7 +487,7 @@
                 $('.tab-owners-group-btn').removeClass('d-none'); // Show the button for 'owner' tab
             } else {
                 $('.tab-owners-btn').addClass('d-none'); // Hide the button for other tabs
-                $('.tab-owners-group-btn').addClas-groups('d-none'); // Hide the button for other tabs
+                $('.tab-owners-group-btn').addClass('d-none'); // Hide the button for other tabs
             }
             if (tabName === 'offers') {
                 $('.tab-offers-btn').removeClass('d-none'); // Show the button for 'owner' tab

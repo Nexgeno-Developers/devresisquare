@@ -10,6 +10,7 @@
 
 {{-- Show table only if there is data --}}
 @if($ownerGroups->isNotEmpty())
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -69,7 +70,6 @@
                         </thead>
                         <tbody>
                             @foreach($ownerGroup->ownerGroupContacts as $contactIndex => $contact)
-
                                 <tr>
                                     <!-- Sr No -->
                                     <td>{{ $contactIndex + 1 }}</td>
@@ -84,9 +84,8 @@
 
                                     <!-- Position -->
                                     <td>
-                                        {{ $contact->category->name ?? 'N/A' }}
+                                        {{ optional($contact->contact->category)->name ?? 'N/A' }}
                                     </td>
-
 
                                     <!-- Phone -->
                                     <td>{{ $contact->contact->phone }}</td>
@@ -124,10 +123,54 @@
 
     function setAsMain(contactId, groupId) {
         if (confirm('Are you sure you want to set this contact as the main contact?')) {
-            // Perform the action via AJAX or redirect
-            alert('Contact ID: ' + contactId + ' set as Main for Group ID: ' + groupId);
+            // The URL for the update
+            var actionUrlTemplate = "{{ route('admin.owner-groups.updateMain', ['id' => ':groupId']) }}";
+
+            var actionUrl = actionUrlTemplate.replace(':groupId', groupId);
+
+            // Get the CSRF token dynamically
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Prepare the form data
+            var formData = new FormData();
+            formData.append('owner_group_id', groupId);
+            formData.append('contact_id', contactId);
+            formData.append('_token', csrfToken); // CSRF token for security
+
+            // Perform the AJAX request directly with the URL and form data
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: formData,
+                processData: false, // Important: don't process the data
+                contentType: false, // Important: let jQuery handle the content type
+                success: function(response) {
+                    // Handle the response upon success or failure
+                    if (response.status) {
+                        toastr.success(response.notification, 'Success');
+                        // Optionally reload the page or update the UI here
+                        setTimeout(function() {
+                            location.reload(); // Reload the page after 1 second
+                        }, 1000);
+                    } else {
+                        toastr.error(response.notification, 'Error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error); // Handle any errors that may occur
+                }
+            });
         }
     }
+
+
+
+    // function setAsMain(contactId, groupId) {
+    //     if (confirm('Are you sure you want to set this contact as the main contact?')) {
+    //         // Perform the action via AJAX or redirect
+    //         alert('Contact ID: ' + contactId + ' set as Main for Group ID: ' + groupId);
+    //     }
+    // }
 </script>
 
 

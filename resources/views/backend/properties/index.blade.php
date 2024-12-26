@@ -88,10 +88,10 @@
                                     <a type="button" class="tab-offers-btn btn btn_secondary btn-sm d-none" data-bs-toggle="modal" data-bs-target="#addOfferModal">
                                         Add Offer
                                     </a>
-                                    <a data-url="{{ route('admin.owner-groups.create') }}" class="popup-tab-owners-create btn btn_secondary btn-sm tab-owners-btn d-none">
+                                    {{-- <a data-url="{{ route('admin.owner-groups.create') }}" class="popup-tab-owners-create btn btn_secondary btn-sm tab-owners-btn d-none">
                                         <span>Add Owner</span>
                                         <span class="icon_btn"></span>
-                                    </a>
+                                    </a> --}}
                                     <a data-url="{{ route('admin.owner-groups.create_group') }}" class="popup-tab-owner-group-create btn btn_secondary btn-sm tab-owners-group-btn d-none">
                                         <span>Add Owner Group</span>
                                         <span class="icon_btn"></span>
@@ -483,10 +483,10 @@
 
             // Show or hide the button based on the tabName
             if (tabName === 'owners') {
-                $('.tab-owners-btn').removeClass('d-none'); // Show the button for 'owner' tab
+                // $('.tab-owners-btn').removeClass('d-none'); // Show the button for 'owner' tab
                 $('.tab-owners-group-btn').removeClass('d-none'); // Show the button for 'owner' tab
             } else {
-                $('.tab-owners-btn').addClass('d-none'); // Hide the button for other tabs
+                // $('.tab-owners-btn').addClass('d-none'); // Hide the button for other tabs
                 $('.tab-owners-group-btn').addClass('d-none'); // Hide the button for other tabs
             }
             if (tabName === 'offers') {

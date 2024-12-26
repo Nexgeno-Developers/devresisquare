@@ -1,6 +1,9 @@
+<div id="mainForm">
 <form id="owner-group-form" action="{{ route('admin.owner-groups.store_group') }}" method="POST">
     @csrf
     <input type="hidden" name="property_id" class="form-control" value="">
+
+    <button type="button" class="d-flex float-end btn btn-outline-primary btn-sm" id="addContactBtn">Add New Contact</button>
 
     <div class="form-group">
         <label for="contact_id">Contacts</label>
@@ -49,7 +52,26 @@
 
     <button type="submit" class="float-end mt-3 btn btn-secondary">Save</button>
 </form>
-
+</div>
+<div id="addContactFormContainer" style="display: none;">
+    <form id="addContactForm">
+        @csrf
+        <div class="mb-3">
+            <label for="contact_name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="contact_name" name="full_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="contact_email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="contact_email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="contact_phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="contact_phone" name="phone" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Contact</button>
+        <button type="button" class="btn btn-secondary" id="backToMainForm">Back</button>
+    </form>
+</div>
 
 <script>
 

@@ -18,6 +18,19 @@ return new class extends Migration
             $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('set null'); // Manual foreign key definition
             $table->boolean('is_main')->default(false);
             $table->timestamps();
+
+            // Add soft delete timestamp column
+            $table->softDeletes();
+
+            // Add 'added_by', 'updated_by', 'deleted_by' columns
+            $table->unsignedBigInteger('added_by')->nullable(); // Foreign key referencing users table (unsignedBigInteger)
+            $table->unsignedBigInteger('updated_by')->nullable(); // Foreign key referencing users table (unsignedBigInteger)
+            $table->unsignedBigInteger('deleted_by')->nullable(); // Foreign key referencing users table (unsignedBigInteger)
+
+            // Add foreign key constraints for 'added_by', 'updated_by', 'deleted_by'
+            $table->foreign('added_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('deleted_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 
@@ -30,6 +43,19 @@ return new class extends Migration
             // Drop foreign key constraints before dropping the table
             $table->dropForeign(['owner_group_id']);
             $table->dropForeign(['contact_id']);
+
+            $table->dropForeign(['added_by']);
+            $table->dropForeign(['updated_by']);
+            $table->dropForeign(['deleted_by']);
+
+            // Drop the added, updated, and deleted columns
+            $table->dropColumn('added_by');
+            $table->dropColumn('updated_by');
+            $table->dropColumn('deleted_by');
+
+            // Drop the soft deletes column
+            $table->dropSoftDeletes();
+
         });
 
         Schema::dropIfExists('owner_group_contacts');

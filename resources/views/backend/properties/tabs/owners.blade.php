@@ -49,7 +49,8 @@
 
                 <!-- Action -->
                 <td>
-                    <button class="btn btn-sm btn-primary" onclick="viewDetails({{ $ownerGroup->id }})">View</button>
+                    <button data-url="{{ route('admin.owner-groups.edit', $ownerGroup->id) }}" class="popup-tab-owner-group-edit btn btn-sm btn-warning" >Edit</button>
+                    <button class="btn btn-sm btn-danger action-icon" onclick="confirmModal('{{ route('admin.owner-groups.delete_group', $ownerGroup->id) }}', responseHandler)">Delete</button>
                 </td>
             </tr>
 
@@ -116,10 +117,6 @@
 
 <!-- JavaScript functions -->
 <script>
-    function viewDetails(groupId) {
-        alert('Details for Group ID: ' + groupId);
-        // Implement further actions like opening a modal or redirecting
-    }
 
     function setAsMain(contactId, groupId) {
         if (confirm('Are you sure you want to set this contact as the main contact?')) {

@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OwnerGroup extends Model
 {
+    use SoftDeletes;
     use HasFactory;
 
     // Specify the table if not following Laravel's naming convention
@@ -21,7 +23,9 @@ class OwnerGroup extends Model
         'sold_date',
         'archived_date',
         'status',
-        'deleted_by',
+        'added_by', // Add added_by field to fillable
+        'updated_by', // Add updated_by field to fillable
+        'deleted_by', // Add deleted_by field to fillable
     ];
 
     /**

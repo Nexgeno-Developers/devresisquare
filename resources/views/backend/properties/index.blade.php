@@ -288,7 +288,7 @@
                         );
 
                         // Optionally, select the new contact
-                        $('#contact_id').val(response.contact.id);
+                        // $('#contact_id').val(response.contact.id);
 
                         // Hide the Add Contact form and show the Main Form
                         $('#addContactFormContainer').hide();
@@ -398,12 +398,76 @@
 
             // Ensure modal content is loaded and set the property_id in the hidden field inside the modal form
             $('#smallModal').on('shown.bs.modal', function() {
-                // initSelect2('.select2');
                 // Set the property_id in the hidden input field inside the modal form
                 $("input[name='property_id']").val(propertyId);
+                initSelect2('.select2');
             });
         });
 
+        // Trigger the modal when an element with the 'popup-tab-owner-group-edit' class is clicked
+        $(document).on('click', '.popup-tab-owner-group-edit', function(e) {
+            e.preventDefault(); // Prevent the default action (e.g., following the link)
+
+            // Get the URL from the link (you can dynamically get the URL as needed)
+            // var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
+            var url = $(this).attr('data-url'); // URL passed in the 'data-url' attribute
+            var header = 'Edit Owner Group'; // You can set a custom header or get it dynamically
+            // Access the data-property-id using JavaScript
+            var propertyId = document.getElementById('hidden-property-id').getAttribute('data-property-id') ?? '';
+
+            smallModal(url, header);
+            // Ensure the modal content is loaded and then set the property_id in the hidden input field inside the modal form
+            $('#smallModal').on('shown.bs.modal', function() {
+                // Set the property_id in the hidden input field inside the modal form
+                $("input[name='property_id']").val(propertyId);
+                initSelect2('.select2');
+
+                const contactSelect = $('#contact_id');
+                const contactOptionsContainer = $('#contact-options');
+
+                // Store the previously selected main contact
+                let previouslySelectedMainContact = $('input[name="is_main"]:checked').val() || null;
+
+                // Listen for changes in the contact dropdown
+                contactSelect.on('change', function () {
+                    const selectedContacts = contactSelect.val() || [];
+                    contactOptionsContainer.empty();
+
+                    if (selectedContacts.length > 0) {
+                        // Add default label
+                        contactOptionsContainer.append(`
+                            <label class="mb-2">Select Main Contact</label>
+                        `);
+
+                        // Add radio buttons for each selected contact
+                        selectedContacts.forEach(contactId => {
+                            const contactName = contactSelect.find(`option[value="${contactId}"]`).text(); // Get the name from the option
+                            const isChecked = previouslySelectedMainContact === contactId ? 'checked' : ''; // Preserve previously selected main contact
+                            contactOptionsContainer.append(`
+                                <div class="form-check">
+                                    <input type="radio" name="is_main" value="${contactId}" id="is_main_${contactId}" class="form-check-input" ${isChecked}>
+                                    <label for="is_main_${contactId}" class="form-check-label">${contactName}</label>
+                                </div>
+                            `);
+                        });
+
+                        // Check if the previously selected main contact is no longer in the selected contacts
+                        if (!selectedContacts.includes(previouslySelectedMainContact)) {
+                            // Reset previously selected main contact
+                            previouslySelectedMainContact = null;
+                            alert('Please reselect the main contact as the previous one is no longer selected.');
+                        }
+                    }
+                });
+
+                // Update the stored value when a main contact is selected
+                $(document).on('change', 'input[name="is_main"]', function () {
+                    previouslySelectedMainContact = $(this).val();
+                });
+
+
+            });
+        });
 
         // Trigger the modal when an element with the 'popup-tab-offer-create' class is clicked
         $(document).on('click', '.popup-tab-offer-create', function(e) {
@@ -423,26 +487,6 @@
                 $("input[name='property_id']").val(propertyId);
             });
         });
-
-        // Trigger the modal when an element with the 'popup-tab-owners-edit' class is clicked
-        $(document).on('click', '.popup-tab-owners-edit', function(e) {
-            e.preventDefault(); // Prevent the default action (e.g., following the link)
-
-            // Get the URL from the link (you can dynamically get the URL as needed)
-            var url = $(this).attr('href'); // Assuming you're passing the URL in the 'href' attribute
-            var header = 'Edit Owner'; // You can set a custom header or get it dynamically
-            // Access the data-property-id using JavaScript
-            var propertyId = document.getElementById('hidden-property-id').getAttribute(
-                'data-property-id') ?? '';
-
-            smallModal(url, header);
-            // Ensure the modal content is loaded and then set the property_id in the hidden input field inside the modal form
-            $('#smallModal').on('shown.bs.modal', function() {
-                // Set the property_id in the hidden input field inside the modal form
-                $("input[name='property_id']").val(propertyId);
-            });
-        });
-
 
     });
 

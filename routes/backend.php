@@ -109,6 +109,8 @@ Route::middleware('auth')->group(function () {
         Route::get('owner-groups/create-group', [OwnerGroupController::class, 'createGroup'])->name('owner-groups.create_group');
         Route::post('owner-groups/store', [OwnerGroupController::class, 'store'])->name('owner-groups.store');
         Route::post('owner-groups/store-group', [OwnerGroupController::class, 'storeGroup'])->name('owner-groups.store_group');
+        Route::post('owner-groups/update-group/{id}', [OwnerGroupController::class, 'updateGroup'])->name('owner-groups.update_group');
+        Route::post('owner-groups/delete-group/{id}', [OwnerGroupController::class, 'deleteGroup'])->name('owner-groups.delete_group');
         Route::get('owner-groups/{ownerGroup}/show', [OwnerGroupController::class, 'show'])->name('owner-groups.show');
         Route::get('owner-groups/{ownerGroup}/edit', [OwnerGroupController::class, 'edit'])->name('owner-groups.edit');
         Route::put('owner-groups/{ownerGroup}/update', [OwnerGroupController::class, 'update'])->name('owner-groups.update');

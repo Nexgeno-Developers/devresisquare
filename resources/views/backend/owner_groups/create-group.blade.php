@@ -43,7 +43,7 @@
                 <label for="status">Status</label>
                 <select name="status" id="status" class="form-control" required>
                     <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
+                    {{-- <option value="inactive">Inactive</option> --}}
                     <option value="archived">Archived</option>
                 </select>
             </div>
@@ -76,33 +76,6 @@
 <script>
 
     initSelect2('.select2');
-
-    const contactSelect = $('#contact_id');
-    const contactOptionsContainer = $('#contact-options');
-
-    // Listen for changes in the contact dropdown
-    contactSelect.on('change', function () {
-        const selectedContacts = contactSelect.val() || [];
-        contactOptionsContainer.empty();
-
-        if (selectedContacts.length > 0) {
-            // Add default label
-            contactOptionsContainer.append(`
-                <label class="mb-2">Select Main Contact</label>
-            `);
-
-            // Add radio buttons for each selected contact
-            selectedContacts.forEach(contactId => {
-                const contactName = contactSelect.find(`option[value="${contactId}"]`).text(); // Get the name from the option
-                contactOptionsContainer.append(`
-                    <div class="form-check">
-                        <input type="radio" name="is_main" value="${contactId}" id="is_main_${contactId}" class="form-check-input">
-                        <label for="is_main_${contactId}" class="form-check-label">${contactName}</label>
-                    </div>
-                `);
-            });
-        }
-    });
 
     // Form submission validation
     $('form').on('submit', function(e) {

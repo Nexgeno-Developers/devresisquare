@@ -54,7 +54,7 @@
                     <label for="status">Status</label>
                     <select name="status" id="status" class="form-control" required>
                         <option value="active" @if($ownerGroup->status == 'active') selected @endif>Active</option>
-                        <option value="inactive" @if($ownerGroup->status == 'inactive') selected @endif>Inactive</option>
+                        {{-- <option value="inactive" @if($ownerGroup->status == 'inactive') selected @endif>Inactive</option> --}}
                         <option value="archived" @if($ownerGroup->status == 'archived') selected @endif>Archived</option>
                     </select>
                 </div>
@@ -91,9 +91,30 @@
 
     // Form submission validation
     $('form').on('submit', function(e) {
+        // confirmEdit();
         if ($('input[name="is_main"]:checked').length === 0) {
             e.preventDefault(); // Prevent form submission
             alert('Please select a main contact.'); // Show alert message
         }
     });
+
+    function confirmEdit() {
+        // Customize your confirmation message
+        const currentStatus = "{{ $ownerGroup->status }}"; // Get current status from server
+        const newStatus = document.querySelector('[name="status"]').value; // Get the selected status
+        // let message = "Are you sure you want to save the changes?";
+
+        // Special handling for status changes
+        if (currentStatus === 'archived' && newStatus === 'active') {
+            message = "You are activating an archived owner group. Proceed?";
+            // Show confirmation dialog
+            return confirm(message);
+        }else if (currentStatus === 'active' && newStatus === 'archived') {
+            message = "You are archiving an active owner group. Proceed?";
+            // Show confirmation dialog
+            return confirm(message);
+        }
+
+
+    }
 </script>

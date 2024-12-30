@@ -385,6 +385,80 @@
             });
         });
 
+        // Function to handle the AJAX form submission
+        function submitOwnerGroupForm(e) {
+            var form = $('#owner-group-form');
+            var btn = form.find('button[type="submit"]');
+            var btn_text = btn.html();
+
+            e.preventDefault();  // Prevent default form submission
+
+            btn.html('<i class="ri-refresh-line"></i>');
+            btn.css("opacity", "0.7");
+            btn.css("pointer-events", "none");
+
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(response) {
+                    btn.html(btn_text);
+                    btn.css("opacity", "1");
+                    btn.css("pointer-events", "inherit");
+
+                    if (response.status) {
+                        toastr.success(response.notification, "Success");
+                        // Close the modal on success
+                        $('#smallModal').modal('hide');
+                        setTimeout(function() {
+                            location.reload(); // Reload the page after 1 second
+                        }, 1000);
+                    } else {
+                        // Handle validation errors
+                        if (response.errors) {
+                            // Loop through each error and display it
+                            $.each(response.errors, function(field, messages) {
+                                // For each field with errors, show them
+                                toastr.error(messages.join(', '), field.charAt(0).toUpperCase() + field.slice(1));
+                            });
+                        }
+                       // Check if the response is asking for confirmation
+                        if (response.notification.includes('Do you want to archive the existing one and activate the new group?') ||
+                            response.notification.includes('Are you sure you want to archive this active owner group?') ||
+                            response.notification.includes('Do you want to archive it and activate this one?')) {
+
+                            // Display confirmation dialog for archiving the existing group
+                            if (confirm(response.notification)) {
+                                // If user confirms, add a hidden field to the form to confirm archiving
+                                $('<input>').attr({
+                                    type: 'hidden',
+                                    name: 'confirm_archive',
+                                    value: 'yes'
+                                }).appendTo(form);
+
+                                // Resubmit the form with the confirmation
+                                submitOwnerGroupForm(e);
+                            }
+                        } else {
+                            toastr.error(response.notification, "Error");
+                        }
+                    }
+                },
+                error: function() {
+                    // toastr.error(response.notification, 'Error')
+                    btn.html(btn_text);
+                    btn.css("opacity", "1");
+                    btn.css("pointer-events", "inherit");
+                    toastr.error("There was an error with the form submission. Please try again.", "Error");
+                }
+            });
+        }
+
+        // Bind the function to the form submission using event delegation
+        $(document).on('submit', '#owner-group-form', function(e) {
+            submitOwnerGroupForm(e);  // Call the submit function when the form is submitted
+        });
+
         $(document).on('click', '.popup-tab-owner-group-create', function(e) {
             e.preventDefault(); // Prevent the default action (e.g., following the link)
 
@@ -401,6 +475,33 @@
                 // Set the property_id in the hidden input field inside the modal form
                 $("input[name='property_id']").val(propertyId);
                 initSelect2('.select2');
+
+                const contactSelect = $('#contact_id');
+                const contactOptionsContainer = $('#contact-options');
+
+                // Listen for changes in the contact dropdown
+                contactSelect.on('change', function () {
+                    const selectedContacts = contactSelect.val() || [];
+                    contactOptionsContainer.empty();
+
+                    if (selectedContacts.length > 0) {
+                        // Add default label
+                        contactOptionsContainer.append(`
+                            <label class="mb-2">Select Main Contact</label>
+                        `);
+
+                        // Add radio buttons for each selected contact
+                        selectedContacts.forEach(contactId => {
+                            const contactName = contactSelect.find(`option[value="${contactId}"]`).text(); // Get the name from the option
+                            contactOptionsContainer.append(`
+                                <div class="form-check">
+                                    <input type="radio" name="is_main" value="${contactId}" id="is_main_${contactId}" class="form-check-input">
+                                    <label for="is_main_${contactId}" class="form-check-label">${contactName}</label>
+                                </div>
+                            `);
+                        });
+                    }
+                });
             });
         });
 
@@ -422,28 +523,28 @@
                 $("input[name='property_id']").val(propertyId);
                 initSelect2('.select2');
 
-                const contactSelect = $('#contact_id');
-                const contactOptionsContainer = $('#contact-options');
+                const contactSelect2 = $('#contact_id');
+                const contactOptionsContainer2 = $('#contact-options');
 
                 // Store the previously selected main contact
                 let previouslySelectedMainContact = $('input[name="is_main"]:checked').val() || null;
 
                 // Listen for changes in the contact dropdown
-                contactSelect.on('change', function () {
-                    const selectedContacts = contactSelect.val() || [];
-                    contactOptionsContainer.empty();
+                contactSelect2.on('change', function () {
+                    const selectedContacts = contactSelect2.val() || [];
+                    contactOptionsContainer2.empty();
 
                     if (selectedContacts.length > 0) {
                         // Add default label
-                        contactOptionsContainer.append(`
+                        contactOptionsContainer2.append(`
                             <label class="mb-2">Select Main Contact</label>
                         `);
 
                         // Add radio buttons for each selected contact
                         selectedContacts.forEach(contactId => {
-                            const contactName = contactSelect.find(`option[value="${contactId}"]`).text(); // Get the name from the option
+                            const contactName = contactSelect2.find(`option[value="${contactId}"]`).text(); // Get the name from the option
                             const isChecked = previouslySelectedMainContact === contactId ? 'checked' : ''; // Preserve previously selected main contact
-                            contactOptionsContainer.append(`
+                            contactOptionsContainer2.append(`
                                 <div class="form-check">
                                     <input type="radio" name="is_main" value="${contactId}" id="is_main_${contactId}" class="form-check-input" ${isChecked}>
                                     <label for="is_main_${contactId}" class="form-check-label">${contactName}</label>
@@ -455,7 +556,7 @@
                         if (!selectedContacts.includes(previouslySelectedMainContact)) {
                             // Reset previously selected main contact
                             previouslySelectedMainContact = null;
-                            alert('Please reselect the main contact as the previous one is no longer selected.');
+                            // alert('Please reselect the main contact as the previous one is no longer selected.');
                         }
                     }
                 });

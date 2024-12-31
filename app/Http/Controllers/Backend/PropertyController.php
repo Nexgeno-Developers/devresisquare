@@ -12,6 +12,7 @@ use App\Models\Designation;
 use App\Models\Branch;
 use App\Models\PropertyResponsibility;
 use App\Models\Offer;
+use App\Models\Tenancy;
 // use App\Models\EstateCharge;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -120,8 +121,27 @@ private function getTabContent($tabname, $propertyId, $property)
             return view('backend.properties.tabs.offers', compact('propertyId', 'offers'))->render();
         case 'complience':
             return view('backend.properties.tabs.complience', compact('propertyId'))->render();
+
         case 'tenancy':
-            return view('backend.properties.tabs.tenancy', compact('propertyId'))->render();
+
+            // Fetch active tenancies and order them by move_in date (latest first)
+            // $tenancies = Tenancy::where('property_id', $propertyId)
+            // ->where('status', 'Active')   // Filter by active status
+            // ->orderBy('move_in', 'desc')  // Order by move_in date (latest first)
+            // ->first()->get();
+
+            $tenancies = Tenancy::where('property_id', $propertyId)
+                    ->where('status', 'Active')   // Filter by active status
+                    ->get(); // Always get a collection (empty or with one or more records)
+
+
+            // $tenancies = Tenancy::where('property_id', $propertyId)
+            //             ->where('status', 'Active')   // Filter by active status
+            //             ->first(); // Get only the first (latest) record
+
+            // Pass the data to the tenancy view
+            return view('backend.properties.tabs.tenancy', compact('tenancies', 'propertyId'))->render();
+
         case 'aps':
             return view('backend.properties.tabs.aps', compact('propertyId'))->render();
         case 'media':

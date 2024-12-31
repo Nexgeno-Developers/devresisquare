@@ -96,6 +96,10 @@
                                         <span>Add Owner Group</span>
                                         <span class="icon_btn"></span>
                                     </a>
+                                    <a data-url="{{ route('admin.tenancies.create') }}" class="popup-tab-tenancy-create btn btn_secondary btn-sm tab-tenancy-group-btn d-none">
+                                        <span>Add Tenacy</span>
+                                        <span class="icon_btn"></span>
+                                    </a>
 
 
                             {{-- @if (isset($property) && isset($propertyId)) --}}
@@ -604,6 +608,52 @@
     //         document.getElementById(this.getAttribute('href').substring(1)).classList.add('active');
     //     });
     // });
+
+
+
+        $(document).on('click', '.popup-tab-tenancy-create', function(e) {
+            e.preventDefault(); // Prevent the default action (e.g., following the link)
+
+            // Get the URL for the modal (you can dynamically fetch it as needed)
+            var url = $(this).attr('data-url'); // URL passed in the 'data-url' attribute
+            var header = 'Add Tenancy'; // Custom header or dynamic header
+            var propertyId = document.getElementById('hidden-property-id').getAttribute('data-property-id') ?? ''; // Fetch the property_id
+
+            // Open the modal (assuming smallModal is a function that handles modal rendering)
+            smallModal(url, header);
+
+            // Ensure modal content is loaded and set the property_id in the hidden field inside the modal form
+            $('#smallModal').on('shown.bs.modal', function() {
+                // Set the property_id in the hidden input field inside the modal form
+                $("input[name='property_id']").val(propertyId);
+                initSelect2('.select2');
+            });
+        });
+
+        $(document).on('click', '.popup-tab-tenancy-edit', function(e) {
+            e.preventDefault(); // Prevent the default action (e.g., following the link)
+
+            // Get the URL for the modal (you can dynamically fetch it as needed)
+            var url = $(this).attr('data-url'); // URL passed in the 'data-url' attribute
+            var header = 'Edit Tenancy'; // Custom header or dynamic header
+            var propertyId = document.getElementById('hidden-property-id').getAttribute('data-property-id') ?? ''; // Fetch the property_id
+
+            // Open the modal (assuming smallModal is a function that handles modal rendering)
+            smallModal(url, header);
+
+            // Ensure modal content is loaded and set the property_id in the hidden field inside the modal form
+            $('#smallModal').on('shown.bs.modal', function() {
+                // Set the property_id in the hidden input field inside the modal form
+                $("input[name='property_id']").val(propertyId);
+                initSelect2('.select2');
+            });
+        });
+
+
+
+
+
+
     $(document).ready(function() {
 
         // Function to get URL parameters
@@ -638,6 +688,11 @@
                 $('.tab-offers-btn').removeClass('d-none'); // Show the button for 'owner' tab
             } else {
                 $('.tab-offers-btn').addClass('d-none'); // Hide the button for other tabs
+            }
+            if (tabName === 'tenancy') {
+                $('.tab-tenancy-group-btn').removeClass('d-none'); // Show the button for 'owner' tab
+            } else {
+                $('.tab-tenancy-group-btn').addClass('d-none'); // Hide the button for other tabs
             }
                 // Update the "Edit Property" button dynamically if property ID exists
             if (propertyId) {

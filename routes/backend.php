@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\OwnerGroupController;
 use App\Http\Controllers\Backend\OfferController;
 use App\Http\Controllers\Backend\BranchController;
 use App\Http\Controllers\Backend\DesignationController;
+use App\Http\Controllers\Backend\TenancyController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -116,6 +117,15 @@ Route::middleware('auth')->group(function () {
         Route::put('owner-groups/{ownerGroup}/update', [OwnerGroupController::class, 'update'])->name('owner-groups.update');
         Route::post('owner-groups/{ownerGroup}/delete', [OwnerGroupController::class, 'destroy'])->name('owner-groups.destroy');
         Route::post('owner-groups/update-main/{id}', [OwnerGroupController::class, 'updateMain'])->name('owner-groups.updateMain');
+
+        // Tenancy
+        Route::get('/properties/{propertyId}/tenancies', [TenancyController::class, 'index'])->name('tenancies.index');
+        Route::get('/tenancies/create', [TenancyController::class, 'create'])->name('tenancies.create');
+        Route::post('/tenancies/store', [TenancyController::class, 'store'])->name('tenancies.store');
+        Route::get('/tenancies/{id}', [TenancyController::class, 'show'])->name('tenancies.show');
+        Route::get('/tenancies/{id}/edit', [TenancyController::class, 'edit'])->name('tenancies.edit');
+        Route::post('/tenancies/{id}/update', [TenancyController::class, 'update'])->name('tenancies.update');
+        Route::delete('/tenancies/{id}/delete', [TenancyController::class, 'destroy'])->name('tenancies.delete');
 
         // Offer
         Route::get('offers', [OfferController::class, 'index'])->name('offers.index');

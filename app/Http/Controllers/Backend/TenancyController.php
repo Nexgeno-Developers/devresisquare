@@ -26,7 +26,9 @@ class TenancyController
     public function create()
     {
         $contacts = Contact::all();
-        return view('backend.tenancies.create', compact( 'contacts'));
+        // Get contacts where category_id is 2 (Property Manager)
+        $property_managers = Contact::where('category_id', 2)->get();
+        return view('backend.tenancies.create', compact( 'contacts','property_managers'));
     }
 
     // Store a newly created tenancy
@@ -66,8 +68,9 @@ class TenancyController
     {
         $tenancy = Tenancy::findOrFail($id);
         $contacts = Contact::all();
-
-        return view('backend.tenancies.edit', compact('tenancy',  'contacts'));
+        // Get contacts where category_id is 2 (Property Manager)
+        $property_managers = Contact::where('category_id', 2)->get();
+        return view('backend.tenancies.edit', compact('tenancy',  'contacts', 'property_managers'));
     }
 
     // Update the specified tenancy

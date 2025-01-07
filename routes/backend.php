@@ -14,6 +14,8 @@ use App\Http\Controllers\Backend\OfferController;
 use App\Http\Controllers\Backend\BranchController;
 use App\Http\Controllers\Backend\DesignationController;
 use App\Http\Controllers\Backend\TenancyController;
+use App\Http\Controllers\Backend\TenancySubStatusController;
+use App\Http\Controllers\Backend\TenancyTypeController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -78,7 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::get('contacts/create', [ContactController::class, 'create'])->name('contacts.create');
         Route::get('contacts/contact_step/{step}', [ContactController::class, 'getQuickStepView'])->name('contacts.contact_step');
         Route::post('contacts/store', [ContactController::class, 'contactStore'])->name('contacts.store');
-        Route::post('contacts/store-owner-contact', [ContactController::class, 'quicklyStoreContactFromOwner'])->name('contacts.owner_contact_store');
+        Route::post('contacts/quick-store-contact', [ContactController::class, 'quicklyStoreContact'])->name('contacts.quick_contact_store');
         Route::get('contacts/properties/search', [ContactController::class, 'searchProperties'])->name('contacts.properties.search');
         // Route::post('contacts/store', [ContactController::class, 'store'])->name('contacts.store');
         Route::get('contacts/show/{id}', [ContactController::class, 'show'])->name('contacts.show');
@@ -138,6 +140,27 @@ Route::middleware('auth')->group(function () {
         Route::post('offers/{id}/set-main-person', [OfferController::class, 'setMainPerson'])->name('offers.setMainPerson');
         Route::post('offers/{id}/update-status', [OfferController::class, 'updateStatus'])->name('offers.updateStatus');
 
+        Route::prefix('/tenancy-sub-statuses')->group(function () {
+            // Tenancy Sub Status Routes
+            Route::get('/', [TenancySubStatusController::class, 'index'])->name('tenancy_sub_statuses.index'); // List all tenancy sub statuses
+            Route::get('/show', [TenancySubStatusController::class, 'show'])->name('tenancy_sub_statuses.show'); // Show individual sub status
+            Route::get('/create', [TenancySubStatusController::class, 'create'])->name('tenancy_sub_statuses.create'); // Show create form
+            Route::post('/store', [TenancySubStatusController::class, 'store'])->name('tenancy_sub_statuses.store'); // Store new tenancy sub status
+            Route::get('/edit/{tenancySubStatus}', [TenancySubStatusController::class, 'edit'])->name('tenancy_sub_statuses.edit'); // Show edit form
+            Route::put('/update/{tenancySubStatus}', [TenancySubStatusController::class, 'update'])->name('tenancy_sub_statuses.update'); // Update tenancy sub status
+            Route::delete('/delete/{tenancySubStatus}', [TenancySubStatusController::class, 'destroy'])->name('tenancy_sub_statuses.destroy'); // Delete tenancy sub status
+        });
+
+        Route::prefix('/tenancy-types')->group(function () {
+            // Tenancy Type Routes
+            Route::get('/', [TenancyTypeController::class, 'index'])->name('tenancy_types.index'); // List all tenancy types
+            Route::get('/show', [TenancyTypeController::class, 'show'])->name('tenancy_types.show'); // Show individual tenancy type
+            Route::get('/create', [TenancyTypeController::class, 'create'])->name('tenancy_types.create'); // Show create form
+            Route::post('/store', [TenancyTypeController::class, 'store'])->name('tenancy_types.store'); // Store new tenancy type
+            Route::get('/edit/{tenancyType}', [TenancyTypeController::class, 'edit'])->name('tenancy_types.edit'); // Show edit form
+            Route::put('/update/{tenancyType}', [TenancyTypeController::class, 'update'])->name('tenancy_types.update'); // Update tenancy type
+            Route::delete('/delete/{tenancyType}', [TenancyTypeController::class, 'destroy'])->name('tenancy_types.destroy'); // Delete tenancy type
+        });
     });
 
 

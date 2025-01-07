@@ -26,7 +26,7 @@
             </button>
             <label for="contact_id">Contact</label>
             <select name="contact_id[]" id="contact_id" multiple class="form-control select2" required>
-                @foreach ($contacts as $contact)
+                @foreach ($tenants as $contact)
                     <option value="{{ $contact->id }}">{{ $contact->full_name }}</option>
                 @endforeach
             </select>
@@ -87,51 +87,38 @@
             </label><br>
         </div>
 
-        <div class="row">
+        <div class="row mt-3">
             <div class="col">
                 <div class="mb-3">
-                    <div class="form-group field-tenancies-move_in required">
-                        <label class="control-label" for="tenancies-move_in">Move In</label>
-                        <input type="date" id="tenancies-move_in" class="form-control" name="move_in"
-                            aria-required="true" required>
-                    </div>
+                    <label class="control-label" for="tenancies-move_in">Move In</label>
+                    <input type="date" id="tenancies-move_in" class="form-control" name="move_in" required>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
-                    <div class="form-group field-tenancies-term required">
-                        <label class="control-label" for="tenancies-term">Term</label>
-                        <input type="number" id="tenancies-term" class="form-control" name="term" min="1"
-                            required>
-                    </div>
+                    <label class="control-label" for="tenancies-term_months">Term (Months)</label>
+                    <input type="number" id="tenancies-term_months" class="form-control" name="term_months" min="0" pattern="^[0-9]+$" required>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
-                    <div class="form-group field-tenancies-term_unit required">
-                        <label class="control-label" for="tenancies-term_unit">Term Unit</label>
-                        <select id="tenancies-term_unit" class="form-control" name="term_unit">
-                            <option value="months">Months</option>
-                            <option value="days">Days</option>
-                        </select>
-                    </div>
+                    <label class="control-label" for="tenancies-term_days">Term (Days)</label>
+                    <input type="number" id="tenancies-term_days" class="form-control" name="term_days" min="0" pattern="^[0-9]+$" required>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
-                    <div class="form-group field-tenancies-move_out required">
-                        <label class="control-label" for="tenancies-move_out">Move Out</label>
-                        <input type="date" id="tenancies-move_out" class="form-control" name="move_out"
-                            aria-required="true">
-                    </div>
+                    <label class="control-label" for="tenancies-move_out">Move Out</label>
+                    <input type="date" id="tenancies-move_out" class="form-control" name="move_out">
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col">
                 <div class="mb-3">
                     <div class="form-group field-tenancies-tenancy_length">
-                        <label class="control-label" for="tenancies-tenancy_length">Tenancy Length</label>
+                        <label class="control-label" for="tenancies-tenancy_length">Renewal Confirm Date</label>
                         <input type="date" id="tenancies-tenancy_length" class="form-control"
                             name="tenancy_length" min="2024-12-31">
                     </div>
@@ -180,7 +167,7 @@
             </div>
             <div class="col">
                 <div class="mb-3">
-                    <label for="depositService" class="form-label">Deposit Service</label>
+                    <label for="depositService" class="form-label">Deposit Held By</label>
                     <select class="form-select" id="depositService" name="deposit_service">
                         <option value="landlord_holding">Landlord Holding</option>
                         <option value="deposit_protection_service">Deposit Protection Service</option>
@@ -194,8 +181,7 @@
                     <label for="depositService" class="form-label">Deposit Service</label>
                     <select class="form-select" id="depositService" name="deposit_service">
                         <option value="tds_dps_number">*TDS or DPS Number</option>
-                        <option value="number_of_scheme_or_number_of_reference">Name of the scheme Reference | Number
-                            of Scheme</option>
+                        <option value="number_of_scheme_or_number_of_reference">Name of the scheme Reference | Number of Scheme</option>
                     </select>
                 </div>
             </div>
@@ -223,6 +209,7 @@
 <div id="addContactFormContainer" style="display: none;">
     <form id="addContactForm">
         @csrf
+        <input type="hidden" class="form-control" id="category_id" name="category_id" value="3">
         <div class="mb-3">
             <label for="contact_name" class="form-label">Full Name</label>
             <input type="text" class="form-control" id="contact_name" name="full_name" required>
@@ -243,49 +230,150 @@
 <script>
     // document.addEventListener('DOMContentLoaded', function () {
     // Function to initialize the popup form logic
+    // function initializeForm() {
+    //     const moveInInput = document.getElementById('tenancies-move_in');
+    //     const termInput = document.getElementById('tenancies-term');
+    //     const termUnitSelect = document.getElementById('tenancies-term_unit');
+    //     const moveOutInput = document.getElementById('tenancies-move_out');
+
+    //     // Only initialize if the elements exist
+    //     if (moveInInput && termInput && termUnitSelect && moveOutInput) {
+    //         // Function to update the move-out date based on move-in date, term, and term unit
+    //         function updateMoveOutDate() {
+    //             const moveInDate = new Date(moveInInput.value);
+    //             const term = parseInt(termInput.value);
+    //             const termUnit = termUnitSelect.value;
+
+    //             if (moveInDate instanceof Date && !isNaN(moveInDate) && term && termUnit) {
+    //                 let moveOutDate;
+
+    //                 if (termUnit === 'months') {
+    //                     // Add months
+    //                     moveOutDate = new Date(moveInDate.setMonth(moveInDate.getMonth() + term));
+    //                 } else if (termUnit === 'days') {
+    //                     // Add days
+    //                     moveOutDate = new Date(moveInDate.setDate(moveInDate.getDate() + term));
+    //                 }
+
+    //                 // Set the move-out date to the calculated date
+    //                 moveOutInput.value = moveOutDate.toISOString().split('T')[0];
+    //             }
+    //         }
+
+    //         // Remove existing event listeners if any (this helps avoid re-binding the same listeners)
+    //         moveInInput.removeEventListener('change', updateMoveOutDate);
+    //         termInput.removeEventListener('input', updateMoveOutDate);
+    //         termUnitSelect.removeEventListener('change', updateMoveOutDate);
+
+    //         // Add event listeners for changes in move-in date, term, or term unit
+    //         moveInInput.addEventListener('change', updateMoveOutDate);
+    //         termInput.addEventListener('input', updateMoveOutDate);
+    //         termUnitSelect.addEventListener('change', updateMoveOutDate);
+
+    //         // Initial calculation if values are already present
+    //         updateMoveOutDate();
+    //     }
+    // }
+
     function initializeForm() {
         const moveInInput = document.getElementById('tenancies-move_in');
-        const termInput = document.getElementById('tenancies-term');
-        const termUnitSelect = document.getElementById('tenancies-term_unit');
+        const termMonthsInput = document.getElementById('tenancies-term_months');
+        const termDaysInput = document.getElementById('tenancies-term_days');
         const moveOutInput = document.getElementById('tenancies-move_out');
 
-        // Only initialize if the elements exist
-        if (moveInInput && termInput && termUnitSelect && moveOutInput) {
-            // Function to update the move-out date based on move-in date, term, and term unit
-            function updateMoveOutDate() {
-                const moveInDate = new Date(moveInInput.value);
-                const term = parseInt(termInput.value);
-                const termUnit = termUnitSelect.value;
+        if (!moveInInput || !termMonthsInput || !termDaysInput || !moveOutInput) return;
 
-                if (moveInDate instanceof Date && !isNaN(moveInDate) && term && termUnit) {
-                    let moveOutDate;
+        // Function to calculate the "Move Out" date
+        function calculateMoveOutDate() {
+            const moveInDate = new Date(moveInInput.value);
+            const termMonths = parseInt(termMonthsInput.value, 10) || 0; // Default to 0 if empty
+            const termDays = parseInt(termDaysInput.value, 10) || 0; // Default to 0 if empty
 
-                    if (termUnit === 'months') {
-                        // Add months
-                        moveOutDate = new Date(moveInDate.setMonth(moveInDate.getMonth() + term));
-                    } else if (termUnit === 'days') {
-                        // Add days
-                        moveOutDate = new Date(moveInDate.setDate(moveInDate.getDate() + term));
-                    }
-
-                    // Set the move-out date to the calculated date
-                    moveOutInput.value = moveOutDate.toISOString().split('T')[0];
-                }
+            if (isNaN(moveInDate.getTime())) {
+                moveOutInput.value = '';
+                return;
             }
 
-            // Remove existing event listeners if any (this helps avoid re-binding the same listeners)
-            moveInInput.removeEventListener('change', updateMoveOutDate);
-            termInput.removeEventListener('input', updateMoveOutDate);
-            termUnitSelect.removeEventListener('change', updateMoveOutDate);
+            // Add months and days to the "Move In" date
+            const resultDate = new Date(moveInDate);
+            if (termMonths > 0) {
+                resultDate.setMonth(resultDate.getMonth() + termMonths);
+                // Subtract 1 day for tenancy default behavior
+                resultDate.setDate(resultDate.getDate() - 1);
+            }
+            if (termDays > 0) resultDate.setDate(resultDate.getDate() + termDays);
 
-            // Add event listeners for changes in move-in date, term, or term unit
-            moveInInput.addEventListener('change', updateMoveOutDate);
-            termInput.addEventListener('input', updateMoveOutDate);
-            termUnitSelect.addEventListener('change', updateMoveOutDate);
-
-            // Initial calculation if values are already present
-            updateMoveOutDate();
+            // Set the calculated "Move Out" date
+            moveOutInput.value = resultDate.toISOString().split('T')[0];
         }
+        // Function to calculate the term in months and days based on Move In and Move Out dates
+        function recalculateTerm() {
+            const moveInDate = new Date(moveInInput.value);
+            const moveOutDate = new Date(moveOutInput.value);
+
+            if (isNaN(moveInDate.getTime()) || isNaN(moveOutDate.getTime())) return;
+
+            const timeDifference = moveOutDate - moveInDate; // Difference in milliseconds
+            const daysDifference = timeDifference / (1000 * 3600 * 24); // Convert to days
+
+            const months = Math.floor(daysDifference / 30); // Approximate months
+            const remainingDays = daysDifference % 30; // Remainder days
+
+            // Update the term input fields
+            termMonthsInput.value = months;
+            termDaysInput.value = remainingDays;
+        }
+
+        // Function to validate the "Move Out" date and ensure it's after the "Move In" date
+        function validateMoveOutDate() {
+            const moveInDate = new Date(moveInInput.value);
+            const moveOutDate = new Date(moveOutInput.value);
+
+            if (isNaN(moveInDate.getTime()) || isNaN(moveOutDate.getTime())) return;
+
+            if (moveOutDate <= moveInDate) {
+                // Show error message or reset the Move Out date if it's invalid
+                alert("Move Out Date must be greater than Move In Date.");
+                moveOutInput.value = ''; // Reset Move Out Date
+            }
+        }
+
+        // Function to ensure that the Term fields cannot have negative values
+        function validateTermInputs() {
+            const termMonths = parseInt(termMonthsInput.value, 10);
+            const termDays = parseInt(termDaysInput.value, 10);
+
+            if (termMonths < 0) termMonthsInput.value = 0;
+            if (termDays < 0) termDaysInput.value = 0;
+        }
+
+        // Add event listeners to update the "Move Out" date on input change
+        moveInInput.addEventListener('change', () => {
+            // Only calculate Move Out if either termMonths or termDays is set
+            if (termMonthsInput.value > 0 || termDaysInput.value > 0) {
+                calculateMoveOutDate();
+            }
+        });
+
+        // moveInInput.addEventListener('change', calculateMoveOutDate);
+        termMonthsInput.addEventListener('input', (e)=> {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            validateTermInputs();
+            calculateMoveOutDate();
+        });
+        termDaysInput.addEventListener('input', (e)=> {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            validateTermInputs();
+            calculateMoveOutDate();
+        });
+        moveOutInput.addEventListener('change', () => {
+            calculateMoveOutDate();
+            recalculateTerm();
+            validateMoveOutDate(); // Validate if Move Out Date is after Move In Date
+        });
+
+        // Initial calculation if values are already filled
+        calculateMoveOutDate();
     }
 
     // Initialize the form only once the content is fully loaded

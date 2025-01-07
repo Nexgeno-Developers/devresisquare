@@ -89,6 +89,20 @@ function initSelect2(selector) {
     $(selector).select2();
 }
 
+function initSelect3(selector) {
+    $(selector).select2({
+        minimumInputLength: 3,
+        minimumResultsForSearch: 0,
+        placeholder: 'Start typing at least 3 characters',
+        language: {
+            inputTooShort: function () {
+                return "Please enter 3 or more characters";
+            }
+        }
+    });
+}
+
+
 //Form Submition
 function ajaxSubmit(e, form, callBackFunction) {
     if (form.valid()) {

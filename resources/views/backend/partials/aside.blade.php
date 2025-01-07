@@ -84,6 +84,72 @@
             </a>
         </li>
 
+        <li class="sidebar-list-item submenu_wrapper">
+            <a href="#masterManageSubmenu" data-bs-toggle="collapse"
+                aria-expanded="{{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'true' : 'false' }}"
+                class="dropdown-toggle {{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'active' : '' }}">
+                <img src="{{ asset('asset/images/svg/dashboard.svg') }}" alt="tenancies">
+                {{-- <img src="{{ asset('asset/images/svg/master-manage.svg') }}" alt="master-manage"> --}}
+                Master Manage
+            </a>
+            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'show' : '' }}"
+                id="masterManageSubmenu">
+
+                <!-- Tenancy Types Section -->
+                <li class="sidebar-sub-list-item submenu_wrapper">
+                    <a href="#tenancyTypesSubmenu" data-bs-toggle="collapse"
+                        aria-expanded="{{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') ? 'true' : 'false' }}"
+                        class="dropdown-toggle {{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') ? 'active' : '' }}">
+                        {{-- <img src="{{ asset('asset/images/svg/tenancy-type.svg') }}" alt="tenancy-type"> --}}
+                        Tenancy Types
+                    </a>
+                    <ul class="nav-third-level collapse list-unstyled {{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') ? 'show' : '' }}" id="tenancyTypesSubmenu">
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ request()->routeIs('admin.tenancy_types.index') ? 'active' : '' }}"
+                                href="{{ route('admin.tenancy_types.index') }}">
+                                {{-- <img src="{{ asset('asset/images/svg/tenancy-view.svg') }}" alt="view-tenancy-type"> --}}
+                                View All
+                            </a>
+                        </li>
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ request()->routeIs('admin.tenancy_types.create') ? 'active' : '' }}"
+                                href="{{ route('admin.tenancy_types.create') }}">
+                                {{-- <img src="{{ asset('asset/images/svg/tenancy-add.svg') }}" alt="add-tenancy-type"> --}}
+                                Add
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Tenancy Sub Status Section -->
+                <li class="sidebar-sub-list-item submenu_wrapper">
+                    <a href="#tenancySubStatusSubmenu" data-bs-toggle="collapse"
+                        aria-expanded="{{ request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'true' : 'false' }}"
+                        class="dropdown-toggle {{ request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'active' : '' }}">
+                        {{-- <img src="{{ asset('asset/images/svg/tenancy-sub-status.svg') }}" alt="tenancy-sub-status"> --}}
+                        Tenancy Sub Status
+                    </a>
+                    <ul class="nav-third-level collapse list-unstyled {{ request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'show' : '' }}" id="tenancySubStatusSubmenu">
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ request()->routeIs('admin.tenancy_sub_statuses.index') ? 'active' : '' }}"
+                                href="{{ route('admin.tenancy_sub_statuses.index') }}">
+                                {{-- <img src="{{ asset('asset/images/svg/tenancy-sub-status-view.svg') }}" alt="view-tenancy-sub-status"> --}}
+                                View All
+                            </a>
+                        </li>
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ request()->routeIs('admin.tenancy_sub_statuses.create') ? 'active' : '' }}"
+                                href="{{ route('admin.tenancy_sub_statuses.create') }}">
+                                {{-- <img src="{{ asset('asset/images/svg/tenancy-sub-status-add.svg') }}" alt="add-tenancy-sub-status"> --}}
+                                Add
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+
         <li class="sidebar-list-item">
             <a href="#">
                 <img src="{{ asset('asset/images/svg/dashboard.svg') }}" alt="tenancies">

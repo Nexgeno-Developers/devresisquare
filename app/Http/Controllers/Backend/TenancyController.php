@@ -25,10 +25,12 @@ class TenancyController
     // Show the form for creating a new tenancy
     public function create()
     {
-        $contacts = Contact::all();
+        // $contacts = Contact::all();
+        // Get contacts where category_id is 3 (Tenant)
+        $tenants = Contact::where('category_id', 3)->get();
         // Get contacts where category_id is 2 (Property Manager)
         $property_managers = Contact::where('category_id', 2)->get();
-        return view('backend.tenancies.create', compact( 'contacts','property_managers'));
+        return view('backend.tenancies.create', compact( 'tenants','property_managers'));
     }
 
     // Store a newly created tenancy

@@ -280,7 +280,7 @@
             var formData = $(this).serialize(); // Serialize the form data
 
             $.ajax({
-                url: '{{ route("admin.contacts.owner_contact_store") }}', // Make sure this route exists for adding contacts
+                url: '{{ route("admin.contacts.quick_contact_store") }}', // Make sure this route exists for adding contacts
                 method: 'POST',
                 data: formData,
                 success: function(response) {
@@ -626,7 +626,7 @@
             $('#smallModal').on('shown.bs.modal', function() {
                 // Set the property_id in the hidden input field inside the modal form
                 $("input[name='property_id']").val(propertyId);
-                initSelect2('.select2');
+                initSelect3('.select2');
             });
         });
 
@@ -645,7 +645,7 @@
             $('#smallModal').on('shown.bs.modal', function() {
                 // Set the property_id in the hidden input field inside the modal form
                 $("input[name='property_id']").val(propertyId);
-                initSelect2('.select2');
+                initSelect3('.select2');
             });
         });
 

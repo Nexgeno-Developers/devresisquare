@@ -228,6 +228,7 @@
 <div id="addContactFormContainer" style="display: none;">
     <form id="addContactForm">
         @csrf
+        <input type="hidden" class="form-control" id="category_id" name="category_id" value="3">
         <div class="mb-3">
             <label for="contact_name" class="form-label">Full Name</label>
             <input type="text" class="form-control" id="contact_name" name="full_name" required>

@@ -216,7 +216,7 @@ class ContactController
         }
     }
 
-    public function quicklyStoreContactFromOwner(Request $request)
+    public function quicklyStoreContact(Request $request)
     {
         // Validate incoming request
         $validated = $request->validate([
@@ -227,7 +227,7 @@ class ContactController
 
         // Create a new contact
         $contact = Contact::create([
-            'category_id' => 1,
+            'category_id' => $request->category_id ?? 9,
             'full_name' => $validated['full_name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'],

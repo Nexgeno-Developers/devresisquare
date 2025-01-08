@@ -66,9 +66,10 @@ class PropertyController
         ['name' => 'APS'],
         ['name' => 'Media'],
         ['name' => 'Teams'],
+        ['name' => 'Documents'],
         // ['name' => 'Contractor'],
         // ['name' => 'Work Offer'],
-        ['name' => 'Note']
+        ['name' => 'Notes']
     ];
 
     // Validate if the tabName exists in the tabs array. If not, set it to 'Property'
@@ -148,12 +149,14 @@ private function getTabContent($tabname, $propertyId, $property)
             return view('backend.properties.tabs.media', compact('propertyId'))->render();
         case 'teams':
             return view('backend.properties.tabs.teams', compact('propertyId'))->render();
+        case 'documents':
+            return view('backend.properties.tabs.documents', compact('propertyId'))->render();
         // case 'contractor':
         //     return view('backend.properties.tabs.contractor', compact('propertyId'))->render();
         // case 'work offer':
         //     return view('backend.properties.tabs.work_offer', compact('propertyId'))->render();
-        case 'note':
-            return view('backend.properties.tabs.note', compact('propertyId'))->render();
+        case 'notes':
+            return view('backend.properties.tabs.notes', compact('propertyId'))->render();
         default:
             return 'Tab content not found';
     }

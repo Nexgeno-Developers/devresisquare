@@ -37,6 +37,18 @@ class Contact extends Model
         return $this->belongsTo(ContactCategory::class, 'category_id');
     }
 
+    // Relationship with ContactAttribute model
+    public function details()
+    {
+        return $this->hasOne(ContactDetail::class);
+    }
+
+    // Define the many-to-many relationship with Tenancy
+    public function tenancies()
+    {
+        return $this->belongsToMany(Tenancy::class, 'property_manager_tenancy', 'property_manager_id', 'tenancy_id');
+    }
+
     protected $casts = [
         'selected_properties' => 'array', // Automatically casts JSON to an array
     ];

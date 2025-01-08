@@ -6,6 +6,8 @@ use App\Models\Tenancy;
 use App\Models\Property;
 use App\Models\Offer;
 use App\Models\Contact;
+use App\Models\TenancyType;
+use App\Models\TenancySubStatus;
 use Illuminate\Http\Request;
 
 class TenancyController
@@ -25,13 +27,21 @@ class TenancyController
     // Show the form for creating a new tenancy
     public function create()
     {
-        // $contacts = Contact::all();
         // Get contacts where category_id is 3 (Tenant)
         $tenants = Contact::where('category_id', 3)->get();
+
         // Get contacts where category_id is 2 (Property Manager)
         $property_managers = Contact::where('category_id', 2)->get();
-        return view('backend.tenancies.create', compact( 'tenants','property_managers'));
+
+        // Fetch all tenancy types (if they're stored in a model TenancyType)
+        $tenancyTypes = TenancyType::all();
+
+        // Fetch all tenancy sub statuses (if they're stored in a model TenancySubStatus)
+        $tenancySubStatuses = TenancySubStatus::all();
+
+        return view('backend.tenancies.create', compact('tenants', 'property_managers', 'tenancyTypes', 'tenancySubStatuses'));
     }
+
 
     // Store a newly created tenancy
     public function store(Request $request)
@@ -43,7 +53,7 @@ class TenancyController
             'sub_status' => 'nullable|string|max:255',
             'move_in' => 'required|date',
             'move_out' => 'nullable|date',
-            'tenancy_length' => 'nullable|integer',
+            'tenancy_renewal_confirm_date' => 'nullable|integer',
             'extension_date' => 'nullable|date',
             'price' => 'required|numeric',
             'deposit' => 'required|numeric',
@@ -84,7 +94,7 @@ class TenancyController
             'sub_status' => 'nullable|string|max:255',
             'move_in' => 'required|date',
             'move_out' => 'nullable|date',
-            'tenancy_length' => 'nullable|integer',
+            'tenancy_renewal_confirm_date' => 'nullable|integer',
             'extension_date' => 'nullable|date',
             'price' => 'required|numeric',
             'deposit' => 'required|numeric',

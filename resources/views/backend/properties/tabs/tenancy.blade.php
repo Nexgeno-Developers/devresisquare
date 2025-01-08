@@ -1,8 +1,8 @@
 @php
-$headers = ['id', 'Status', 'Sub Status', 'Price', 'Frequency', 'Estate Agent', 'Move in', 'Move out'];
+$headers = ['id', 'Status', 'Sub Status', 'Rent', 'Frequency', 'Estate Agent', 'Move in', 'Move out'];
 $rows = [
-    ['id' => 1, 'Status' => 'Active', 'Sub Status' => 'Ready', 'Price' => '300', 'Frequency' => 'Quarterly', 'Estate Agent' => 'Tenant', 'Move in' => '22/11/24', 'Move out' => '21/02/25'],
-    ['id' => 2, 'Status' => 'Inactive', 'Sub Status' => 'Not Ready', 'Price' => '2500', 'Frequency' => 'Yearly', 'Estate Agent' => 'Tenant', 'Move in' => '22/11/25', 'Move out' => '21/02/26'],
+    ['id' => 1, 'Status' => 'Active', 'Sub Status' => 'Ready', 'Rent' => '300', 'Frequency' => 'Quarterly', 'Estate Agent' => 'Tenant', 'Move in' => '22/11/24', 'Move out' => '21/02/25'],
+    ['id' => 2, 'Status' => 'Inactive', 'Sub Status' => 'Not Ready', 'Rent' => '2500', 'Frequency' => 'Yearly', 'Estate Agent' => 'Tenant', 'Move in' => '22/11/25', 'Move out' => '21/02/26'],
 ];
 @endphp
 
@@ -42,7 +42,7 @@ $rows = [
                 <th>ID</th>
                 <th>Status</th>
                 <th>Sub Status</th>
-                <th>Price</th>
+                <th>Rent</th>
                 <th>Frequency</th>
                 <th>Deposit</th>
                 <th>Move In</th>
@@ -58,12 +58,12 @@ $rows = [
                     <td>{{ $tenancy->id }}</td>
                     <td>{{ $tenancy->status }}</td>
                     <td>{{ $tenancy->sub_status }}</td>
-                    <td>{{ $tenancy->price }}</td>
+                    <td>{{ $tenancy->rent }}</td>
                     <td>{{ $tenancy->frequency }}</td>
                     <td>{{ $tenancy->deposit }}</td>
                     <td>{{ $tenancy->move_in }}</td>
                     <td>{{ $tenancy->move_out }}</td>
-                    <td>{{ $tenancy->tenancy_length }}</td>
+                    <td>{{ $tenancy->tenancy_renewal_confirm_date }}</td>
                     <td>{{ $tenancy->extension_date }}</td>
                     <!-- Action -->
                     <td>

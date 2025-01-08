@@ -22,9 +22,9 @@
 
         <div class="form-group">
             <button type="button" class="btn btn-outline-primary btn-sm" id="addContactBtn">
-                Add New Contact
+                Quick Add New Tenant
             </button>
-            <label for="contact_id">Contact</label>
+            <label for="contact_id">Select Tenants</label>
             <select name="contact_id[]" id="contact_id" multiple class="form-control select2" required>
                 @foreach ($tenants as $contact)
                     <option value="{{ $contact->id }}">{{ $contact->full_name }}</option>
@@ -48,29 +48,30 @@
                 <div class="mb-3">
                     <div class="form-group field-tenancy-type required">
                         <label class="control-label" for="tenancy-type">Tenancy Type</label>
-                        <select id="tenancy-type" class="form-control" aria-required="true" name="tenancy_type">
-                            <option value="AST">AST</option>
-                            <option value="Common Law">Common Law</option>
-                            <option value="Company">Company</option>
-                            <option value="Short Let - AST">Short Let - AST</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="mb-3">
-                    <div class="form-group field-tenancies-sub_status required has-error">
-                        <label class="control-label" for="tenancies-sub_status">Sub Status</label>
-                        <select id="tenancies-sub_status" class="form-control" name="sub_status" aria-required="true"
-                            aria-invalid="true">
-                            <option value="" disabled selected>Select Sub Status</option>
-                            @foreach ($statuses as $key => $value)
-                                <option value="{{ $key }}">{{ $value }}</option>
+                        <select id="tenancy-type" class="form-control" aria-required="true" name="tenancy_type" required>
+                            <option value="" disabled selected>Select Tenancy Type</option>
+                            @foreach ($tenancyTypes as $tenancyType)
+                                <option value="{{ $tenancyType->id }}">{{ $tenancyType->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
             </div>
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <div class="form-group field-tenancies-sub_status required has-error">
+                        <label class="control-label" for="tenancies-sub_status">Sub Status</label>
+                        <select id="tenancies-sub_status" class="form-control" name="sub_status" aria-required="true" required>
+                            <option value="" disabled selected>Select Sub Status</option>
+                            @foreach ($tenancySubStatuses as $subStatus)
+                                <option value="{{ $subStatus->id }}">{{ $subStatus->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <label>
                 <input type="checkbox" name="periodic">
                 Periodic
@@ -117,10 +118,10 @@
         <div class="row">
             <div class="col">
                 <div class="mb-3">
-                    <div class="form-group field-tenancies-tenancy_length">
-                        <label class="control-label" for="tenancies-tenancy_length">Renewal Confirm Date</label>
-                        <input type="date" id="tenancies-tenancy_length" class="form-control"
-                            name="tenancy_length" min="2024-12-31">
+                    <div class="form-group field-tenancies-tenancy_renewal_confirm_date">
+                        <label class="control-label" for="tenancies-tenancy_renewal_confirm_date">Renewal Confirm Date</label>
+                        <input type="date" id="tenancies-tenancy_renewal_confirm_date" class="form-control"
+                            name="tenancy_renewal_confirm_date" min="2024-12-31">
                     </div>
                 </div>
             </div>
@@ -138,10 +139,10 @@
         <div class="row">
             <div class="col">
                 <div class="mb-3">
-                    <div class="form-group field-tenancies-price">
-                        <label class="control-label" for="tenancies-price">Rent</label>
-                        <input type="number" inputmode="numeric" pattern="[0-9]" id="tenancies-price"
-                            class="form-control" name="price">
+                    <div class="form-group field-tenancies-rent">
+                        <label class="control-label" for="tenancies-rent">Rent</label>
+                        <input type="number" inputmode="numeric" pattern="[0-9]" id="tenancies-rent"
+                            class="form-control" name="rent">
                     </div>
                 </div>
             </div>
@@ -164,11 +165,15 @@
                         <option value="months_deposit">No of Months Deposit</option>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label for="depositNumber" class="form-label">Deposit Number (Weeks/Months)</label>
+                    <input type="number" class="form-control" id="depositNumber" name="deposit_number" min="1" placeholder="Enter number of weeks or months" required>
+                </div>
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label for="depositService" class="form-label">Deposit Held By</label>
-                    <select class="form-select" id="depositService" name="deposit_service">
+                    <select class="form-select" id="depositService" name="deposit_held_by">
                         <option value="landlord_holding">Landlord Holding</option>
                         <option value="deposit_protection_service">Deposit Protection Service</option>
                         <option value="deposit_replacement_scheme">Deposit Replacement Scheme</option>

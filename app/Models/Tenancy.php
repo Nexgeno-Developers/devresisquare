@@ -12,7 +12,10 @@ class Tenancy extends Model
 
     protected $fillable = [
         'property_id', 'offer_id', 'sub_status', 'move_in', 'move_out',
-        'tenancy_length', 'extension_date', 'price', 'deposit', 'frequency', 'status'
+        'tenancy_renewal_confirm_date', 'extension_date', 'rent',
+         'deposit', 'deposit_type', 'deposit_number' , 'frequency',
+          'status', 'tenancy_sub_status_id', 'tenancy_type_id', 'deposit_held_by', 'deposit_service',
+          'periodic','rolling_contract','renewal_exempt','term_months','term_days'
     ];
 
     public function property()
@@ -28,5 +31,27 @@ class Tenancy extends Model
     public function tenantMembers()
     {
         return $this->hasMany(TenantMember::class);
+    }
+
+    /**
+     * Relationship with TenancySubStatus.
+     */
+    public function tenancySubStatus()
+    {
+        return $this->belongsTo(TenancySubStatus::class, 'tenancy_sub_status_id');
+    }
+
+    /**
+     * Relationship with TenancyType.
+     */
+    public function tenancyType()
+    {
+        return $this->belongsTo(TenancyType::class, 'tenancy_type_id');
+    }
+
+    // Define a many-to-many relationship with PropertyManager (via Contact)
+    public function propertyManagers()
+    {
+        return $this->belongsToMany(Contact::class, 'property_manager_tenancy', 'tenancy_id', 'property_manager_id');
     }
 }

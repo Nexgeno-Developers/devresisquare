@@ -8,7 +8,7 @@
     $sub_status = isset($tenancy->sub_status) ? $tenancy->sub_status : null;
     $move_in = isset($tenancy->move_in) ? $tenancy->move_in : null;
     $move_out = isset($tenancy->move_out) ? $tenancy->move_out : null;
-    $tenancy_length = isset($tenancy->tenancy_length) ? $tenancy->tenancy_length : null;
+    $tenancy_renewal_confirm_date = isset($tenancy->tenancy_renewal_confirm_date) ? $tenancy->tenancy_renewal_confirm_date : null;
     $extension_date = isset($tenancy->extension_date) ? $tenancy->extension_date : null;
     $price = isset($tenancy->price) ? $tenancy->price : null;
     $deposit = isset($tenancy->deposit) ? $tenancy->deposit : null;
@@ -142,12 +142,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <div class="form-group field-tenancies-tenancy_length">
-                            <label class="control-label" for="tenancies-tenancy_length">Tenancy Length (in
+                        <div class="form-group field-tenancies-tenancy_renewal_confirm_date">
+                            <label class="control-label" for="tenancies-tenancy_renewal_confirm_date">Tenancy Length (in
                                 month)</label>
-                            <input type="number" inputmode="numeric" pattern="[0-9]" id="tenancies-tenancy_length"
-                                class="form-control" name="tenancy_length"
-                                value="{{ isset($tenancy_length) ? $tenancy_length : '' }}">
+                            <input type="number" inputmode="numeric" pattern="[0-9]" id="tenancies-tenancy_renewal_confirm_date"
+                                class="form-control" name="tenancy_renewal_confirm_date"
+                                value="{{ isset($tenancy_renewal_confirm_date) ? $tenancy_renewal_confirm_date : '' }}">
                         </div>
                     </div>
                 </div>

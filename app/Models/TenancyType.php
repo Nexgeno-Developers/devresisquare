@@ -11,4 +11,9 @@ class TenancyType extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    public function tenancies()
+    {
+        return $this->hasMany(Tenancy::class);
+    }
 }

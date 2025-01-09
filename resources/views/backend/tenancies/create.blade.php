@@ -24,20 +24,22 @@
             <button type="button" class="btn btn-outline-primary btn-sm" id="addContactBtn">
                 Quick Add New Tenant
             </button>
-            <label for="contact_id">Select Tenants</label>
-            <select name="contact_id[]" id="contact_id" multiple class="form-control select2" required>
+            <label for="tenant_id">Select Tenants</label>
+            <select name="contact_id[]" id="tenant_id" multiple class="form-control select2" required>
                 @foreach ($tenants as $contact)
                     <option value="{{ $contact->id }}">{{ $contact->full_name }}</option>
                 @endforeach
             </select>
         </div>
 
+        <div id="tenant-options" class="mt-3"></div>
+
         <div class="row">
             <div class="col">
                 <div class="mb-3">
                     <div class="form-group field-tenancies-status required">
                         <label class="control-label" for="tenancies-status">Status</label>
-                        <select id="tenancies-status" class="form-control" name="status" aria-required="true">
+                        <select required id="tenancies-status" class="form-control" name="status" aria-required="true">
                             <option value="Active">Active</option>
                             <option value="Archive">Archive</option>
                         </select>
@@ -48,7 +50,7 @@
                 <div class="mb-3">
                     <div class="form-group field-tenancy-type required">
                         <label class="control-label" for="tenancy-type">Tenancy Type</label>
-                        <select id="tenancy-type" class="form-control" aria-required="true" name="tenancy_type" required>
+                        <select id="tenancy-type" class="form-control" aria-required="true" name="tenancy_type_id" required>
                             <option value="" disabled selected>Select Tenancy Type</option>
                             @foreach ($tenancyTypes as $tenancyType)
                                 <option value="{{ $tenancyType->id }}">{{ $tenancyType->name }}</option>
@@ -62,7 +64,7 @@
                 <div class="mb-3">
                     <div class="form-group field-tenancies-sub_status required has-error">
                         <label class="control-label" for="tenancies-sub_status">Sub Status</label>
-                        <select id="tenancies-sub_status" class="form-control" name="sub_status" aria-required="true" required>
+                        <select id="tenancies-sub_status" class="form-control" name="tenancy_sub_status_id" aria-required="true" required>
                             <option value="" disabled selected>Select Sub Status</option>
                             @foreach ($tenancySubStatuses as $subStatus)
                                 <option value="{{ $subStatus->id }}">{{ $subStatus->name }}</option>
@@ -98,13 +100,13 @@
             <div class="col">
                 <div class="mb-3">
                     <label class="control-label" for="tenancies-term_months">Term (Months)</label>
-                    <input type="number" id="tenancies-term_months" class="form-control" name="term_months" min="0" pattern="^[0-9]+$" required>
+                    <input type="number" id="tenancies-term_months" class="form-control" name="term_months" min="0" pattern="^[0-9]+$">
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label class="control-label" for="tenancies-term_days">Term (Days)</label>
-                    <input type="number" id="tenancies-term_days" class="form-control" name="term_days" min="0" pattern="^[0-9]+$" required>
+                    <input type="number" id="tenancies-term_days" class="form-control" name="term_days" min="0" pattern="^[0-9]+$">
                 </div>
             </div>
             <div class="col">
@@ -121,7 +123,7 @@
                     <div class="form-group field-tenancies-tenancy_renewal_confirm_date">
                         <label class="control-label" for="tenancies-tenancy_renewal_confirm_date">Renewal Confirm Date</label>
                         <input type="date" id="tenancies-tenancy_renewal_confirm_date" class="form-control"
-                            name="tenancy_renewal_confirm_date" min="2024-12-31">
+                            name="tenancy_renewal_confirm_date" min="{{ todayDate() }}">
                     </div>
                 </div>
             </div>
@@ -130,7 +132,7 @@
                     <div class="form-group field-tenancies-extension_date">
                         <label class="control-label" for="tenancies-extension_date">Extension Date</label>
                         <input type="date" id="tenancies-extension_date" class="form-control"
-                            name="extension_date" min="2024-12-31">
+                            name="extension_date" min="{{ tomorrowDate() }}">
                     </div>
                 </div>
             </div>
@@ -146,8 +148,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col">
                 <div class="mb-3">
                     <div class="form-group field-tenancies-deposit">
@@ -157,6 +157,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row my-4">
             <div class="col">
                 <div class="mb-3">
                     <label for="depositType" class="form-label">Deposit Type</label>
@@ -165,11 +168,15 @@
                         <option value="months_deposit">No of Months Deposit</option>
                     </select>
                 </div>
+            </div>
+            <div class="col">
                 <div class="mb-3">
-                    <label for="depositNumber" class="form-label">Deposit Number (Weeks/Months)</label>
+                    <label for="depositNumber" class="form-label">Number of deposit type (Weeks/Months)</label>
                     <input type="number" class="form-control" id="depositNumber" name="deposit_number" min="1" placeholder="Enter number of weeks or months" required>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col">
                 <div class="mb-3">
                     <label for="depositService" class="form-label">Deposit Held By</label>
@@ -231,8 +238,18 @@
         <button type="button" class="btn btn-secondary" id="backToMainForm">Back</button>
     </form>
 </div>
-
 <script>
+
+    initSelect3('.select2');
+
+    // Form submission validation
+    $('form').on('submit', function(e) {
+        if ($('input[name="is_main_person"]:checked').length === 0) {
+            e.preventDefault(); // Prevent form submission
+            alert('Please select a main contact.'); // Show alert message
+        }
+    });
+
     // document.addEventListener('DOMContentLoaded', function () {
     // Function to initialize the popup form logic
     // function initializeForm() {

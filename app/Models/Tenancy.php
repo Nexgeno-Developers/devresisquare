@@ -11,11 +11,27 @@ class Tenancy extends Model
     use HasFactory;
 
     protected $fillable = [
-        'property_id', 'offer_id', 'sub_status', 'move_in', 'move_out',
-        'tenancy_renewal_confirm_date', 'extension_date', 'rent',
-         'deposit', 'deposit_type', 'deposit_number' , 'frequency',
-          'status', 'tenancy_sub_status_id', 'tenancy_type_id', 'deposit_held_by', 'deposit_service',
-          'periodic','rolling_contract','renewal_exempt','term_months','term_days'
+        'property_id',
+        'offer_id',
+        'status',
+        'move_in',
+        'move_out',
+        'tenancy_renewal_confirm_date',
+        'extension_date',
+        'rent',
+        'deposit',
+        'deposit_type',
+        'deposit_number',
+        'frequency',
+        'tenancy_sub_status_id',
+        'tenancy_type_id',
+        'deposit_held_by',
+        'deposit_service',
+        'periodic',
+        'rolling_contract',
+        'renewal_exempt',
+        'term_months',
+        'term_days'
     ];
 
     public function property()

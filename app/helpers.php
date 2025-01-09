@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 if (!function_exists('getPoundSymbol')) {
     function getPoundSymbol()
@@ -157,3 +158,26 @@ if (! function_exists('jsonDecodeAndPrint')) {
     }
 }
 
+if (!function_exists('todayDate')) {
+    /**
+     * Get today's date in YYYY-MM-DD format.
+     *
+     * @return string
+     */
+    function todayDate()
+    {
+        return (new \DateTime())->format('Y-m-d');
+    }
+}
+
+if (!function_exists('tomorrowDate')) {
+    /**
+     * Get tomorrow's date in YYYY-MM-DD format.
+     *
+     * @return string
+     */
+    function tomorrowDate()
+    {
+        return Carbon::tomorrow()->toDateString();
+    }
+}

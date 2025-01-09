@@ -14,18 +14,20 @@ return new class extends Migration
         Schema::create('tenant_members', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tenancy_id')->nullable(); // Explicitly define type
-            $table->string('name')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('employment_status')->nullable();  // Added data type for employmentStatus
-            $table->string('business_name')->nullable();     // Added data type for businessName
-            $table->boolean('guarantee')->nullable();         // Added data type for guarantee
-            $table->boolean('previously_rented')->nullable(); // Added data type for previouslyRented
-            $table->boolean('poor_credit')->nullable();      // Added data type for poorCredit
+            $table->unsignedBigInteger('contact_id')->nullable(); // Explicitly define type
+            // $table->string('name')->nullable();
+            // $table->string('email')->nullable();
+            // $table->string('phone')->nullable();
+            // $table->string('employment_status')->nullable();  // Added data type for employmentStatus
+            // $table->string('business_name')->nullable();     // Added data type for businessName
+            // $table->boolean('guarantee')->nullable();         // Added data type for guarantee
+            // $table->boolean('previously_rented')->nullable(); // Added data type for previouslyRented
+            // $table->boolean('poor_credit')->nullable();      // Added data type for poorCredit
             $table->boolean('is_main_person')->default(false);
-            $table->string('group_id',255)->nullable()->after('is_main_person'); // Grouping family members
+            $table->string('group_id', 255)->nullable(); // Grouping family members
             $table->timestamps();
             $table->foreign('tenancy_id')->references('id')->on('tenancies')->onDelete('set null');
+            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('set null');
         });
     }
 

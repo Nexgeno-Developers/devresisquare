@@ -6,7 +6,10 @@ use App\Models\Offer;
 use App\Models\Property;
 use App\Models\Tenancy;
 use App\Models\TenantMember;
+use App\Models\Contact;
+use App\Models\ContactDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OfferController
 {
@@ -52,17 +55,43 @@ class OfferController
         $tenantIndex = 1;
 
         while ($request->has("tenantName_{$tenantIndex}")) {
-            $tenantDetails[] = [
-                'tenantName' => $request->input("tenantName_{$tenantIndex}"),
-                'tenantPhone' => $request->input("tenantPhone_{$tenantIndex}"),
-                'tenantEmail' => $request->input("tenantEmail_{$tenantIndex}"),
-                'employmentStatus' => $request->input("employmentStatus_{$tenantIndex}"),
-                'businessName' => $request->input("businessName_{$tenantIndex}"),
-                'guarantee' => $request->input("guarantee_{$tenantIndex}"),
-                'previouslyRented' => $request->input("previouslyRented_{$tenantIndex}"),
-                'poorCredit' => $request->input("poorCredit_{$tenantIndex}"),
-                'mainPerson' => $request->input("mainPerson_{$tenantIndex}") == 'on' ? true : false,  // Main person flag
-            ];
+            // Create a new contact for each tenant
+            $contact = Contact::create([
+                'category_id' => 3,
+                'full_name' => $request->input("tenantName_{$tenantIndex}"),
+                'phone' => $request->input("tenantPhone_{$tenantIndex}"),
+                'email' => $request->input("tenantEmail_{$tenantIndex}"),
+                'status' => 1,  // You can adjust the status accordingly
+                'updated_by' => Auth::id(),  // Assuming authenticated user updates the record
+                'added_by' => Auth::id(),    // Assuming authenticated user adds the record
+            ]);
+
+            // Create corresponding contact details (tenancy related information)
+            ContactDetail::create([
+                'contact_id' => $contact->id,
+                'employment_status' => $request->input("employmentStatus_{$tenantIndex}"),
+                'business_name' => $request->input("businessName_{$tenantIndex}"),
+                'guarantee' => convert_to_boolean($request->input("guarantee_{$tenantIndex}")),
+                'previously_rented' => convert_to_boolean($request->input("previouslyRented_{$tenantIndex}")),
+                'poor_credit' => convert_to_boolean($request->input("poorCredit_{$tenantIndex}")),
+            ]);
+
+            // Add the contact ID to the $contactIds array, with mainPerson flag as true/false
+            $isMainPerson = $request->input("mainPerson_{$tenantIndex}") == 'on' ? true : false;
+            $contactIds[$contact->id] = $isMainPerson;
+
+            // $tenantDetails[] = [
+            //     'tenantName' => $request->input("tenantName_{$tenantIndex}"),
+            //     'tenantPhone' => $request->input("tenantPhone_{$tenantIndex}"),
+            //     'tenantEmail' => $request->input("tenantEmail_{$tenantIndex}"),
+            //     'employmentStatus' => $request->input("employmentStatus_{$tenantIndex}"),
+            //     'businessName' => $request->input("businessName_{$tenantIndex}"),
+            //     'guarantee' => $request->input("guarantee_{$tenantIndex}"),
+            //     'previouslyRented' => $request->input("previouslyRented_{$tenantIndex}"),
+            //     'poorCredit' => $request->input("poorCredit_{$tenantIndex}"),
+            //     'mainPerson' => $request->input("mainPerson_{$tenantIndex}") == 'on' ? true : false,  // Main person flag
+            // ];
+
             $tenantIndex++;
         }
 
@@ -73,7 +102,8 @@ class OfferController
             'deposit' => $request->input('deposit'),
             'term' => $request->input('term'),
             'move_in_date' => $request->input('moveInDate'),
-            'tenant_details' => json_encode($tenantDetails),  // Store tenant details as JSON
+            'tenant_details' => json_encode($contactIds),  // Store tenant details as JSON
+            // 'tenant_details' => json_encode($tenantDetails),  // Store tenant details as JSON
             'status' => 'Pending',  // Default status for the offer
         ]);
 

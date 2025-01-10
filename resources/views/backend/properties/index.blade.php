@@ -628,24 +628,24 @@
                 $("input[name='property_id']").val(propertyId);
                 initSelect3('.select2');
 
-                const contactSelect = $('#tenant_id');
-                const contactOptionsContainer = $('#tenant-options');
+                const contactSelect3 = $('#tenant_id');
+                const contactOptionsContainer3 = $('#tenant-options');
 
                 // Listen for changes in the contact dropdown
-                contactSelect.on('change', function () {
-                    const selectedContacts = contactSelect.val() || [];
-                    contactOptionsContainer.empty();
+                contactSelect3.on('change', function () {
+                    const selectedContacts = contactSelect3.val() || [];
+                    contactOptionsContainer3.empty();
 
                     if (selectedContacts.length > 0) {
                         // Add default label
-                        contactOptionsContainer.append(`
+                        contactOptionsContainer3.append(`
                             <label class="mb-2">Select Main Contact</label>
                         `);
 
                         // Add radio buttons for each selected contact
                         selectedContacts.forEach(contactId => {
-                            const contactName = contactSelect.find(`option[value="${contactId}"]`).text(); // Get the name from the option
-                            contactOptionsContainer.append(`
+                            const contactName = contactSelect3.find(`option[value="${contactId}"]`).text(); // Get the name from the option
+                            contactOptionsContainer3.append(`
                                 <div class="form-check">
                                     <input type="radio" name="is_main_person" value="${contactId}" id="is_main_${contactId}" class="form-check-input">
                                     <label for="is_main_${contactId}" class="form-check-label">${contactName}</label>
@@ -674,10 +674,93 @@
                 // Set the property_id in the hidden input field inside the modal form
                 $("input[name='property_id']").val(propertyId);
                 initSelect3('.select2');
+
+                const contactSelect4 = $('#tenant_id');
+                const contactOptionsContainer4 = $('#tenant-options');
+
+                // Store the previously selected main contact
+                let previouslySelectedMainTenant = $('input[name="is_main_person"]:checked').val() || null;
+
+                // Listen for changes in the contact dropdown
+                contactSelect4.on('change', function () {
+                    const selectedContacts = contactSelect4.val() || [];
+                    contactOptionsContainer4.empty();
+
+                    if (selectedContacts.length > 0) {
+                        // Add default label
+                        contactOptionsContainer4.append(`
+                            <label class="mb-2">Select Main Contact</label>
+                        `);
+
+                        // Add radio buttons for each selected contact
+                        selectedContacts.forEach(contactId => {
+                            const contactName = contactSelect4.find(`option[value="${contactId}"]`).text(); // Get the name from the option
+                            const isChecked = previouslySelectedMainTenant === contactId ? 'checked' : ''; // Preserve previously selected main contact
+                            contactOptionsContainer4.append(`
+                                <div class="form-check">
+                                    <input type="radio" name="is_main_person" value="${contactId}" id="is_main_${contactId}" class="form-check-input" ${isChecked}>
+                                    <label for="is_main_${contactId}" class="form-check-label">${contactName}</label>
+                                </div>
+                            `);
+                        });
+
+                        // Check if the previously selected main contact is no longer in the selected contacts
+                        if (!selectedContacts.includes(previouslySelectedMainTenant)) {
+                            // Reset previously selected main contact
+                            previouslySelectedMainTenant = null;
+                        }
+                    }
+                });
+
+                // Update the stored value when a main contact is selected
+                $(document).on('change', 'input[name="is_main_person"]', function () {
+                    previouslySelectedMainTenant = $(this).val();
+                });
+
+
             });
         });
 
+        $('#editTenancyForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
+        // Gather the form data
+        var formData = new FormData(this); // This includes the form fields and file inputs
+
+        // Send the AJAX request
+        $.ajax({
+            url: $(this).attr('action'), // Use the form's action attribute
+            method: 'POST', // Form method (use 'PUT' or 'PATCH' if it's an update)
+            data: formData, // Form data
+            processData: false, // Prevent jQuery from automatically transforming the data
+            contentType: false, // Let the browser set the content type
+            success: function(response) {
+                // Handle success response
+                if (response.success) {
+                    // Display success message
+                    flashMessage('Tenancy updated successfully!', 'success');
+                    // Optionally redirect or update the UI (e.g., close modal, refresh data)
+                    location.reload(); // Reload the page (if necessary)
+                } else {
+                    // Handle errors if any (validation errors, etc.)
+                    flashMessage(response.message || 'An error occurred, please try again.', 'error');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX error (e.g., network issue, server issue)
+                flashMessage('An error occurred while submitting the form. Please try again.', 'error');
+            }
+        });
+    });
+
+
+// Function to show a flash message (You can customize this to use your preferred alert system)
+function flashMessage(message, type) {
+    var flashMessage = $('<div>', {
+        class: 'flash-message ' + type,
+        text: message
+    }).appendTo('body').fadeIn().delay(3000).fadeOut();
+}
 
 
 

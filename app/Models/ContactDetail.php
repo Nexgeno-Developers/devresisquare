@@ -13,6 +13,7 @@ class ContactDetail extends Model
         'contact_id',
         'employment_status',
         'business_name',
+        'guarantee',
         'previously_rented',
         'poor_credit',
     ];

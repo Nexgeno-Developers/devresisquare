@@ -1,21 +1,5 @@
 <div id="mainForm">
-    @php
-        $statuses = [
-            'under_negotiation' => 'Under Negotiation',
-            'offer_accepted' => 'Offer Accepted',
-            'admin_to_approve' => 'Admin To Approve',
-            'accounts_to_process' => 'Accounts To Process',
-            'current_tenancy' => 'Current Tenancy',
-            'current_tenancy_on_notice' => 'Current Tenancy (On Notice)',
-            'aborted' => 'Aborted',
-            'offer_rejected' => 'Offer Rejected',
-            'offer_rejected_refund_request' => 'Offer Rejected – Refund Request',
-            'checked_out' => 'Checked Out',
-            'checked_out_deposit_dispute' => 'Checked Out – Deposit Dispute',
-            'checked_out_deposit_settled' => 'Checked Out – Deposit Settled',
-            'archive' => 'Archive',
-        ];
-    @endphp
+
     <form id="addTenancyForm" action="{{ route('admin.tenancies.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="property_id" class="form-control" value="">

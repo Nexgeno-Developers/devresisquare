@@ -181,3 +181,16 @@ if (!function_exists('tomorrowDate')) {
         return Carbon::tomorrow()->toDateString();
     }
 }
+
+if (!function_exists('convert_to_boolean')) {
+    /**
+     * Convert 'Yes'/'No' values to boolean true/false.
+     *
+     * @param string $value
+     * @return bool
+     */
+    function convert_to_boolean($value)
+    {
+        return strtolower($value) === 'yes' ? true : false;
+    }
+}

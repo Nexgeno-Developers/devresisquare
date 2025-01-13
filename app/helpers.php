@@ -116,7 +116,7 @@ if (! function_exists('formatDate')) {
     {
         // Check if the date is not null or empty
         if ($date) {
-            return \Carbon\Carbon::parse($date)->format('d/m/Y');
+            return Carbon::parse($date)->format('d/m/Y');
         }
         return null; // Return null if no date is provided
     }

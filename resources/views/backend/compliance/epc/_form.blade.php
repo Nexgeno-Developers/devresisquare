@@ -1,4 +1,4 @@
-<form>
+<form id='epc'>
     <!-- Rating Field -->
     <div class="mb-3">
         <label for="rating" class="form-label">Rating</label>
@@ -26,9 +26,4 @@
         <input type="file" class="form-control" id="imageUpload" name="imageUpload" accept="image/*" required>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary me-2">Save</button>
-        <button type="reset" class="btn btn-secondary">Cancel</button>
-    </div>
 </form>

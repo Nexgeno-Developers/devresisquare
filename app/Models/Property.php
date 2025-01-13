@@ -38,7 +38,7 @@ class Property extends Model
         'square_meter',
         'aspects',
         'sales_current_status',
-        'letting_current_status' ,
+        'letting_current_status',
         'status_description',
         'available_from',
         'pets_allow',
@@ -105,5 +105,10 @@ class Property extends Model
     public function estateCharge()
     {
         return $this->belongsTo(EstateCharge::class, 'estate_charges_id');
+    }
+
+    public function complianceRecords()
+    {
+        return $this->hasMany(ComplianceRecord::class);
     }
 }

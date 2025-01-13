@@ -13,6 +13,7 @@ use App\Models\Branch;
 use App\Models\PropertyResponsibility;
 use App\Models\Offer;
 use App\Models\Tenancy;
+use App\Models\ComplianceType;
 // use App\Models\EstateCharge;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -72,11 +73,7 @@ class PropertyController
         ['name' => 'Notes']
     ];
 
-    // Validate if the tabName exists in the tabs array. If not, set it to 'Property'
-    // $validTabNames = array_column($tabs, 'name');
-    // if (!in_array($tabName, $validTabNames)) {
-    //     $tabName = 'Property'; // Default to Property if the provided tabName is invalid
-    // }
+
 
     // Retrieve the content for the selected tab and property
     $content = $this->getTabContent($tabName, $propertyId, $property); // Dynamically get content for the tab and property
@@ -121,7 +118,15 @@ private function getTabContent($tabname, $propertyId, $property)
 
             return view('backend.properties.tabs.offers', compact('propertyId', 'offers'))->render();
         case 'complience':
-            return view('backend.properties.tabs.complience', compact('propertyId'))->render();
+            // Fetch compliance types
+            $complianceTypes = ComplianceType::all();
+
+            // Fetch compliance records with compliance details for the property
+            $complianceRecords = $property->complianceRecords()
+                ->with('complianceType', 'complianceDetails') // Eager load compliance type and details
+                ->get();
+
+            return view('backend.properties.tabs.complience', compact('propertyId', 'complianceTypes', 'complianceRecords'))->render();
 
         case 'tenancy':
 

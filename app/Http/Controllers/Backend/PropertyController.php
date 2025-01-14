@@ -121,9 +121,10 @@ private function getTabContent($tabname, $propertyId, $property)
             // Fetch compliance types
             $complianceTypes = ComplianceType::all();
 
-            // Fetch compliance records with compliance details for the property
+            // Fetch compliance records with compliance details for the specific property
             $complianceRecords = $property->complianceRecords()
                 ->with('complianceType', 'complianceDetails') // Eager load compliance type and details
+                ->where('property_id', $propertyId) // Filter records by the property ID
                 ->get();
 
             return view('backend.properties.tabs.complience', compact('propertyId', 'complianceTypes', 'complianceRecords'))->render();
@@ -206,7 +207,7 @@ private function getTabContent($tabname, $propertyId, $property)
             $property_id = $request->property_id;
 
             // Collect responsibility data from the form
-            $responsibility_ids = $request->input('PropertyResponsibility_id', []);
+            $propertyResponsibilityIds = $request->input('PropertyResponsibility_id', []);
             $user_ids = $request->input('user_id', []);
             $designation_ids = $request->input('designation_id', []);
             $branch_ids = $request->input('branch_id', []);
@@ -228,13 +229,13 @@ private function getTabContent($tabname, $propertyId, $property)
                 ];
 
                 // Set 'added_by' only when creating a new responsibility
-                if (empty($responsibility_ids[$index])) {
+                if (empty($propertyResponsibilityIds[$index])) {
                     $data['added_by'] = Auth::id(); // Only set 'added_by' for new records
                 }
 
                 // Update or create the responsibility
                 $responsibility = PropertyResponsibility::updateOrCreate(
-                    ['id' => $responsibility_ids[$index] ?? null], // Match by ID if provided
+                    ['id' => $propertyResponsibilityIds[$index] ?? null], // Match by ID if provided
                     $data
                 );
 
@@ -257,6 +258,25 @@ private function getTabContent($tabname, $propertyId, $property)
             // Check if property_id is provided in the request
             if ($property_id) {
                 $property = Property::find($property_id);
+
+                $allstations = StationName::select('id', 'name')->get();  // Fetch all station names
+                $allschools = SchoolName::select('id', 'name')->get();    // Fetch all school names
+
+                // Get the nearest station IDs and nearest school IDs from the property (these will be comma-separated strings)
+                $stationIds = explode(',', $property->nearest_station);  // Convert to an array
+                $schoolIds = explode(',', $property->nearest_school);    // Convert to an array
+
+                // Fetch the station and school names using the IDs
+                $stations = StationName::whereIn('id', $stationIds)->pluck('name', 'id');
+                $schools = SchoolName::whereIn('id', $schoolIds)->pluck('name', 'id');
+
+                // Fetch required data for dropdowns
+                $users = User::select('id', 'name')->get(); // Fetch all users
+                $designations = Designation::select('id', 'title')->get(); // Fetch all designations
+                $branches = Branch::select('id', 'name')->get(); // Fetch all branches
+
+                $PropertyResponsibility = PropertyResponsibility::where('property_id', $property_id)->get();
+
                 if ($property) {
 
                     // // If estate charge exists, update it(for enter amount and auto generate estate charge record)
@@ -325,7 +345,7 @@ private function getTabContent($tabname, $propertyId, $property)
             // Load the next step view
             // return view('backend.properties.form_components.step' . ($request->step + 1));
             // return view('backend.properties.form_components.step' . ($request->step + 1))->withInput();
-            return view('backend.properties.form_components.step' . ($request->step + 1), compact('property'));
+            return view('backend.properties.form_components.step' . ($request->step + 1), compact('property', 'allstations', 'allschools', 'stations', 'schools', 'users', 'designations', 'branches', 'PropertyResponsibility' ,'propertyResponsibilityIds'));
         } else {
             // If no step is present, return a message (optional)
             return response()->json(['message' => 'Invalid step.']);

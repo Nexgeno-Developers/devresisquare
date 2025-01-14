@@ -754,13 +754,13 @@
     });
 
 
-// Function to show a flash message (You can customize this to use your preferred alert system)
-function flashMessage(message, type) {
-    var flashMessage = $('<div>', {
-        class: 'flash-message ' + type,
-        text: message
-    }).appendTo('body').fadeIn().delay(3000).fadeOut();
-}
+    // Function to show a flash message (You can customize this to use your preferred alert system)
+    function flashMessage(message, type) {
+        var flashMessage = $('<div>', {
+            class: 'flash-message ' + type,
+            text: message
+        }).appendTo('body').fadeIn().delay(3000).fadeOut();
+    }
 
 
 
@@ -1087,4 +1087,68 @@ function flashMessage(message, type) {
     //     simulateTabClickAndPropertyCard();
     // });
 </script>
+
+<script>
+    // Function to open the compliance modal and fetch the form
+    function openComplianceModal(complianceTypeId) {
+        var propertyId = document.getElementById('hidden-property-id').getAttribute('data-property-id') ?? ''; // Fetch the property_id
+
+        $.ajax({
+            url: '{{ route('admin.compliance.type.form', ':complianceTypeId') }}'.replace(':complianceTypeId', complianceTypeId),
+            type: 'GET',
+            success: function(response) {
+
+                // Load the dynamic form content into the modal body
+                $('#complianceModalLabel').html('ADD ' + response.heading);
+                $('#complianceModalBody').html(response.content);
+
+                // Find the form inside the modal and get its ID
+                var formId = $('#complianceModalBody form').attr('id');
+
+                // Set the property_id in the hidden input field inside the modal form
+                $("input[name='property_id']").val(propertyId);
+                $("input[name='compliance_type_id']").val(complianceTypeId);
+
+                AIZ.uploader.previewGenerate();
+
+                // Set the form ID dynamically to the submit button
+                $('#submitComplianceForm').attr('form', formId);
+
+                // Show the modal
+                $('#complianceModal').modal('show');
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+    $(document).on('click', '#submitComplianceForm', function (e) {
+        e.preventDefault();  // Prevent the default form submission behavior
+        let formId = $(this).attr('form'); // Get the form ID dynamically
+        let formData = new FormData(document.getElementById(formId));
+
+        $.ajax({
+            url: '{{ route('admin.compliance.store') }}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    AIZ.plugins.notify('success', 'Compliance record saved successfully.');
+                    // $('#complianceModal').modal('hide'); // Close the modal
+                    // location.reload(); // Optionally reload the page to update the compliance list
+                } else {
+                    AIZ.plugins.notify('danger', 'Failed to save compliance record.');
+                }
+            },
+            error: function (error) {
+                console.error(error);
+                let errorMessage = error.responseJSON?.message || 'An error occurred while saving the compliance record.';
+                AIZ.plugins.notify('danger', errorMessage);
+            }
+        });
+    });
+
+    </script>
 @endsection

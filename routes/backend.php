@@ -164,6 +164,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::get('/compliance/type/form/{complianceTypeId}', [ComplianceController::class, 'getComplianceForm'])->name('compliance.type.form');
+        Route::post('/compliance/store/', [ComplianceController::class, 'storeCompliance'])->name('compliance.store');
 
     });
 

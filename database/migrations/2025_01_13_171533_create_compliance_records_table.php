@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('compliance_type_id')->nullable()->constrained('compliance_types')->onDelete('cascade');
             $table->date('issued_date')->nullable();
             $table->date('expiry_date')->nullable();
-            $table->json('photos')->nullable(); // Store photo IDs as a JSON array
+            $table->string('photos', 2000)->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();

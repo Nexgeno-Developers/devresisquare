@@ -1,4 +1,4 @@
-<form id='gas'>
+<form id='landloard_registration'>
     @csrf
     <input type="hidden" name="property_id" class="form-control" value="">
     <input type="hidden" name="compliance_type_id" class="form-control" value="">

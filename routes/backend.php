@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\DesignationController;
 use App\Http\Controllers\Backend\TenancyController;
 use App\Http\Controllers\Backend\TenancySubStatusController;
 use App\Http\Controllers\Backend\TenancyTypeController;
+use App\Http\Controllers\Backend\ComplianceController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -161,6 +162,10 @@ Route::middleware('auth')->group(function () {
             Route::put('/update/{tenancyType}', [TenancyTypeController::class, 'update'])->name('tenancy_types.update'); // Update tenancy type
             Route::delete('/delete/{tenancyType}', [TenancyTypeController::class, 'destroy'])->name('tenancy_types.destroy'); // Delete tenancy type
         });
+
+        Route::get('/compliance/type/form/{complianceTypeId}', [ComplianceController::class, 'getComplianceForm'])->name('compliance.type.form');
+        Route::post('/compliance/store/', [ComplianceController::class, 'storeCompliance'])->name('compliance.store');
+
     });
 
 

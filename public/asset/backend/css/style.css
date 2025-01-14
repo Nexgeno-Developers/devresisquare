@@ -90,7 +90,7 @@ a, a:hover{text-decoration: none !important ;}
 
 .top_button{ margin-top: 20px;}
 .rs_table {
-    
+
     th, td {
         padding: 8px 12px;
         border-bottom: 1px solid var(--primary-300);
@@ -499,6 +499,17 @@ input[type="radio"]:checked+label::before {
 /* ========================================
           Steps Media Upload
 ==========================================*/
+
+.media_wrapper2 {
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-bottom: 40px;
+    .input-group{
+        width: unset;
+    }
+}
 
 .media_wrapper {
     display: flex;
@@ -1080,7 +1091,7 @@ input[type="radio"]:checked+label::before {
     .mobile_only{
         display: none !important;
     }
-    
+
      /* #wrapper {
         margin-left: unset;
         width: 100%;
@@ -1539,4 +1550,3 @@ body.show-sidebar #menu.sidebar {
         }
     }
 }
-    

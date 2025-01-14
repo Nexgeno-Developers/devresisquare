@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             CurrencySeeder::class,
             PropertiesTableSeeder::class,
             PropertyResponsibilitySeeder::class,
+            ComplianceTypeSeeder::class,
         ]);
 
         // User::factory()->create([

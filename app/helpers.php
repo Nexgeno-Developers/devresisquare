@@ -116,7 +116,7 @@ if (! function_exists('formatDate')) {
     {
         // Check if the date is not null or empty
         if ($date) {
-            return \Carbon\Carbon::parse($date)->format('d/m/Y');
+            return Carbon::parse($date)->format('d/m/Y');
         }
         return null; // Return null if no date is provided
     }
@@ -192,5 +192,74 @@ if (!function_exists('convert_to_boolean')) {
     function convert_to_boolean($value)
     {
         return strtolower($value) === 'yes' ? true : false;
+    }
+}
+
+if (!function_exists('beautify_string')) {
+    /**
+     * Replace hyphens, underscores, or special characters with spaces and convert to title case.
+     *
+     * @param string $value
+     * @return string
+     */
+    function beautify_string($value)
+    {
+        // Replace hyphens and underscores with spaces
+        $value = preg_replace('/[-_]+/', ' ', $value);
+
+        // Convert to title case
+        return ucwords($value);
+    }
+}
+
+if (!function_exists('convert_to_uppercase')) {
+    /**
+     * Convert a string to uppercase.
+     *
+     * @param string $value
+     * @return string
+     */
+    function convert_to_uppercase($value)
+    {
+        return strtoupper($value);
+    }
+}
+
+if (!function_exists('convert_to_lowercase')) {
+    /**
+     * Convert a string to lowercase.
+     *
+     * @param string $value
+     * @return string
+     */
+    function convert_to_lowercase($value)
+    {
+        return strtolower($value);
+    }
+}
+
+if (!function_exists('capitalize_words')) {
+    /**
+     * Capitalize the first letter of each word in a string.
+     *
+     * @param string $value
+     * @return string
+     */
+    function capitalize_words($value)
+    {
+        return ucwords(strtolower($value));
+    }
+}
+
+if (!function_exists('capitalize_first_letter')) {
+    /**
+     * Capitalize the first letter of a string.
+     *
+     * @param string $value
+     * @return string
+     */
+    function capitalize_first_letter($value)
+    {
+        return ucfirst(strtolower($value));
     }
 }

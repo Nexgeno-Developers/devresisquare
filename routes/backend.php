@@ -163,9 +163,10 @@ Route::middleware('auth')->group(function () {
             Route::delete('/delete/{tenancyType}', [TenancyTypeController::class, 'destroy'])->name('tenancy_types.destroy'); // Delete tenancy type
         });
 
-        Route::get('/compliance/type/form/{complianceTypeId}', [ComplianceController::class, 'getComplianceForm'])->name('compliance.type.form');
-        Route::post('/compliance/store/', [ComplianceController::class, 'storeCompliance'])->name('compliance.store');
-
+        Route::get('/compliance/type/form/{complianceTypeId}/{complianceRecordId?}', [ComplianceController::class, 'getComplianceForm'])->name('compliance.type.form');
+        Route::post('/compliance/store', [ComplianceController::class, 'storeCompliance'])->name('compliance.store');
+        Route::post('/compliance/update', [ComplianceController::class, 'updateCompliance'])->name('compliance.update');
+        Route::delete('/compliance/delete/{complianceRecordId}', [ComplianceController::class, 'deleteCompliance'])->name('compliance.delete');
     });
 
 

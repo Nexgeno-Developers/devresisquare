@@ -62,7 +62,7 @@ class PropertyController
         ['name' => 'Property'],
         ['name' => 'Owners'],
         ['name' => 'Offers'],
-        ['name' => 'Complience'],
+        ['name' => 'Compliance'],
         ['name' => 'Tenancy'],
         ['name' => 'APS'],
         ['name' => 'Media'],
@@ -117,17 +117,18 @@ private function getTabContent($tabname, $propertyId, $property)
             }
 
             return view('backend.properties.tabs.offers', compact('propertyId', 'offers'))->render();
-        case 'complience':
+        case 'compliance':
             // Fetch compliance types
             $complianceTypes = ComplianceType::all();
 
-            // Fetch compliance records with compliance details for the specific property
+            // Fetch compliance records for the specific property and group them by compliance type
             $complianceRecords = $property->complianceRecords()
-                ->with('complianceType', 'complianceDetails') // Eager load compliance type and details
-                ->where('property_id', $propertyId) // Filter records by the property ID
-                ->get();
+                ->with('complianceType', 'complianceDetails') // Eager load relationships
+                ->where('property_id', $propertyId) // Filter by property ID
+                ->get()
+                ->groupBy('compliance_type_id'); // Group by compliance type
 
-            return view('backend.properties.tabs.complience', compact('propertyId', 'complianceTypes', 'complianceRecords'))->render();
+            return view('backend.properties.tabs.compliance', compact('propertyId', 'complianceTypes', 'complianceRecords'))->render();
 
         case 'tenancy':
 

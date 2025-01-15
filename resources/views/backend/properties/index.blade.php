@@ -1090,21 +1090,27 @@
 
 <script>
     // Function to open the compliance modal and fetch the form
-    function openComplianceModal(complianceTypeId) {
+    function openComplianceModal(complianceTypeId, complianceRecordId = null) {
         var propertyId = document.getElementById('hidden-property-id').getAttribute('data-property-id') ?? ''; // Fetch the property_id
 
+        let url = complianceRecordId
+        ? '{{ route('admin.compliance.type.form', [':complianceTypeId', ':complianceRecordId']) }}'
+              .replace(':complianceTypeId', complianceTypeId)
+              .replace(':complianceRecordId', complianceRecordId)
+        : '{{ route('admin.compliance.type.form', ':complianceTypeId') }}'.replace(':complianceTypeId', complianceTypeId);
+
         $.ajax({
-            url: '{{ route('admin.compliance.type.form', ':complianceTypeId') }}'.replace(':complianceTypeId', complianceTypeId),
+            url: url,
+            // url: '{{ route('admin.compliance.type.form', ':complianceTypeId') }}'.replace(':complianceTypeId', complianceTypeId),
             type: 'GET',
             success: function(response) {
 
                 // Load the dynamic form content into the modal body
-                $('#complianceModalLabel').html('ADD ' + response.heading);
+                $('#complianceModalLabel').html(response.heading);
                 $('#complianceModalBody').html(response.content);
 
                 // Find the form inside the modal and get its ID
                 var formId = $('#complianceModalBody form').attr('id');
-
                 // Set the property_id in the hidden input field inside the modal form
                 $("input[name='property_id']").val(propertyId);
                 $("input[name='compliance_type_id']").val(complianceTypeId);
@@ -1128,16 +1134,18 @@
         let formData = new FormData(document.getElementById(formId));
 
         $.ajax({
-            url: '{{ route('admin.compliance.store') }}',
+            url: formData.get('record_id')
+            ? '{{ route('admin.compliance.update') }}'
+            : '{{ route('admin.compliance.store') }}',
             type: 'POST',
             data: formData,
             processData: false,
             contentType: false,
             success: function (response) {
                 if (response.success) {
-                    AIZ.plugins.notify('success', 'Compliance record saved successfully.');
-                    // $('#complianceModal').modal('hide'); // Close the modal
-                    // location.reload(); // Optionally reload the page to update the compliance list
+                    AIZ.plugins.notify('success', response.message);
+                    $('#complianceModal').modal('hide'); // Close the modal
+                    location.reload(); // Optionally reload the page to update the compliance list
                 } else {
                     AIZ.plugins.notify('danger', 'Failed to save compliance record.');
                 }
@@ -1150,5 +1158,40 @@
         });
     });
 
-    </script>
+    let complianceRecordIdToDelete = null;
+
+    // Confirm Delete Record
+    function confirmDelete(complianceRecordId) {
+        complianceRecordIdToDelete = complianceRecordId;
+        $('#deleteConfirmationModal').modal('show');
+    }
+
+    // Execute Delete Action
+    $(document).on('click', '#confirmDeleteBtn', function() {
+        if (complianceRecordIdToDelete) {
+            $.ajax({
+                url: `{{ route('admin.compliance.delete', ':complianceRecordId') }}`.replace(':complianceRecordId', complianceRecordIdToDelete),
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'  // Include the CSRF token in the request
+                },
+                success: function (response) {
+                    if (response.success) {
+                        AIZ.plugins.notify('success', response.message);
+                        $('#deleteConfirmationModal').modal('hide');
+                        location.reload(); // Reload page to reflect the changes
+                    } else {
+                        AIZ.plugins.notify('danger', 'Failed to delete compliance record.');
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                    let errorMessage = error.responseJSON?.message || 'An error occurred while deleting the compliance record.';
+                    AIZ.plugins.notify('danger', errorMessage);
+                }
+            });
+        }
+    });
+</script>
+
 @endsection

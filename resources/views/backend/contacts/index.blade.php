@@ -3,6 +3,24 @@
 @section('content')
 <div class="container-fluid rs_container_fluid">
     <h1>Contacts</h1>
+
+    <!-- Category Filter Form -->
+    <form method="GET" action="{{ route('admin.contacts.index') }}" class="mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <select name="category" class="form-select" onchange="this.form.submit()">
+                    <option value="">-- Select Category --</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}"
+                            {{ request()->category == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    </form>
+
     <div class="top_button">
         <a href="{{ route('admin.contacts.create') }}" class="btn btn_secondary">Create Contact</a>
     </div>

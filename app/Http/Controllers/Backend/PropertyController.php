@@ -125,6 +125,7 @@ private function getTabContent($tabname, $propertyId, $property)
             $complianceRecords = $property->complianceRecords()
                 ->with('complianceType', 'complianceDetails') // Eager load relationships
                 ->where('property_id', $propertyId) // Filter by property ID
+                ->latest()
                 ->get()
                 ->groupBy('compliance_type_id'); // Group by compliance type
 

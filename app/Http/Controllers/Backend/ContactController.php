@@ -15,11 +15,21 @@ class ContactController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contacts = Contact::with('category')->get();
-        return view('backend.contacts.index', compact('contacts'));
+        // Get all categories (assuming you have a Category model related to contacts)
+        $categories = ContactCategory::all();
+
+        // If a category filter is present, apply it to the contacts query
+        $contacts = Contact::with('category')
+            ->when($request->filled('category'), function ($query) use ($request) {
+                return $query->where('category_id', $request->category);
+            })
+            ->get();
+
+        return view('backend.contacts.index', compact('contacts', 'categories'));
     }
+
 
     /**
      * Show the form for creating a new resource.

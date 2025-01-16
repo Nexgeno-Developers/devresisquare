@@ -38,7 +38,8 @@
     </header>
     <main>
         <div class="main_wrapper">
-            @include('backend.partials.aside')
+            @include('backend.partials.aside2')
+            {{-- @include('backend.partials.aside') --}}
 
             <div id="wrapper" class="main_content">
                 <div class="alert_wrapper">

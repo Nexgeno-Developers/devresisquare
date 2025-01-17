@@ -22,12 +22,24 @@
         // Retrieve the contacts from the database using the contact IDs
         $contacts = \App\Models\Contact::whereIn('id', $contactIds)->get();
 
-        // Find the main person (the first contact in tenant_details)
-        $mainPersonId = key($tenantDetails);  // Get the first contact ID with the main person flag
+        // Find the main person (the contact with main_person flag set to true)
+        $mainPersonId = null;
+        foreach ($tenantDetails as $contactId => $isMain) {
+            if ($isMain) {
+                $mainPersonId = $contactId;
+                break;
+            }
+        }
+
         $mainPerson = $contacts->firstWhere('id', $mainPersonId);
 
         // Get the other members (excluding the main person)
-        $otherMembers = $contacts->reject(fn($contact) => $contact->id == $mainPersonId)->all();
+        $otherMembers = [];
+        foreach ($contacts as $contact) {
+            if ($contact->id != $mainPersonId) {
+                $otherMembers[] = $contact;
+            }
+        }
     @endphp
 
     <div class="accordion-item">
@@ -41,59 +53,73 @@
                 <!-- Main Person Section -->
                 @if($mainPerson)
                     <h5>Main Person</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Employment Status</th>
-                                <th>Price</th>
-                                <th>Deposit</th>
-                                <th>Term</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{ $mainPerson->full_name }}</td>
-                                <td>{{ $mainPerson->phone }}</td>
-                                <td>{{ $mainPerson->email }}</td>
-                                <td>{{ $mainPerson->details->employment_status ?? 'N/A' }}</td>
-                                <td>{{ $offer->price }}</td>
-                                <td>{{ $offer->deposit }}</td>
-                                <td>{{ $offer->term }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Employment Status</th>
+                                    <th>Price</th>
+                                    <th>Deposit</th>
+                                    <th>Term</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ $mainPerson->full_name }}</td>
+                                    <td>{{ $mainPerson->phone }}</td>
+                                    <td>{{ $mainPerson->email }}</td>
+                                    <td>{{ $mainPerson->details->employment_status ?? 'N/A' }}</td>
+                                    <td>{{ $offer->price }}</td>
+                                    <td>{{ $offer->deposit }}</td>
+                                    <td>{{ $offer->term }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 @endif
 
                 <!-- Other Members Section -->
                 @if(!empty($otherMembers))
                     <h5>Other Members</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Employment Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($otherMembers as $member)
-                            <tr>
-                                <td>{{ $member->full_name }}</td>
-                                <td>{{ $member->phone }}</td>
-                                <td>{{ $member->email }}</td>
-                                <td>{{ $member->details->employment_status ?? 'N/A' }}</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm make-main-btn" data-id="{{ $offer->id }}" data-member="{{ json_encode($member) }}">Set as Main</button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Employment Status</th>
+                                    <th>Price</th>
+                                    <th>Deposit</th>
+                                    <th>Term</th>
+                                    @if ($offer->status !== 'Accepted' && $offer->status !== 'Rejected')
+                                    <th>Action</th>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($otherMembers as $member)
+                                <tr>
+                                    <td>{{ $member->full_name }}</td>
+                                    <td>{{ $member->phone }}</td>
+                                    <td>{{ $member->email }}</td>
+                                    <td>{{ $member->details->employment_status ?? 'N/A' }}</td>
+                                    <td>{{ $offer->price }}</td>
+                                    <td>{{ $offer->deposit }}</td>
+                                    <td>{{ $offer->term }}</td>
+                                    @if ($offer->status !== 'Accepted' && $offer->status !== 'Rejected')
+                                    <td>
+                                        <button class="btn btn-primary btn-sm make-main-btn" data-id="{{ $offer->id }}" data-contactid="{{ $member->details['contact_id'] }}"  data-member="{{ json_encode($member) }}">Set as Main</button>
+                                    </td>
+                                    @endif
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 @endif
 
                 <div class="d-flex justify-content-between">

@@ -155,20 +155,24 @@ class OfferController
         // Decode tenant details stored as JSON in the 'tenant_details' field
         $tenantDetails = collect(json_decode($offer->tenant_details, true));
 
-        // Ensure that the 'member' key is provided in the request and contains the 'tenantName' and 'contactId'
-        if (!$request->has('member') || !isset($request->member['contactId'])) {
+        // Ensure that the 'member' key is provided in the request and contains the 'contactId'
+        if (!$request->has('contactId')) {
             return response()->json(['status' => false, 'message' => 'Contact ID is missing in the request.']);
         }
 
         // The provided 'contactId' will be used to identify the tenant
-        $contactId = $request->member['contactId'];
+        $contactId = $request->contactId;
 
         // Update main person flag based on the provided contact ID
-        $tenantDetails = $tenantDetails->map(function ($tenant) use ($contactId) {
+        foreach ($tenantDetails as $key => $isMain) {
+            // Reset all mainPerson flags to false first
+            $tenantDetails[$key] = false;
+
             // Set mainPerson flag to true for the tenant whose contact ID matches
-            $tenant['mainPerson'] = $tenant['contactId'] == $contactId;
-            return $tenant;
-        });
+            if ($key == $contactId) {
+                $tenantDetails[$key] = true;
+            }
+        }
 
         // Save the updated tenant details back to the offer
         $offer->tenant_details = json_encode($tenantDetails);
@@ -177,6 +181,56 @@ class OfferController
         // Respond with a success message
         return response()->json(['status' => true, 'message' => 'Main person updated successfully.']);
     }
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     // Retrieve the offer by ID
+    //     $offer = Offer::findOrFail($id);
+    //     $offer->status = $request->status;
+
+    //     // Check if the status is 'Accepted'
+    //     if ($offer->status === 'Accepted') {
+    //         // Decode tenant details from JSON
+    //         $tenantDetails = json_decode($offer->tenant_details, true);
+
+    //         // Create the tenancy record
+    //         $tenancy = Tenancy::create([
+    //             'offer_id' => $offer->id,  // Link the tenancy to the offer
+    //             'property_id' => $offer->property_id,  // Store property_id if needed
+    //             'move_in' => $offer->move_in_date,  // Move-in date from offer
+    //             'move_out' => null,
+    //             'price' => $offer->price,  // Price from offer
+    //             'deposit' => $offer->deposit,  // Deposit from offer
+    //             'frequency' => $tenantDetails['frequency'] ?? 'Monthly',  // Default to 'Monthly'
+    //             'status' => 'Active',  // Default status for the tenancy
+    //         ]);
+
+    //         // Generate a unique group ID (e.g., GROUP_1, GROUP_2)
+    //         $groupId = 'GROUP_' . $tenancy->id;
+
+    //         // Now insert tenant members from tenantDetails
+    //         foreach ($tenantDetails as $contactId => $isMainPerson) {
+    //             // Retrieve the contact using contact_id stored in tenantDetails
+    //             $contact = Contact::findOrFail($contactId);
+
+    //             // Create the TenantMember record for each tenant
+    //             TenantMember::create([
+    //                 'tenancy_id' => $tenancy->id,  // Link the tenant to the created tenancy
+    //                 'contact_id' => $contact->id,  // Link to the correct Contact model
+    //                 'is_main_person' => $isMainPerson ? 1 : 0,  // Set the main person flag (1 for true, 0 for false)
+    //                 'group_id' => $groupId,  // Link tenant to the group ID
+    //             ]);
+    //         }
+
+    //         // Save the offer to update the status
+    //         $offer->save();
+    //     } else {
+    //         // If the status is not 'Accepted', simply save the offer status without updating tenant details
+    //         $offer->save();
+    //     }
+
+    //     return response()->json(['status' => true, 'message' => 'Offer status updated successfully.']);
+    // }
+
     public function updateStatus(Request $request, $id)
     {
         // Retrieve the offer by ID
@@ -188,33 +242,66 @@ class OfferController
             // Decode tenant details from JSON
             $tenantDetails = json_decode($offer->tenant_details, true);
 
-            // Create the tenancy record
-            $tenancy = Tenancy::create([
-                'offer_id' => $offer->id,  // Link the tenancy to the offer
-                'property_id' => $offer->property_id,  // Store property_id if needed
-                'move_in' => $offer->move_in_date,  // Move-in date from offer
-                'move_out' => null,
-                'price' => $offer->price,  // Price from offer
-                'deposit' => $offer->deposit,  // Deposit from offer
-                'frequency' => $tenantDetails['frequency'] ?? 'Monthly',  // Default to 'Monthly'
-                'status' => 'Active',  // Default status for the tenancy
-            ]);
+            // Check if there is any active tenancy for the same property
+            $existingTenancy = Tenancy::where('property_id', $offer->property_id)
+                                    ->where('status', 'Active')
+                                    ->first();
+
+            // If there's an active tenancy for the same property, set this new tenancy's status to 'Inactive'
+            $status = $existingTenancy ? 'Inactive' : 'Active';
+
+            // Check if the tenancy record already exists
+            $tenancy = Tenancy::where('offer_id', $offer->id)->first();
+
+            if (!$tenancy) {
+                // If the tenancy doesn't exist, create a new one
+                $tenancy = Tenancy::create([
+                    'offer_id' => $offer->id,  // Link the tenancy to the offer
+                    'property_id' => $offer->property_id,  // Store property_id if needed
+                    'move_in' => $offer->move_in_date,  // Move-in date from offer
+                    'move_out' => null,
+                    'rent' => $offer->price,  // Price from offer
+                    'deposit' => $offer->deposit,  // Deposit from offer
+                    'frequency' => $tenantDetails['frequency'] ?? 'Monthly',  // Default to 'Monthly'
+                    'status' => $status,  // Default status for the tenancy
+                ]);
+            } else {
+                // Update the tenancy record if it already exists
+                $tenancy->move_in = $offer->move_in_date;
+                $tenancy->rent = $offer->price;
+                $tenancy->deposit = $offer->deposit;
+                $tenancy->frequency = $tenantDetails['frequency'] ?? 'Monthly';
+                $tenancy->status = $status;
+                $tenancy->save();
+            }
 
             // Generate a unique group ID (e.g., GROUP_1, GROUP_2)
             $groupId = 'GROUP_' . $tenancy->id;
 
-            // Now insert tenant members from tenantDetails
+            // Now insert/update tenant members from tenantDetails
             foreach ($tenantDetails as $contactId => $isMainPerson) {
                 // Retrieve the contact using contact_id stored in tenantDetails
                 $contact = Contact::findOrFail($contactId);
 
-                // Create the TenantMember record for each tenant
-                TenantMember::create([
-                    'tenancy_id' => $tenancy->id,  // Link the tenant to the created tenancy
-                    'contact_id' => $contact->id,  // Link to the correct Contact model
-                    'is_main_person' => $isMainPerson ? 1 : 0,  // Set the main person flag (1 for true, 0 for false)
-                    'group_id' => $groupId,  // Link tenant to the group ID
-                ]);
+                // Check if the TenantMember record already exists
+                $tenantMember = TenantMember::where('tenancy_id', $tenancy->id)
+                                            ->where('contact_id', $contact->id)
+                                            ->first();
+
+                if (!$tenantMember) {
+                    // If the tenant member doesn't exist, create a new one
+                    TenantMember::create([
+                        'tenancy_id' => $tenancy->id,  // Link the tenant to the created tenancy
+                        'contact_id' => $contact->id,  // Link to the correct Contact model
+                        'is_main_person' => $isMainPerson ? 1 : 0,  // Set the main person flag (1 for true, 0 for false)
+                        'group_id' => $groupId,  // Link tenant to the group ID
+                    ]);
+                } else {
+                    // If the tenant member exists, update the is_main_person flag
+                    $tenantMember->is_main_person = $isMainPerson ? 1 : 0;
+                    $tenantMember->group_id = $groupId;
+                    $tenantMember->save();
+                }
             }
 
             // Save the offer to update the status

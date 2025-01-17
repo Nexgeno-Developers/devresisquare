@@ -405,6 +405,7 @@
         $(document).on('click', '.make-main-btn', function () {
             const id = $(this).data('id');
             const member = $(this).data('member');
+            const contactId = $(this).data('contactid');
 
             // Send AJAX request to update the main person
             $.ajax({
@@ -413,19 +414,27 @@
                 data: {
                     _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
                     member: member,
+                    contactId: contactId,
                 },
                 success: function (response) {
                     if (response.status) {
-                        alert('Main person updated successfully!');
+                        AIZ.plugins.notify('success', response.message);
+                        // alert('Main person updated successfully!');
                         location.reload(); // Reload the page to reflect changes
                     } else {
-                        alert('Failed to update the main person.');
+                        AIZ.plugins.notify('danger', 'Failed to update the main person.');
+                        // alert('Failed to update the main person.');
                     }
                 },
-                error: function (xhr) {
-                    console.error(xhr.responseText);
-                    alert('An error occurred. Please try again.');
-                },
+                error: function (error) {
+                    console.error(error);
+                    let errorMessage = error.responseJSON?.message || 'An error occurred while saving the compliance record.';
+                    AIZ.plugins.notify('danger', errorMessage);
+                }
+                // error: function (xhr) {
+                    // console.error(xhr.responseText);
+                    // alert('An error occurred. Please try again.');
+                // },
             });
         });
 
@@ -450,11 +459,13 @@
                     },
                     success: function (response) {
                         if (response.status) {
-                            alert(`Offer status updated to ${status}.`);
-                            $(`#status-${id}`).text(status); // Update the status badge dynamically
-                            if (status === 'Accepted') {
-                                $(`.status-btn[data-id="${id}"]`).hide(); // Hide buttons after accepting
-                            }
+                            AIZ.plugins.notify('success', response.message);
+                            location.reload();
+                            // alert(`Offer status updated to ${status}.`);
+                            // $(`#status-${id}`).text(status); // Update the status badge dynamically
+                            // if (status === 'Accepted') {
+                            //     $(`.status-btn[data-id="${id}"]`).hide(); // Hide buttons after accepting
+                            // }
                         } else {
                             alert('Failed to update offer status.');
                         }

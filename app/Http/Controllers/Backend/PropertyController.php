@@ -132,24 +132,34 @@ private function getTabContent($tabname, $propertyId, $property)
             return view('backend.properties.tabs.compliance', compact('propertyId', 'complianceTypes', 'complianceRecords'))->render();
 
         case 'tenancy':
-
-            // Fetch active tenancies and order them by move_in date (latest first)
-            // $tenancies = Tenancy::where('property_id', $propertyId)
-            // ->where('status', 'Active')   // Filter by active status
-            // ->orderBy('move_in', 'desc')  // Order by move_in date (latest first)
-            // ->first()->get();
-
+            // Fetch tenancies for all statuses
             $tenancies = Tenancy::where('property_id', $propertyId)
-                    ->where('status', 'Active')   // Filter by active status
-                    ->get(); // Always get a collection (empty or with one or more records)
+                                ->get(); // Fetch all tenancies for the property
+
+            // Get distinct status types for filtering
+            // $statuses = ['Active', 'Inactive', 'Terminated', 'Archived'];
+            $statuses = ['Active', 'Archived'];
+            return view('backend.properties.tabs.tenancy2', compact('statuses','tenancies', 'propertyId'))->render();
+
+            // case 'tenancy':
+
+        //     // Fetch active tenancies and order them by move_in date (latest first)
+        //     // $tenancies = Tenancy::where('property_id', $propertyId)
+        //     // ->where('status', 'Active')   // Filter by active status
+        //     // ->orderBy('move_in', 'desc')  // Order by move_in date (latest first)
+        //     // ->first()->get();
+
+        //     $tenancies = Tenancy::where('property_id', $propertyId)
+        //             ->where('status', 'Active')   // Filter by active status
+        //             ->get(); // Always get a collection (empty or with one or more records)
 
 
-            // $tenancies = Tenancy::where('property_id', $propertyId)
-            //             ->where('status', 'Active')   // Filter by active status
-            //             ->first(); // Get only the first (latest) record
+        //     // $tenancies = Tenancy::where('property_id', $propertyId)
+        //     //             ->where('status', 'Active')   // Filter by active status
+        //     //             ->first(); // Get only the first (latest) record
 
-            // Pass the data to the tenancy view
-            return view('backend.properties.tabs.tenancy', compact('tenancies', 'propertyId'))->render();
+        //     // Pass the data to the tenancy view
+        //     return view('backend.properties.tabs.tenancy', compact('tenancies', 'propertyId'))->render();
 
         case 'aps':
             return view('backend.properties.tabs.aps', compact('propertyId'))->render();

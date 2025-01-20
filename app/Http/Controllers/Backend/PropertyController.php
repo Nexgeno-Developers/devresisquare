@@ -162,9 +162,9 @@ private function getTabContent($tabname, $propertyId, $property)
         //     return view('backend.properties.tabs.tenancy', compact('tenancies', 'propertyId'))->render();
 
         case 'aps':
-            return view('backend.properties.tabs.aps', compact('propertyId'))->render();
+            return view('backend.properties.tabs.aps', compact('propertyId', 'property'))->render();
         case 'media':
-            return view('backend.properties.tabs.media', compact('propertyId'))->render();
+            return view('backend.properties.tabs.media', compact('propertyId', 'property'))->render();
         case 'teams':
             return view('backend.properties.tabs.teams', compact('propertyId'))->render();
         case 'documents':

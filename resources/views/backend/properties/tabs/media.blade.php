@@ -55,6 +55,7 @@
             @endforeach
         </div>
     </div>
+    <hr>
 @endif
 
 <!-- Video Section -->

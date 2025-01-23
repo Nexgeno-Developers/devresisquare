@@ -9,7 +9,7 @@ class RepairCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'parent_id', 'level', 'description', 'icon', 'position'];
+    protected $fillable = ['name', 'parent_id', 'level', 'description', 'icon', 'position', 'status'];
 
     public function parentCategory()
     {

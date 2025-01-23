@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class PropertyRepairController
 {
+
+    public function repairRaise(){
+        $categories = RepairCategory::with('subCategories')->whereNull('parent_id')->get();
+        return view('backend.repair.create_raise_issue', compact('categories'));
+    }
     public function index()
     {
         $repairIssues = RepairIssue::all();

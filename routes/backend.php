@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\TenancyController;
 use App\Http\Controllers\Backend\TenancySubStatusController;
 use App\Http\Controllers\Backend\TenancyTypeController;
 use App\Http\Controllers\Backend\ComplianceController;
+use App\Http\Controllers\Backend\PropertyRepairController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -167,6 +168,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/compliance/store', [ComplianceController::class, 'storeCompliance'])->name('compliance.store');
         Route::post('/compliance/update', [ComplianceController::class, 'updateCompliance'])->name('compliance.update');
         Route::delete('/compliance/delete/{complianceRecordId}', [ComplianceController::class, 'deleteCompliance'])->name('compliance.delete');
+
+        Route::prefix('/property-repairs')->group(function () {
+            Route::controller(PropertyRepairController::class)->group(function () {
+                Route::get('/raise-repair-issue', 'repairRaise')->name('property_repairs.create'); // List all property repairs
+
+            });
+        });
+
     });
 
 

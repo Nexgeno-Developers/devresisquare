@@ -83,6 +83,13 @@
         </li>
 
         <li class="sidebar-list-item">
+            <a class="{{ request()->routeIs('admin.property_repairs.create') ? 'active' : '' }}"
+                href="{{ route('admin.property_repairs.create') }}">
+                <i class="fa-solid fa-home"></i>reapir raise issue
+            </a>
+        </li>
+
+        <li class="sidebar-list-item">
             <a href="#">
                 <i class="fa-solid fa-file-alt"></i> Documents
             </a>

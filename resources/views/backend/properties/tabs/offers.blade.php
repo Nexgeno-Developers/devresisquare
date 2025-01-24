@@ -22,7 +22,7 @@
         // Retrieve the contacts from the database using the contact IDs
         $contacts = \App\Models\Contact::whereIn('id', $contactIds)->get();
 
-        // Find the main person (the contact with main_person flag set to true)
+        // Find the main tenant (the contact with main_person flag set to true)
         $mainPersonId = null;
         foreach ($tenantDetails as $contactId => $isMain) {
             if ($isMain) {
@@ -33,7 +33,7 @@
 
         $mainPerson = $contacts->firstWhere('id', $mainPersonId);
 
-        // Get the other members (excluding the main person)
+        // Get the other members (excluding the main tenant)
         $otherMembers = [];
         foreach ($contacts as $contact) {
             if ($contact->id != $mainPersonId) {
@@ -45,14 +45,14 @@
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading-{{ $offer->id }}">
             <button class="accordion-button {{ $key > 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $offer->id }}" aria-expanded="{{ $key == 0 ? 'true' : 'false' }}" aria-controls="collapse-{{ $offer->id }}">
-                Offer #{{ $key + 1 }} - {{ $offer->status }} (Main Person: {{ $mainPerson->full_name ?? 'N/A' }})
+                Offer #{{ $key + 1 }} - {{ $offer->status }} (Main Tenant: {{ $mainPerson->full_name ?? 'N/A' }})
             </button>
         </h2>
         <div id="collapse-{{ $offer->id }}" class="accordion-collapse collapse {{ $key == 0 ? 'show' : '' }}" aria-labelledby="heading-{{ $offer->id }}" data-bs-parent="#offersAccordion">
             <div class="accordion-body">
-                <!-- Main Person Section -->
+                <!-- main tenant Section -->
                 @if($mainPerson)
-                    <h5>Main Person</h5>
+                    <h5>Main Tenant</h5>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>

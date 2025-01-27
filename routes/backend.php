@@ -172,7 +172,9 @@ Route::middleware('auth')->group(function () {
         Route::prefix('/property-repairs')->group(function () {
             Route::controller(PropertyRepairController::class)->group(function () {
                 Route::get('/raise-repair-issue', 'repairRaise')->name('property_repairs.create'); // List all property repairs
-
+                Route::get('/repair-category/{categoryId}/subcategories',  'getSubCategories')->name('property_repairs.getSubCategories');
+                Route::post('/raise-repair-issue-store', 'repairRaise')->name('property_repairs.store'); // List all property repairs
+                Route::post('/repair/check-last-step', 'checkLastStep')->name('repair.checkLastStep');
             });
         });
 

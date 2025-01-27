@@ -12,10 +12,50 @@ use Illuminate\Http\Request;
 class PropertyRepairController
 {
 
-    public function repairRaise(){
-        $categories = RepairCategory::with('subCategories')->whereNull('parent_id')->get();
-        return view('backend.repair.create_raise_issue', compact('categories'));
+    public function repairRaise()
+    {
+        $categories = RepairCategory::with(['subCategories', 'parentCategory'])  // Pass as an array of relationships
+            ->whereNull('parent_id')
+            ->orderBy('level')
+            ->orderBy('position')
+            ->get();
+
+        // Get the maximum level in the table
+        $maxLevel = RepairCategory::max('level');
+
+        return view('backend.repair.create_raise_issue', compact('categories', 'maxLevel'));
     }
+
+    public function getSubCategories($categoryId)
+    {
+        // var_dump($categoryId);
+        $subCategories = RepairCategory::where('parent_id', $categoryId)
+            ->orderBy('level')
+            ->orderBy('position')
+            ->get();
+
+        if ($subCategories->isEmpty()) {
+            return response()->json(['message' => 'No subcategories found'], 404);
+        }
+        return response()->json($subCategories);
+    }
+
+    public function checkLastStep(Request $request)
+    {
+        // Get selected categories from the request
+        $selectedCategories = $request->input('selectedCategories');
+
+        // Get the maximum category level
+        $maxLevel = RepairCategory::max('level'); // Assuming 'level' is the column indicating category depth
+
+        // Determine if the selected categories are at the last step
+        $isLastStep = count($selectedCategories) >= $maxLevel;
+
+        return response()->json([
+            'isLastStep' => $isLastStep
+        ]);
+    }
+
     public function index()
     {
         $repairIssues = RepairIssue::all();

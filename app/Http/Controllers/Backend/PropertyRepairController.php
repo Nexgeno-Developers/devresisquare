@@ -35,9 +35,15 @@ class PropertyRepairController
             ->get();
 
         if ($subCategories->isEmpty()) {
-            return response()->json(['message' => 'No subcategories found'], 404);
+            return response()->json(['message' => 'No subcategories found'], 200);
         }
         return response()->json($subCategories);
+    }
+
+    public function getCategories()
+    {
+        $categories = RepairCategory::pluck('name'); // Fetch all categories
+        return response()->json($categories);
     }
 
     public function checkLastStep(Request $request)

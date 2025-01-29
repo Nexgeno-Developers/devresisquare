@@ -40,6 +40,14 @@
             </div>
         </div>
 
+        <div class="d-flex">
+            <input list="repairCategories" id="searchInput" name="search_issue" placeholder="Search category...">
+            <datalist id="repairCategories"></datalist>
+        </div>
+
+        <!-- Radio Buttons will be shown here -->
+        <div id="radioContainer" class="mt-2"></div>
+
         <!-- Dynamic Property Table -->
         <div id="dynamic_property_table" class="mt-4">
             @php
@@ -103,8 +111,61 @@
     @endsection
 
     @section('page.scripts')
+
     <script>
         $(document).ready(function () {
+            let repairCategories = []; // Store categories for filtering
+
+            // Fetch categories from the backend
+            $.get("{{ route('admin.get.repair.categories') }}", function (data) {
+                repairCategories = data;
+            });
+
+            // Update datalist based on input
+            $("#searchInput").on("input", function () {
+                let input = $(this).val().toLowerCase();
+                let datalist = $("#repairCategories");
+                datalist.empty(); // Clear old options
+
+                // Filter and limit to 5-10 results
+                let filtered = repairCategories
+                    .filter(category => category.toLowerCase().includes(input))
+                    .slice(0, 10);
+
+                // Add options dynamically
+                $.each(filtered, function (index, category) {
+                    datalist.append(`<option value="${category}">`);
+                });
+            });
+
+            // Handle selection event
+            $("#searchInput").on("change", function () {
+                let selectedCategory = $(this).val();
+
+                if (repairCategories.includes(selectedCategory)) {
+                    showRadioButtons(selectedCategory);
+                }
+            });
+
+            function showRadioButtons(category) {
+                $("#radioContainer").html(`
+                    <label>
+                        <input type="radio" name="parent_category" value="${category}" checked> ${category}
+                    </label>
+                `);
+
+                // Set hidden input value
+                $("#selectedCategory").val(category);
+
+                // Show the form
+                $("#repair-form").removeClass("d-none");
+            }
+
+        function logSearchValue() {
+            const searchValue = document.getElementById('searchInput').value;
+            console.log("Search Value:", searchValue);
+        }
+
             let currentLevel = 1;
             let selectedCategories = {}; // Store selected category IDs by level
 
@@ -142,8 +203,13 @@
 
             $(document).on('change', 'input[type="radio"]', function () {
                 const selectedRadioValue = $(this).val();
+                const selectedNameRadio = $(this).siblings('label').text().trim();
                 console.log("Selected Value:", selectedRadioValue);
+                console.log("Selected Name:", selectedNameRadio);
+                // Add to breadcrumb
+                // updateBreadcrumb(selectedNameRadio);
 
+                $('#next-btn').prop('disabled', false);
                 // Check if the repair form is visible
                 if (!$('#repair-form').hasClass('d-none')) {
                     $('#repair-form').addClass('d-none'); // Hide the form
@@ -186,15 +252,15 @@
                             let html = '';
                             data.forEach((category) => {
                                 html += `
-                            <div class="col-md-4">
-                                <div class="form-check d-flex align-items-center">
-                                    <input class="form-check-input" type="radio" name="category_${currentLevel + 1}" id="category-${category.id}" value="${category.id}">
-                                    <label class="form-check-label d-flex align-items-center" for="category-${category.id}">
-                                        <i class="fas fa-cogs me-2"></i> ${category.name}
-                                    </label>
-                                </div>
-                            </div>
-                        `;
+                                    <div class="col-md-4">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input class="form-check-input" type="radio" name="category_${currentLevel + 1}" id="category-${category.id}" value="${category.id}">
+                                            <label class="form-check-label d-flex align-items-center" for="category-${category.id}">
+                                                <i class="fas fa-cogs me-2"></i> ${category.name}
+                                            </label>
+                                        </div>
+                                    </div>
+                                `;
                             });
 
                             nextLevelContainer.find('.row').html(html);
@@ -203,14 +269,14 @@
                             currentLevel++;
                             $('#prev-btn').removeClass('d-none'); // Show Previous button
                             $('#next-btn').prop('disabled', true); // Disable Next button
-
+                            // Add to breadcrumb
+                            updateBreadcrumb(selectedName);
                         } else {
                             // Call checkLastStep to determine if it's the last step
                             checkLastStep(selectedCategories); // Call the function here
                         }
 
-                        // Add to breadcrumb
-                        updateBreadcrumb(selectedName);
+
                     },
                     error: function (error) {
                         // Call checkLastStep to determine if it's the last step
@@ -235,6 +301,7 @@
                     currentLevel--;
                     $(`[data-level="${currentLevel}"]`).show(); // Show previous level
                     $('ol.breadcrumb li').last().remove(); // Remove last breadcrumb
+
                     if (currentLevel === 1) {
                         $('#prev-btn').addClass('d-none'); // Hide Previous button if on first level
                     }
@@ -345,7 +412,7 @@
             // Function to fetch property details by IDs
             function searchPropertiesByIds(propertyIds) {
                 $.ajax({
-                    url: '{{ route('admin.contacts.properties.search') }}',
+                    url: '{{ route('properties.search') }}',
                     method: 'GET',
                     data: { ids: propertyIds },
                     success: function (response) {

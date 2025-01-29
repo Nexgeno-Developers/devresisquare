@@ -181,6 +181,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/repair-category/{categoryId}/subcategories',  'getSubCategories')->name('property_repairs.getSubCategories');
                 Route::post('/raise-repair-issue-store', 'repairRaise')->name('property_repairs.store'); // List all property repairs
                 Route::post('/repair/check-last-step', 'checkLastStep')->name('repair.checkLastStep');
+                Route::get('/get-repair-categories',  'getCategories')->name('get.repair.categories');
             });
         });
 

@@ -4,58 +4,57 @@
 <div class="container">
     <h1>Report a Repair</h1>
 
-    <div class="report-repair">
-        <h2>What is the problem?</h2>
-        <p>Do not worry please report a problem for property manager to review and take appropriate action.</p>
-    </div>
+    <form id="repair-form-page">
 
     <div class="steps_wrapper">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="from-group mt-lg-0 mt-4">
-                    <label class="mb-2" for="search_property1">Search Property</label>
-                    <div class="row">
-                        <div class="col-12">
 
-                            <!-- Search input field for properties -->
-                            <div class="form-group">
-                                <div class="rs_input input_search">
-                                    <input type="text" id="search_property1" name="search_property"
-                                        placeholder="Search Property" />
-                                    <div class="right_icon"><i class="bi bi-search"></i></div>
+        <div class="report-repair">
+            <div class="row">
+                <h2>Where is the problem?</h2>
+                <div class="col-md-6">
+                    <div class="from-group mt-lg-0 mt-4">
+                        <label class="mb-2" for="search_property1">Search And Select Property</label>
+                        <div class="row">
+                            <div class="col-12">
+
+                                <!-- Search input field for properties -->
+                                <div class="form-group">
+                                    <div class="rs_input input_search">
+                                        <div class="right_icon d-flex align-items-center"><i class="bi bi-search"></i></div>
+                                        <input type="text" id="search_property1" placeholder="Search Property" class="form-control search_property"/>
+                                    </div>
+                                    <div id="error_message" style="color: red; display: none;"></div>
                                 </div>
-                                <div id="error_message" style="color: red; display: none;"></div>
+
+                                <!-- Search results listing -->
+                                <ul id="property_results" class="list-group mt-2"></ul>
+
+                                <!-- Selected Properties -->
+                                <input type="hidden" id="selected_properties" name="selected_properties"
+                                    value="{{ json_encode(isset($selectedProperties) ? $selectedProperties : []) }}">
+
                             </div>
-
-                            <!-- Search results listing -->
-                            <ul id="property_results" class="list-group mt-2"></ul>
-
-                            <!-- Selected Properties -->
-                            <input type="hidden" id="selected_properties" name="selected_properties"
-                                value="{{ json_encode(isset($selectedProperties) ? $selectedProperties : []) }}">
-
                         </div>
                     </div>
                 </div>
+                <!-- Dynamic Property Table -->
+                <div id="dynamic_property_table" class="d-none mt-4">
+                    @php
+                        $headers = ['id' => 'id', 'Address', 'Type', 'Availability'];
+                        $rows = []; // Start with an empty array of rows
+                    @endphp
+                    <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='contact_add_property' />
+                </div>
+            </div>
+            <div class="report-repair-problem">
+                <h3>What is the problem?</h2>
+                <p>Do not worry please report a problem for property manager to review and take appropriate action.</p>
+
+                <x-search-dropdown name="select_repair_category" route="{{ route('admin.get.repair.categories') }}" placeholder="Search repair category..." />
             </div>
         </div>
 
-        <div class="d-flex">
-            <input list="repairCategories" id="searchInput" name="search_issue" placeholder="Search category...">
-            <datalist id="repairCategories"></datalist>
-        </div>
 
-        <!-- Radio Buttons will be shown here -->
-        <div id="radioContainer" class="mt-2"></div>
-
-        <!-- Dynamic Property Table -->
-        <div id="dynamic_property_table" class="mt-4">
-            @php
-                $headers = ['id' => 'id', 'Address', 'Type', 'Availability'];
-                $rows = []; // Start with an empty array of rows
-            @endphp
-            <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='contact_add_property' />
-        </div>
 
         <div class="d-flex justify-content-between align-items-center">
             <!-- Breadcrumb Navigation -->
@@ -82,9 +81,9 @@
                     @foreach ($categories as $category)
                         <div class="col-md-4">
                             <div class="form-check d-flex align-items-center">
-                                <input class="form-check-input" type="radio" name="parent_category"
-                                    id="parent-{{ $category->id }}" value="{{ $category->id }}">
-                                <label class="form-check-label d-flex align-items-center" for="parent-{{ $category->id }}">
+                                <input class="form-check-input" type="radio" name="repair_category"
+                                    id="repair-{{ $category->id }}" value="{{ $category->id }}">
+                                <label class="form-check-label d-flex align-items-center" for="repair-{{ $category->id }}">
                                     <i class="fas fa-cogs me-2"></i> <!-- Font Awesome icon -->
                                     {{ $category->name }}
                                 </label>
@@ -107,64 +106,22 @@
     <!-- Include Common Form on the Last Step -->
     <div id="repair-form" class="d-none">
         @include('backend.repair.common_form')
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
     </div>
+    </form>
     @endsection
 
     @section('page.scripts')
 
+        @stack('domready.scripts')
     <script>
         $(document).ready(function () {
-            let repairCategories = []; // Store categories for filtering
 
-            // Fetch categories from the backend
-            $.get("{{ route('admin.get.repair.categories') }}", function (data) {
-                repairCategories = data;
-            });
-
-            // Update datalist based on input
-            $("#searchInput").on("input", function () {
-                let input = $(this).val().toLowerCase();
-                let datalist = $("#repairCategories");
-                datalist.empty(); // Clear old options
-
-                // Filter and limit to 5-10 results
-                let filtered = repairCategories
-                    .filter(category => category.toLowerCase().includes(input))
-                    .slice(0, 10);
-
-                // Add options dynamically
-                $.each(filtered, function (index, category) {
-                    datalist.append(`<option value="${category}">`);
-                });
-            });
-
-            // Handle selection event
-            $("#searchInput").on("change", function () {
-                let selectedCategory = $(this).val();
-
-                if (repairCategories.includes(selectedCategory)) {
-                    showRadioButtons(selectedCategory);
-                }
-            });
-
-            function showRadioButtons(category) {
-                $("#radioContainer").html(`
-                    <label>
-                        <input type="radio" name="parent_category" value="${category}" checked> ${category}
-                    </label>
-                `);
-
-                // Set hidden input value
-                $("#selectedCategory").val(category);
-
-                // Show the form
-                $("#repair-form").removeClass("d-none");
+            function logSearchValue() {
+                const searchValue = document.getElementById('searchInput').value;
+                console.log("Search Value:", searchValue);
             }
-
-        function logSearchValue() {
-            const searchValue = document.getElementById('searchInput').value;
-            console.log("Search Value:", searchValue);
-        }
 
             let currentLevel = 1;
             let selectedCategories = {}; // Store selected category IDs by level
@@ -315,6 +272,10 @@
 
             });
 
+
+            // property search
+
+
             // Handle the search input events (keyup and keydown)
             $(document).on('keyup keydown', '#search_property1', function () {
                 var query = $(this).val().trim();  // Get the search query
@@ -365,6 +326,7 @@
 
             // Handle property selection and append it to the dynamic table
             $(document).on('click', '.property-result', function () {
+                $('#dynamic_property_table').removeClass('d-none');
                 var propertyId = $(this).data('id');
                 if ($('#dynamic_property_table tbody tr[data-id="' + propertyId + '"]').length === 0) {  // Prevent duplicates
                     var newRow = `<tr data-id="${propertyId}">
@@ -393,6 +355,11 @@
             $(document).on('click', '.remove-btn', function () {
                 $(this).closest('tr').remove();
                 updateSelectedProperties();
+
+                // Check if there are no rows left in the table
+                if ($('#dynamic_property_table tbody tr').length < 1) {
+                    $('#dynamic_property_table').addClass('d-none');
+                }
             });
 
             // Function to initialize the selected properties when at step 3

@@ -42,9 +42,12 @@ class PropertyRepairController
 
     public function getCategories()
     {
-        $categories = RepairCategory::pluck('name'); // Fetch all categories
+        // Fetch all categories with their id and name
+        $categories = RepairCategory::all(['id', 'name']); // Pluck both id and name
+
         return response()->json($categories);
     }
+
 
     public function checkLastStep(Request $request)
     {

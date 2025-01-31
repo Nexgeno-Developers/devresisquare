@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Property;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 if (!function_exists('getPoundSymbol')) {
@@ -263,5 +265,44 @@ if (!function_exists('capitalize_first_letter')) {
     function capitalize_first_letter($value)
     {
         return ucfirst(strtolower($value));
+    }
+}
+
+if (!function_exists('searchProperties')) {
+
+    function searchProperties(Request $request)
+    {
+        // Check if we are passing specific property IDs
+        $ids = $request->input('ids');
+
+        // If IDs are provided, fetch properties by IDs
+        if ($ids) {
+            $properties = Property::whereIn('id', $ids)
+                ->get(['id', 'prop_ref_no', 'prop_name', 'line_1', 'line_2', 'city', 'country', 'postcode', 'specific_property_type', 'available_from']);  // Return only necessary fields
+        } else {
+            // If no IDs are passed, search properties based on the query (default behavior)
+            $query = $request->input('query');
+            $properties = Property::where('prop_ref_no', 'LIKE', '%' . $query . '%')
+                ->orWhere('prop_name', 'LIKE', '%' . $query . '%')
+                ->orWhere('line_1', 'LIKE', '%' . $query . '%')
+                ->orWhere('line_2', 'LIKE', '%' . $query . '%')
+                ->orWhere('city', 'LIKE', '%' . $query . '%')
+                ->orWhere('country', 'LIKE', '%' . $query . '%')
+                ->orWhere('postcode', 'LIKE', '%' . $query . '%')
+                ->limit(10)
+                ->get(['id', 'prop_ref_no', 'prop_name', 'line_1', 'line_2', 'city', 'country', 'postcode', 'specific_property_type', 'available_from']);
+        }
+
+        // Return the properties as JSON response
+        return response()->json($properties->map(function($property) {
+            return [
+                'id' => $property->id,
+                'address' => trim($property->line_1 . ' ' . $property->line_2 . ', ' . $property->city . ', ' . $property->postcode) ?: 'N/A',
+                'type' => trim($property->specific_property_type) ?: 'N/A',
+                'availability' => trim($property->available_from) ?: 'N/A',
+                'prop_ref_no' => trim($property->prop_ref_no) ?: 'N/A',
+                'prop_name' => trim($property->prop_name) ?: 'N/A',
+            ];
+        }));
     }
 }

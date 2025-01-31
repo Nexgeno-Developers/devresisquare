@@ -36,7 +36,8 @@
                                         <ul id="property_results" class="list-group mt-2"></ul>
 
                                         <!-- Selected Properties -->
-                                        <input type="hidden" id="selected_properties" name="selected_properties" value="{{ json_encode($selectedProperties ?: []) }}">
+                                        <input type="hidden" id="selected_properties" name="selected_properties" value="{{ json_encode(isset($selectedProperties) ? $selectedProperties : []) }}">
+
                                     </div>
                                 </div>
                             </div>

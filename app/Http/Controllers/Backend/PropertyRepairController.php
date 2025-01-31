@@ -35,26 +35,57 @@ class PropertyRepairController
             ->get();
 
         if ($subCategories->isEmpty()) {
-            return response()->json(['message' => 'No subcategories found'], 404);
+            return response()->json(['message' => 'No subcategories found'], 200);
         }
         return response()->json($subCategories);
     }
+
+    public function getCategories()
+    {
+        // Fetch all categories with their id and name
+        $categories = RepairCategory::all(['id', 'name']); // Pluck both id and name
+
+        return response()->json($categories);
+    }
+
 
     public function checkLastStep(Request $request)
     {
         // Get selected categories from the request
         $selectedCategories = $request->input('selectedCategories');
 
-        // Get the maximum category level
-        $maxLevel = RepairCategory::max('level'); // Assuming 'level' is the column indicating category depth
+        // Ensure the selectedCategories array is not empty
+        if (empty($selectedCategories)) {
+            return response()->json([
+                'isLastStep' => false,
+                'message' => 'No categories selected.'
+            ]);
+        }
 
-        // Determine if the selected categories are at the last step
-        $isLastStep = count($selectedCategories) >= $maxLevel;
+        // Get the last selected category ID and its corresponding level
+        $lastCategoryId = end($selectedCategories);
+        $lastCategory = RepairCategory::find($lastCategoryId);
+
+        if (!$lastCategory) {
+            return response()->json([
+                'isLastStep' => false,
+                'message' => 'Invalid category selected.'
+            ]);
+        }
+
+        $currentLevel = $lastCategory->level;
+
+        // Check if there are any categories with this category as a parent (level + 1)
+        $hasSubcategories = RepairCategory::where('parent_id', $lastCategoryId)
+            ->where('level', $currentLevel + 1)
+            ->exists();
 
         return response()->json([
-            'isLastStep' => $isLastStep
+            'isLastStep' => !$hasSubcategories, // If no subcategories exist, it's the last step
+            'message' => $hasSubcategories ? 'Subcategories available.' : 'No further subcategories.'
         ]);
     }
+
 
     public function index()
     {
@@ -105,6 +136,7 @@ class PropertyRepairController
 
         return redirect()->route('repairs.index');
     }
+
 
     // Additional methods as necessary
 }

@@ -1,6 +1,7 @@
 <?php
 //routes/backend.php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthenticateController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -30,6 +31,11 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/search-properties', function (Request $request) {
+        return searchProperties($request);
+    })->name('properties.search');
+
     // Dashboard Route
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('backend.dashboard');
 
@@ -175,6 +181,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/repair-category/{categoryId}/subcategories',  'getSubCategories')->name('property_repairs.getSubCategories');
                 Route::post('/raise-repair-issue-store', 'repairRaise')->name('property_repairs.store'); // List all property repairs
                 Route::post('/repair/check-last-step', 'checkLastStep')->name('repair.checkLastStep');
+                Route::get('/get-repair-categories',  'getCategories')->name('get.repair.categories');
             });
         });
 

@@ -4,149 +4,98 @@
 <div class="container">
     <h1>Report a Repair</h1>
 
+    <!-- Main Form -->
     <form id="repair-form-page">
 
         <div class="steps_wrapper">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-3">
                 <!-- Breadcrumb Navigation -->
-                <nav aria-label="main-breadcrumb">
-                    <ul class="main-breadcrumb d-flex">
-                        <li class="main-breadcrumb-item active" aria-current="page">Raise Repair Issue</li>
-                        <li class="main-breadcrumb-item active" aria-current="page">Raise Repair Issue</li>
-                        <!-- Breadcrumb items will be added dynamically -->
-                    </ul>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">Select Properties</li>
+                    </ol>
                 </nav>
-
-                <!-- Navigation Buttons -->
-                <div class="d-flex">
+                <!-- Navigation Buttons (global for all steps) -->
+                <div class="d-flex gap-2">
                     <button id="prev-btn" class="btn btn-secondary" disabled>Previous</button>
                     <button id="next-btn" class="btn btn-primary" disabled>Next</button>
                 </div>
             </div>
-            <!-- Step 1: Search Property -->
+
+            <!-- Step 1: Property Search -->
             <div id="step1" class="step">
                 <div class="row justify-content-center align-items-center">
                     <h2 class="text-center my-3">Where is the problem?</h2>
                     <div class="col-md-6">
-                        <div class="from-group text-center mt-lg-0 mt-4">
+                        <div class="form-group text-center mt-lg-0 mt-4">
                             <label class="mb-2" for="search_property1">Search And Select Property</label>
-                            <!-- Search input field for properties -->
+                            <!-- Search Input -->
                             <div class="form-group">
-                                <div class="rs_input input_search">
-                                    <div class="right_icon d-flex align-items-center"><i class="bi bi-search"></i></div>
+                                <div class="rs_input input_search position-relative">
+                                    <div class="right_icon position-absolute top-50 translate-middle-y end-0 pe-2">
+                                        <i class="bi bi-search"></i>
+                                    </div>
                                     <input type="text" id="search_property1" placeholder="Search Property" class="form-control search_property" />
                                 </div>
-                                <div id="error_message" style="color: red; display: none;"></div>
+                                <div id="error_message" class="mt-1 text-danger" style="display: none;"></div>
                             </div>
-                            <!-- Search results listing -->
+                            <!-- Search Results -->
                             <ul id="property_results" class="list-group mt-2"></ul>
-                            <!-- Selected Properties -->
+                            <!-- Hidden field for selected property IDs -->
                             <input type="hidden" id="selected_properties" name="selected_properties" value="{{ json_encode(isset($selectedProperties) ? $selectedProperties : []) }}">
                         </div>
                     </div>
                     <!-- Dynamic Property Table -->
                     <div id="dynamic_property_table" class="d-none mt-4">
                         @php
-                            $headers = ['id' => 'id', 'Address', 'Type', 'Availability'];
-                            $rows = []; // Start with an empty array of rows
+                            $headers = ['id' => 'ID', 'Address', 'Type', 'Availability'];
+                            $rows = []; // Initially empty
                         @endphp
-                        <x-backend.dynamic-table :headers="$headers" :rows="$rows" class='contact_add_property' />
+                        <x-backend.dynamic-table :headers="$headers" :rows="$rows" class="contact_add_property" />
                     </div>
                 </div>
             </div>
 
-            <!-- Step 2: Search or manually select repair category -->
+            <!-- Step 2: Category Selection -->
             <div id="step2" class="step d-none">
+                <h3 class="text-center my-3">What type of a problem are you facing?</h3>
+                <p class="text-center my-3">In which area in your house you are facing problem, Please select from given list.</p>
 
-                <h3 class="text-center my-3">What type of a problem are you facing?</h2>
-                <p class="text-center my-3">Do not worry please report a problem for property manager to review and take appropriate action.</p>
-
-                <div class="search-issue">
-                    <p class="text-center mt-lg-5">Search your problem</p>
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-6">
-                            <x-search-dropdown name="select_repair_category" route="{{ route('admin.get.repair.categories') }}" placeholder="Search repair category..." />
-                        </div>
-                    </div>
-                </div>
-
-                <h3 class="or-text text-center my-3">OR</h3>
-
-                <div class="manual-search-issue">
-
-                    <div class="d-flex justify-content-center gap-3 flex-column align-items-center">
-                        <p class="text-center my-2">Select manually your problem area</p>
-                        <x-backend.forms.button
-                            class='text-center hide-search-show-manual'
-                            name='Select Catgeory'
-                            type='secondary'
-                            size='sm'
-                            isOutline={{true}}
-                            isLinkBtn={{false}}
-                            link='https://#'
-                            onClick=''
-                        />
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                        <!-- Breadcrumb Navigation -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item active" aria-current="page">Raise Repair Issue</li>
-                                <!-- Breadcrumb items will be added dynamically -->
-                            </ol>
-                        </nav>
-
-                        <!-- Navigation Buttons -->
-                        <div class="d-flex">
-                            <button id="prev-btn-issue" class="btn btn-secondary d-none">Previous</button>
-                            <button id="next-btn-issue" class="btn btn-primary d-none" disabled>Next</button>
-                        </div>
-                    </div>
-
-                    <div id="category-main-view" class="main-view d-none">
-                        <!-- Default Level 1 (Parent Categories) -->
-                        <div class="category-level" data-level="1">
-                            <div class="row">
-                                @foreach ($categories as $category)
-                                    <div class="col-md-4">
-                                        <div class="form-check d-flex align-items-center">
-                                            <input class="form-check-input" type="radio" name="repair_category"
-                                                id="repair-{{ $category->id }}" value="{{ $category->id }}">
-                                            <label class="form-check-label d-flex align-items-center"
-                                                for="repair-{{ $category->id }}">
-                                                <i class="fas fa-cogs me-2"></i> <!-- Font Awesome icon -->
-                                                {{ $category->name }}
-                                            </label>
-                                        </div>
+                <!-- Initially show Level 1 categories -->
+                <div id="category-main-view" class="main-view">
+                    <!-- Default Level 1 (Parent Categories) -->
+                    <div class="category-level" data-level="1">
+                        <div class="row">
+                            @foreach ($categories as $category)
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-check d-flex align-items-center">
+                                        <input class="form-check-input" type="radio" name="category_1" id="repair-{{ $category->id }}" value="{{ $category->id }}">
+                                        <label class="form-check-label d-flex align-items-center" for="repair-{{ $category->id }}">
+                                            <i class="fas fa-cogs me-2"></i>
+                                            {{ $category->name }}
+                                        </label>
                                     </div>
-                                @endforeach
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
-
-                        <!-- Dynamically Generated Levels -->
-                        @for ($level = 2; $level <= $maxLevel; $level++)
-                            <div class="category-level" data-level="{{ $level }}" style="display: none;">
-                                <!-- Placeholder for level {{ $level }} -->
-                                <div class="row"></div>
-                            </div>
-                        @endfor
                     </div>
+                    <!-- Dynamically Generated Levels -->
+                    @for ($level = 2; $level <= $maxLevel; $level++)
+                        <div class="category-level" data-level="{{ $level }}" style="display: none;">
+                            <div class="row"></div>
+                        </div>
+                    @endfor
                 </div>
-
-
             </div>
 
-            <!-- Step 3: Confirmation Form (if category is manually selected) -->
+            <!-- Step 3: Confirmation Form -->
             <div id="step3" class="step d-none">
-                <!-- Include Common Form on the Last Step -->
-                <div id="repair-form" class="d-none">
+                <div id="repair-form" class="d-block">
                     @include('backend.repair.common_form')
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <!-- Final Submit Button -->
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
                 </div>
             </div>
-
         </div>
 
     </form>
@@ -154,317 +103,230 @@
 @endsection
 
 @section('page.scripts')
+@stack('domready.scripts')
+<script>
+    $(document).ready(function () {
 
-    @stack('domready.scripts')
-    <script>
-        $(document).on('click', '.hide-search-show-manual', function () {
-            $(this).addClass("d-none");
-            $('#category-main-view').removeClass("d-none");
-            $('.search-issue').addClass("d-none");
-            $('.or-text').addClass("d-none");
-            $('#next-btn-issue').removeClass("d-none");
-        });
+        // ----------------- GLOBAL VARIABLES ----------------- //
+        let currentStep = 1;          // 1: Property, 2: Category, 3: Final form
+        let currentLevel = 1;         // Category level in Step 2 (1 for first category level)
+        let selectedProperty = null;  // The selected property id
+        let selectedCategories = {};  // e.g., { 1: 5, 2: 9 } (level: category_id)
 
-        // Update Breadcrumb
-        function updateBreadcrumb(name) {
-            const breadcrumb = $('ol.breadcrumb');
+        // Manage breadcrumb state in an array.
+        // For Step 1: [ 'Select Properties' ]
+        // For Step 2: [ 'Select Properties', 'Select Category' ] initially;
+        // then subsequent selections are pushed.
+        let breadcrumbItems = [];
 
-            // Remove existing "active" class and mark last item as active
-            breadcrumb.find('li').removeClass('active').last().addClass('active');
+        // ----------------- BREADCRUMB HANDLERS ----------------- //
 
-            // Correct template literal syntax
-            breadcrumb.append(`
-                <li class="breadcrumb-item active" aria-current="page">${name}</li>
-            `);
+        // Rebuild breadcrumb UI from the breadcrumbItems array.
+        function updateBreadcrumbUI(){
+            let html = '';
+            breadcrumbItems.forEach((item, index) => {
+                // If not the current (last) item then make clickable.
+                if (index < breadcrumbItems.length - 1) {
+                    html += `<li class="breadcrumb-item clickable" data-index="${index}" style="cursor:pointer;">${item}</li>`;
+                } else {
+                    // Final item (active) is not clickable.
+                    html += `<li class="breadcrumb-item active" aria-current="page" data-index="${index}">${item}</li>`;
+                }
+            });
+            $('ol.breadcrumb').html(html);
         }
 
-        $(document).ready(function () {
+        // Reset breadcrumb for Step 1.
+        function resetBreadcrumb() {
+            breadcrumbItems = ['Select Properties'];
+            updateBreadcrumbUI();
+        }
 
-            function logSearchValue() {
-                const searchValue = document.getElementById('searchInput').value;
-                console.log("Search Value:", searchValue);
-            }
+        // Initialize breadcrumb for entering Step 2 (category selection).
+        function initCategoryBreadcrumb() {
+            breadcrumbItems = ['Select Properties', 'Select Category'];
+            updateBreadcrumbUI();
+        }
 
-            let selectedProperty = null;  // Track selected property
-            // let selectedCategory = null;  // Track selected repair category
-            let currentStep = 1;          // Track current step
+        // Add an item to the breadcrumb.
+        function pushBreadcrumb(name) {
+            breadcrumbItems.push(name);
+            updateBreadcrumbUI();
+        }
 
-            let currentLevel = 1;
-            let selectedCategories = {}; // Store selected category IDs by level
+        // Remove the last breadcrumb item.
+        function popBreadcrumb() {
+            breadcrumbItems.pop();
+            updateBreadcrumbUI();
+        }
 
-            // --------------------------- STEP NAVIGATION FUNCTIONS --------------------------- //
-            function showStep(step) {
-                $(".step").addClass("d-none");
-                $("#step" + step).removeClass("d-none");
+        // ----------------- STEP NAVIGATION HELPER FUNCTIONS ----------------- //
 
-                // Update breadcrumb
-                $(".breadcrumb-item").addClass("d-none");
-                $("#breadcrumb-step" + step).removeClass("d-none");
+        // Show a given step (hide all others).
+        function showStep(step) {
+            $(".step").addClass("d-none");
+            $("#step" + step).removeClass("d-none");
+        }
 
-                currentStep = step;
-            }
+        // Enable/Disable main navigation buttons.
+        function enableNextButton() { $("#next-btn").prop("disabled", false); }
+        function disableNextButton() { $("#next-btn").prop("disabled", true); }
+        function enablePreviousButton() { $("#prev-btn").prop("disabled", false); }
+        function disablePreviousButton() { $("#prev-btn").prop("disabled", true); }
 
-            function enableNextButton() {
-                $("#next-btn").prop("disabled", false);
-            }
+        // ----------------- INITIALIZATION ----------------- //
 
-            function disableNextButton() {
-                $("#next-btn").prop("disabled", true);
-            }
+        // Start with Step 1 (Property selection).
+        showStep(1);
+        disableNextButton();
+        disablePreviousButton();
+        resetBreadcrumb();
 
-            function enablePreviousButton() {
-                $("#prev-btn").prop("disabled", false);
-            }
+        // ----------------- STEP 1: PROPERTY SELECTION ----------------- //
 
-            function disablePreviousButton() {
-                $("#prev-btn").prop("disabled", true);
-            }
-
-            // --------------------------- NEXT/PREVIOUS BUTTON HANDLING --------------------------- //
-            $("#next-btn").on("click", function () {
-                console.log(currentStep);
-                if (currentStep === 1 && selectedProperty) {
-                    showStep(2);
-                    enablePreviousButton();
-                    disableNextButton();
-                } else if (currentStep === 2 && selectedCategory) {
-                    showStep(3);
-                    $("#repair-form").removeClass("d-none");
-                }
-            });
-
-            $("#prev-btn").on("click", function () {
-                // console.log(currentStep);
-                if (currentStep > 1) {
-                    currentStep = currentStep - 1;
-                    showStep(currentStep);
-                    if(currentStep === 1 && selectedProperty){
-                        enableNextButton();
-                    }else{
-                        disableNextButton();
-                    }
-                    if(currentStep = 1){
-                        disablePreviousButton();
-                    }
-                }
-                // console.log(currentStep);
-            });
-
-            // --------------------------- INITIALIZATION --------------------------- //
-            showStep(1);
-
-            // --------------------------- STEP 1: PROPERTY SEARCH --------------------------- //
-
-            // Handle the search input events (keyup and keydown)
-            $(document).on('keyup keydown', '#search_property1', function () {
-                var query = $(this).val().trim();  // Get the search query
-
-                if (query.length >= 3) {  // Trigger search when 3 or more characters are entered
-                    searchProperties(query);
-                    $('#error_message').hide(); // Hide the error message if the query length is valid
-                } else {
-                    $('#property_results').empty(); // Clear the results if query length is less than 3 characters
-                    $('#error_message').text('Please enter at least 3 characters to search.').show(); // Show the error message
-                }
-            });
-
-            // Function to perform the AJAX request for searching properties
-            function searchProperties(query) {
-                $.ajax({
-                    url: '{{ route('properties.search') }}',
-                    method: 'GET',
-                    data: { query: query },
-                    success: function (response) {
-                        $('#property_results').empty();
-                        if (response.length > 0) {
-                            response.forEach(function (property) {
-                                if (!$('#property_results li[data-id="' + property.id + '"]').length) {
-                                    appendPropertyToResults(property);
-                                }
-                            });
-                        } else {
-                            $('#property_results').append('<li class="list-group-item">No properties found.</li>');
-                        }
-                    },
-                    error: function () {
-                        $('#property_results').append('<li class="list-group-item">Error fetching results.</li>');
-                    }
-                });
-            }
-
-            // Function to add a property to the results list
-            function appendPropertyToResults(property) {
-                var address = property.address || 'N/A';
-                var propRefNo = property.prop_ref_no || 'N/A';
-                var propName = property.prop_name || 'N/A';
-                var listItem = `<li class="list-group-item property-result" data-id="${property.id}" data-type="${property.type}" data-price="${property.price}" data-availability="${property.availability}">
-                            ${address} - ${propRefNo} - ${propName}
-                        </li>`;
-                $('#property_results').append(listItem);
-            }
-
-            // Handle property selection and append it to the dynamic table
-            $(document).on('click', '.property-result', function () {
-                //store selected property in variable
-                selectedProperty = $(this).data("id");
-                console.log(selectedProperty);
-
-                // Remove any previously selected property and prevent add more then 1 property
-                $('#dynamic_property_table tbody').empty();
-
-                $('#dynamic_property_table').removeClass('d-none');
-                var propertyId = $(this).data('id');
-                if ($('#dynamic_property_table tbody tr[data-id="' + propertyId + '"]').length === 0) {  // Prevent duplicates
-                    var newRow = `<tr data-id="${propertyId}">
-                            <td>${$(this).text()}</td>
-                            <td>${$(this).data('type')}</td>
-                            <td>${$(this).data('availability')}</td>
-                            <td><button class="btn btn-danger remove-btn">Remove</button></td>
-                        </tr>`;
-                    $('#dynamic_property_table tbody').append(newRow);
-                    updateSelectedProperties();
-                    enableNextButton();
-                }
+        $(document).on('keyup keydown', '#search_property1', function () {
+            var query = $(this).val().trim();
+            if (query.length >= 3) {
+                searchProperties(query);
+                $('#error_message').hide();
+            } else {
                 $('#property_results').empty();
-                $('#search_property1').val('');
-            });
-
-            // Update the hidden input with the current list of selected property IDs
-            function updateSelectedProperties() {
-                var selectedPropertyIds = [];
-                $('#dynamic_property_table tbody tr').each(function () {
-                    selectedPropertyIds.push($(this).data('id'));
-                });
-                $('#selected_properties').val(JSON.stringify(selectedPropertyIds));
+                $('#error_message').text('Please enter at least 3 characters to search.').show();
             }
+        });
 
-            // Remove function - Remove the row when the "Remove" button is clicked
-            $(document).on('click', '.remove-btn', function () {
-                $(this).closest('tr').remove();
-                updateSelectedProperties();
-                // Check if there are no rows left in the table
-                if ($('#dynamic_property_table tbody tr').length < 1) {
-                    $('#dynamic_property_table').addClass('d-none');
-
-                    disableNextButton();
-                }
-            });
-
-            // Function to initialize the selected properties when at step 3
-            function initSelectedProperties() {
-                const selectedProperties_f = JSON.parse($('#selected_properties').val()); // Assuming selected properties are stored in a hidden field
-                if (selectedProperties_f && selectedProperties_f.length > 0) {
-                    searchPropertiesByIds(selectedProperties_f); // Call the function to fetch and display selected properties
-                }
-            }
-
-            // Get and display the pre-selected properties when the page loads
-            const selectedProperties = JSON.parse($('#selected_properties').val());
-            if (selectedProperties && selectedProperties.length > 0) {
-                searchPropertiesByIds(selectedProperties);
-            }
-
-            // Function to fetch property details by IDs
-            function searchPropertiesByIds(propertyIds) {
-                $.ajax({
-                    url: '{{ route('properties.search') }}',
-                    method: 'GET',
-                    data: { ids: propertyIds },
-                    success: function (response) {
-                        $('#dynamic_property_table tbody').empty();
+        function searchProperties(query) {
+            $.ajax({
+                url: '{{ route('properties.search') }}',
+                method: 'GET',
+                data: { query: query },
+                success: function (response) {
+                    $('#property_results').empty();
+                    if (response.length > 0) {
                         response.forEach(function (property) {
-                            if ($('#dynamic_property_table tbody tr[data-id="' + property.id + '"]').length === 0) {  // Prevent duplicates
-                                var address = property.address || 'N/A';
-                                var propRefNo = property.prop_ref_no || 'N/A';
-                                var propName = property.prop_name || 'N/A';
-                                var newRow = `<tr data-id="${property.id}">
-                                        <td>${address} - ${propRefNo} - ${propName}</td>
-                                        <td>${property.type}</td>
-                                        <td>${property.availability}</td>
-                                        <td><button class="btn btn-danger remove-btn">Remove</button></td>
-                                    </tr>`;
-                                $('#dynamic_property_table tbody').append(newRow);
+                            if (!$('#property_results li[data-id="' + property.id + '"]').length) {
+                                appendPropertyToResults(property);
                             }
                         });
-                        updateSelectedProperties();
-                    },
-                    error: function () {
-                        toastr.error('Error fetching properties by IDs.', 'Error');
+                    } else {
+                        $('#property_results').append('<li class="list-group-item">No properties found.</li>');
                     }
-                });
-            }
-
-            // --------------------------- STEP 2: CATEGORY SELECTION --------------------------- //
-
-            function checkLastStep(selectedCategories) {
-                $.ajax({
-                    url: "{{ route('admin.repair.checkLastStep') }}",
-                    method: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        selectedCategories: selectedCategories
-                    },
-                    success: function (response) {
-                        if (response.isLastStep) {
-                            // Hide the next button and show the form if it's the last step
-                            $('#next-btn-issue').prop('disabled', true);
-                            // $('#prev-btn-issue').addClass('d-none');
-                            // $('#next-btn-issue').addClass('d-none');
-                            showStep(3);
-                            $('#repair-form').removeClass('d-none'); // Show the form
-                        }
-                    },
-                    error: function (error) {
-                        AIZ.plugins.notify('error', 'An error occurred while checking the last step.');
-                    }
-                });
-            }
-
-            $(document).on('change', 'input[type="radio"]', function () {
-                const selectedRadioValue = $(this).val();
-                const selectedNameRadio = $(this).siblings('label').text().trim();
-                console.log("Selected Value:", selectedRadioValue);
-                console.log("Selected Name:", selectedNameRadio);
-                // Add to breadcrumb
-                // updateBreadcrumb(selectedNameRadio);
-
-                $('#next-btn-issue').prop('disabled', false);
-                // Check if the repair form is visible
-                if (!$('#repair-form').hasClass('d-none')) {
-                    $('#repair-form').addClass('d-none'); // Hide the form
+                },
+                error: function () {
+                    $('#property_results').append('<li class="list-group-item">Error fetching results.</li>');
                 }
-
-                // Optional: Clear breadcrumb or other UI elements tied to the form
             });
+        }
 
-            // Handle Next Button Click
-            $('#next-btn-issue').on('click', function () {
-                const visibleLevel = $(`.category-level[data-level="${currentLevel}"]`);
-                const selectedRadio = visibleLevel.find('input[type="radio"]:checked');
+        function appendPropertyToResults(property) {
+            var address = property.address || 'N/A';
+            var propRefNo = property.prop_ref_no || 'N/A';
+            var propName = property.prop_name || 'N/A';
+            var listItem = `<li class="list-group-item property-result" data-id="${property.id}" data-type="${property.type}" data-availability="${property.availability}">
+                                ${address} - ${propRefNo} - ${propName}
+                            </li>`;
+            $('#property_results').append(listItem);
+        }
 
-                if (!selectedRadio.length) return; // No category selected
+        $(document).on('click', '.property-result', function () {
+            selectedProperty = $(this).data("id");
+            $('#dynamic_property_table tbody').empty();
+            $('#dynamic_property_table').removeClass('d-none');
+            var propertyId = $(this).data('id');
+            if ($('#dynamic_property_table tbody tr[data-id="' + propertyId + '"]').length === 0) {
+                var newRow = `<tr data-id="${propertyId}">
+                                <td>${$(this).text()}</td>
+                                <td>${$(this).data('type')}</td>
+                                <td>${$(this).data('availability')}</td>
+                                <td><button class="btn btn-danger remove-btn">Remove</button></td>
+                            </tr>`;
+                $('#dynamic_property_table tbody').append(newRow);
+                updateSelectedProperties();
+                enableNextButton();
+            }
+            $('#property_results').empty();
+            $('#search_property1').val('');
+        });
 
-                const selectedValue = selectedRadio.val();
-                const selectedName = selectedRadio.siblings('label').text().trim();
+        function updateSelectedProperties() {
+            var selectedPropertyIds = [];
+            $('#dynamic_property_table tbody tr').each(function () {
+                selectedPropertyIds.push($(this).data('id'));
+            });
+            $('#selected_properties').val(JSON.stringify(selectedPropertyIds));
+        }
 
-                // Store the selected category for the current level
+        $(document).on('click', '.remove-btn', function () {
+            $(this).closest('tr').remove();
+            updateSelectedProperties();
+            if ($('#dynamic_property_table tbody tr').length < 1) {
+                $('#dynamic_property_table').addClass('d-none');
+                disableNextButton();
+            }
+        });
+
+        // ----------------- STEP 2: CATEGORY SELECTION ----------------- //
+
+        // When a category radio is selected, enable Next.
+        $(document).on('change', '.category-level input[type="radio"]', function(){
+            enableNextButton();
+        });
+
+        // ----------------- MAIN NAVIGATION BUTTON HANDLERS ----------------- //
+
+        $("#next-btn").on("click", function () {
+            console.log(currentStep);
+            // STEP 1 -> STEP 2
+            if (currentStep === 1) {
+                if (selectedProperty) {
+                    currentStep = 2;
+                    currentLevel = 1;
+                    selectedCategories = {};
+                    breadcrumbItems = ['Select Properties', 'Select Category']; // Reset breadcrumb properly
+
+                    console.log("Resetting categories:", selectedCategories);
+                    console.log("Resetting breadcrumb:", breadcrumbItems);
+                    // Hide all category-level views, then show the one corresponding to currentLevel.
+                    $(".category-level").hide();
+                    $(`[data-level="${currentLevel}"]`).show();
+                    updateBreadcrumbUI();
+
+                    // initCategoryBreadcrumb(); // Set breadcrumb for category selection.
+                    showStep(2);
+                    disableNextButton(); // Wait until a category is chosen.
+                    enablePreviousButton();
+                }
+            }
+            // STEP 2: Process current category selection.
+            else if (currentStep === 2) {
+
+                var visibleLevel = $(`.category-level[data-level="${currentLevel}"]`);
+                var selectedRadio = visibleLevel.find('input[type="radio"]:checked');
+                if (!selectedRadio.length) return;
+                var selectedValue = selectedRadio.val();
+                var selectedName = selectedRadio.siblings('label').text().trim();
+                // Save the selection.
                 selectedCategories[currentLevel] = selectedValue;
-                console.log('Selected Categories:', selectedCategories);
+                console.log(selectedCategories);
+                // Before pushing the new selection, replace any existing selection at this level:
+                breadcrumbItems = breadcrumbItems.slice(0, currentLevel);
+                pushBreadcrumb(selectedName);
 
-                // Fetch Subcategories for the Next Level
                 $.ajax({
                     url: "{{ route('admin.property_repairs.getSubCategories', ['categoryId' => '__categoryId__']) }}"
                         .replace('__categoryId__', selectedValue),
                     method: 'GET',
                     success: function (data) {
                         if (data.length) {
-                            const nextLevelContainer = $(`[data-level="${currentLevel + 1}"]`);
+                            // Load the next level.
+                            var nextLevel = currentLevel + 1;
+                            var nextLevelContainer = $(`[data-level="${nextLevel}"]`);
                             let html = '';
-                            data.forEach((category) => {
+                            data.forEach(function(category) {
                                 html += `
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 mb-2">
                                         <div class="form-check d-flex align-items-center">
-                                            <input class="form-check-input" type="radio" name="category_${currentLevel + 1}" id="category-${category.id}" value="${category.id}">
+                                            <input class="form-check-input" type="radio" name="category_${nextLevel}" id="category-${category.id}" value="${category.id}">
                                             <label class="form-check-label d-flex align-items-center" for="category-${category.id}">
                                                 <i class="fas fa-cogs me-2"></i> ${category.name}
                                             </label>
@@ -472,59 +334,116 @@
                                     </div>
                                 `;
                             });
-
                             nextLevelContainer.find('.row').html(html);
-                            $('.category-level').hide(); // Hide all levels
-                            nextLevelContainer.show(); // Show next level
+                            // Hide current level and show next level.
+                            visibleLevel.hide();
+                            nextLevelContainer.show();
                             currentLevel++;
-                            $('#prev-btn-issue').removeClass('d-none'); // Show Previous button
-                            $('#next-btn-issue').prop('disabled', true); // Disable Next button
-                            // Add to breadcrumb
-                            updateBreadcrumb(selectedName);
+                            disableNextButton();
                         } else {
-                            // Call checkLastStep to determine if it's the last step
-                            checkLastStep(selectedCategories); // Call the function here
+                            // No further subcategories – move to Step 3.
+                            currentStep = 3;
+                            showStep(3);
+                            disableNextButton();
                         }
-
-
                     },
                     error: function (error) {
-                        // Call checkLastStep to determine if it's the last step
-                        checkLastStep(selectedCategories); // Call the function here
-                        // if (error.responseJSON && error.responseJSON.message) {
-                        //     AIZ.plugins.notify('error', error.responseJSON.message); // Show error message using AIZ notification
-                        // } else {
-                        //     AIZ.plugins.notify('error', 'An unknown error occurred while fetching subcategories.'); // Default error message
-                        // }
+                        // On error, assume no further subcategories:
+                        currentStep = 3;
+                        showStep(3);
+                        disableNextButton();
                     }
                 });
-            });
-
-            // Handle Previous Button Click
-            $('#prev-btn-issue').on('click', function () {
-                if (currentLevel > 1) {
-                    // Remove the current level's selected category
-                    delete selectedCategories[currentLevel];
-                    console.log('Selected Categories:', selectedCategories);
-                    $(`[data-level="${currentLevel}"]`).hide().find('.row')
-                        .empty(); // Hide and clear current level
-                    currentLevel--;
-                    $(`[data-level="${currentLevel}"]`).show(); // Show previous level
-                    $('ol.breadcrumb li').last().remove(); // Remove last breadcrumb
-
-                    if (currentLevel === 1) {
-                        $('#prev-btn-issue').addClass('d-none'); // Hide Previous button if on first level
-                    }
-                    $('#next-btn-issue').prop('disabled', false); // Enable Next button
-                }
-
-                if (!$('#repair-form').hasClass('d-none')) {
-                    $('#repair-form').addClass('d-none'); // Hide the form
-                }
-
-
-            });
-
+            }
+            // STEP 3: Final form submission.
+            else if (currentStep === 3) {
+                $("#repair-form-page").submit();
+            }
         });
-    </script>
-    @endsection
+
+        $("#prev-btn").on("click", function () {
+            // If coming back from Step 3 to Step 2:
+            if (currentStep === 3) {
+                currentStep = 2;
+                showStep(2);
+                // Remove extra breadcrumb items if necessary.
+                // (For example, if there was a "Report Issue" item, remove it here.)
+                // if(breadcrumbItems[breadcrumbItems.length-1] === "Report Issue"){
+                //     popBreadcrumb();
+                // }
+                enableNextButton();
+            }
+            // In Step 2:
+            else if (currentStep === 2) {
+                if (currentLevel > 1) {
+                    // Hide and clear the current level.
+                    $(`[data-level="${currentLevel}"]`).hide().find('.row').empty();
+                    delete selectedCategories[currentLevel];
+                    console.log(selectedCategories);
+                    currentLevel--;
+                    // Show the previous level.
+                    $(`[data-level="${currentLevel}"]`).show();
+                    popBreadcrumb();
+                    enableNextButton();
+                } else {
+                    // If at the very first category level, return to Step 1.
+                    currentStep = 1;
+                    showStep(1);
+                    disablePreviousButton();
+                    resetBreadcrumb();
+                    if (!selectedProperty) {
+                        disableNextButton();
+                    } else {
+                        enableNextButton();
+                    }
+                }
+            }
+        });
+
+        // ----------------- BREADCRUMB CLICK HANDLING ----------------- //
+        // Clicking on a breadcrumb item navigates the user back to that step/level.
+        $('ol.breadcrumb').on('click', 'li.clickable', function () {
+            var index = $(this).data('index');
+            // If the first breadcrumb item ("Select Properties") is clicked,
+            // go back to Step 1.
+            if (index === 0) {
+                currentStep = 1;
+                showStep(1);
+                resetBreadcrumb();
+                disablePreviousButton();
+                if (!selectedProperty) {
+                    disableNextButton();
+                } else {
+                    enableNextButton();
+                }
+                currentLevel = currentStep;
+                console.log(currentLevel);
+            } else {
+                // Otherwise, ensure that we are in Step 2.
+                currentStep = 2;
+                showStep(2); // Force showing Step 2 (hide Step 3 if active)
+
+                // Delete selected categories for levels beyond the clicked one.
+                for (let lvl = index + 1; lvl <= currentLevel; lvl++) {
+                    delete selectedCategories[lvl];
+                }
+                console.log(selectedCategories);
+                // Set the category level based on the breadcrumb index.
+                // Note: index 1 corresponds to category level 1,
+                // index 2 corresponds to level 1 selection, etc.
+                currentLevel = index;
+                console.log(currentLevel);
+                // Remove all breadcrumb items after the clicked one.
+                breadcrumbItems = breadcrumbItems.slice(0, index + 1);
+                updateBreadcrumbUI();
+                // Hide all category-level views, then show the one corresponding to currentLevel.
+                $(".category-level").hide();
+                $(`[data-level="${currentLevel}"]`).show();
+
+                enableNextButton();
+            }
+        });
+
+    });
+</script>
+@endsection

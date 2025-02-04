@@ -9,7 +9,7 @@ class RepairPhoto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['repair_issue_id', 'photos', 'photo_type'];
+    protected $fillable = ['repair_issue_id', 'photos'];
 
     public function repairIssue()
     {

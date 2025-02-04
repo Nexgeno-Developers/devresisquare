@@ -5,7 +5,10 @@
     <h1>Report a Repair</h1>
 
     <!-- Main Form -->
-    <form id="repair-form-page">
+    <form method="POST" action="{{ route('admin.property_repairs.store') }}" id="repair-form-page">
+        @csrf
+        <input type="hidden" name="repair_navigation" id="selected_categories">
+        <input type="hidden" name="repair_category_id" id="last_selected_category">
 
         <div class="steps_wrapper">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -42,7 +45,7 @@
                             <!-- Search Results -->
                             <ul id="property_results" class="list-group mt-2"></ul>
                             <!-- Hidden field for selected property IDs -->
-                            <input type="hidden" id="selected_properties" name="selected_properties" value="{{ json_encode(isset($selectedProperties) ? $selectedProperties : []) }}">
+                            <input type="hidden" id="selected_properties" name="property_id" value="{{ json_encode(isset($selectedProperties) ? $selectedProperties : []) }}">
                         </div>
                     </div>
                     <!-- Dynamic Property Table -->
@@ -306,7 +309,8 @@
                 var selectedValue = selectedRadio.val();
                 var selectedName = selectedRadio.siblings('label').text().trim();
                 // Save the selection.
-                selectedCategories[currentLevel] = selectedValue;
+                selectedCategories[`level_${currentLevel}`] = selectedValue;
+
                 console.log(selectedCategories);
                 // Before pushing the new selection, replace any existing selection at this level:
                 breadcrumbItems = breadcrumbItems.slice(0, currentLevel);
@@ -341,11 +345,16 @@
                             currentLevel++;
                             disableNextButton();
                         } else {
+
                             // No further subcategories – move to Step 3.
                             currentStep = 3;
                             showStep(3);
                             disableNextButton();
                         }
+                        // Capture last selected category
+                        let lastCategory = selectedCategories[`level_${currentLevel}`];
+                        $("#selected_categories").val(JSON.stringify(selectedCategories)); // Convert categories object to JSON
+                        $("#last_selected_category").val(lastCategory);
                     },
                     error: function (error) {
                         // On error, assume no further subcategories:
@@ -378,7 +387,7 @@
                 if (currentLevel > 1) {
                     // Hide and clear the current level.
                     $(`[data-level="${currentLevel}"]`).hide().find('.row').empty();
-                    delete selectedCategories[currentLevel];
+                    delete selectedCategories[`level_${currentLevel}`];
                     console.log(selectedCategories);
                     currentLevel--;
                     // Show the previous level.
@@ -425,7 +434,7 @@
 
                 // Delete selected categories for levels beyond the clicked one.
                 for (let lvl = index + 1; lvl <= currentLevel; lvl++) {
-                    delete selectedCategories[lvl];
+                    delete selectedCategories[`level_${lvl}`];
                 }
                 console.log(selectedCategories);
                 // Set the category level based on the breadcrumb index.

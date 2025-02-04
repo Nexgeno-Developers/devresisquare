@@ -7,6 +7,7 @@ use App\Models\RepairIssue;
 use App\Models\RepairAssignment;
 use App\Models\RepairHistory;
 use App\Models\RepairIssueContact;
+use App\Models\RepairPhoto;
 use Illuminate\Http\Request;
 
 class PropertyRepairController
@@ -89,29 +90,118 @@ class PropertyRepairController
 
     public function index()
     {
-        $repairIssues = RepairIssue::all();
-        return view('repairs.index', compact('repairIssues'));
+        $repairIssues = RepairIssue::paginate(10);
+        return view('backend.repair.index', compact('repairIssues'));
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'property_id' => 'required',
-            'repair_category_id' => 'required',
-            'description' => 'required',
-            'priority' => 'required',
-        ]);
-
-        RepairIssue::create($validated);
-        return redirect()->route('repairs.index');
-    }
-
-    public function update(Request $request, $id)
+    // Show a single repair issue
+    public function show($id)
     {
         $repairIssue = RepairIssue::findOrFail($id);
-        $repairIssue->update($request->all());
-        return redirect()->route('repairs.index');
+        return view('backend.repair.view_raise_issue', compact('repairIssue'));
     }
+
+    // Show the form for editing a repair issue
+    public function edit($id)
+    {
+        $repairIssue = RepairIssue::findOrFail($id);
+        return view('backend.repair.edit_raise_issue', compact('repairIssue'));
+    }
+
+    // Update the specified repair issue
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'repair_category_id' => 'required',
+            'description' => 'required',
+        ]);
+
+        $repairIssue = RepairIssue::findOrFail($id);
+        $repairIssue->repair_category_id = $request->repair_category_id;
+        $repairIssue->description = $request->description;
+        $repairIssue->status = $request->status ?? $repairIssue->status; // Keep the current status if not updated
+        $repairIssue->save();
+
+        flash('Repair issue updated successfully')->success();
+        return redirect()->route('admin.repairs.index');
+    }
+
+    // Remove the specified repair issue
+    public function destroy($id)
+    {
+        $repairIssue = RepairIssue::findOrFail($id);
+        $repairIssue->delete();
+
+        flash('Repair issue deleted successfully')->success();
+        return redirect()->route('admin.repairs.index');
+    }
+
+    public function raiseIssueStore(Request $request)
+    {
+        $request->validate([
+            'property_id' => 'required',  // Ensure it's an array with at least one item
+            'repair_category_id' => 'required|integer|exists:repair_categories,id',
+            'repair_navigation' => 'required|json',
+            'description' => 'required|string',
+        ]);
+
+        // Decode JSON categories
+        $categories = json_decode($request->repair_navigation, true);
+
+        // dd([
+        //     'original_categories' => $request->repair_navigation,
+        //     'converted_categories' => $categories,
+        // ]);
+
+        // Decode `property_id` if it's a stringified array (e.g., "[5]")
+        $propertyId = $request->property_id;
+
+        if (is_string($propertyId) && str_starts_with($propertyId, '[') && str_ends_with($propertyId, ']')) {
+            $propertyId = json_decode($propertyId, true); // Convert JSON string to PHP array
+        }
+
+        // If it's an array, extract the first value
+        if (is_array($propertyId)) {
+            $propertyId = reset($propertyId);
+        }
+
+        // Ensure it's a valid integer
+        $propertyId = (int) $propertyId;
+
+        // dd([
+        //     'original_property_id' => $request->property_id,
+        //     'converted_property_id' => $propertyId,
+        // ]);
+
+        // Store repair request
+        $repair = RepairIssue::create([
+            'property_id' => $propertyId,
+            'repair_navigation' => json_encode($categories),
+            'repair_category_id' => $request->repair_category_id,
+            'description' => $request->description,
+            'status' => 'active',
+        ]);
+
+        // Store repair photos
+        if ($request->has('repair_photos')) {
+            RepairPhoto::create([
+                'photos' => $request->repair_photos,
+                'repair_issue_id' => $repair->id,
+                'photo_type' => 'jpg',
+            ]);
+        }
+
+        flash('Repair request raised successfully')->success();
+        return redirect()->route('admin.property_repairs.create');
+    }
+
+
+    // public function update(Request $request, $id)
+    // {
+    //     $repairIssue = RepairIssue::findOrFail($id);
+    //     $repairIssue->update($request->all());
+    //     return redirect()->route('repairs.index');
+    // }
 
     public function assignRepair(Request $request, $repairIssueId)
     {

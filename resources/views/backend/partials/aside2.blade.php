@@ -82,11 +82,30 @@
             </a>
         </li>
 
-        <li class="sidebar-list-item">
-            <a class="{{ request()->routeIs('admin.property_repairs.create') ? 'active' : '' }}"
-                href="{{ route('admin.property_repairs.create') }}">
-                <i class="fa-solid fa-home"></i>reapir raise issue
+        <li class="sidebar-list-item submenu_wrapper">
+            <a href="#repairSubmenu" data-bs-toggle="collapse" aria-expanded="
+                {{
+                    request()->routeIs('admin.property_repairs.index') ||
+                    request()->routeIs('admin.property_repairs.create') ? 'true' : 'false'
+                }} "
+                class="dropdown-toggle {{ request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.create') ? 'active' : '' }}">
+                <i class="fa-solid fa-building"></i> Repair
             </a>
+            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.create') ? 'show' : '' }}"
+                id="repairSubmenu">
+                <li class="sidebar-sub-list-item">
+                    <a class="{{ request()->routeIs('admin.property_repairs.index') ? 'active' : '' }}"
+                        href="{{ route('admin.property_repairs.index') }}">
+                        <i class="fa-solid fa-eye"></i> View Repair issues
+                    </a>
+                </li>
+                <li class="sidebar-sub-list-item">
+                    <a class="{{ request()->routeIs('admin.property_repairs.create') ? 'active' : '' }}"
+                        href="{{ route('admin.property_repairs.create') }}">
+                        <i class="fa-solid fa-trash"></i> Raise Repair Issue
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="sidebar-list-item">

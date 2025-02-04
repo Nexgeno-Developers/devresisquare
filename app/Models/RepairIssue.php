@@ -11,9 +11,9 @@ class RepairIssue extends Model
 
     protected $fillable = ['repair_category_id', 'repair_navigation', 'description', 'priority', 'status', 'property_id'];
 
-    protected $casts = [
-        'repair_navigation' => 'array', // Cast repair_navigation as an array (JSON)
-    ];
+    // protected $casts = [
+    //     'repair_navigation' => 'array', // Cast repair_navigation as an array (JSON)
+    // ];
 
     public function repairCategory()
     {

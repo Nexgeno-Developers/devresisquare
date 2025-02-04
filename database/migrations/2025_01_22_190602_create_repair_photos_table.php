@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('repair_issue_id')->constrained('repair_issues');
             $table->string('photos', 2000)->nullable();
-            $table->string('photo_type');
+            // $table->string('photo_type');
             $table->timestamps();
         });
     }

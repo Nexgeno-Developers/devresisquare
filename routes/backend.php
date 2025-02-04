@@ -177,9 +177,15 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('/property-repairs')->group(function () {
             Route::controller(PropertyRepairController::class)->group(function () {
-                Route::get('/raise-repair-issue', 'repairRaise')->name('property_repairs.create'); // List all property repairs
+                Route::get('/issue-list', 'index')->name('property_repairs.index');
+                Route::get('repair-show/{id}', 'show')->name('property_repairs.show');
+                Route::get('repair-edit/{id}/edit', 'edit')->name('property_repairs.edit');
+                Route::put('repair-update/{id}', 'update')->name('property_repairs.update');
+                Route::delete('repair-delete/{id}', 'destroy')->name('property_repairs.delete');
+
+                Route::get('/raise-repair-issue-create', 'repairRaise')->name('property_repairs.create'); // List all property repairs
                 Route::get('/repair-category/{categoryId}/subcategories',  'getSubCategories')->name('property_repairs.getSubCategories');
-                Route::post('/raise-repair-issue-store', 'repairRaise')->name('property_repairs.store'); // List all property repairs
+                Route::post('/raise-issue-store', 'raiseIssueStore')->name('property_repairs.store'); // List all property repairs
                 Route::post('/repair/check-last-step', 'checkLastStep')->name('repair.checkLastStep');
                 Route::get('/get-repair-categories',  'getCategories')->name('get.repair.categories');
             });

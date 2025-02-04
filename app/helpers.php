@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 if (!function_exists('getPoundSymbol')) {
@@ -306,3 +307,113 @@ if (!function_exists('searchProperties')) {
         }));
     }
 }
+
+if (!function_exists('getPropertyDetails')) {
+    /**
+     * Fetch specific property details by property ID and multiple column names.
+     *
+     * @param  int   $propertyId
+     * @param  array $columns
+     * @return string
+     */
+    function getPropertyDetails($propertyId, $columns = [])
+    {
+        // Log property_id to confirm it's being passed correctly
+        Log::info('Fetching details for Property ID:', ['property_id' => $propertyId]);
+
+        // Find the property by ID
+        $property = Property::find($propertyId);
+
+        // Log the property to confirm it was fetched
+        Log::info('Property Details:', ['property' => $property]);
+
+        if ($property) {
+            // Initialize an empty array to store column values
+            $propertyDetails = [];
+
+            // Iterate over the given columns and get their values
+            foreach ($columns as $column) {
+                // Check if the column exists in the property model
+                if (isset($property->$column)) {
+                    // If the column exists, add its value to the array
+                    $propertyDetails[] = trim($property->$column);
+                } else {
+                    // Log if the column doesn't exist or is null
+                    Log::warning("Column does not exist in the Property model or is null:", ['column' => $column, 'property_id' => $propertyId]);
+                }
+            }
+
+            // Log the column values before concatenation
+            Log::info('Property Details (Trimmed):', ['property_details' => $propertyDetails]);
+
+            // Concatenate the non-empty values with a space
+            return implode(', ', array_filter($propertyDetails));
+        }
+
+        // If property is not found, log the issue and return a default message
+        Log::warning('Property not found for ID:', ['property_id' => $propertyId]);
+        return 'Property not found';
+    }
+}
+
+if (!function_exists('getRepairCategoryDetails')) {
+    /**
+     * Fetch repair category details by ID.
+     *
+     * @param int $categoryId
+     * @return string
+     */
+    function getRepairCategoryDetails($categoryId)
+    {
+        // Log the category ID for debugging
+        Log::info('Fetching details for Repair Category ID:', ['category_id' => $categoryId]);
+
+        // Find the repair category
+        $category = \App\Models\RepairCategory::find($categoryId);
+
+        // Log the category details
+        Log::info('Repair Category Details:', ['category' => $category]);
+
+        // Return the category name or a default message if not found
+        if ($category) {
+            return $category->name; // Ensure that 'name' is the correct column
+        }
+
+        Log::warning('Repair Category not found for ID:', ['category_id' => $categoryId]);
+        return 'Category not found';
+    }
+}
+
+if (!function_exists('getFormattedRepairNavigation')) {
+    /**
+     * Convert stored repair_navigation (category ids) into human-readable category names.
+     *
+     * @param string $navigationString
+     * @return string
+     */
+    function getFormattedRepairNavigation($navigationString)
+    {
+        // Decode the repair_navigation JSON string
+        $categories = json_decode($navigationString, true);
+
+        // Initialize an empty array to store category names
+        $categoryNames = [];
+
+        // Loop through each level in the decoded categories array
+        foreach ($categories as $level => $categoryId) {
+            // Fetch the category name by ID
+            $category = \App\Models\RepairCategory::find($categoryId);
+
+            // If category exists, append the name; otherwise, append the ID
+            if ($category) {
+                $categoryNames[] = $category->name;
+            } else {
+                $categoryNames[] = "Unknown Category (ID: $categoryId)";
+            }
+        }
+
+        // Join the category names with " > " separator and return
+        return implode(' > ', $categoryNames);
+    }
+}
+

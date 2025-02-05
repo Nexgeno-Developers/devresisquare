@@ -43,11 +43,21 @@ class PropertyRepairController
 
     public function getCategories()
     {
-        // Fetch all categories with their id and name
-        $categories = RepairCategory::all(['id', 'name']); // Pluck both id and name
+        // Fetch all categories with id, name, parent_id, and level
+        $categories = RepairCategory::all(['id', 'name', 'parent_id', 'level']);
 
-        return response()->json($categories);
+        // Organize categories into a hierarchical structure (group by parent_id)
+        $categoriesByParent = [];
+
+        // Loop through the categories to group them by parent_id
+        foreach ($categories as $category) {
+            $categoriesByParent[$category->parent_id][] = $category;
+        }
+
+        // Return categories as a JSON response, including their hierarchical structure
+        return response()->json($categoriesByParent);
     }
+
 
 
     public function checkLastStep(Request $request)

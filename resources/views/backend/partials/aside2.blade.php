@@ -88,21 +88,21 @@
                     request()->routeIs('admin.property_repairs.index') ||
                     request()->routeIs('admin.property_repairs.create') ? 'true' : 'false'
                 }} "
-                class="dropdown-toggle {{ request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.create') ? 'active' : '' }}">
+                class="dropdown-toggle {{ request()->routeIs('admin.property_repairs.show') || request()->routeIs('admin.property_repairs.edit') || request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.create') ? 'active' : '' }}">
                 <i class="fa-solid fa-building"></i> Repair
             </a>
-            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.create') ? 'show' : '' }}"
+            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('admin.property_repairs.show') || request()->routeIs('admin.property_repairs.edit') || request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.create') ? 'show' : '' }}"
                 id="repairSubmenu">
                 <li class="sidebar-sub-list-item">
-                    <a class="{{ request()->routeIs('admin.property_repairs.index') ? 'active' : '' }}"
+                    <a class="{{ request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.show') ? 'active' : '' }}"
                         href="{{ route('admin.property_repairs.index') }}">
                         <i class="fa-solid fa-eye"></i> View Repair issues
                     </a>
                 </li>
                 <li class="sidebar-sub-list-item">
-                    <a class="{{ request()->routeIs('admin.property_repairs.create') ? 'active' : '' }}"
+                    <a class="{{ request()->routeIs('admin.property_repairs.create') || request()->routeIs('admin.property_repairs.edit') ? 'active' : '' }}"
                         href="{{ route('admin.property_repairs.create') }}">
-                        <i class="fa-solid fa-trash"></i> Raise Repair Issue
+                        <i class="fa-solid fa-plus"></i> Raise Repair Issue
                     </a>
                 </li>
             </ul>

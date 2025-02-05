@@ -11,11 +11,12 @@
             </tr>
             <tr>
                 <th>Property</th>
-                <td>{{ $repairIssue->property_id }}</td>
+                <td>{{ getPropertyDetails($repairIssue->property_id, ['prop_ref_no', 'prop_name', 'line_1', 'line_2', 'city', 'country']) }}</td>
             </tr>
             <tr>
                 <th>Category</th>
-                <td>{{ $repairIssue->repair_category_id }}</td>
+                <td>{{ getRepairCategoryDetails($repairIssue->repair_category_id) }}</td>
+                {{-- <td>{{ $repairIssue->repair_category_id }}</td> --}}
             </tr>
             <tr>
                 <th>Navigate room vise</th>

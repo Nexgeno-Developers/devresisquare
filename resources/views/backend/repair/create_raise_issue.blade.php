@@ -15,7 +15,7 @@
                 <!-- Breadcrumb Navigation -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Select Properties</li>
+                        <li class="breadcrumb-item active" aria-current="page">Select Property</li>
                     </ol>
                 </nav>
                 <!-- Navigation Buttons (global for all steps) -->
@@ -59,17 +59,18 @@
                 </div>
             </div>
 
-            <!-- Step 2: Category Selection -->
-            <div id="step2" class="step d-none">
-                <h3 class="text-center my-3">What type of a problem are you facing?</h3>
-                <p class="text-center my-3">In which area in your house you are facing problem, Please select from given list.</p>
+        <!-- Step 2: Category Selection -->
+        <div id="step2" class="step d-none">
+            <h3 class="text-center my-3">What type of problem are you facing?</h3>
+            <p class="text-center my-3">Select the area in your house where you are facing a problem.</p>
 
-                <!-- Initially show Level 1 categories -->
-                <div id="category-main-view" class="main-view">
-                    <!-- Default Level 1 (Parent Categories) -->
-                    <div class="category-level" data-level="1">
-                        <div class="row">
-                            @foreach ($categories as $category)
+            <!-- Category Main View -->
+            <div id="category-main-view" class="main-view">
+                <!-- Level 1 Categories: Rendered on page load -->
+                <div class="category-level" data-level="1">
+                    <div class="row">
+                        @foreach ($categories as $category)
+                            @if(is_null($category->parent_id))  {{-- Only parent categories --}}
                                 <div class="col-md-4 mb-2">
                                     <div class="form-check d-flex align-items-center">
                                         <input class="form-check-input" type="radio" name="category_1" id="repair-{{ $category->id }}" value="{{ $category->id }}">
@@ -79,17 +80,19 @@
                                         </label>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
-                    <!-- Dynamically Generated Levels -->
-                    @for ($level = 2; $level <= $maxLevel; $level++)
-                        <div class="category-level" data-level="{{ $level }}" style="display: none;">
-                            <div class="row"></div>
-                        </div>
-                    @endfor
                 </div>
+                <!-- Dynamically generated levels -->
+                @for ($level = 2; $level <= $maxLevel; $level++)
+                    <div class="category-level" data-level="{{ $level }}" style="display: none;">
+                        <div class="row"></div>
+                    </div>
+                @endfor
             </div>
+        </div>
+
 
             <!-- Step 3: Confirmation Form -->
             <div id="step3" class="step d-none">
@@ -106,21 +109,32 @@
 @endsection
 
 @section('page.scripts')
-@stack('domready.scripts')
+{{-- @stack('domready.scripts') --}}
 <script>
     $(document).ready(function () {
 
         // ----------------- GLOBAL VARIABLES ----------------- //
         let currentStep = 1;          // 1: Property, 2: Category, 3: Final form
-        let currentLevel = 1;         // Category level in Step 2 (1 for first category level)
+        let currentLevel = 1;         // Current category level (starting at 1)
         let selectedProperty = null;  // The selected property id
-        let selectedCategories = {};  // e.g., { 1: 5, 2: 9 } (level: category_id)
+        let selectedCategories = {};  // e.g., { "level_1": "5", "level_2": "9" }
+        let breadcrumbItems = [];     // e.g., [ 'Select Properties', 'Select Category', 'Kitchen' ]
+        let allCategories = {};       // Global variable to hold all categories grouped by parent_id
 
-        // Manage breadcrumb state in an array.
-        // For Step 1: [ 'Select Properties' ]
-        // For Step 2: [ 'Select Properties', 'Select Category' ] initially;
-        // then subsequent selections are pushed.
-        let breadcrumbItems = [];
+        // ----------------- FETCH ALL CATEGORIES ON PAGE LOAD ----------------- //
+        $.ajax({
+            url: "{{ route('admin.get.repair.categories') }}",
+            method: 'GET',
+            async: false,  // For simplicity; consider using Promises for production
+            success: function(data) {
+                allCategories = data;
+                console.log("All Categories Loaded:", allCategories);
+            },
+            error: function() {
+                console.log("Error fetching categories.");
+            }
+        });
+
 
         // ----------------- BREADCRUMB HANDLERS ----------------- //
 
@@ -141,13 +155,13 @@
 
         // Reset breadcrumb for Step 1.
         function resetBreadcrumb() {
-            breadcrumbItems = ['Select Properties'];
+            breadcrumbItems = ['Select Property'];
             updateBreadcrumbUI();
         }
 
         // Initialize breadcrumb for entering Step 2 (category selection).
         function initCategoryBreadcrumb() {
-            breadcrumbItems = ['Select Properties', 'Select Category'];
+            breadcrumbItems = ['Select Property', 'Select Category'];
             updateBreadcrumbUI();
         }
 
@@ -315,54 +329,87 @@
                 // Before pushing the new selection, replace any existing selection at this level:
                 breadcrumbItems = breadcrumbItems.slice(0, currentLevel);
                 pushBreadcrumb(selectedName);
+                // Look for child categories using our preloaded global variable
+                let children = allCategories[selectedValue] || [];
+                if (children.length > 0) {
+                    let nextLevel = currentLevel + 1;
+                    let nextLevelContainer = $(`[data-level="${nextLevel}"]`);
+                    let html = '';
+                    children.forEach(function(category) {
+                        html += `
+                            <div class="col-md-4 mb-2">
+                                <div class="form-check d-flex align-items-center">
+                                    <input class="form-check-input" type="radio" name="category_${nextLevel}" id="category-${category.id}" value="${category.id}">
+                                    <label class="form-check-label d-flex align-items-center" for="category-${category.id}">
+                                        <i class="fas fa-cogs me-2"></i> ${category.name}
+                                    </label>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    nextLevelContainer.find('.row').html(html);
+                    visibleLevel.hide();
+                    nextLevelContainer.show();
+                    currentLevel++;
+                    disableNextButton();
+                } else {
+                    // No further children: move to final step
+                    currentStep = 3;
+                    showStep(3);
+                    disableNextButton();
+                }
+                // Update hidden fields for final form submission (if applicable)
+                $("#selected_categories").val(JSON.stringify(selectedCategories));
+                let lastCategory = selectedCategories[`level_${currentLevel}`];
+                $("#last_selected_category").val(lastCategory);
 
-                $.ajax({
-                    url: "{{ route('admin.property_repairs.getSubCategories', ['categoryId' => '__categoryId__']) }}"
-                        .replace('__categoryId__', selectedValue),
-                    method: 'GET',
-                    success: function (data) {
-                        if (data.length) {
-                            // Load the next level.
-                            var nextLevel = currentLevel + 1;
-                            var nextLevelContainer = $(`[data-level="${nextLevel}"]`);
-                            let html = '';
-                            data.forEach(function(category) {
-                                html += `
-                                    <div class="col-md-4 mb-2">
-                                        <div class="form-check d-flex align-items-center">
-                                            <input class="form-check-input" type="radio" name="category_${nextLevel}" id="category-${category.id}" value="${category.id}">
-                                            <label class="form-check-label d-flex align-items-center" for="category-${category.id}">
-                                                <i class="fas fa-cogs me-2"></i> ${category.name}
-                                            </label>
-                                        </div>
-                                    </div>
-                                `;
-                            });
-                            nextLevelContainer.find('.row').html(html);
-                            // Hide current level and show next level.
-                            visibleLevel.hide();
-                            nextLevelContainer.show();
-                            currentLevel++;
-                            disableNextButton();
-                        } else {
+                // $.ajax({
+                //     url: "{{ route('admin.property_repairs.getSubCategories', ['categoryId' => '__categoryId__']) }}"
+                //         .replace('__categoryId__', selectedValue),
+                //     method: 'GET',
+                //     success: function (data) {
+                //         if (data.length) {
+                //             // Load the next level.
+                //             var nextLevel = currentLevel + 1;
+                //             var nextLevelContainer = $(`[data-level="${nextLevel}"]`);
+                //             let html = '';
+                //             data.forEach(function(category) {
+                //                 html += `
+                //                     <div class="col-md-4 mb-2">
+                //                         <div class="form-check d-flex align-items-center">
+                //                             <input class="form-check-input" type="radio" name="category_${nextLevel}" id="category-${category.id}" value="${category.id}">
+                //                             <label class="form-check-label d-flex align-items-center" for="category-${category.id}">
+                //                                 <i class="fas fa-cogs me-2"></i> ${category.name}
+                //                             </label>
+                //                         </div>
+                //                     </div>
+                //                 `;
+                //             });
+                //             nextLevelContainer.find('.row').html(html);
+                //             // Hide current level and show next level.
+                //             visibleLevel.hide();
+                //             nextLevelContainer.show();
+                //             currentLevel++;
+                //             disableNextButton();
+                //         } else {
 
-                            // No further subcategories – move to Step 3.
-                            currentStep = 3;
-                            showStep(3);
-                            disableNextButton();
-                        }
-                        // Capture last selected category
-                        let lastCategory = selectedCategories[`level_${currentLevel}`];
-                        $("#selected_categories").val(JSON.stringify(selectedCategories)); // Convert categories object to JSON
-                        $("#last_selected_category").val(lastCategory);
-                    },
-                    error: function (error) {
-                        // On error, assume no further subcategories:
-                        currentStep = 3;
-                        showStep(3);
-                        disableNextButton();
-                    }
-                });
+                //             // No further subcategories – move to Step 3.
+                //             currentStep = 3;
+                //             showStep(3);
+                //             disableNextButton();
+                //         }
+                //         // Capture last selected category
+                //         let lastCategory = selectedCategories[`level_${currentLevel}`];
+                //         $("#selected_categories").val(JSON.stringify(selectedCategories)); // Convert categories object to JSON
+                //         $("#last_selected_category").val(lastCategory);
+                //     },
+                //     error: function (error) {
+                //         // On error, assume no further subcategories:
+                //         currentStep = 3;
+                //         showStep(3);
+                //         disableNextButton();
+                //     }
+                // });
             }
             // STEP 3: Final form submission.
             else if (currentStep === 3) {
@@ -425,7 +472,7 @@
                 } else {
                     enableNextButton();
                 }
-                currentLevel = currentStep;
+                currentLevel = 1;
                 console.log(currentLevel);
             } else {
                 // Otherwise, ensure that we are in Step 2.

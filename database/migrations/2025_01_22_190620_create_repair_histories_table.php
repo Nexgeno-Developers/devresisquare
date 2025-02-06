@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('action');
             $table->string('previous_status')->nullable();
             $table->string('new_status');
+            $table->longText('note')->nullable();
             $table->timestamps();
         });
     }

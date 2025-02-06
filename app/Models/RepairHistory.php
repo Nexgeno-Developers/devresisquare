@@ -9,7 +9,7 @@ class RepairHistory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['repair_issue_id', 'action', 'previous_status', 'new_status'];
+    protected $fillable = ['repair_issue_id', 'action', 'previous_status', 'new_status', 'note'];
 
     public function repairIssue()
     {

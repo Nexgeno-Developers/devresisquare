@@ -9,11 +9,16 @@ class RepairIssue extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['repair_category_id', 'repair_navigation', 'description', 'priority', 'status', 'property_id'];
+    protected $fillable = ['repair_category_id', 'repair_navigation', 'description', 'tenant_availability', 'access_details', 'estimated_price', 'vat_type', 'priority', 'status', 'property_id'];
 
     // protected $casts = [
     //     'repair_navigation' => 'array', // Cast repair_navigation as an array (JSON)
     // ];
+
+    // Optionally cast tenant_availability to datetime.
+    protected $casts = [
+        'tenant_availability' => 'datetime',
+    ];
 
     public function repairCategory()
     {
@@ -28,6 +33,22 @@ class RepairIssue extends Model
     public function repairAssignments()
     {
         return $this->hasMany(RepairAssignment::class);
+    }
+
+    /**
+     * Get the property manager assignments for this repair issue.
+     */
+    public function repairIssuePropertyManagers()
+    {
+        return $this->hasMany(RepairIssuePropertyManager::class);
+    }
+
+    /**
+     * Get the contractor assignments for this repair issue.
+     */
+    public function repairIssueContractorAssignments()
+    {
+        return $this->hasMany(RepairIssueContractorAssignment::class);
     }
 
     public function repairHistories()

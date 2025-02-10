@@ -16,4 +16,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    // In User.php
+    public function scopeOfRole($query, $roleName)
+    {
+        return $query->whereHas('role', function ($q) use ($roleName) {
+            $q->where('name', $roleName);
+        });
+    }
+
 }

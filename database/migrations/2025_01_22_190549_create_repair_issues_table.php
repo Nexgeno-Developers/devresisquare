@@ -17,16 +17,19 @@ return new class extends Migration
             $table->foreignId('repair_category_id')->constrained('repair_categories');
             $table->json('repair_navigation');
             $table->longText('description');
+
             // Preferred availability for repair by Tenant/Owner
-            $table->timestamp('tenant_availability')->nullable()->after('description');
+            $table->timestamp('tenant_availability')->nullable();
 
             // Access details note (rich text)
-            $table->text('access_details')->nullable()->after('tenant_availability');
+            $table->text('access_details')->nullable();
+
             // Add the common estimated price field.
-            $table->decimal('estimated_price', 10, 2)->nullable()->after('access_details');
+            $table->decimal('estimated_price', 10, 2)->nullable();
 
             // Add a field for VAT type: either inclusive or exclusive.
-            $table->enum('vat_type', ['inclusive', 'exclusive'])->nullable()->after('estimated_price');
+            $table->enum('vat_type', ['inclusive', 'exclusive'])->nullable();
+
             $table->enum('priority', ['low', 'medium', 'high', 'critical']);
             $table->string('status');
 

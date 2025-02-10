@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Models\RepairCategory;
+use App\Models\User;
+use App\Models\Contact;
 use App\Models\RepairIssue;
-use App\Models\RepairAssignment;
-use App\Models\RepairHistory;
-use App\Models\RepairIssueContact;
 use App\Models\RepairPhoto;
 use Illuminate\Http\Request;
+use App\Models\RepairHistory;
+use App\Models\RepairCategory;
+use App\Models\RepairAssignment;
+use App\Models\RepairIssueContact;
+use App\Models\RepairIssueContractorAssignment;
+use App\Models\RepairIssuePropertyManager;
 
 class PropertyRepairController
 {
@@ -112,12 +116,43 @@ class PropertyRepairController
     }
 
     // Show the form for editing a repair issue
+    // public function edit($id)
+    // {
+    //     $repairIssue = RepairIssue::findOrFail($id);
+    //     return view('backend.repair.edit_raise_issue', compact('repairIssue'));
+    // }
     public function edit($id)
     {
-        $repairIssue = RepairIssue::findOrFail($id);
-        return view('backend.repair.edit_raise_issue', compact('repairIssue'));
-    }
+        // Load the repair issue with relationships if needed
+        $repairIssue = RepairIssue::with(['repairAssignments', 'repairHistories', 'repairIssueContacts', 'repairPhotos'])->findOrFail($id);
 
+        // Load additional data for the form:
+        $categories = RepairCategory::all(); // or get only the top-level categories for step2
+        $maxLevel = 5; // or whatever maximum you expect
+        // $propertyManagers = User::ofRole('property_manager')->get();
+        $propertyManagers = Contact::whereHas('category', callback: function ($query) {
+            $query->where('id', 2);
+        })->get();
+
+        $assignedManagers = RepairIssuePropertyManager::where('repair_issue_id', $id)->pluck('property_manager_id')->toArray();
+        $contractorAssignments = RepairIssueContractorAssignment::where('repair_issue_id', $id)->get();
+        $contractors = Contact::whereHas('category', callback: function ($query) {
+            $query->where('name', 'Contractor');
+        })->get();
+        // $contractors = User::whereHas('role', function ($query) {
+        //     $query->where('name', 'contractor');
+        // })->get();
+
+        return view('backend.repair.edit_raise_issue', data: compact(
+            'repairIssue',
+            'categories',
+            'maxLevel',
+            'propertyManagers',
+            'assignedManagers',
+            'contractorAssignments',
+            'contractors'
+        ));
+    }
     // Update the specified repair issue
     public function update(Request $request, $id)
     {

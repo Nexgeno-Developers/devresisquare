@@ -7,6 +7,55 @@
     <form action="{{ route('admin.property_repairs.update', $repairIssue->id) }}" method="POST">
         @csrf
         @method('PUT')
+
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12">
+                <!-- Category Display Card: Read-only view with current selection -->
+                <div class="card mb-3" id="category-display-card">
+                    <div class="card-header">Property
+                        <!-- Change Property Button (Initially hidden) -->
+                        <button id="change_property_button" class="btn btn-info mt-3 float-end" style="display: none;">Change Property</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group text-center mt-lg-0 mt-4">
+                            <div class="set-display-none" id="search_property_section" style="display: none;">
+                                <label class="mb-2" for="search_property1">Search And Select Property</label>
+
+                                <!-- Search Input (Initially hidden) -->
+                                <div class="form-group">
+                                    <div class="rs_input input_search position-relative">
+                                        <div class="right_icon position-absolute top-50 translate-middle-y end-0 pe-2">
+                                            <i class="bi bi-search"></i>
+                                        </div>
+                                        <input type="text" id="search_property1" placeholder="Search Property" class="form-control search_property" />
+                                    </div>
+                                    <div id="error_message" class="mt-1 text-danger" style="display: none;"></div>
+
+                                    <!-- Cancel Button for Property Change (Initially hidden) -->
+                                    <button id="cancel_property_change" class="btn btn-warning mt-3" style="display: none;">Cancel</button>
+                                </div>
+                            </div>
+
+                            <!-- Search Results -->
+                            <ul id="property_results" class="list-group mt-2"></ul>
+                            <!-- Hidden field for selected property IDs -->
+                            <input type="hidden" id="selected_properties" name="property_id" value="{{ json_encode(is_array($repairIssue->property->id) ? $repairIssue->property->id : [$repairIssue->property->id]) }}">
+
+                            {{-- <input type="hidden" id="selected_properties" name="property_id" value="{{ json_encode(isset($repairIssue->property->id) ? $repairIssue->property->id : []) }}"> --}}
+                        </div>
+                    </div>
+                    <!-- Dynamic Property Table -->
+                    <div id="dynamic_property_table" class="d-none mt-4">
+                        @php
+                            $headers = ['Address', 'Type', 'Availability', 'Actions'];
+                            $rows = []; // Initially empty
+                        @endphp
+                        <x-backend.dynamic-table :headers="$headers" :rows="$rows" class="contact_add_property" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-12">
                 <!-- Category Display Card: Read-only view with current selection -->
@@ -243,6 +292,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-header">Tenant Details</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="tenant-select">Select Tenant</label>
+                            <select name="tenant_id" id="tenant-select" class="form-control">
+                                <option value="">-- Select Tenant --</option>
+                                <!-- Options will be populated dynamically via AJAX -->
+                            </select>
+                        </div>
+                        <div id="tenant-preview" class="mt-3">
+                            <!-- Tenant details preview will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <button type="submit" class="float-end btn btn-primary">Update</button>
@@ -255,7 +321,7 @@
 @include('backend.partials.assets.select2')
 @section('page.scripts')
 <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
         // Global variables for category selection (for edit mode)
         let currentLevel = 1;
         let selectedCategories = {}; // Will hold new selection: e.g., { "level_1": "5", "level_2": "34" }
@@ -276,6 +342,213 @@
             }
         });
 
+        // ----------------- PROPERTY SELECTION ----------------- //
+
+        // Store the initial selected properties value to restore it in case of cancellation
+        const initialSelectedProperties = JSON.parse($('#selected_properties').val());
+
+        // Check if there are selected properties
+        if (initialSelectedProperties && initialSelectedProperties.length > 0) {
+            // Show the "Change Property" button and dynamic table with selected properties
+            $('#change_property_button').show();
+            $('#dynamic_property_table').removeClass('d-none');
+            // searchPropertiesByIds(initialSelectedProperties);
+        }
+
+        // Show the search bar and hide the dynamic property table when "Change Property" button is clicked
+        $(document).on('click','#change_property_button', function(e) {
+            e.preventDefault();
+            $('#dynamic_property_table').addClass('d-none'); // Hide the selected property table
+            $('#search_property_section').show(); // Show the search input
+            $('#cancel_property_change').show(); // Show the search input
+
+            // Optionally reset the search field
+            $('#search_property1').val('');
+
+            // Hide the "Change Property" button after switching to search mode
+            $(this).hide();
+
+            // Clear the selected properties hidden field to allow new selection
+            $('#selected_properties').val('[]');
+        });
+
+        // When the user cancels the property change, restore the previous ID and hide the search bar
+        $(document).on('click', '#cancel_property_change', function(e) {
+            e.preventDefault();
+            // Restore the initial selected properties value
+            $('#selected_properties').val(JSON.stringify(initialSelectedProperties));
+
+            // Hide the search section and show the dynamic property table again
+            $('#search_property_section').hide();
+            $('#dynamic_property_table').removeClass('d-none');
+
+            // Optionally, you can re-populate the dynamic property table
+            searchPropertiesByIds(initialSelectedProperties);
+
+            // Show the "Change Property" button again
+            $('#change_property_button').show();
+        });
+
+        // Function to initialize the selected properties when at step 3
+        function initSelectedProperties() {
+            const selectedProperties_f = JSON.parse($('#selected_properties').val()); // Assuming selected properties are stored in a hidden field
+            if (selectedProperties_f) {
+                console.log('Selected Properties:', selectedProperties_f);
+                searchPropertiesByIds(selectedProperties_f); // Call the function to fetch and display selected properties
+            }
+        }
+
+        // Function to fetch property details by IDs
+        function searchPropertiesByIds(propertyIds) {
+            $.ajax({
+                url: '{{ route('admin.contacts.properties.search') }}',
+                method: 'GET',
+                data: { ids: propertyIds },
+                success: function(response) {
+                    $('#dynamic_property_table tbody').empty();
+                    response.forEach(function(property) {
+                        if ($('#dynamic_property_table tbody tr[data-id="' + property.id + '"]').length === 0) {  // Prevent duplicates
+                            var address = property.address || 'N/A';
+                            var propRefNo = property.prop_ref_no || 'N/A';
+                            var propName = property.prop_name || 'N/A';
+                            var newRow = `<tr data-id="${property.id}">
+                                            <td>${address} - ${propRefNo} - ${propName}</td>
+                                            <td>${property.type}</td>
+                                            <td>${property.availability}</td>
+                                            <td><button class="btn btn-danger remove-btn">Remove</button></td>
+                                        </tr>`;
+                            $('#dynamic_property_table tbody').append(newRow);
+                        }
+                    });
+                    updateSelectedProperties();
+                    $('#dynamic_property_table').removeClass('d-none');
+                },
+                error: function() {
+                    toastr.error('Error fetching properties by IDs.', 'Error');
+                }
+            });
+        }
+
+        initSelectedProperties();
+
+
+        $(document).on('keyup keydown', '#search_property1', function () {
+            var query = $(this).val().trim();
+            if (query.length >= 3) {
+                searchProperties(query);
+                $('#error_message').hide();
+            } else {
+                $('#property_results').empty();
+                $('#error_message').text('Please enter at least 3 characters to search.').show();
+            }
+        });
+
+        function searchProperties(query) {
+            $.ajax({
+                url: '{{ route('properties.search') }}',
+                method: 'GET',
+                data: { query: query },
+                success: function (response) {
+                    $('#property_results').empty();
+                    if (response.length > 0) {
+                        response.forEach(function (property) {
+                            if (!$('#property_results li[data-id="' + property.id + '"]').length) {
+                                appendPropertyToResults(property);
+                            }
+                        });
+                    } else {
+                        $('#property_results').append('<li class="list-group-item">No properties found.</li>');
+                    }
+                },
+                error: function () {
+                    $('#property_results').append('<li class="list-group-item">Error fetching results.</li>');
+                }
+            });
+        }
+
+        function appendPropertyToResults(property) {
+            var address = property.address || 'N/A';
+            var propRefNo = property.prop_ref_no || 'N/A';
+            var propName = property.prop_name || 'N/A';
+            var listItem = `<li class="list-group-item property-result" data-id="${property.id}" data-type="${property.type}" data-availability="${property.availability}">
+                                ${address} - ${propRefNo} - ${propName}
+                            </li>`;
+            $('#property_results').append(listItem);
+        }
+
+        $(document).on('click', '.property-result', function () {
+            selectedProperty = $(this).data("id");
+            $('#dynamic_property_table tbody').empty();
+            $('#dynamic_property_table').removeClass('d-none');
+            var propertyId = $(this).data('id');
+            if ($('#dynamic_property_table tbody tr[data-id="' + propertyId + '"]').length === 0) {
+                var newRow = `<tr data-id="${propertyId}">
+                                <td>${$(this).text()}</td>
+                                <td>${$(this).data('type')}</td>
+                                <td>${$(this).data('availability')}</td>
+                                <td><button class="btn btn-danger remove-btn">Remove</button></td>
+                            </tr>`;
+                $('#dynamic_property_table tbody').append(newRow);
+                updateSelectedProperties();
+            }
+            $('#property_results').empty();
+            $('#search_property1').val('');
+        });
+
+        function updateSelectedProperties() {
+            var selectedPropertyIds = [];
+            $('#dynamic_property_table tbody tr').each(function () {
+                selectedPropertyIds.push($(this).data('id'));
+            });
+            $('#selected_properties').val(JSON.stringify(selectedPropertyIds));
+        }
+
+        $(document).on('click', '.remove-btn', function () {
+            $(this).closest('tr').remove();
+            updateSelectedProperties();
+            if ($('#dynamic_property_table tbody tr').length < 1) {
+                $('#dynamic_property_table').addClass('d-none');
+                disableNextButton();
+            }
+        });
+
+        // Fetch tenants for the given property.
+        if (initialSelectedProperties) {
+            $.ajax({
+                url: "{{ route('admin.get.property_repairs.tenants') }}",
+                method: "GET",
+                data: { property_id: initialSelectedProperties },
+                success: function(data) {
+                    let options = '<option value="">-- Select Tenant --</option>';
+                    $.each(data, function(i, tenant) {
+                        // Add tenant details as data attributes.
+                        options += `<option value="${tenant.id}"
+                                    data-email="${tenant.email}"
+                                    data-phone="${tenant.phone}"
+                                    data-address="${tenant.address}">${tenant.full_name}</option>`;
+                    });
+                    $('#tenant-select').html(options);
+                },
+                error: function() {
+                    console.log("Error fetching tenants.");
+                }
+            });
+        }
+
+        // When a tenant is selected, update the preview area.
+        $('#tenant-select').on('change', function() {
+            let selected = $(this).find('option:selected');
+            if (selected.val() === "") {
+                $('#tenant-preview').html('');
+                return;
+            }
+            let details = `
+                <p><strong>Name:</strong> ${selected.text()}</p>
+                <p><strong>Email:</strong> ${selected.data('email') || 'N/A'}</p>
+                <p><strong>Phone:</strong> ${selected.data('phone') || 'N/A'}</p>
+            `;
+            $('#tenant-preview').html(details);
+        });
         // ---- Prepopulate Preselected Category Values ---- //
         // Assume $repairIssue->repair_navigation is stored as JSON (e.g., {"level_1":"5","level_2":"34"})
         let preselected = {!! json_encode($repairIssue->repair_navigation) !!};

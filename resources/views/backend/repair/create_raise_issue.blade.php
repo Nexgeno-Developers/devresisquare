@@ -51,7 +51,7 @@
                     <!-- Dynamic Property Table -->
                     <div id="dynamic_property_table" class="d-none mt-4">
                         @php
-                            $headers = ['id' => 'ID', 'Address', 'Type', 'Availability'];
+                            $headers = ['Address', 'Type', 'Availability', 'Actions'];
                             $rows = []; // Initially empty
                         @endphp
                         <x-backend.dynamic-table :headers="$headers" :rows="$rows" class="contact_add_property" />

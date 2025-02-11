@@ -20,6 +20,15 @@ class RepairIssue extends Model
         'tenant_availability' => 'datetime',
     ];
 
+    /**
+     * Get the associated property for this repair issue.
+     */
+    public function property()
+    {
+        return $this->belongsTo(Property::class);
+    }
+
+
     public function repairCategory()
     {
         return $this->belongsTo(RepairCategory::class);

@@ -124,11 +124,18 @@ class PropertyRepairController
     public function edit($id)
     {
         // Load the repair issue with relationships if needed
-        $repairIssue = RepairIssue::with(['repairAssignments', 'repairHistories', 'repairIssueContacts', 'repairPhotos'])->findOrFail($id);
+        $repairIssue = RepairIssue::with([
+            'repairAssignments',
+            'repairHistories',
+            'repairIssueContacts',
+            'repairPhotos',
+            'property' // Eager load the related property
+        ])->findOrFail($id);
 
         // Load additional data for the form:
         $categories = RepairCategory::all(); // or get only the top-level categories for step2
-        $maxLevel = 5; // or whatever maximum you expect
+        // Get the maximum level in the table
+        $maxLevel = RepairCategory::max('level');
         // $propertyManagers = User::ofRole('property_manager')->get();
         $propertyManagers = Contact::whereHas('category', callback: function ($query) {
             $query->where('id', 2);
@@ -271,6 +278,48 @@ class PropertyRepairController
 
         return redirect()->route('repairs.index');
     }
+
+    public function getPropertyTenants(Request $request)
+    {
+        // Get the property_id from the request.
+        // Note: The property ID may be passed as an array; if so, we take the first element.
+        $propertyId = $request->input('property_id');
+        if (is_array($propertyId)) {
+            $propertyId = (int) reset($propertyId);
+        } else {
+            $propertyId = (int) $propertyId;
+        }
+
+        // Retrieve tenancy IDs for the given property.
+        $tenancyIds = \App\Models\Tenancy::where('property_id', $propertyId)
+            ->pluck('id')
+            ->toArray();
+
+        // Retrieve tenant members associated with those tenancies, with their contact details.
+        $tenantMembers = \App\Models\TenantMember::whereIn('tenancy_id', $tenancyIds)
+            ->with('contact')
+            ->get();
+
+        // Map the results to a unique list of tenants.
+        $tenants = $tenantMembers->map(function($member) {
+            if ($member->contact) {
+                return [
+                    'id' => $member->contact->id,
+                    'full_name' => $member->contact->full_name,
+                    'email' => $member->contact->email,
+                    'phone' => $member->contact->phone,
+                ];
+            }
+            return null;
+        })->filter()      // Remove any null entries.
+          ->unique('id')  // Ensure unique tenant contacts.
+          ->values();     // Reset the keys.
+
+
+        return response()->json($tenants);
+    }
+
+
 
 
     // Additional methods as necessary

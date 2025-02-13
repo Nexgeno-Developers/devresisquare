@@ -214,14 +214,22 @@ class PropertyRepairController
         // Retrieve the repair issue record.
         $repairIssue = RepairIssue::findOrFail($id);
 
-        // Process property_id: if it's an array, extract the first element.
+        // Process property_id: If it's a JSON-encoded array, decode it first.
         $propertyId = $validated['property_id'];
+        if (!is_array($propertyId)) {
+            $decoded = json_decode($propertyId, true);
+            if (is_array($decoded)) {
+                $propertyId = $decoded;
+            }
+        }
+
         if (is_array($propertyId)) {
             $propertyId = (int) reset($propertyId);
         } else {
             $propertyId = (int) $propertyId;
         }
 
+        // dd($propertyId);
         // Capture the original status before updating.
         $oldStatus = $repairIssue->status;
 
@@ -248,14 +256,18 @@ class PropertyRepairController
             'estimated_price'        => $validated['estimated_price'],
             'vat_type'               => $validated['vat_type'],
         ]);
-
         // Update property manager assignments:
         RepairIssuePropertyManager::where('repair_issue_id', $id)->delete();
         if ($request->has('property_managers')) {
+            $assignedBy = Auth::id();
+            if (!$assignedBy) {
+                abort(403, 'Unauthorized: No user logged in.');
+            }
             foreach ($request->input('property_managers') as $managerId) {
                 RepairIssuePropertyManager::create([
                     'repair_issue_id'     => $id,
                     'property_manager_id' => $managerId,
+                    'assigned_by'         => $assignedBy,
                     'assigned_at'         => now(),
                 ]);
             }

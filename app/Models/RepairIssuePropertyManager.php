@@ -13,6 +13,7 @@ class RepairIssuePropertyManager extends Model
         'repair_issue_id',
         'property_manager_id',
         'assigned_at',
+        'assigned_by',
         'notes'
     ];
 

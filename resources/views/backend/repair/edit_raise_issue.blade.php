@@ -4,14 +4,14 @@
 <div class="container">
     <h1>Edit Repair Issue</h1>
 
-    <form action="{{ route('admin.property_repairs.update', $repairIssue->id) }}" method="POST">
+    <form id="repair-form-page" action="{{ route('admin.property_repairs.update', $repairIssue->id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="row justify-content-center align-items-center">
             <div class="col-12">
                 <!-- Property Display Card: Read-only view with current selection -->
-                <div class="card mb-3" id="property-display-card">
+                <div class="card mb-3 validate-card" id="property-display-card">
                     <div class="card-header d-flex justify-content-between align-items-center">Property
                         <span>
                             <!-- Change Property Button (Initially hidden) -->
@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-12">
                 <!-- Category Display Card: Read-only view with current selection -->
-                <div class="card mb-3" id="category-display-card">
+                <div class="card mb-3 validate-card" id="category-display-card">
                     <div class="card-header d-flex justify-content-between align-items-center">Category <button type="button" class="btn btn-secondary" id="change-category-btn">Change Category</button></div>
                     <div class="card-body">
                         <div class="form-group mb-3">
@@ -77,7 +77,7 @@
                 </div>
 
                 <!-- Category Edit Card: Multi-step category selector (initially hidden) -->
-                <div class="card mb-3 d-none" id="category-edit-card">
+                <div class="card mb-3 d-none validate-card" id="category-edit-card">
                     <div class="card-header d-flex justify-content-between align-items-center">Select New Category <button type="button" class="btn btn-warning mt-2 d-none" id="cancel-category-btn">Cancel Category Change</button>
                     </div>
                     <div class="card-body">
@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <div class="card mb-3">
+                <div class="card mb-3 validate-card">
                     <div class="card-header">Description</div>
                     <div class="card-body">
                         <div class="form-group mb-3">
@@ -802,78 +802,141 @@
 
     $(document).ready(function () {
 
-        // ----- Contractor Assignment Template as a JavaScript string -----
-        const contractorAssignmentTemplate = `
-            <div class="contractor-assignment mb-3 border p-3">
-                <!-- Index badge will be prepended dynamically -->
-                <button type="button" class="btn btn-danger btn-sm remove-contractor-assignment" style="float: right;">Remove</button>
-                <input type="hidden" name="contractor_assignments[__index__][id]" value="">
-                <div class="form-group">
-                    <label>Contractor</label>
-                    <select name="contractor_assignments[__index__][contractor_id]" class="form-control">
-                        @foreach($contractors as $contractor)
-                            <option value="{{ $contractor->id }}">{{ $contractor->full_name }} ({{ $contractor->email }})</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="cost_price___index__">Cost Price</label>
-                    <input type="number" step="0.01" name="contractor_assignments[__index__][cost_price]" id="cost_price___index__" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="quote_attachment___index__">Quote Price Document</label>
-                    <input type="file" name="contractor_assignments[__index__][quote_attachment]" id="quote_attachment___index__" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="contractor_preferred_availability___index__">Preferred Availability (Contractor)</label>
-                    <input type="datetime-local" name="contractor_assignments[__index__][contractor_preferred_availability]" id="contractor_preferred_availability___index__" class="form-control">
-                </div>
-            </div>
-        `;
+// ----- Initialize jQuery Validation on the Form First -----
+let validator = $("#repair-form-page").validate({
+    rules: {
+        description: { required: true },
+        priority: { required: true },
+        status: { required: true },
+        estimated_price: { required: true, number: true },
+        vat_type: { required: true },
+        tenant_availability: { required: true },
+        access_details: { required: true },
+        tenant_id: { required: true },
+        "property_managers[]": { required: true }
+    },
+    errorPlacement: function(error, element) {
+        error.insertAfter(element.closest('.form-group'));
+    },
+    highlight: function(element, errorClass, validClass) {
+        $(element).closest('.validate-card').addClass('border-danger');
+        $(element).addClass(errorClass).removeClass(validClass);
+    },
+    unhighlight: function(element, errorClass, validClass) {
+        $(element).closest('.validate-card').removeClass('border-danger');
+        $(element).removeClass(errorClass).addClass(validClass);
+    },
+    invalidHandler: function(event, validator) {
+        let errors = validator.numberOfInvalids();
+        if (errors) {
+            AIZ.plugins.notify('error', 'Please fill out all required fields.');
+        }
+    },
+    submitHandler: function(form) {
+        form.submit();
+    }
+});
 
-        // ----- Function to update index badges for each contractor assignment block -----
-        function updateContractorIndexes() {
-            $('#contractor-assignments .contractor-assignment').each(function (index) {
-                let $assignment = $(this);
-                // Remove any existing index badge
-                $assignment.find('.assignment-index').remove();
-                // Prepend a badge showing the index (starting at 1)
-                $assignment.prepend(`<div class="assignment-index badge bg-secondary mb-2">#${index + 1}</div>`);
+// ----- Contractor Assignment Template as a JS String -----
+const contractorAssignmentTemplate = `
+    <div class="contractor-assignment mb-3 border p-3">
+        <!-- Index badge will be prepended dynamically -->
+        <button type="button" class="btn btn-danger btn-sm remove-contractor-assignment" style="float: right;">Remove</button>
+        <input type="hidden" name="contractor_assignments[__index__][id]" value="">
+        <div class="form-group">
+            <label>Contractor</label>
+            <select name="contractor_assignments[__index__][contractor_id]" class="form-control contractor-id">
+                @foreach($contractors as $contractor)
+                    <option value="{{ $contractor->id }}">{{ $contractor->full_name }} ({{ $contractor->email }})</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="cost_price___index__">Cost Price</label>
+            <input type="number" step="0.01" name="contractor_assignments[__index__][cost_price]" id="cost_price___index__" class="form-control cost-price">
+        </div>
+        <div class="form-group">
+            <label for="quote_attachment___index__">Quote Price Document</label>
+            <input type="file" name="contractor_assignments[__index__][quote_attachment]" id="quote_attachment___index__" class="form-control quote-attachment">
+        </div>
+        <div class="form-group">
+            <label for="contractor_preferred_availability___index__">Preferred Availability (Contractor)</label>
+            <input type="datetime-local" name="contractor_assignments[__index__][contractor_preferred_availability]" id="contractor_preferred_availability___index__" class="form-control contractor-availability">
+        </div>
+    </div>
+`;
+
+// ----- Function to update index badges for each contractor assignment block -----
+function updateContractorIndexes() {
+    $('#contractor-assignments .contractor-assignment').each(function (index) {
+        let $assignment = $(this);
+        $assignment.find('.assignment-index').remove();
+        $assignment.prepend(`<div class="assignment-index badge bg-secondary mb-2">#${index + 1}</div>`);
+    });
+    if ($('#contractor-assignments .contractor-assignment').length === 1) {
+        $('#contractor-assignments .contractor-assignment .remove-contractor-assignment').hide();
+    } else {
+        $('#contractor-assignments .contractor-assignment .remove-contractor-assignment').show();
+    }
+}
+
+// ----- Function to add a new contractor assignment block -----
+function addContractorAssignment(index) {
+    console.log("Adding contractor block at index:", index);
+    let newHtml = contractorAssignmentTemplate.replace(/__index__/g, index);
+    let $newAssignment = $(newHtml);
+    // Ensure the new block is appended within the validated form.
+    $('#contractor-assignments').append($newAssignment);
+    updateContractorIndexes();
+
+    // Get the validator instance from the form.
+    let validatorInstance = $("#repair-form-page").data("validator");
+    if (!validatorInstance) {
+        console.error("Validator instance not found!");
+    } else {
+        // Attach validation rules dynamically using .rules('add')
+        $newAssignment.find('.contractor-id').each(function () {
+            $(this).rules('add', {
+                required: true,
+                messages: { required: "Please select a contractor" }
             });
-            // Hide the remove button if only one assignment exists.
-            if ($('#contractor-assignments .contractor-assignment').length === 1) {
-                $('#contractor-assignments .contractor-assignment .remove-contractor-assignment').hide();
-            } else {
-                $('#contractor-assignments .contractor-assignment .remove-contractor-assignment').show();
-            }
-        }
-
-        // ----- Function to add a new contractor assignment block -----
-        function addContractorAssignment(index) {
-            // Replace the placeholder __index__ in the template string.
-            let newHtml = contractorAssignmentTemplate.replace(/__index__/g, index);
-            // Append the new block to the container.
-            $('#contractor-assignments').append(newHtml);
-            updateContractorIndexes();
-        }
-
-        // ----- On page load: add the default contractor assignment block if none exists -----
-        if ($('#contractor-assignments .contractor-assignment').length === 0) {
-            addContractorAssignment(0);
-        }
-
-        // ----- Add new assignment on button click -----
-        $('#add-contractor-assignment').on('click', function () {
-            let index = $('#contractor-assignments .contractor-assignment').length;
-            addContractorAssignment(index);
         });
-
-        // ----- Remove assignment block on click -----
-        $(document).on('click', '.remove-contractor-assignment', function () {
-            $(this).closest('.contractor-assignment').remove();
-            updateContractorIndexes();
+        $newAssignment.find('.cost-price').each(function () {
+            $(this).rules('add', {
+                required: true,
+                number: true,
+                messages: { required: "Please enter a cost price", number: "Enter a valid number" }
+            });
         });
-
+        $newAssignment.find('.contractor-availability').each(function () {
+            $(this).rules('add', {
+                required: true,
+                messages: { required: "Please select preferred availability" }
+            });
         });
+        // Optionally, validate new fields immediately.
+        $newAssignment.find('select, input').each(function() {
+            $(this).valid();
+        });
+    }
+}
+
+// ----- On page load: add default contractor assignment block if none exists -----
+if ($('#contractor-assignments .contractor-assignment').length === 0) {
+    addContractorAssignment(0);
+}
+
+// ----- Add new assignment on button click -----
+$('#add-contractor-assignment').on('click', function () {
+    let index = $('#contractor-assignments .contractor-assignment').length;
+    addContractorAssignment(index);
+});
+
+// ----- Delegate event handler for Remove button -----
+$(document).on('click', '.remove-contractor-assignment', function () {
+    $(this).closest('.contractor-assignment').remove();
+    updateContractorIndexes();
+});
+});
 </script>
 @endsection

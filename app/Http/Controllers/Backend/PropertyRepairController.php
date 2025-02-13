@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\User;
 use App\Models\Contact;
+use App\Models\Tenancy;
 use App\Models\RepairIssue;
 use App\Models\RepairPhoto;
+use App\Models\TenantMember;
 use Illuminate\Http\Request;
 use App\Models\RepairHistory;
 use App\Models\RepairCategory;
 use App\Models\RepairAssignment;
 use App\Models\RepairIssueContact;
-use App\Models\RepairIssueContractorAssignment;
 use App\Models\RepairIssuePropertyManager;
+use Illuminate\Support\Facades\Validator;
+use App\Models\RepairIssueContractorAssignment;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyRepairController
 {
@@ -161,22 +165,173 @@ class PropertyRepairController
         ));
     }
     // Update the specified repair issue
+    // public function update(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'repair_category_id' => 'required',
+    //         'description' => 'required',
+    //     ]);
+
+    //     $repairIssue = RepairIssue::findOrFail($id);
+    //     $repairIssue->repair_category_id = $request->repair_category_id;
+    //     $repairIssue->description = $request->description;
+    //     $repairIssue->status = $request->status ?? $repairIssue->status; // Keep the current status if not updated
+    //     $repairIssue->save();
+
+    //     flash('Repair issue updated successfully')->success();
+    //     return redirect()->route('admin.repairs.index');
+    // }
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'repair_category_id' => 'required',
-            'description' => 'required',
+        // Use Validator::make() to validate input.
+        $validator = Validator::make($request->all(), [
+            'property_id'            => 'required',  // May come as an array; we'll extract a scalar below.
+            // 'repair_navigation'      => 'required',  // Expected as a JSON string.
+            // 'repair_category_id'     => 'required',
+            'description'            => 'required|string',
+            'priority'               => 'required|in:low,medium,high,critical',
+            'status'                 => 'required|in:Pending,Reported,Under Process,Work Completed,Invoice Received,Invoice Paid,Closed',
+            'tenant_availability'    => 'nullable|date_format:Y-m-d\TH:i',
+            'access_details'         => 'nullable|string',
+            'estimated_price'        => 'required|numeric',
+            'vat_type'               => 'required|in:inclusive,exclusive',
+            'property_managers'      => 'required|array',
+            'tenant_id'              => 'nullable',
+            // Note: Contractor assignments are validated via dynamic rules.
         ]);
 
-        $repairIssue = RepairIssue::findOrFail($id);
-        $repairIssue->repair_category_id = $request->repair_category_id;
-        $repairIssue->description = $request->description;
-        $repairIssue->status = $request->status ?? $repairIssue->status; // Keep the current status if not updated
-        $repairIssue->save();
+        // Check for validation failure.
+        if ($validator->fails()) {
+            return redirect()->back()
+                            ->withErrors($validator)
+                            ->withInput()
+                            ->with('error', 'Please fix the errors in the form.');
+        }
 
-        flash('Repair issue updated successfully')->success();
-        return redirect()->route('admin.repairs.index');
+        // Get validated data.
+        $validated = $validator->validated();
+
+        // Retrieve the repair issue record.
+        $repairIssue = RepairIssue::findOrFail($id);
+
+        // Process property_id: if it's an array, extract the first element.
+        $propertyId = $validated['property_id'];
+        if (is_array($propertyId)) {
+            $propertyId = (int) reset($propertyId);
+        } else {
+            $propertyId = (int) $propertyId;
+        }
+
+        // Capture the original status before updating.
+        $oldStatus = $repairIssue->status;
+
+        // Determine which category values to use.
+        // If both repair_navigation and repair_category_id are empty, then use the "old" ones.
+        $repairNavigation = $validated['repair_navigation'] ?? '';
+        $repairCategoryId = $validated['repair_category_id'] ?? '';
+
+        if (empty($repairNavigation) && empty($repairCategoryId)) {
+            $repairNavigation = $request->input('repair_navigation_old');
+            $repairCategoryId = $request->input('repair_category_id_old');
+        }
+
+        // Update the main repair issue record.
+        $repairIssue->update([
+            'property_id'            => $propertyId,
+            'repair_navigation'      => $repairNavigation, // using new value if provided or original value
+            'repair_category_id'     => $repairCategoryId, // using new value if provided or original value
+            'description'            => $validated['description'],
+            'priority'               => $validated['priority'],
+            'status'                 => $validated['status'],
+            'tenant_availability'    => $validated['tenant_availability'] ?? null,
+            'access_details'         => $validated['access_details'] ?? null,
+            'estimated_price'        => $validated['estimated_price'],
+            'vat_type'               => $validated['vat_type'],
+        ]);
+
+        // Update property manager assignments:
+        RepairIssuePropertyManager::where('repair_issue_id', $id)->delete();
+        if ($request->has('property_managers')) {
+            foreach ($request->input('property_managers') as $managerId) {
+                RepairIssuePropertyManager::create([
+                    'repair_issue_id'     => $id,
+                    'property_manager_id' => $managerId,
+                    'assigned_at'         => now(),
+                ]);
+            }
+        }
+
+        // Update contractor assignments:
+        RepairIssueContractorAssignment::where('repair_issue_id', $id)->delete();
+        if ($request->has('contractor_assignments')) {
+            foreach ($request->input('contractor_assignments') as $index => $assignmentData) {
+                // Ensure that required fields are provided.
+                if (isset($assignmentData['contractor_id']) && !empty($assignmentData['cost_price'])) {
+                    // Handle file upload for quote_attachment if provided.
+                    $filePath = null;
+                    if ($request->hasFile("contractor_assignments.$index.quote_attachment")) {
+                        $file = $request->file("contractor_assignments.$index.quote_attachment");
+                        $filePath = $file->store('contractor_quotes', 'public');
+                    }
+                    RepairIssueContractorAssignment::create([
+                        'repair_issue_id'                   => $id,
+                        'contractor_id'                     => $assignmentData['contractor_id'],
+                        'assigned_by'                       => Auth::id(),
+                        'cost_price'                        => $assignmentData['cost_price'],
+                        'quote_attachment'                  => $filePath,
+                        'contractor_preferred_availability' => $assignmentData['contractor_preferred_availability'] ?? null,
+                        'status'                            => 'Proposed', // default status
+                    ]);
+                }
+            }
+        }
+
+        // Update tenant selection if provided.
+        if ($request->filled('tenant_id')) {
+            $repairIssue->tenant_id = $request->input('tenant_id');
+            $repairIssue->save();
+        }
+
+        if($oldStatus != $validated['status']){
+            // --- Record a History Entry ---
+            RepairHistory::create([
+                'repair_issue_id' => $id,
+                'action'        => 'Updated repair issue',
+                'previous_status' => $oldStatus,
+                'new_status'      => $validated['status'],
+            ]);
+
+                // // --- Send Notifications ---
+                // // Assuming you have a Notification class: App\Notifications\RepairIssueUpdated
+                // // Gather users to notify. For example, notify assigned property managers and admin.
+                // $usersToNotify = [];
+                // // Notify property managers assigned to this repair issue.
+                // foreach ($repairIssue->repairIssuePropertyManagers as $assignment) {
+                //     if ($assignment->propertyManager) {
+                //         $usersToNotify[] = $assignment->propertyManager;
+                //     }
+                // }
+                // // Optionally, add admin users. For example, if admin has id 1:
+                // $adminUser = User::find(1);
+                // if ($adminUser) {
+                //     $usersToNotify[] = $adminUser;
+                // }
+                // // Remove duplicate users.
+                // $usersToNotify = array_unique($usersToNotify);
+                // // Send notification.
+                // foreach ($usersToNotify as $user) {
+                //     $user->notify(new \App\Notifications\RepairIssueUpdated([
+                //         'repair_issue_id' => $id,
+                //         'message'       => "Repair issue updated from {$oldStatus} to {$validated['status']}"
+                //     ]));
+                // }
+
+        }
+
+        return redirect()->route('admin.property_repairs.index')
+                        ->with('success', 'Repair issue updated successfully.');
     }
+
 
     // Remove the specified repair issue
     public function destroy($id)
@@ -291,12 +446,12 @@ class PropertyRepairController
         }
 
         // Retrieve tenancy IDs for the given property.
-        $tenancyIds = \App\Models\Tenancy::where('property_id', $propertyId)
+        $tenancyIds = Tenancy::where('property_id', $propertyId)
             ->pluck('id')
             ->toArray();
 
         // Retrieve tenant members associated with those tenancies, with their contact details.
-        $tenantMembers = \App\Models\TenantMember::whereIn('tenancy_id', $tenancyIds)
+        $tenantMembers = TenantMember::whereIn('tenancy_id', $tenancyIds)
             ->with('contact')
             ->get();
 

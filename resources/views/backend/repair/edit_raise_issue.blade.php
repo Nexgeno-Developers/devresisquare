@@ -1,6 +1,12 @@
 @extends('backend.layout.app')
 
 @section('content')
+<style>
+    .border-danger {
+    border: 2px solid #dc3545 !important;
+}
+
+</style>
 <div class="container">
     <h1>Edit Repair Issue</h1>
 
@@ -819,11 +825,30 @@ let validator = $("#repair-form-page").validate({
         error.insertAfter(element.closest('.form-group'));
     },
     highlight: function(element, errorClass, validClass) {
-        $(element).closest('.validate-card').addClass('border-danger');
+        // For a regular select element (without select2)
+        if ($(element).is('select') && !$(element).hasClass('select2-hidden-accessible')) {
+            $(element).addClass('border-danger');
+        }
+        // For a select2 element
+        else if ($(element).is('select') && $(element).hasClass('select2-hidden-accessible')) {
+            $(element).next('.select2-container').find('.select2-selection').addClass('border-danger');
+        } else {
+            $(element).closest('.form-group').find('select, input, textarea').addClass('border-danger');
+        }
         $(element).addClass(errorClass).removeClass(validClass);
     },
+
     unhighlight: function(element, errorClass, validClass) {
-        $(element).closest('.validate-card').removeClass('border-danger');
+        // For a regular select element (without select2)
+        if ($(element).is('select') && !$(element).hasClass('select2-hidden-accessible')) {
+            $(element).removeClass('border-danger');
+        }
+        // For a select2 element
+        else if ($(element).is('select') && $(element).hasClass('select2-hidden-accessible')) {
+            $(element).next('.select2-container').find('.select2-selection').removeClass('border-danger');
+        } else {
+            $(element).closest('.form-group').find('select, input, textarea').removeClass('border-danger');
+        }
         $(element).removeClass(errorClass).addClass(validClass);
     },
     invalidHandler: function(event, validator) {

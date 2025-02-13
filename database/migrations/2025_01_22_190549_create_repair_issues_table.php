@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('repair_category_id')->constrained('repair_categories');
             $table->json('repair_navigation');
             $table->longText('description');
+            $table->foreignId('tenant_id')->constrained('contacts');
 
             // Preferred availability for repair by Tenant/Owner
             $table->timestamp('tenant_availability')->nullable();

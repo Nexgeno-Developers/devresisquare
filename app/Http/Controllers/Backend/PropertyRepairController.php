@@ -17,6 +17,7 @@ use App\Models\RepairIssuePropertyManager;
 use Illuminate\Support\Facades\Validator;
 use App\Models\RepairIssueContractorAssignment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PropertyRepairController
 {
@@ -145,6 +146,8 @@ class PropertyRepairController
             $query->where('id', 2);
         })->get();
 
+        // dd($repairIssue->repairPhotos);
+
         $assignedManagers = RepairIssuePropertyManager::where('repair_issue_id', $id)->pluck('property_manager_id')->toArray();
         $contractorAssignments = RepairIssueContractorAssignment::where('repair_issue_id', $id)->get();
         $contractors = Contact::whereHas('category', callback: function ($query) {
@@ -186,8 +189,10 @@ class PropertyRepairController
         // Use Validator::make() to validate input.
         $validator = Validator::make($request->all(), [
             'property_id'            => 'required',  // May come as an array; we'll extract a scalar below.
-            // 'repair_navigation'      => 'required',  // Expected as a JSON string.
-            // 'repair_category_id'     => 'required',
+            'repair_navigation'      => 'nullable',  // Expected as a JSON string.
+            'repair_category_id'     => 'nullable|integer|exists:repair_categories,id',
+            'repair_navigation_old'  => 'nullable',  // Expected as a JSON string.
+            'repair_category_id_old' => 'nullable|integer|exists:repair_categories,id',
             'description'            => 'required|string',
             'priority'               => 'required|in:low,medium,high,critical',
             'status'                 => 'required|in:Pending,Reported,Under Process,Work Completed,Invoice Received,Invoice Paid,Closed',
@@ -197,6 +202,9 @@ class PropertyRepairController
             'vat_type'               => 'required|in:inclusive,exclusive',
             'property_managers'      => 'required|array',
             'tenant_id'              => 'nullable',
+            'repair_photos' => 'nullable|string',  // The input is a string of IDs
+            'repair_photos.*' => 'nullable|integer|exists:uploads,id', // Validate each ID
+            ''              => 'nullable',
             // Note: Contractor assignments are validated via dynamic rules.
         ]);
 
@@ -229,17 +237,30 @@ class PropertyRepairController
             $propertyId = (int) $propertyId;
         }
 
+        // Assuming there's a pivot table for many-to-many relationship
+        if ($request->has('repair_photos')) {
+            // Get the comma-separated list of photo IDs
+            $photoIds = $request->input('repair_photos');
+
+            // Assuming you want to update the 'photos' column in the repair_photos table
+            $repairIssue->repairPhotos()->update(['photos' => $photoIds]);
+        }
+
+
         // dd($propertyId);
         // Capture the original status before updating.
         $oldStatus = $repairIssue->status;
 
-        // Determine which category values to use.
-        // If both repair_navigation and repair_category_id are empty, then use the "old" ones.
-        $repairNavigation = $validated['repair_navigation'] ?? '';
-        $repairCategoryId = $validated['repair_category_id'] ?? '';
+        // Get new values from the validated request
+        $repairNavigation = $validated['repair_navigation'] ?? null;
+        $repairCategoryId = $validated['repair_category_id'] ?? null;
 
-        if (empty($repairNavigation) && empty($repairCategoryId)) {
+        // If new values are not provided, use the old values
+        if (empty($repairNavigation)) {
             $repairNavigation = $request->input('repair_navigation_old');
+        }
+
+        if (empty($repairCategoryId)) {
             $repairCategoryId = $request->input('repair_category_id_old');
         }
 
@@ -274,27 +295,28 @@ class PropertyRepairController
         }
 
         // Update contractor assignments:
-        RepairIssueContractorAssignment::where('repair_issue_id', $id)->delete();
-        if ($request->has('contractor_assignments')) {
-            foreach ($request->input('contractor_assignments') as $index => $assignmentData) {
-                // Ensure that required fields are provided.
-                if (isset($assignmentData['contractor_id']) && !empty($assignmentData['cost_price'])) {
-                    // Handle file upload for quote_attachment if provided.
-                    $filePath = null;
-                    if ($request->hasFile("contractor_assignments.$index.quote_attachment")) {
-                        $file = $request->file("contractor_assignments.$index.quote_attachment");
-                        $filePath = $file->store('contractor_quotes', 'public');
-                    }
-                    RepairIssueContractorAssignment::create([
-                        'repair_issue_id'                   => $id,
-                        'contractor_id'                     => $assignmentData['contractor_id'],
-                        'assigned_by'                       => Auth::id(),
-                        'cost_price'                        => $assignmentData['cost_price'],
-                        'quote_attachment'                  => $filePath,
+        $submittedAssignments = $request->input('contractor_assignments', []);
+
+        foreach ($submittedAssignments as $index => $assignmentData) {
+            if (!isset($assignmentData['id']) || empty($assignmentData['id'])) {
+                RepairIssueContractorAssignment::create([
+                    'repair_issue_id' => $repairIssue->id,
+                    'contractor_id'   => $assignmentData['contractor_id'],
+                    'cost_price'      => $assignmentData['cost_price'],
+                    'assigned_by'     => Auth::id(),
+                    'quote_attachment' => $assignmentData['quote_attachment'] ?? null,
+                    'contractor_preferred_availability' => $assignmentData['contractor_preferred_availability'] ?? null,
+                    'status' => 'Proposed',
+                ]);
+            } else {
+                RepairIssueContractorAssignment::where('id', $assignmentData['id'])
+                    ->update([
+                        'contractor_id'   => $assignmentData['contractor_id'],
+                        'cost_price'      => $assignmentData['cost_price'],
+                        'assigned_by'     => Auth::id(),
+                        'quote_attachment' => $assignmentData['quote_attachment'] ?? null,
                         'contractor_preferred_availability' => $assignmentData['contractor_preferred_availability'] ?? null,
-                        'status'                            => 'Proposed', // default status
                     ]);
-                }
             }
         }
 

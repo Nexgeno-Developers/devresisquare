@@ -9,7 +9,7 @@ class RepairIssue extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['repair_category_id', 'repair_navigation', 'description', 'tenant_availability', 'access_details', 'estimated_price', 'vat_type', 'priority', 'status', 'property_id', 'tenant_id'];
+    protected $fillable = ['repair_category_id', 'repair_navigation', 'description', 'tenant_availability', 'access_details', 'estimated_price', 'vat_type', 'priority', 'status', 'property_id', 'tenant_id', 'final_contractor_id'];
 
     // protected $casts = [
     //     'repair_navigation' => 'array', // Cast repair_navigation as an array (JSON)
@@ -68,5 +68,10 @@ class RepairIssue extends Model
     public function repairIssueContacts()
     {
         return $this->hasMany(RepairIssueContact::class);
+    }
+
+    public function finalContractor()
+    {
+        return $this->belongsTo(Contact::class, 'final_contractor_id');
     }
 }

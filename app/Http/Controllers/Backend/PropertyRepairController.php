@@ -202,9 +202,9 @@ class PropertyRepairController
             'vat_type'               => 'required|in:inclusive,exclusive',
             'property_managers'      => 'required|array',
             'tenant_id'              => 'nullable',
-            'repair_photos' => 'nullable|string',  // The input is a string of IDs
-            'repair_photos.*' => 'nullable|integer|exists:uploads,id', // Validate each ID
-            ''              => 'nullable',
+            'repair_photos'          => 'nullable|string',  // The input is a string of IDs
+            'repair_photos.*'        => 'nullable|integer|exists:uploads,id', // Validate each ID
+            'final_contractor_id'    => 'nullable|integer|exists:contacts,id',
             // Note: Contractor assignments are validated via dynamic rules.
         ]);
 
@@ -254,9 +254,10 @@ class PropertyRepairController
         // Get new values from the validated request
         $repairNavigation = $validated['repair_navigation'] ?? null;
         $repairCategoryId = $validated['repair_category_id'] ?? null;
+        $finalContractorId = $validated['final_contractor_id'] ?? null;
 
         // If new values are not provided, use the old values
-        if (empty($repairNavigation)) {
+        if (empty($repairNavigation) || $repairNavigation == '{}') {
             $repairNavigation = $request->input('repair_navigation_old');
         }
 
@@ -276,6 +277,7 @@ class PropertyRepairController
             'access_details'         => $validated['access_details'] ?? null,
             'estimated_price'        => $validated['estimated_price'],
             'vat_type'               => $validated['vat_type'],
+            'final_contractor_id'    => $finalContractorId,
         ]);
         // Update property manager assignments:
         RepairIssuePropertyManager::where('repair_issue_id', $id)->delete();

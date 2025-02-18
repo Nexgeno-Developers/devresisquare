@@ -49,6 +49,11 @@ class Contact extends Model
         return $this->belongsToMany(Tenancy::class, 'property_manager_tenancy', 'property_manager_id', 'tenancy_id');
     }
 
+    public function repairIssues()
+    {
+        return $this->hasMany(RepairIssue::class, 'final_contractor_id');
+    }
+
     protected $casts = [
         'selected_properties' => 'array', // Automatically casts JSON to an array
     ];

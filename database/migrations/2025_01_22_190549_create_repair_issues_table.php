@@ -34,6 +34,8 @@ return new class extends Migration
             $table->enum('priority', ['low', 'medium', 'high', 'critical']);
             $table->string('status');
 
+            $table->foreignId('final_contractor_id')->constrained('contacts');
+
             $table->timestamps();
         });
     }

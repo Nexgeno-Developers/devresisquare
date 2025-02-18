@@ -282,6 +282,24 @@
             <div class="col-6">
                 <!-- Contractor Assignment Section wrapped in a card -->
                 <div class="card mb-3">
+                    <div class="card-header">Final Contractor Assign</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="final_contractor">Select Final Contractor:</label>
+                            <select name="final_contractor_id" id="final_contractor" class="form-control">
+                                <option value="">-- Select Contractor --</option>
+                                @foreach ($contractorAssignments as $assignment)
+                                    <option value="{{ $assignment->contractor_id }}" {{ $repairIssue->final_contractor_id == $assignment->contractor_id ? 'selected' : '' }}>{{  $assignment->contractor->full_name }} ({{ $assignment->contractor->email }})</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <!-- Contractor Assignment Section wrapped in a card -->
+                <div class="card mb-3">
                     <div class="card-header">Contractor Assignment</div>
                     <div class="card-body">
                         <div id="contractor-assignments">
@@ -933,13 +951,13 @@
                 <div class="form-group rs_upload_btn">
                     <h5 class="sub_title mt-4">Upload Quote Price Document</h5>
                     <div class="media_wrapper">
-                        <div class="input-group" data-toggle="aizuploader" data-type="all" data-multiple="true">
+                        <div class="input-group" data-toggle="aizuploader" data-type="document" data-multiple="false">
                             <label for="quote_attachment___index__">Select Document</label>
                             <div class="d-none input-group-prepend">
                                 <div class="input-group-text bg-soft-secondary font-weight-medium">Browse</div>
                             </div>
                             <div class="d-none form-control file-amount">Choose File</div>
-                            <input type="hidden" name="contractor_assignments[__index__][quote_attachment]" id="quote_attachment___index__" value="" class="selected-files">
+                            <input type="hidden" name="contractor_assignments[__index__][quote_attachment]" id="quote_attachment___index__" value="" class="selected-files quote_attachment">
                         </div>
                         <div class="d-flex gap-3 file-preview box sm"></div>
                     </div>
@@ -1017,14 +1035,17 @@
             $assignment.find('.cost-price').val(data.cost_price);
             // For preferred availability.
             $assignment.find('.contractor-availability').val(data.contractor_preferred_availability);
+            if(data.quote_attachment) {
+                $assignment.find('.quote_attachment').val(data.quote_attachment);
+            }
             // Note: For file input (quote_attachment), we cannot set a value. Instead, you might display the saved file name in a separate element if needed.
             // Optionally, set a hidden field with the existing file path if you want to keep it.
-            if(data.quote_attachment) {
-                // Optionally, show a link or text with the file name.
-                $assignment.append(`<p>Existing File: ${data.quote_attachment}</p>`);
-                // Also, you might want to add a hidden field:
-                $assignment.append(`<input type="hidden" name="contractor_assignments[${index}][existing_quote_attachment]" value="${data.quote_attachment}">`);
-            }
+            // if(data.quote_attachment) {
+            //     // Optionally, show a link or text with the file name.
+            //     $assignment.append(`<p>Existing File: ${data.quote_attachment}</p>`);
+            //     // Also, you might want to add a hidden field:
+            //     $assignment.append(`<input type="hidden" name="contractor_assignments[${index}][existing_quote_attachment]" value="${data.quote_attachment}">`);
+            // }
 
             // Append the saved assignment block.
             $('#contractor-assignments').append($assignment);
@@ -1038,13 +1059,15 @@
             $.each(savedContractorAssignments, function(index, assignment) {
                 addSavedContractorAssignment(index, assignment);
             });
+            // Ensure preview generation happens after all assignments are added
+            AIZ.uploader.previewGenerate();
         } else {
             // If no saved assignments, add a default new block.
             addContractorAssignment(0);
         }
 
         // ----- Add new assignment on button click -----
-        $('#add-contractor-assignment').on('click', function () {
+        $(document).on('click', '#add-contractor-assignment', function () {
             let index = $('#contractor-assignments .contractor-assignment').length;
             addContractorAssignment(index);
         });

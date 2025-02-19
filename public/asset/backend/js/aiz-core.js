@@ -405,7 +405,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                 data[i].file_name +
                                 '" class="img-fit">';
                         } else {
-                            thumb = '<i class="la la-file-text"></i>';
+                            thumb = '<i class="fa-solid fa-file"></i>';
                         }
                         var html =
                             '<div class="aiz-file-box-wrap" aria-hidden="' +
@@ -499,7 +499,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                         data[i].file_name +
                                         '" class="img-fit">';
                                 } else {
-                                    thumb = '<i class="la la-file-text"></i>';
+                                    thumb = '<i class="fa-solid fa-file"></i>';
                                 }
                                 var html =
                                     '<div class="mt-2 file-preview-item" data-id="' +
@@ -529,7 +529,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                     "</div>" +
                                     '<div class="remove">' +
                                     '<button class="btn btn-sm btn-link remove-attachment" type="button">' +
-                                    '<i class="fa fa-close"></i>' +
+                                    '<i class="fa-solid fa-x"></i>' +
                                     "</button>" +
                                     "</div>" +
                                     "</div>";
@@ -563,7 +563,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                 //     "</div>" +
                                 //     '<div class="remove">' +
                                 //     '<button class="btn btn-sm btn-link remove-attachment" type="button">' +
-                                //     '<i class="fa fa-close"></i>' +
+                                //     '<i class="fa-solid fa-x"></i>' +
                                 //     "</button>" +
                                 //     "</div>" +
                                 //     "</div>";
@@ -599,7 +599,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
             //                 AIZ.uploader.data.allFiles[index].file_name +
             //                 '" class="img-fit">';
             //         } else {
-            //             thumb = '<i class="la la-file-text"></i>';
+            //             thumb = '<i class="fa-solid fa-file"></i>';
             //         }
             //         var html =
             //             '<div class="d-flex justify-content-between align-items-center mt-2 file-preview-item" data-id="' +
@@ -629,7 +629,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
             //             "</div>" +
             //             '<div class="remove">' +
             //             '<button class="btn btn-sm btn-link remove-attachment" type="button">' +
-            //             '<i class="la la-close"></i>' +
+            //             '<i class="fa-solid fa-x"></i>' +
             //             "</button>" +
             //             "</div>" +
             //             "</div>";
@@ -814,7 +814,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                             data[i].file_name +
                                             '" class="img-fit">';
                                     } else {
-                                        thumb = '<i class="la la-file-text"></i>';
+                                        thumb = '<i class="fa-solid fa-file"></i>';
                                     }
                                     var html =
                                         '<div class="d-flex justify-content-between align-items-center mt-2 file-preview-item" data-id="' +
@@ -844,7 +844,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                         "</div>" +
                                         '<div class="remove">' +
                                         '<button class="btn btn-sm btn-link remove-attachment" type="button">' +
-                                        '<i class="la la-close"></i>' +
+                                        '<i class="fa-solid fa-x"></i>' +
                                         "</button>" +
                                         "</div>" +
                                         "</div>";

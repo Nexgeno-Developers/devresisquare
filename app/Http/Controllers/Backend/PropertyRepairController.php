@@ -115,8 +115,15 @@ class PropertyRepairController
 
     // Show a single repair issue
     public function show($id)
-    {
-        $repairIssue = RepairIssue::findOrFail($id);
+{
+        // Load the repair issue with relationships if needed
+        $repairIssue = RepairIssue::with([
+            'repairAssignments',
+            'repairHistories',
+            'repairIssueContacts',
+            'repairPhotos',
+            'property' // Eager load the related property
+        ])->findOrFail($id);
         return view('backend.repair.view_raise_issue', compact('repairIssue'));
     }
 

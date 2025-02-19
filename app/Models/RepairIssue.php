@@ -74,4 +74,10 @@ class RepairIssue extends Model
     {
         return $this->belongsTo(Contact::class, 'final_contractor_id');
     }
+
+    public function tenant()
+    {
+        return $this->belongsTo(Contact::class, 'tenant_id')
+                    ->where('category_id', 3);
+    }
 }

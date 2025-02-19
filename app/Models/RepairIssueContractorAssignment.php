@@ -29,10 +29,12 @@ class RepairIssueContractorAssignment extends Model
 
     /**
      * Get the contractor (user) assigned to the repair issue.
+     * Filters contractors by category_id = 6.
      */
     public function contractor()
     {
-        return $this->belongsTo(User::class, 'contractor_id');
+        return $this->belongsTo(Contact::class, 'contractor_id')
+                    ->where('category_id', 6); // Only contractors with category_id = 6
     }
 
     /**

@@ -23,7 +23,7 @@
     @stack('styles')
 
 
-    {{-- <link href="{{ asset('asset/backend/css/aiz-core.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('asset/backend/css/aiz-main.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('asset/backend/css/media.css') }}" rel="stylesheet"> --}}
     {{-- <link href="{{ asset('asset/backend/css/vendors.css') }}" rel="stylesheet"> --}}
 </head>
@@ -43,7 +43,7 @@
             {{-- @include('backend.partials.aside') --}}
 
             <div id="wrapper" class="main_content">
-                <div class="alert_wrapper">
+                {{-- <div class="alert_wrapper">
                     <!-- Display success message -->
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -68,7 +68,7 @@
                             </ul>
                         </div>
                     @endif
-                </div>
+                </div> --}}
 
                 @yield('content')
             </div>
@@ -86,7 +86,7 @@
     </script>
     @yield('page.scripts')
     @yield('quickstepform.scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function () {
             @if(session('error'))
                 toastr.error("{{ session('error') }}", "Login Failed", {
@@ -113,7 +113,35 @@
             };
         });
 
+    </script> --}}
+    <script>
+        $(document).ready(function () {
+            // Check if there are validation errors
+            @if($errors->any())
+                @foreach ($errors->all() as $error)
+                    AIZ.plugins.notify('error', "{{ $error }}", {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "timeOut": 7000,
+                        "extendedTimeOut": 1000
+                    });
+                @endforeach
+            @endif
+
+            // Check if a custom error message is present
+            @if(session('error'))
+                AIZ.plugins.notify('error', "{{ session('error') }}", {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "timeOut": 7000,
+                    "extendedTimeOut": 1000
+                });
+            @endif
+        });
     </script>
+
 </body>
 
 </html>

@@ -528,7 +528,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                     "</p>" +
                                     "</div>" +
                                     '<div class="remove">' +
-                                    '<button class="btn btn-sm btn-link remove-attachment" type="button">' +
+                                    '<button class="btn-sm btn-link remove-attachment" type="button">' +
                                     '<i class="fa-solid fa-x"></i>' +
                                     "</button>" +
                                     "</div>" +
@@ -562,7 +562,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                 //     "</p>" +
                                 //     "</div>" +
                                 //     '<div class="remove">' +
-                                //     '<button class="btn btn-sm btn-link remove-attachment" type="button">' +
+                                //     '<button class="btn-sm btn-link remove-attachment" type="button">' +
                                 //     '<i class="fa-solid fa-x"></i>' +
                                 //     "</button>" +
                                 //     "</div>" +
@@ -628,7 +628,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
             //             "</p>" +
             //             "</div>" +
             //             '<div class="remove">' +
-            //             '<button class="btn btn-sm btn-link remove-attachment" type="button">' +
+            //             '<button class="btn-sm btn-link remove-attachment" type="button">' +
             //             '<i class="fa-solid fa-x"></i>' +
             //             "</button>" +
             //             "</div>" +
@@ -843,7 +843,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                                         "</p>" +
                                         "</div>" +
                                         '<div class="remove">' +
-                                        '<button class="btn btn-sm btn-link remove-attachment" type="button">' +
+                                        '<button class="btn-sm btn-link remove-attachment" type="button">' +
                                         '<i class="fa-solid fa-x"></i>' +
                                         "</button>" +
                                         "</div>" +
@@ -1112,7 +1112,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                 {
                     // settings
                     showProgressbar: true,
-                    delay: 2500,
+                    delay: 60000,
                     mouse_over: "pause",
                     placement: {
                         from: "bottom",
@@ -1125,7 +1125,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                     type: type,
                     template:
                         '<div data-notify="container" class="aiz-notify alert alert-{0}" role="alert">' +
-                        '<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><i class="las la-times"></i></button>' +
+                        '<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><i class="fa-solid fa-x"></i></button>' +
                         '<span data-notify="message">{2}</span>' +
                         '<div class="progress" data-notify="progressbar">' +
                         '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +

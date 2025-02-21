@@ -256,6 +256,23 @@
                                 </label>
                             </div>
                         </div>
+                        <!-- Exclusive VAT Fields (hidden by default) -->
+                        <div class="form-group mt-3 d-none" id="exclusive_vat_fields">
+                            <label for="vat_percentage">VAT Percentage</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">%</span>
+                                <input type="text" name="vat_percentage" id="vat_percentage" value="{{ old('vat_percentage', $repairIssue->vat_percentage) }}" class="form-control" placeholder="Enter VAT Percentage" aria-label="VAT Percentage" aria-describedby="basic-addon1">
+                              </div>
+                        </div>
+
+                        <!-- VAT Calculation Preview -->
+                        <div class="form-group d-none" id="vat_calculation_preview">
+                            <label for="vat_calculation">VAT Calculation Preview</label>
+                            <div class="form-control" id="vat_calculation">
+                                <!-- Calculation preview will be displayed here -->
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 {{-- @endif --}}
@@ -1079,7 +1096,74 @@
         });
 
         console.log("Contractor Assignment Script Initialized");
+
+        // Initialize the VAT type and VAT percentage from the database
+        var vatTypeFromDb = '{{ old('vat_type', $repairIssue->vat_type) }}';
+        var vatPercentageFromDb = '{{ old('vat_percentage', $repairIssue->vat_percentage) }}';
+
+        // Set the VAT type radio button based on the value from the database
+        if (vatTypeFromDb === 'exclusive') {
+            $("#vat_type_exclusive").prop('checked', true);
+            $("#exclusive_vat_fields").removeClass('d-none'); // Show VAT percentage field
+            if (vatPercentageFromDb > 0) {
+                $("#vat_calculation_preview").removeClass('d-none'); // Show VAT calculation preview
+                $("#vat_percentage").val(vatPercentageFromDb); // Set VAT percentage
+                // Call the VAT calculation function to update the preview
+                calculateVAT();
+            }
+            $("#vat_percentage").prop('required', true); // Make VAT percentage required
+        } else {
+            $("#vat_type_inclusive").prop('checked', true);
+            $("#exclusive_vat_fields").addClass('d-none'); // Hide VAT percentage field
+            $("#vat_calculation_preview").addClass('d-none'); // Hide VAT calculation preview
+            $("#vat_percentage").prop('required', false); // Remove the required attribute
+        }
+
+        // Show/hide exclusive VAT fields based on VAT type selection
+        $("input[name='vat_type']").on('change', function () {
+            if ($("#vat_type_exclusive").is(':checked')) {
+                $("#exclusive_vat_fields").removeClass('d-none');
+                // Make VAT percentage required if Exclusive VAT is selected
+                $("#vat_percentage").prop('required', true);
+                // Show the VAT calculation preview only if VAT percentage is not empty
+                if ($("#vat_percentage").val().length > 0 && $("#vat_percentage").val() > 0) {
+                    $("#vat_calculation_preview").removeClass('d-none');
+                }
+                calculateVAT();
+            } else {
+                $("#exclusive_vat_fields").addClass('d-none');
+                $("#vat_calculation_preview").addClass('d-none');
+                $("#vat_percentage").val(''); // Clear VAT percentage input if switching to inclusive VAT
+                $("#vat_percentage").prop('required', false); // Remove the required attribute
+            }
+        });
+
+        // Calculate VAT preview when percentage is entered
+        $("#vat_percentage").on('input', function () {
+            // Show the VAT calculation preview when the VAT percentage has a value and is greater than 0
+            if ($(this).val().length > 0 && $(this).val() > 0) {
+                $("#vat_calculation_preview").removeClass('d-none');
+            } else {
+                $("#vat_calculation_preview").addClass('d-none');
+            }
+            calculateVAT();
+        });
+
+        // Function to calculate and show VAT preview
+        function calculateVAT() {
+            var estimatedPrice = parseFloat($("#estimated_price").val()) || 0;
+            var vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+            if (estimatedPrice > 0 && vatPercentage > 0) {
+                var vatAmount = estimatedPrice * (vatPercentage / 100);
+                var totalPrice = estimatedPrice + vatAmount;
+                $("#vat_calculation").html(`VAT Amount: $${vatAmount.toFixed(2)}<br>Total Price (including VAT): $${totalPrice.toFixed(2)}`);
+            } else {
+                $("#vat_calculation").html(""); // Clear calculation if invalid or empty values
+            }
+        }
     });
+
+
 
 </script>
 @endsection

@@ -207,6 +207,7 @@ class PropertyRepairController
             'access_details'         => 'nullable|string',
             'estimated_price'        => 'required|numeric',
             'vat_type'               => 'required|in:inclusive,exclusive',
+            'vat_percentage'         => 'required_if:vat_type,exclusive|numeric', // VAT percentage is required if VAT type is 'exclusive'
             'property_managers'      => 'required|array',
             'tenant_id'              => 'nullable',
             'repair_photos'          => 'nullable|string',  // The input is a string of IDs
@@ -216,13 +217,20 @@ class PropertyRepairController
         ]);
 
         // Check for validation failure.
+        // if ($validator->fails()) {
+        //     return redirect()->back()
+        //                     ->withErrors($validator)
+        //                     ->withInput();
+        // }
         if ($validator->fails()) {
-            return redirect()->back()
-                            ->withErrors($validator)
-                            ->withInput()
-                            ->with('error', 'Please fix the errors in the form.');
-        }
+            $errorMessages = $validator->errors()->all(); // Get all errors as an array
 
+            foreach ($errorMessages as $error) {
+                flash($error)->error(); // Flash each error separately
+            }
+
+            return back()->withInput();
+        }
         // Get validated data.
         $validated = $validator->validated();
 
@@ -284,6 +292,7 @@ class PropertyRepairController
             'access_details'         => $validated['access_details'] ?? null,
             'estimated_price'        => $validated['estimated_price'],
             'vat_type'               => $validated['vat_type'],
+            'vat_percentage'               => $validated['vat_percentage'],
             'final_contractor_id'    => $finalContractorId,
         ]);
         // Update property manager assignments:
@@ -429,7 +438,7 @@ class PropertyRepairController
             'repair_navigation' => json_encode($categories),
             'repair_category_id' => $request->repair_category_id,
             'description' => $request->description,
-            'status' => 'active',
+            'status' => 'Pending',
         ]);
 
         // Store repair photos

@@ -33,8 +33,8 @@ return new class extends Migration
 
             $table->enum('priority', ['low', 'medium', 'high', 'critical']);
             $table->string('status');
-
             $table->foreignId('final_contractor_id')->constrained('contacts');
+            $table->string('reference_number', 255);
 
             $table->timestamps();
         });

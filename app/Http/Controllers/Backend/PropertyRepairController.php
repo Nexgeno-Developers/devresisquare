@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\User;
 use App\Models\Contact;
+use App\Models\JobType;
 use App\Models\Tenancy;
 use App\Models\RepairIssue;
 use App\Models\RepairPhoto;
@@ -13,11 +14,11 @@ use App\Models\RepairHistory;
 use App\Models\RepairCategory;
 use App\Models\RepairAssignment;
 use App\Models\RepairIssueContact;
-use App\Models\RepairIssuePropertyManager;
-use Illuminate\Support\Facades\Validator;
-use App\Models\RepairIssueContractorAssignment;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Models\RepairIssuePropertyManager;
+use App\Models\RepairIssueContractorAssignment;
 
 class PropertyRepairController
 {
@@ -106,12 +107,38 @@ class PropertyRepairController
         ]);
     }
 
+    public function index(Request $request)
+    {
+        $query = RepairIssue::query();
 
+        // Apply search filter
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->whereHas('property', function ($q) use ($search) {
+                $q->where('prop_name', 'LIKE', "%$search%")
+                  ->orWhere('prop_ref_no', 'LIKE', "%$search%");
+            });
+        }
+
+        // Apply status filter
+        if ($request->has('status') && in_array($request->status, [
+            'Pending', 'Reported', 'Under Process', 'Work Completed', 'Invoice Received', 'Invoice Paid', 'Closed'
+        ])) {
+            $query->where('status', $request->status);
+        }
+
+        $repairIssues = $query->paginate(10);
+
+        return view('backend.repair.index', compact('repairIssues'));
+    }
+
+
+/*
     public function index()
     {
         $repairIssues = RepairIssue::paginate(10);
         return view('backend.repair.index', compact('repairIssues'));
-    }
+    }*/
 
     // Show a single repair issue
     public function show($id)
@@ -164,6 +191,8 @@ class PropertyRepairController
         //     $query->where('name', 'contractor');
         // })->get();
 
+        $jobTypes = JobType::getHierarchy();
+        
         return view('backend.repair.edit_raise_issue', data: compact(
             'repairIssue',
             'categories',
@@ -171,7 +200,8 @@ class PropertyRepairController
             'propertyManagers',
             'assignedManagers',
             'contractorAssignments',
-            'contractors'
+            'contractors',
+            'jobTypes',
         ));
     }
     // Update the specified repair issue
@@ -392,7 +422,7 @@ class PropertyRepairController
         $repairIssue->delete();
 
         flash('Repair issue deleted successfully')->success();
-        return redirect()->route('admin.repairs.index');
+        return redirect()->route('admin.property_repairs.index');
     }
 
     public function raiseIssueStore(Request $request)
@@ -432,6 +462,9 @@ class PropertyRepairController
         //     'converted_property_id' => $propertyId,
         // ]);
 
+        // Generate Reference Number using a private function
+        $repairReference = $this->generateRepairReferenceNumber();
+
         // Store repair request
         $repair = RepairIssue::create([
             'property_id' => $propertyId,
@@ -439,6 +472,7 @@ class PropertyRepairController
             'repair_category_id' => $request->repair_category_id,
             'description' => $request->description,
             'status' => 'Pending',
+            'reference_number' => $repairReference, // Store the reference number
         ]);
 
         // Store repair photos
@@ -526,7 +560,27 @@ class PropertyRepairController
         return response()->json($tenants);
     }
 
+    /**
+     * Generate a unique and sequential repair reference number.
+     *
+     * @return string
+    */
+    // Generate a unique reference number
+    private function generateRepairReferenceNumber()
+    {
+        // Find the last inserted property
+        $lastProperty = RepairIssue::orderBy('id', 'desc')->first();
 
+        // Extract and increment the numeric part
+        if ($lastProperty && preg_match('/RESISQREP(\d+)/', $lastProperty->reference_number, $matches)) {
+            $number = (int)$matches[1] + 1;
+        } else {
+            $number = 1; // Start from 1 if no property exists
+        }
+
+        // Format the new reference number (e.g., RESISQREP0000001)
+        return 'RESISQREP' . str_pad($number, 7, '0', STR_PAD_LEFT);
+    }
 
 
     // Additional methods as necessary

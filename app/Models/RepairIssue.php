@@ -9,7 +9,22 @@ class RepairIssue extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['repair_category_id', 'repair_navigation', 'description', 'tenant_availability', 'access_details', 'estimated_price', 'vat_type', 'vat_percentage', 'priority', 'status', 'property_id', 'tenant_id', 'final_contractor_id'];
+    protected $fillable = [
+        'repair_category_id',
+        'repair_navigation',
+        'description',
+        'tenant_availability',
+        'access_details',
+        'estimated_price',
+        'vat_type',
+        'vat_percentage',
+        'priority',
+        'status',
+        'property_id',
+        'tenant_id',
+        'final_contractor_id',
+        'reference_number'
+    ];
 
     // protected $casts = [
     //     'repair_navigation' => 'array', // Cast repair_navigation as an array (JSON)
@@ -43,7 +58,13 @@ class RepairIssue extends Model
     {
         return $this->hasMany(RepairAssignment::class);
     }
-
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($repairIssue) {
+            $repairIssue->repairPhotos()->delete();
+        });
+    }
     /**
      * Get the property manager assignments for this repair issue.
      */
@@ -78,6 +99,11 @@ class RepairIssue extends Model
     public function tenant()
     {
         return $this->belongsTo(Contact::class, 'tenant_id')
-                    ->where('category_id', 3);
+            ->where('category_id', 3);
     }
+    public function workOrders()
+    {
+        return $this->hasMany(WorkOrder::class);
+    }
+    
 }

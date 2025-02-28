@@ -3,22 +3,24 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\AuthenticateController;
-use App\Http\Controllers\Backend\DashboardController;
-use App\Http\Controllers\Backend\PropertyController;
-use App\Http\Controllers\Backend\ContactCategoryController;
-use App\Http\Controllers\Backend\ContactController;
-use App\Http\Controllers\Backend\EstateChargeController;
-use App\Http\Controllers\Backend\EstateChargeItemController;
-use App\Http\Controllers\Backend\OwnerGroupController;
 use App\Http\Controllers\Backend\OfferController;
 use App\Http\Controllers\Backend\BranchController;
-use App\Http\Controllers\Backend\DesignationController;
+use App\Http\Controllers\Backend\ContactController;
+use App\Http\Controllers\Backend\JobTypeController;
 use App\Http\Controllers\Backend\TenancyController;
-use App\Http\Controllers\Backend\TenancySubStatusController;
-use App\Http\Controllers\Backend\TenancyTypeController;
+use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ComplianceController;
+use App\Http\Controllers\Backend\OwnerGroupController;
+use App\Http\Controllers\Backend\DesignationController;
+use App\Http\Controllers\Backend\TenancyTypeController;
+use App\Http\Controllers\Backend\AuthenticateController;
+use App\Http\Controllers\Backend\EstateChargeController;
 use App\Http\Controllers\Backend\PropertyRepairController;
+use App\Http\Controllers\Backend\ContactCategoryController;
+use App\Http\Controllers\Backend\EstateChargeItemController;
+use App\Http\Controllers\Backend\TenancySubStatusController;
+use App\Http\Controllers\Backend\WorkOrderController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -191,6 +193,29 @@ Route::middleware('auth')->group(function () {
                 Route::get('/selected-property/tenants',  'getPropertyTenants')->name('get.property_repairs.tenants');
             });
         });
+
+        Route::prefix('/job-types')->group(function () {
+            Route::controller(JobTypeController::class)->group(function () {
+                Route::get('/list', 'index')->name('job_types.index'); // List all job types
+                Route::get('/show/{id}', 'show')->name('job_types.show'); // Show single job type
+                Route::get('/edit/{id}', 'edit')->name('job_types.edit'); // Edit job type
+                Route::put('/update/{id}', 'update')->name('job_types.update'); // Update job type
+                Route::delete('/delete/{id}', 'destroy')->name('job_types.delete'); // Delete job type
+
+                Route::get('/create', 'create')->name('job_types.create'); // Show form to create job type
+                Route::post('/store', 'store')->name('job_types.store'); // Store new job type
+
+                Route::get('/parent/{parentId}/subcategories', 'getSubTypes')->name('job_types.getSubCategories'); // Fetch subcategories
+                Route::get('/get-all', 'getAllJobTypes')->name('job_types.getAll'); // Fetch all job types
+            });
+        });
+
+        Route::prefix('/work-orders')->group(function () {
+            Route::controller(WorkOrderController::class)->group(function () {
+                Route::post('/store', 'store')->name('work_orders.store'); // Save new work order
+            });
+        });
+        
 
     });
 

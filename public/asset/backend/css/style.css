@@ -189,6 +189,12 @@ div.dataTables_wrapper div.dataTables_filter input {
           Sdebar
 ==========================================*/
 
+.sidebar-list-item:has(.show),
+.sidebar-list-item:has(a.active) {
+    background-color: var(--primary-300);
+    cursor: pointer;
+}
+
 .sidebar-list-item.submenu_wrapper:has(.show),
 .sidebar-list-item.submenu_wrapper:has(a.active) {
     background-color: var(--primary-300);
@@ -200,7 +206,12 @@ div.dataTables_wrapper div.dataTables_filter input {
     background-color: var(--primary);
     color: var(--white);
 }
-
+.nav-second-level .sidebar-list-item {
+    padding: 6px 10px;
+}
+.nav-second-level .sidebar-sub-list-item {
+    padding: 6px 10px;
+}
 .components li.sidebar-list-item {
     display: block;
     width: 100%;
@@ -264,7 +275,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 ul#propertiesSubmenu li.sidebar-sub-list-item a {
     text-decoration: none;
     color: var(--primary);
-    padding-left: 20px !important;
+    /* padding-left: 20px !important; */
 }
 
 ul#propertiesSubmenu li.sidebar-sub-list-item:hover {

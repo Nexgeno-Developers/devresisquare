@@ -83,30 +83,58 @@
         </li>
 
         <li class="sidebar-list-item submenu_wrapper">
-            <a href="#repairSubmenu" data-bs-toggle="collapse" aria-expanded="
-                {{
-                    request()->routeIs('admin.property_repairs.index') ||
-                    request()->routeIs('admin.property_repairs.create') ? 'true' : 'false'
-                }} "
-                class="dropdown-toggle {{ request()->routeIs('admin.property_repairs.show') || request()->routeIs('admin.property_repairs.edit') || request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.create') ? 'active' : '' }}">
+            <a href="#repairSubmenu" data-bs-toggle="collapse"
+                aria-expanded="{{ request()->routeIs('admin.property_repairs.*') ? 'true' : 'false' }}"
+                class="dropdown-toggle {{ request()->routeIs('admin.property_repairs.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-building"></i> Repair
             </a>
-            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('admin.property_repairs.show') || request()->routeIs('admin.property_repairs.edit') || request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.create') ? 'show' : '' }}"
+            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('admin.property_repairs.*') ? 'show' : '' }}"
                 id="repairSubmenu">
-                <li class="sidebar-sub-list-item">
-                    <a class="{{ request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.show') ? 'active' : '' }}"
-                        href="{{ route('admin.property_repairs.index') }}">
-                        <i class="fa-solid fa-eye"></i> View Repair issues
-                    </a>
-                </li>
+                <!-- Raise Repair Issue -->
                 <li class="sidebar-sub-list-item">
                     <a class="{{ request()->routeIs('admin.property_repairs.create') || request()->routeIs('admin.property_repairs.edit') ? 'active' : '' }}"
                         href="{{ route('admin.property_repairs.create') }}">
                         <i class="fa-solid fa-plus"></i> Raise Repair Issue
                     </a>
                 </li>
+
+                <!-- Repair Issues Section -->
+                <li class="sidebar-sub-list-item submenu_wrapper">
+                    <a href="#repairIssuesSubmenu" data-bs-toggle="collapse"
+                        aria-expanded="{{ request()->routeIs('admin.property_repairs.index') ? 'true' : 'false' }}"
+                        class="dropdown-toggle {{ request()->routeIs('admin.property_repairs.index') || request()->routeIs('admin.property_repairs.show') ? 'active' : '' }}">
+                        <i class="fa-solid fa-eye"></i> Repair Issues
+                    </a>
+                    <ul class="nav-third-level collapse list-unstyled {{ request()->routeIs('admin.property_repairs.index') ? 'show' : '' }}"
+                        id="repairIssuesSubmenu">
+
+                        <!-- "All" Status Option -->
+                        <li class="sidebar-sub-sub-list-item">
+                            <a href="{{ route('admin.property_repairs.index') }}"
+                                class="{{ request()->fullUrl() === route('admin.property_repairs.index') ? 'active' : '' }}">
+                                <i class="fa-solid fa-list"></i> All
+                            </a>
+                        </li>
+
+
+                        @php
+                            $statuses = ['Pending', 'Reported', 'Under Process', 'Work Completed', 'Invoice Received', 'Invoice Paid', 'Closed'];
+                            $currentStatus = request('status');
+                        @endphp
+
+                        @foreach($statuses as $status)
+                            <li class="sidebar-sub-sub-list-item">
+                                <a href="{{ route('admin.property_repairs.index', ['status' => $status]) }}"
+                                    class="{{ $currentStatus === $status ? 'active' : '' }}">
+                                    <i class="fa-solid fa-tag"></i> {{ $status }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
             </ul>
         </li>
+
 
         <li class="sidebar-list-item">
             <a href="#">
@@ -117,11 +145,21 @@
 
         <li class="sidebar-list-item submenu_wrapper">
             <a href="#masterManageSubmenu" data-bs-toggle="collapse"
-                aria-expanded="{{ request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index') || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'true' : 'false' }}"
-                class="dropdown-toggle {{ request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index') || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'active' : '' }}">
+                aria-expanded="{{ request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index')
+                || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create')
+                || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create')
+                || request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'true' : 'false' }}"
+                class="dropdown-toggle {{ request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index')
+                || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create')
+                || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create')
+                || request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'active' : '' }}">
                 <i class="fa-solid fa-cogs"></i> Master Manage
             </a>
-            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('contact-categories.index') || request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index') || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'show' : '' }}"
+            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('contact-categories.index')
+            || request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index')
+            || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create')
+            || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create')
+            || request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create')? 'show' : '' }}"
                 id="masterManageSubmenu">
 
                 <li class="sidebar-list-item">
@@ -190,6 +228,30 @@
                                 <i class="fa-solid fa-plus"></i> Add
                             </a>
                         </li>
+                    </ul>
+                </li>
+
+                <!-- Job Types Section -->
+                <li class="sidebar-sub-list-item submenu_wrapper">
+                    <a href="#jobTypesSubmenu" data-bs-toggle="collapse"
+                        aria-expanded="{{ request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'true' : 'false' }}"
+                        class="dropdown-toggle {{ request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'active' : '' }}">
+                        <i class="fa-solid fa-tools"></i> Job Types
+                    </a>
+                    <ul class="nav-third-level collapse list-unstyled {{ request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'show' : '' }}"
+                        id="jobTypesSubmenu">
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ request()->routeIs('admin.job_types.index') ? 'active' : '' }}"
+                                href="{{ route('admin.job_types.index') }}">
+                                <i class="fa-solid fa-eye"></i> View All
+                            </a>
+                        </li>
+                        {{-- <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ request()->routeIs('admin.job_types.create') ? 'active' : '' }}"
+                                href="{{ route('admin.job_types.create') }}">
+                                <i class="fa-solid fa-plus"></i> Add
+                            </a>
+                        </li> --}}
                     </ul>
                 </li>
             </ul>

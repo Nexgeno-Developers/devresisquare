@@ -7,8 +7,232 @@
 }
 
 </style>
-<div class="container">
-    <h1>Edit Repair Issue</h1>
+    <div class="row align-items-center m-4">
+        <div class="col-6">
+            <h1>Edit Repair Issue</h1>
+        </div>
+        <div class="col-6">
+            <button class=" float-end btn btn-primary" data-bs-toggle="modal" data-bs-target="#workOrderModal">Work Order</button>
+        </div>
+    </div>
+
+    <!-- Work Order Modal -->
+    <div class="modal fade" id="workOrderModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="workOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="workOrderModalLabel">Work Order Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="workOrderForm">
+                        @csrf
+                        <input type="hidden" name="work_order_id" id="work_order_id">
+                        <input type="hidden" name="repair_issue_id" value="{{ $repairIssue->id }}">
+                       
+                        <div class="row">
+                            <h6 class="display-6">Job Details</h6>
+                            <hr>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Property Address</label>
+                                    <p class="set-property-address"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">                                    
+                                    <label class="form-label">Job Status</label>
+                                    <select required name="job_status" class="form-control">
+                                        <option value="Quote">Quote</option>
+                                        <option value="Awarded">Awarded</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">                                    
+                                    <label class="form-label">Job Type</label>
+                                    <select required name="job_type_id" id="jobTypeSelect" class="form-control">
+                                        <option value="">Select Job Type</option>
+                                        @foreach ($jobTypes as $type)
+                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Job Sub Type</label>
+                                    <select name="job_sub_type_id" id="jobSubTypeSelect" class="form-control">
+                                        <option value="">Select Job Sub Type</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- <div class="col-md-6 mb-3">
+                                <label class="form-label">Job Type</label>
+                                <select name="job_type" class="form-control">
+                                    <option value="">Select Job Type</option>
+                                    <option value="Check In">Check In</option>
+                                    <option value="Check Out">Check Out</option>
+                                    <option value="Professional Clean">Professional Clean</option>
+                                    <option value="Repair Work">Repair Work</option>
+                                    <option value="Gas Safety Certification">Gas Safety Certification</option>
+                                    <option value="EICR">EICR</option>
+                                    <option value="EPC">EPC</option>
+                                    <option value="PAT">PAT</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Job Sub Type</label>
+                                <select name="job_sub_type" class="form-control">
+                                    <option value="">Select Job Sub Type</option>
+                                    <option value="Plumbing">Plumbing</option>
+                                    <option value="Handyman Work">Handyman Work</option>
+                                    <option value="Electrical Works">Electrical Works</option>
+                                    <option value="Carpentry">Carpentry</option>
+                                    <option value="Painting & Decorating">Painting & Decorating</option>
+                                    <option value="Locksmith">Locksmith</option>
+                                </select>
+                            </div> --}}
+
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Job Scope</label>
+                                    <textarea required name="job_scope" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Tentative Start Date</label>
+                                    <input required type="date" name="tentative_start_date" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Tentative End Date</label>
+                                    <input type="date" name="tentative_end_date" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Booked Date</label>
+                                    <input type="date" name="booked_date" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-md-5">
+                            <h6 class="display-6">Invoice Details</h6>
+                            <hr>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label d-block">Invoice To</label>
+                        
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="invoice_to" value="Landlord" id="invoice_landlord" required>
+                                        <label class="form-check-label" for="invoice_landlord">Landlord</label>
+                                    </div>
+                        
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="invoice_to" value="Tenant" id="invoice_tenant">
+                                        <label class="form-check-label" for="invoice_tenant">Tenant</label>
+                                    </div>
+                        
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="invoice_to" value="Company" id="invoice_company">
+                                        <label class="form-check-label" for="invoice_company">Company</label>
+                                    </div>
+                        
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Payment Terms</label>
+                                    <select required name="payment_by" class="form-control">
+                                        <option value="Landlord">Landlord</option>
+                                        <option value="Tenant">Tenant</option>
+                                        <option value="Company">Company</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Estimated Cost</label>
+                                    <input required type="number" step="0.01" name="estimated_cost" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Quote Attachment</label>
+                                    <input type="file" name="quote_attachment" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Actual Cost</label>
+                                    <input required type="number" step="0.01" name="actual_cost" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Charge to Landlord</label>
+                                    <input type="number" step="0.01" name="charge_to_landlord" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Status</label>
+                                    <select required name="status" class="form-control">
+                                        <option value="Raised">Raised</option>
+                                        <option value="Outstanding">Outstanding</option>
+                                        <option value="Invoice Raised to Landlord">Invoice Raised to Landlord</option>
+                                        <option value="Invoice Received from Landlord">Invoice Received from Landlord</option>
+                                        <option value="Completed - Invoice Received">Completed - Invoice Received</option>
+                                        <option value="Completed - Invoice Paid">Completed - Invoice Paid</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Date</label>
+                                    <input required type="datetime-local" name="date" id="date" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Extra Notes</label>
+                                    <textarea required name="extra_notes" id="extra_notes" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="work_order_save_btn" class="btn btn-success">Save Work Order</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <form id="repair-form-page" action="{{ route('admin.property_repairs.update', $repairIssue->id) }}" method="POST">
         @csrf
@@ -361,6 +585,62 @@
     // Each contractor assignment should have at least: contractor_id, cost_price, contractor_preferred_availability.
     var savedContractorAssignments = {!! json_encode($contractorAssignments->toArray()) !!};
     console.log("Saved Contractor Assignments:", savedContractorAssignments);
+
+    $(document).ready(function () {        
+        $('#jobTypeSelect').change(function () {
+            var jobTypeId = $(this).val();
+            var url = "{{ route('admin.job_types.getSubCategories', ':id') }}"; 
+            url = url.replace(':id', jobTypeId);
+
+            $('#jobSubTypeSelect').html('<option value="">Loading...</option>');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (response) {
+                    $('#jobSubTypeSelect').html('<option value="">Select Job Sub Type</option>');
+                    $.each(response, function (key, value) {
+                        $('#jobSubTypeSelect').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                },
+                error: function () {
+                    $('#jobSubTypeSelect').html('<option value="">No Sub Types Found</option>');
+                }
+            });
+        });
+        
+        $("button[id='work_order_save_btn']").on('click', function(e) {
+            e.preventDefault();
+            initValidate('#workOrderForm');
+        });
+
+        $('#workOrderForm').submit(function (e) {
+            e.preventDefault();
+            // if(initValidate(this)){
+                var formData = new FormData(this);
+                $.ajax({
+                    url: "{{ route('admin.work_orders.store') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        AIZ.plugins.notify('success', response.message);
+                        $('#workOrderModal').modal('hide');
+                        location.reload(); // Refresh the page to show new work orders
+                    },
+                    error: function (error) {
+                        console.error(error);
+                        let errorMessage = error.responseJSON?.message || 'Error Creating Work Order';
+                        AIZ.plugins.notify('danger', errorMessage);
+                    }
+                    // error: function (xhr) {
+                    //     alert("Error Creating Work Order: " + xhr.responseJSON.message);
+                    // }
+                });
+            // }
+        });
+    });
 </script>
 <script>
     $(document).ready(function () {
@@ -486,7 +766,18 @@
         }
 
         initSelectedProperties();
+        
+        // Function to get the selected property address from the table
+        function getSelectedPropertyAddress() {
+            var selectedProperty = $('#dynamic_property_table tbody tr:first td:first').text(); // Get first row's address column
+            return selectedProperty ? selectedProperty.trim() : 'N/A';
+        }
 
+        // When the Work Order modal is opened, set the property address
+        $(document).on('click', '#workOrderModal', function () {
+            var propertyAddress = getSelectedPropertyAddress();
+            $('.set-property-address').text(propertyAddress); // Set address in modal
+        });
 
         $(document).on('keyup keydown', '#search_property1', function () {
             var query = $(this).val().trim();

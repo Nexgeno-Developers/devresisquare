@@ -64,7 +64,7 @@
                                 <div class="form-group"> 
                                     <label class="form-label">Job Sub Type</label>
                                     <select name="job_sub_type_id" id="jobSubTypeSelect" class="form-control">
-                                        <option value="">Select Job Sub Type</option>
+                                        <option disabled aria-disabled="true" value="">Select Job Sub Type</option>
                                     </select>
                                 </div>
                             </div>
@@ -150,10 +150,28 @@
                         
                                 </div>
                             </div>
-                        </div>
-                        
+                            
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Quote Attachment</label>
+                                    <input type="file" name="quote_attachment" class="form-control">
+                                </div>
+                            </div>
 
-                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Actual Cost</label>
+                                    <input required type="number" step="0.01" name="actual_cost" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group"> 
+                                    <label class="form-label">Charge to Landlord</label>
+                                    <input type="number" step="0.01" name="charge_to_landlord" class="form-control">
+                                </div>
+                            </div>
+
                             <div class="col-md-6 mb-3">
                                 <div class="form-group"> 
                                     <label class="form-label">Payment Terms</label>
@@ -165,35 +183,15 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group"> 
                                     <label class="form-label">Estimated Cost</label>
                                     <input required type="number" step="0.01" name="estimated_cost" class="form-control">
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <div class="form-group"> 
-                                    <label class="form-label">Quote Attachment</label>
-                                    <input type="file" name="quote_attachment" class="form-control">
-                                </div>
-                            </div>
 
-                            <div class="col-md-4 mb-3">
-                                <div class="form-group"> 
-                                    <label class="form-label">Actual Cost</label>
-                                    <input required type="number" step="0.01" name="actual_cost" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <div class="form-group"> 
-                                    <label class="form-label">Charge to Landlord</label>
-                                    <input type="number" step="0.01" name="charge_to_landlord" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group"> 
                                     <label class="form-label">Status</label>
                                     <select required name="status" class="form-control">
@@ -208,18 +206,37 @@
                                 </div>
                             </div>
 
-
-                            <div class="mb-3">
-                                <div class="form-group"> 
-                                    <label class="form-label">Date</label>
-                                    <input required type="datetime-local" name="date" id="date" class="form-control" required>
+                            {{-- <div class="col-md-3 mb-3">
+                                <div class="mb-3">
+                                    <div class="form-group"> 
+                                        <label class="form-label">Date</label>
+                                        <input required type="date" name="date" id="date" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="mb-3">
+                                    <div class="form-group"> 
+                                        <label class="form-label">Time</label>
+                                        <input required type="time" name="time" id="time" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="col-md-6 mb-3">
+                                <div class="mb-3">
+                                    <div class="form-group"> 
+                                        <label class="form-label">Date</label>
+                                        <input required type="datetime-local" name="date_time" id="date" class="form-control" required>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <div class="form-group"> 
-                                    <label class="form-label">Extra Notes</label>
-                                    <textarea required name="extra_notes" id="extra_notes" class="form-control"></textarea>
+                            <div class="col-md-12 mb-3">
+                                <div class="mb-3">
+                                    <div class="form-group"> 
+                                        <label class="form-label">Extra Notes</label>
+                                        <textarea required name="extra_notes" id="extra_notes" class="form-control"></textarea>
+                                    </div>
                                 </div>
                             </div>
 
@@ -571,6 +588,51 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Work Order Details</h5>
+                    </div>
+                    <div class="card-body">
+                        @if($repairIssue->workOrders->isNotEmpty())
+                            @foreach($repairIssue->workOrders as $workOrder)
+                                <div class="mb-3">
+                                    <h6 class="text-secondary">Work Order #{{ $workOrder->works_order_no }}</h6>
+                                    <p><strong>Job Status:</strong> {{ $workOrder->job_status }}</p>
+                                    <p><strong>Job Type:</strong> {{ optional($workOrder->jobType)->name }}</p>
+                                    <p><strong>Job Sub Type:</strong> {{ optional($workOrder->jobSubType)->name }}</p>
+                                    <p><strong>Job Scope:</strong> {{ $workOrder->job_scope }}</p>
+                                    <p><strong>Tentative Start Date:</strong> {{ $workOrder->tentative_start_date }}</p>
+                                    <p><strong>Booked Date:</strong> {{ $workOrder->booked_date }}</p>
+                                    <p><strong>Invoice To:</strong> {{ $workOrder->invoice_to }}</p>
+                                    <p><strong>Payment By:</strong> {{ $workOrder->payment_by }}</p>
+                                    <p><strong>Estimated Cost:</strong> ${{ number_format($workOrder->estimated_cost, 2) }}</p>
+                                    <p><strong>Actual Cost:</strong> ${{ number_format($workOrder->actual_cost, 2) }}</p>
+                                    <p><strong>Status:</strong> 
+                                        <span class="badge bg-success">{{ $workOrder->status }}</span>
+                                    </p>
+                                    <p><strong>Extra Notes:</strong> {{ $workOrder->extra_notes }}</p>
+    
+                                    <!-- Quote Attachment (if available) -->
+                                    @if($workOrder->quote_attachment)
+                                        <p><strong>Quote Attachment:</strong> 
+                                            <a href="{{ asset('storage/' . optional($workOrder->quoteAttachment)->file_name) }}" target="_blank" class="btn btn-sm btn-secondary">View File</a>
+                                        </p>
+                                    @endif
+                                </div>
+                                <hr>
+                            @endforeach
+                        @else
+                            <p class="text-danger">No work orders found for this issue.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+        
         <button type="submit" class="float-end btn btn-primary">Update</button>
     </form>
 
@@ -598,47 +660,46 @@
                 url: url,
                 type: 'GET',
                 success: function (response) {
-                    $('#jobSubTypeSelect').html('<option value="">Select Job Sub Type</option>');
+                    $('#jobSubTypeSelect').html('<option disabled value="">Select Job Sub Type</option>');
                     $.each(response, function (key, value) {
                         $('#jobSubTypeSelect').append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
                 },
                 error: function () {
-                    $('#jobSubTypeSelect').html('<option value="">No Sub Types Found</option>');
+                    $('#jobSubTypeSelect').html('<option disabled value="">No Sub Types Found</option>');
                 }
             });
         });
         
-        $("button[id='work_order_save_btn']").on('click', function(e) {
-            e.preventDefault();
-            initValidate('#workOrderForm');
-        });
+        // $("button[id='work_order_save_btn']").on('click', function(e) {
+        //     e.preventDefault();
+        //     initValidate('#workOrderForm');
+        // });
 
         $('#workOrderForm').submit(function (e) {
             e.preventDefault();
-            // if(initValidate(this)){
-                var formData = new FormData(this);
-                $.ajax({
-                    url: "{{ route('admin.work_orders.store') }}",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        AIZ.plugins.notify('success', response.message);
-                        $('#workOrderModal').modal('hide');
-                        location.reload(); // Refresh the page to show new work orders
-                    },
-                    error: function (error) {
-                        console.error(error);
-                        let errorMessage = error.responseJSON?.message || 'Error Creating Work Order';
-                        AIZ.plugins.notify('danger', errorMessage);
-                    }
-                    // error: function (xhr) {
-                    //     alert("Error Creating Work Order: " + xhr.responseJSON.message);
-                    // }
-                });
-            // }
+            initValidate(this);
+            var formData = new FormData(this);
+            $.ajax({
+                url: "{{ route('admin.work_orders.store') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    AIZ.plugins.notify('success', response.message);
+                    $('#workOrderModal').modal('hide');
+                    location.reload(); // Refresh the page to show new work orders
+                },
+                error: function (error) {
+                    console.error(error);
+                    let errorMessage = error.responseJSON?.message || 'Error Creating Work Order';
+                    AIZ.plugins.notify('danger', errorMessage);
+                }
+                // error: function (xhr) {
+                //     alert("Error Creating Work Order: " + xhr.responseJSON.message);
+                // }
+            });
         });
     });
 </script>

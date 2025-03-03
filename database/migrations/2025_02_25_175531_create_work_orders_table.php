@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,34 +15,22 @@ return new class extends Migration
             $table->string('works_order_no')->unique();
             $table->foreignId('repair_issue_id')->constrained()->onDelete('cascade');
             // $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->onDelete('set null');
-
-            // Job Type & Job Sub Type (Foreign Keys)
             $table->foreignId('job_type_id')->nullable()->constrained('job_types')->onDelete('set null');
             $table->foreignId('job_sub_type_id')->nullable()->constrained('job_types')->onDelete('set null');
-
-            $table->string('job_reference_no')->nullable();
-            $table->text('job_description')->nullable();
-            $table->date('date');
-            $table->time('time')->nullable();
+            $table->string('job_status')->nullable();
+            $table->text('job_scope')->nullable();
+            $table->dateTime('date_time')->nullable();
+            $table->string('invoice_to')->nullable();
+            $table->date('tentative_start_date')->nullable();
+            $table->date('tentative_end_date')->nullable();
+            $table->date('booked_date')->nullable();
+            $table->string('quote_attachment')->nullable(); // Quote Attachment (File Path)
+            $table->decimal('actual_cost', 10, 2)->nullable(); // Actual Cost
+            $table->decimal('charge_to_landlord', 10, 2)->nullable(); // Landlord Charge
+            $table->string('payment_by')->nullable(); // Payment Terms
+            $table->decimal('estimated_cost', 10, 2)->nullable(); // Estimated Cost
             $table->text('extra_notes')->nullable();
-
-            // Contact & Invoice Details
-            $table->string('invoice_to_name')->nullable();
-            $table->string('invoice_to_address')->nullable();
-            $table->string('invoice_to_email')->nullable();
-            $table->string('contact_name')->nullable();
-            $table->string('contact_number')->nullable();
-
-            // Full Access Details
-            $table->text('full_access_details')->nullable();
-
-            // Problem Description
-            $table->text('problem_issue')->nullable();
-            $table->boolean('photos_videos_attached')->default(false);
-            $table->boolean('floor_plan_attached')->default(false);
-
-            // Status & Timestamps
-            $table->enum('status', ['Pending', 'In Progress', 'Completed', 'Cancelled'])->default('Pending');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

@@ -168,7 +168,8 @@ class PropertyRepairController
             'repairHistories',
             'repairIssueContacts',
             'repairPhotos',
-            'property' // Eager load the related property
+            'property',
+            'workOrders'
         ])->findOrFail($id);
 
         // Load additional data for the form:

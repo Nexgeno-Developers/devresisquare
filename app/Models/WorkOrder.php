@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Upload;
 
 class WorkOrder extends Model
 {
@@ -12,26 +13,22 @@ class WorkOrder extends Model
     protected $fillable = [
         'works_order_no',
         'repair_issue_id',
-        // 'supplier_id',
         'job_type_id',
         'job_sub_type_id',
-        'job_reference_no',
-        'job_description',
-        // 'property_id',
-        // 'property_address',
-        'date',
-        'time',
-        'extra_notes',
-        'invoice_to_name',
-        'invoice_to_address',
-        'invoice_to_email',
-        'contact_name',
-        'contact_number',
-        'full_access_details',
-        'problem_issue',
-        'photos_videos_attached',
-        'floor_plan_attached',
+        'job_status',
+        'job_scope',
+        'tentative_start_date',
+        'tentative_end_date',
+        'booked_date',
+        'invoice_to',
+        'quote_attachment',
+        'actual_cost',
+        'charge_to_landlord',
+        'payment_by',
+        'estimated_cost',
         'status',
+        'extra_notes',
+        'date_time',
     ];
 
     // Relationship with RepairIssue
@@ -40,6 +37,10 @@ class WorkOrder extends Model
         return $this->belongsTo(RepairIssue::class);
     }
 
+    public function quoteAttachment()
+    {
+        return $this->belongsTo(Upload::class, 'quote_attachment');
+    }
     // Relationship with Supplier
     // public function supplier()
     // {

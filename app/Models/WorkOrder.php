@@ -41,6 +41,17 @@ class WorkOrder extends Model
     {
         return $this->belongsTo(Upload::class, 'quote_attachment');
     }
+
+    public function jobType()
+    {
+        return $this->belongsTo(JobType::class, 'job_type_id');
+    }
+
+    public function jobSubType()
+    {
+        return $this->belongsTo(JobType::class, 'job_sub_type_id'); // Assuming both types are from `job_types` table
+    }
+
     // Relationship with Supplier
     // public function supplier()
     // {

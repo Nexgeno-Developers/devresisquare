@@ -169,7 +169,8 @@ class PropertyRepairController
             'repairIssueContacts',
             'repairPhotos',
             'property',
-            'workOrders'
+            'workOrder'
+            // 'workOrders'
         ])->findOrFail($id);
 
         // Load additional data for the form:

@@ -89,4 +89,14 @@ class WorkOrderController
         // Format the new reference number (e.g., RESISQREP0000001)
         return 'RESISQREWO' . str_pad($number, 7, '0', STR_PAD_LEFT);
     }
+
+    public function getWorkOrder($repairIssueId)
+    {
+        $workOrder = WorkOrder::where('repair_issue_id', $repairIssueId)->first();
+
+        return response()->json([
+            'work_order' => $workOrder
+        ]);
+    }
+
 }

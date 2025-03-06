@@ -101,9 +101,13 @@ class RepairIssue extends Model
         return $this->belongsTo(Contact::class, 'tenant_id')
             ->where('category_id', 3);
     }
-    public function workOrders()
+    // public function workOrders()
+    // {
+    //     return $this->hasMany(WorkOrder::class);
+    // }
+    public function workOrder()
     {
-        return $this->hasMany(WorkOrder::class);
+        return $this->hasOne(WorkOrder::class, 'repair_issue_id');
     }
-    
+
 }

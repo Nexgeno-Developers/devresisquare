@@ -127,6 +127,24 @@ if (! function_exists('formatDate')) {
     }
 }
 
+if (! function_exists('formatDateTime')) {
+    /**
+     * Format date & time to dd/mm/yyyy H:i A.
+     *
+     * @param  string  $dateTime
+     * @return string|null
+     */
+    function formatDateTime($dateTime)
+    {
+        // Check if the dateTime is not null or empty
+        if ($dateTime) {
+            return \Carbon\Carbon::parse($dateTime)->format('d/m/Y h:i A');
+        }
+        return null; // Return null if no date is provided
+    }
+}
+
+
 if (! function_exists('booleanToYesNo')) {
     /**
      * Convert 0 or 1 to 'No' or 'Yes'.

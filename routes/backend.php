@@ -213,6 +213,8 @@ Route::middleware('auth')->group(function () {
         Route::prefix('/work-orders')->group(function () {
             Route::controller(WorkOrderController::class)->group(function () {
                 Route::post('/store', 'store')->name('work_orders.store'); // Save new work order
+                Route::get('/get/{repairIssueId}',  'getWorkOrder')->name('work_orders.get'); // Get work order by repair issue id
+
             });
         });
         

@@ -142,121 +142,162 @@
             </a>
         </li>
         <hr>
-
+        
+        <!-- Website Setup -->
         <li class="sidebar-list-item submenu_wrapper">
-            <a href="#masterManageSubmenu" data-bs-toggle="collapse"
-                aria-expanded="{{ request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index')
-                || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create')
-                || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create')
-                || request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'true' : 'false' }}"
-                class="dropdown-toggle {{ request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index')
-                || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create')
-                || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create')
-                || request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'active' : '' }}">
-                <i class="fa-solid fa-cogs"></i> Master Manage
+            <a href="#websiteSetupSubmenu" data-bs-toggle="collapse"
+                aria-expanded="{{ areActiveRoutes(['website.footer', 'website.header', 'website.appearance'], 'true') }}"
+                class="dropdown-toggle {{ areActiveRoutes(['website.footer', 'website.header', 'website.appearance']) }}">
+                <i class="las la-desktop aiz-side-nav-icon"></i>
+                <span class="aiz-side-nav-text">Website Setup</span>
+                <span class="aiz-side-nav-arrow"></span>
             </a>
-            <ul class="nav-second-level collapse list-unstyled {{ request()->routeIs('contact-categories.index')
-            || request()->routeIs('admin.branches.index') || request()->routeIs('admin.designations.index')
-            || request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create')
-            || request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create')
-            || request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create')? 'show' : '' }}"
-                id="masterManageSubmenu">
-
-                <li class="sidebar-list-item">
-                    <a class="{{ request()->routeIs('contact-categories.index') ? 'active' : '' }}"
-                        href="{{ route('contact-categories.index') }}">
-                        <i class="fa-solid fa-tags"></i> Categories
+            <ul class="aiz-side-nav-list level-2 collapse {{ areActiveRoutes(['website.footer', 'website.header', 'website.appearance'], 'show') }}"
+                id="websiteSetupSubmenu">
+                <li class="sidebar-sub-list-item">
+                    <a href="{{ route('website.header') }}" class="aiz-side-nav-link {{ areActiveRoutes(['website.header']) }}">
+                        <span class="aiz-side-nav-text">Header</span>
                     </a>
                 </li>
-
-                <li class="sidebar-list-item">
-                    <a class="{{ request()->routeIs('admin.branches.index') ? 'active' : '' }}"
-                        href="{{ route('admin.branches.index') }}">
-                        <i class="fa-solid fa-sitemap"></i> Branches
+                <li class="sidebar-sub-list-item">
+                    <a href="{{ route('website.footer') }}" class="aiz-side-nav-link {{ areActiveRoutes(['website.footer']) }}">
+                        <span class="aiz-side-nav-text">Footer</span>
                     </a>
                 </li>
-
-                <li class="sidebar-list-item">
-                    <a class="{{ request()->routeIs('admin.designations.index') ? 'active' : '' }}"
-                        href="{{ route('admin.designations.index') }}">
-                        <i class="fa-solid fa-user-tag"></i> Designation
+                <li class="sidebar-sub-list-item">
+                    <a href="{{ route('website.appearance') }}" class="aiz-side-nav-link {{ areActiveRoutes(['website.appearance']) }}">
+                        <span class="aiz-side-nav-text">Appearance</span>
                     </a>
-                </li>
-
-                <!-- Tenancy Types Section -->
-                <li class="sidebar-sub-list-item submenu_wrapper">
-                    <a href="#tenancyTypesSubmenu" data-bs-toggle="collapse"
-                        aria-expanded="{{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') ? 'true' : 'false' }}"
-                        class="dropdown-toggle {{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') ? 'active' : '' }}">
-                        <i class="fa-solid fa-clipboard-list"></i> Tenancy Types
-                    </a>
-                    <ul class="nav-third-level collapse list-unstyled {{ request()->routeIs('admin.tenancy_types.index') || request()->routeIs('admin.tenancy_types.create') ? 'show' : '' }}"
-                        id="tenancyTypesSubmenu">
-                        <li class="sidebar-sub-sub-list-item">
-                            <a class="{{ request()->routeIs('admin.tenancy_types.index') ? 'active' : '' }}"
-                                href="{{ route('admin.tenancy_types.index') }}">
-                                <i class="fa-solid fa-eye"></i> View All
-                            </a>
-                        </li>
-                        <li class="sidebar-sub-sub-list-item">
-                            <a class="{{ request()->routeIs('admin.tenancy_types.create') ? 'active' : '' }}"
-                                href="{{ route('admin.tenancy_types.create') }}">
-                                <i class="fa-solid fa-plus"></i> Add
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Tenancy Sub Status Section -->
-                <li class="sidebar-sub-list-item submenu_wrapper">
-                    <a href="#tenancySubStatusSubmenu" data-bs-toggle="collapse"
-                        aria-expanded="{{ request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'true' : 'false' }}"
-                        class="dropdown-toggle {{ request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'active' : '' }}">
-                        <i class="fa-solid fa-stream"></i> Tenancy Sub Status
-                    </a>
-                    <ul class="nav-third-level collapse list-unstyled {{ request()->routeIs('admin.tenancy_sub_statuses.index') || request()->routeIs('admin.tenancy_sub_statuses.create') ? 'show' : '' }}"
-                        id="tenancySubStatusSubmenu">
-                        <li class="sidebar-sub-sub-list-item">
-                            <a class="{{ request()->routeIs('admin.tenancy_sub_statuses.index') ? 'active' : '' }}"
-                                href="{{ route('admin.tenancy_sub_statuses.index') }}">
-                                <i class="fa-solid fa-eye"></i> View All
-                            </a>
-                        </li>
-                        <li class="sidebar-sub-sub-list-item">
-                            <a class="{{ request()->routeIs('admin.tenancy_sub_statuses.create') ? 'active' : '' }}"
-                                href="{{ route('admin.tenancy_sub_statuses.create') }}">
-                                <i class="fa-solid fa-plus"></i> Add
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Job Types Section -->
-                <li class="sidebar-sub-list-item submenu_wrapper">
-                    <a href="#jobTypesSubmenu" data-bs-toggle="collapse"
-                        aria-expanded="{{ request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'true' : 'false' }}"
-                        class="dropdown-toggle {{ request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'active' : '' }}">
-                        <i class="fa-solid fa-tools"></i> Job Types
-                    </a>
-                    <ul class="nav-third-level collapse list-unstyled {{ request()->routeIs('admin.job_types.index') || request()->routeIs('admin.job_types.create') ? 'show' : '' }}"
-                        id="jobTypesSubmenu">
-                        <li class="sidebar-sub-sub-list-item">
-                            <a class="{{ request()->routeIs('admin.job_types.index') ? 'active' : '' }}"
-                                href="{{ route('admin.job_types.index') }}">
-                                <i class="fa-solid fa-eye"></i> View All
-                            </a>
-                        </li>
-                        {{-- <li class="sidebar-sub-sub-list-item">
-                            <a class="{{ request()->routeIs('admin.job_types.create') ? 'active' : '' }}"
-                                href="{{ route('admin.job_types.create') }}">
-                                <i class="fa-solid fa-plus"></i> Add
-                            </a>
-                        </li> --}}
-                    </ul>
                 </li>
             </ul>
         </li>
 
+        <li class="sidebar-list-item submenu_wrapper">
+            <a href="#masterManageSubmenu" data-bs-toggle="collapse"
+                aria-expanded="{{ areActiveRoutes([
+                    'admin.branches.index', 
+                    'admin.designations.index', 
+                    'admin.tenancy_types.index', 
+                    'admin.tenancy_types.create', 
+                    'admin.tenancy_sub_statuses.index', 
+                    'admin.tenancy_sub_statuses.create', 
+                    'admin.job_types.index', 
+                    'admin.job_types.create'
+                ], 'true') }}"
+                class="dropdown-toggle {{ areActiveRoutes([
+                    'admin.branches.index', 
+                    'admin.designations.index', 
+                    'admin.tenancy_types.index', 
+                    'admin.tenancy_types.create', 
+                    'admin.tenancy_sub_statuses.index', 
+                    'admin.tenancy_sub_statuses.create', 
+                    'admin.job_types.index', 
+                    'admin.job_types.create'
+                ]) }}">
+                <i class="fa-solid fa-cogs"></i> Master Manage
+            </a>
+            <ul class="nav-second-level collapse list-unstyled {{ areActiveRoutes([
+                'contact-categories.index', 
+                'admin.branches.index', 
+                'admin.designations.index', 
+                'admin.tenancy_types.index', 
+                'admin.tenancy_types.create', 
+                'admin.tenancy_sub_statuses.index', 
+                'admin.tenancy_sub_statuses.create', 
+                'admin.job_types.index', 
+                'admin.job_types.create'
+            ], 'show') }}"
+                id="masterManageSubmenu">
+        
+                <li class="sidebar-list-item">
+                    <a class="{{ areActiveRoutes(['contact-categories.index']) }}"
+                       href="{{ route('contact-categories.index') }}">
+                        <i class="fa-solid fa-tags"></i> Categories
+                    </a>
+                </li>
+        
+                <li class="sidebar-list-item">
+                    <a class="{{ areActiveRoutes(['admin.branches.index']) }}"
+                       href="{{ route('admin.branches.index') }}">
+                        <i class="fa-solid fa-sitemap"></i> Branches
+                    </a>
+                </li>
+        
+                <li class="sidebar-list-item">
+                    <a class="{{ areActiveRoutes(['admin.designations.index']) }}"
+                       href="{{ route('admin.designations.index') }}">
+                        <i class="fa-solid fa-user-tag"></i> Designation
+                    </a>
+                </li>
+        
+                <!-- Tenancy Types Section -->
+                <li class="sidebar-sub-list-item submenu_wrapper">
+                    <a href="#tenancyTypesSubmenu" data-bs-toggle="collapse"
+                       aria-expanded="{{ areActiveRoutes(['admin.tenancy_types.index', 'admin.tenancy_types.create'], 'true') }}"
+                       class="dropdown-toggle {{ areActiveRoutes(['admin.tenancy_types.index', 'admin.tenancy_types.create']) }}">
+                        <i class="fa-solid fa-clipboard-list"></i> Tenancy Types
+                    </a>
+                    <ul class="nav-third-level collapse list-unstyled {{ areActiveRoutes(['admin.tenancy_types.index', 'admin.tenancy_types.create'], 'show') }}"
+                        id="tenancyTypesSubmenu">
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ areActiveRoutes(['admin.tenancy_types.index']) }}"
+                               href="{{ route('admin.tenancy_types.index') }}">
+                                <i class="fa-solid fa-eye"></i> View All
+                            </a>
+                        </li>
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ areActiveRoutes(['admin.tenancy_types.create']) }}"
+                               href="{{ route('admin.tenancy_types.create') }}">
+                                <i class="fa-solid fa-plus"></i> Add
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+        
+                <!-- Tenancy Sub Status Section -->
+                <li class="sidebar-sub-list-item submenu_wrapper">
+                    <a href="#tenancySubStatusSubmenu" data-bs-toggle="collapse"
+                       aria-expanded="{{ areActiveRoutes(['admin.tenancy_sub_statuses.index', 'admin.tenancy_sub_statuses.create'], 'true') }}"
+                       class="dropdown-toggle {{ areActiveRoutes(['admin.tenancy_sub_statuses.index', 'admin.tenancy_sub_statuses.create']) }}">
+                        <i class="fa-solid fa-stream"></i> Tenancy Sub Status
+                    </a>
+                    <ul class="nav-third-level collapse list-unstyled {{ areActiveRoutes(['admin.tenancy_sub_statuses.index', 'admin.tenancy_sub_statuses.create'], 'show') }}"
+                        id="tenancySubStatusSubmenu">
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ areActiveRoutes(['admin.tenancy_sub_statuses.index']) }}"
+                               href="{{ route('admin.tenancy_sub_statuses.index') }}">
+                                <i class="fa-solid fa-eye"></i> View All
+                            </a>
+                        </li>
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ areActiveRoutes(['admin.tenancy_sub_statuses.create']) }}"
+                               href="{{ route('admin.tenancy_sub_statuses.create') }}">
+                                <i class="fa-solid fa-plus"></i> Add
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+        
+                <!-- Job Types Section -->
+                <li class="sidebar-sub-list-item submenu_wrapper">
+                    <a href="#jobTypesSubmenu" data-bs-toggle="collapse"
+                       aria-expanded="{{ areActiveRoutes(['admin.job_types.index', 'admin.job_types.create'], 'true') }}"
+                       class="dropdown-toggle {{ areActiveRoutes(['admin.job_types.index', 'admin.job_types.create']) }}">
+                        <i class="fa-solid fa-tools"></i> Job Types
+                    </a>
+                    <ul class="nav-third-level collapse list-unstyled {{ areActiveRoutes(['admin.job_types.index', 'admin.job_types.create'], 'show') }}"
+                        id="jobTypesSubmenu">
+                        <li class="sidebar-sub-sub-list-item">
+                            <a class="{{ areActiveRoutes(['admin.job_types.index']) }}"
+                               href="{{ route('admin.job_types.index') }}">
+                                <i class="fa-solid fa-eye"></i> View All
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        
         <li class="sidebar-list-item">
             <a href="#">
                 <i class="fa-solid fa-users"></i> Users

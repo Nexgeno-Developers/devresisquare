@@ -8,8 +8,10 @@ use App\Http\Controllers\Backend\BranchController;
 use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\JobTypeController;
 use App\Http\Controllers\Backend\TenancyController;
+use App\Http\Controllers\Backend\WebsiteController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\WorkOrderController;
 use App\Http\Controllers\Backend\ComplianceController;
 use App\Http\Controllers\Backend\OwnerGroupController;
 use App\Http\Controllers\Backend\DesignationController;
@@ -18,9 +20,9 @@ use App\Http\Controllers\Backend\AuthenticateController;
 use App\Http\Controllers\Backend\EstateChargeController;
 use App\Http\Controllers\Backend\PropertyRepairController;
 use App\Http\Controllers\Backend\ContactCategoryController;
+use App\Http\Controllers\Backend\BusinessSettingsController;
 use App\Http\Controllers\Backend\EstateChargeItemController;
 use App\Http\Controllers\Backend\TenancySubStatusController;
-use App\Http\Controllers\Backend\WorkOrderController;
 
 // Login Routes
 Route::get('/login', [AuthenticateController::class, 'index'])->name('backend.login');
@@ -217,9 +219,22 @@ Route::middleware('auth')->group(function () {
 
             });
         });
-        
 
+        
     });
 
+    // website setting
+    Route::group(['prefix' => 'website'], function() {
+        Route::controller(WebsiteController::class)->group(function () {
+            Route::get('/footer', 'footer')->name('website.footer');
+            Route::get('/header', 'header')->name('website.header');
+            Route::get('/appearance', 'appearance')->name('website.appearance');
+        });
+    });
+
+    // Business Settings
+    Route::controller(BusinessSettingsController::class)->group(function () {
+        Route::post('/business-settings/update', 'update')->name('business_settings.update');
+    });
 
 });

@@ -2,7 +2,8 @@
 <nav class="navbar navbar-expand-lg ">
     <div class="w_full flex items_center">
         <div class="rs_logo">
-            <img src="{{ asset('asset/images/resisquare-logo.svg') }}" alt="Resisquare logo">
+            <img src="{{ uploaded_asset(get_setting('header_logo')) }}" alt="Resisquare logo">
+            {{-- <img src="{{ asset('asset/images/resisquare-logo.svg') }}" alt="Resisquare logo"> --}}
         </div>
         {{-- <a class="navbar-brand" href="{{ route('backend.dashboard') }}">Property CRM Admin</a> --}}
         {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin" aria-controls="navbarAdmin" aria-expanded="false" aria-label="Toggle navigation">

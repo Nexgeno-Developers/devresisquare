@@ -1,12 +1,13 @@
 <?php
 // app/helpers.php
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use App\Models\Property;
 use Illuminate\Http\Request;
+use App\Models\BusinessSetting;
 use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('getPoundSymbol')) {
     function getPoundSymbol()
@@ -14,6 +15,42 @@ if (!function_exists('getPoundSymbol')) {
         return '£';
     }
 }
+
+if (!function_exists('get_setting')) {
+    function get_setting($key, $default = null, $lang = false)
+    {
+        $settings = Cache::remember('business_settings', 86400, function () {
+            return BusinessSetting::all();
+        });
+
+        if ($lang == false) {
+            $setting = $settings->where('type', $key)->first();
+        } else {
+            $setting = $settings->where('type', $key)->where('lang', $lang)->first();
+            $setting = !$setting ? $settings->where('type', $key)->first() : $setting;
+        }
+        return $setting == null ? $default : $setting->value;
+    }
+}
+
+// if (!function_exists('overWriteEnvFile')) {
+//     function overWriteEnvFile($type, $val)
+//     {
+//         $path = base_path('.env');
+//         if (file_exists($path)) {
+//             $val = '"'.trim($val).'"';
+//             if(is_numeric(strpos(file_get_contents($path), $type)) && strpos(file_get_contents($path), $type) >= 0){
+//                 file_put_contents($path, str_replace(
+//                     $type.'="'.env($type).'"', $type.'='.$val, file_get_contents($path)
+//                 ));
+//             }
+//             else{
+//                 file_put_contents($path, file_get_contents($path)."\r\n".$type.'='.$val);
+//             }
+//         }
+//     }
+// }
+
 
 if (!function_exists('uploaded_asset')) {
     function uploaded_asset($id)
@@ -94,6 +131,16 @@ if (!function_exists('getFileBaseURL')) {
             return env('AWS_URL') . '/';
         } else {
             return getBaseURL() . '/storage/';
+        }
+    }
+}
+
+//highlights the selected navigation on admin panel
+if (!function_exists('areActiveRoutes')) {
+    function areActiveRoutes(array $routes, $output = "active")
+    {
+        foreach ($routes as $route) {
+            if (Route::currentRouteName() == $route) return $output;
         }
     }
 }

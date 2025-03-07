@@ -2,11 +2,21 @@
 <html>
 
 <head>
-    <title>Backend Dashboard</title>
+    <title>{{ get_setting('website_name') }} - Backend Dashboard</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="app-url" content="{{ getBaseURL() }}">
 	<meta name="file-base-url" content="{{ getFileBaseURL() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{-- <title>@yield('meta_title', get_setting('website_name').' | '.get_setting('site_motto'))</title> --}}
+
+    <meta charset="utf-8">
+    <meta name="description" content="@yield('meta_description', get_setting('meta_description') )" />
+    <meta name="keywords" content="@yield('meta_keywords', get_setting('meta_keywords') )">
+
+    <!-- Favicon -->
+	<link rel="icon" href="{{ uploaded_asset(get_setting('site_icon')) }}">
+	<title>{{ get_setting('website_name').' | '.get_setting('site_motto') }}</title>
 
     <!-- Use asset() to generate the correct URL -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

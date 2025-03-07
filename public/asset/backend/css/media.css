@@ -1118,3 +1118,9 @@
 hr {
     border-color: #e2e5ec !important;
 } */
+
+.img-fit {
+    max-height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

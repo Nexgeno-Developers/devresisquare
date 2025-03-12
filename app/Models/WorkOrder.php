@@ -15,12 +15,13 @@ class WorkOrder extends Model
         'repair_issue_id',
         'job_type_id',
         'job_sub_type_id',
-        'job_status',
+        // 'job_status',
         'job_scope',
         'tentative_start_date',
         'tentative_end_date',
         'booked_date',
         'invoice_to',
+        'invoice_to_id',
         'quote_attachment',
         'actual_cost',
         'charge_to_landlord',
@@ -37,6 +38,11 @@ class WorkOrder extends Model
         return $this->belongsTo(RepairIssue::class);
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class, 'invoice_to_id');
+    }
+    
     public function quoteAttachment()
     {
         return $this->belongsTo(Upload::class, 'quote_attachment');

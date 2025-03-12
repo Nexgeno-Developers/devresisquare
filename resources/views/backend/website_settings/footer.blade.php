@@ -22,6 +22,45 @@
                 <!-- Contact Info Widget -->
                 <div class="card shadow-none bg-light mb-3">
                     <div class="card-header bg-secondary text-white">
+                        <h6 class="mb-0">Invoice Info Widget</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('business_settings.update') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+
+                            <!-- Contact Address -->
+                            <div class="form-group mb-3">
+                                <label for="company_address">Contact Address</label>
+                                <input type="hidden" name="types[]" value="company_address">
+                                <input type="text" class="form-control" id="company_address" placeholder="Address" name="company_address" value="{{ get_setting('company_address', null) }}">
+                            </div>
+
+                            <!-- Contact Phone -->
+                            <div class="form-group mb-3">
+                                <label for="company_phone">Contact Phone</label>
+                                <input type="hidden" name="types[]" value="company_phone">
+                                <input type="text" class="form-control" id="company_phone" placeholder="Phone" name="company_phone" value="{{ get_setting('company_phone') }}">
+                            </div>
+
+                            <!-- Contact Email -->
+                            <div class="form-group mb-3">
+                                <label for="company_email">Contact Email</label>
+                                <input type="hidden" name="types[]" value="company_email">
+                                <input type="text" class="form-control" id="company_email" placeholder="Email" name="company_email" value="{{ get_setting('company_email') }}">
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary px-4 py-2 float-end">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- Contact Info Widget -->
+                <div class="card shadow-none bg-light mb-3">
+                    <div class="card-header bg-secondary text-white">
                         <h6 class="mb-0">Contact Info Widget</h6>
                     </div>
                     <div class="card-body">
@@ -30,7 +69,7 @@
 
                             <!-- Contact Address -->
                             <div class="form-group mb-3">
-                                <label for="contact_address">Contact Address (Translatable)</label>
+                                <label for="contact_address">Contact Address</label>
                                 <input type="hidden" name="types[]" value="contact_address">
                                 <input type="text" class="form-control" id="contact_address" placeholder="Address" name="contact_address" value="{{ get_setting('contact_address', null) }}">
                             </div>
@@ -51,7 +90,7 @@
 
                             <!-- Submit Button -->
                             <div class="text-end">
-                                <button type="submit" class="btn btn-primary px-4 py-2">Update</button>
+                                <button type="submit" class="btn btn-primary px-4 py-2 float-end">Update</button>
                             </div>
                         </form>
                     </div>

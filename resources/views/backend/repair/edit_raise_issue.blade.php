@@ -199,12 +199,22 @@
             </div>
             <div class="col-6">
                 <div class="card mb-3 mb-3">
-                    <div class="card-header">Status</div>
+                    <div class="card-header">Repair Statuses</div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="status">Ticket Status</label>
+                        <div class="form-group mb-2">
+                            <label for="sub_status">Job Status(contractor)</label>
+                            <select name="sub_status" id="sub_status" class="form-control">
+                                @foreach(['Pending', 'Quoted', 'Awarded','Work Completed'] as $sub_status)
+                                    <option value="{{ $sub_status }}" {{ $repairIssue->sub_status == $sub_status ? 'selected' : '' }}>
+                                        {{ $sub_status }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="status">Repair Ticket Status</label>
                             <select name="status" id="status" class="form-control">
-                                @foreach(['Pending', 'Reported', 'Under Process', 'Work Completed', 'Invoice Received', 'Invoice Paid', 'Closed'] as $status)
+                                @foreach(['Pending', 'Reported', 'Under Process', 'Work Completed', 'Closed', 'Cancelled'] as $status)
                                     <option value="{{ $status }}" {{ $repairIssue->status == $status ? 'selected' : '' }}>
                                         {{ $status }}
                                     </option>
@@ -501,6 +511,15 @@
         $('#workOrderForm').submit(function (e) {
             e.preventDefault();
             initValidate(this);
+            // let statusValue = $("#statusSelect").val();
+            // if (!statusValue) {
+            //     e.preventDefault();
+            //     $("#statusError").show();
+            //     $("#statusSelect").addClass("is-invalid");
+            // } else {
+            //     $("#statusError").hide();
+            //     $("#statusSelect").removeClass("is-invalid");
+            // }
             var formData = new FormData(this);
             $.ajax({
                 url: "{{ route('admin.work_orders.store') }}",
@@ -523,7 +542,175 @@
                 // }
             });
         });
+
+        $(document).on("click", "#generateInvoiceBtn", function () {
+            let workOrderId = $("#work_order_id").val();
+
+            // Build the URL using the named route and replace the placeholder with the work order ID
+            var url = "{{ route('admin.invoices.generate', ['workOrderId' => 'id']) }}".replace('id', workOrderId);
+
+            
+            if (!workOrderId) {
+                alert("No Work Order found!");
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function (response) {
+                    alert(response.message);
+
+                    // Freeze the form
+                    $("#workOrderForm :input").prop("disabled", true);
+                    $("#generateInvoiceBtn").text("Invoice Generated").prop("disabled", true);
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+
+        function loadInvoiceToDetails(invoiceTo, propertyId) {
+            let categoryId = null;
+            $("#contactDetails").hide();
+            if (invoiceTo === "Landlord") {
+                categoryId = 4; // Category ID for Landlord
+                // Build the URL dynamically
+                var endpoint = "{{ route('admin.getContactsByProperty', ['propertyId' => 'PROPERTYID', 'categoryId' => 'CATEGORYID']) }}";
+                endpoint = endpoint.replace('PROPERTYID', propertyId).replace('CATEGORYID', categoryId);
+            } else if (invoiceTo === "Tenant") {
+                // categoryId = 3; // Category ID for Tenant in contacts table
+                // Build the URL dynamically
+                var endpoint = "{{ route('admin.getTenantsByProperty', ['propertyId' => 'PROPERTYID']) }}";
+                endpoint = endpoint.replace('PROPERTYID', propertyId);
+            } else {
+                $("#invoiceToContainer").html(''); // If "Company" is selected, remove the dropdown
+                $("#contactDetails").hide();
+                return;
+            }
+        
+            // Show loading option
+            $("#invoiceToContainer").html('<select class="form-control"><option>Loading...</option></select>');
+            if(endpoint){
+                $.ajax({
+                    url: endpoint,
+                    type: 'GET',
+                    success: function (response) {
+                        var dropdown = '<div class="form-group">';
+                        dropdown += '<label class="form-label">Select ' + invoiceTo + '</label>';
+                        dropdown += '<select name="invoice_to_id" id="invoiceToSelect" class="form-control">';
+                        dropdown += '<option value="">Select ' + invoiceTo + '</option>';
+
+                        $.each(response, function (index, item) {
+                            dropdown += '<option value="' + item.id + '" ' +
+                                        'data-email="' + item.email + '" ' +
+                                        'data-phone="' + item.phone + '" ' +
+                                        'data-name="' + item.full_name + '" ' +
+                                        'data-address="' + (item.full_address || '') + '">' + 
+                                        item.full_name +
+                                        '</option>';
+
+                        });
+
+                        dropdown += '</select></div>';
+                        $("#invoiceToContainer").html(dropdown);
+                    },
+                    error: function () {
+                        $("#invoiceToContainer").html('<p class="text-danger">Unable to load details</p>');
+                    }
+                });
+            }
+        }
+        
+        // Listen for changes on the Invoice To radio buttons
+        $(document).on("change", "input[name='invoice_to']", function () {
+            var invoiceTo = $(this).val();
+            var propertyId = $("#property_id").val();
+            loadInvoiceToDetails(invoiceTo, propertyId);
+        });
+
+        // Preload if Landlord or Tenant is already selected
+        var selectedInvoiceTo = $("input[name='invoice_to']:checked").val();
+        var propertyId = $("#property_id").val();
+        if (selectedInvoiceTo === "Landlord" || selectedInvoiceTo === "Tenant") {
+            loadInvoiceToDetails(selectedInvoiceTo, propertyId);
+            updateStatusOptions(selectedInvoiceTo);
+        }
+
+        // Show Contact Details When a Contact is Selected
+        $(document).on("change", "#invoiceToSelect", function () {
+            var selectedOption = $(this).find(':selected');
+            // var name = selectedOption.data('name');
+            var address = selectedOption.data('address');
+            var phone = selectedOption.data('phone');
+            var email = selectedOption.data('email');
+
+            if (address) {
+                $('#contactAddress').text(address);
+                $('#contactPhone').text(phone);
+                $('#contactEmail').text(email);
+                $('#contactDetails').show();
+            } else {
+                $('#contactDetails').hide();
+            }
+            /*if (name) {
+                $('#contactName').text(name);
+                $('#contactAddress').text(address);
+                $('#contactDetails').show();
+            } else {
+                $('#contactDetails').hide();
+            }*/
+        });     
+        
+
+        function updateStatusOptions(invoiceTo) {
+            let statusOptions = [];
+            if (invoiceTo === "Company") {
+                statusOptions = [
+                    { value: "Raised", text: "Raised" },
+                    { value: "Sent to Contractor", text: "Sent to Contractor" },
+                    { value: "Completed", text: "Completed" },
+                    { value: "Cancelled", text: "Cancelled" }
+                ];
+            } else if (invoiceTo === "Landlord" || invoiceTo === "Tenant") {
+                statusOptions = [
+                    { value: "Raised", text: "Raised" },
+                    { value: "Sent to Contractor", text: "Sent to Contractor" },
+                    { value: "Work Completed - Invoice Received From Contractor", text: "Work Completed - Invoice Received From Contractor" },
+                    { value: "Work Completed - Invoice Generated to Landlord", text: "Work Completed - Invoice Generated to Landlord (If landlord paying)" },
+                    { value: "Work Completed - Invoice Generated to Tenant", text: "Work Completed - Invoice Generated to Tenant (If tenant paying)" },
+                    { value: "Completed - Invoice Generated", text: "Completed - Invoice Generated (to Landlord-Tenant)" },
+                    { value: "Work Completed - Invoice Paid To Contractor", text: "Work Completed - Invoice Paid To Contractor" },
+                    { value: "Cancelled", text: "Cancelled" }
+                ];
+            }
+
+            // Populate status dropdown
+            let statusDropdown = $("#statusSelect");
+            statusDropdown.html(""); // Clear existing options
+            $.each(statusOptions, function (index, option) {
+                statusDropdown.append(new Option(option.text, option.value));
+            });
+
+            // Preselect existing status if editing
+            let existingStatus = $("#existingStatus").val();
+            if (existingStatus) {
+                statusDropdown.val(existingStatus);
+            }
+        }
+
+        // Listen for changes on the Invoice To radio buttons
+        $(document).on("change", "input[name='invoice_to']", function () {
+            updateStatusOptions($(this).val());
+        });
+        
     });
+
+
 </script>
 <script>
     $(document).ready(function () {

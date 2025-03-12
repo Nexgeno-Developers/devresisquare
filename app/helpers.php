@@ -1,6 +1,7 @@
 <?php
 // app/helpers.php
 use Carbon\Carbon;
+use App\Models\Contact;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Models\BusinessSetting;
@@ -482,3 +483,74 @@ if (!function_exists('getFormattedRepairNavigation')) {
     }
 }
 
+if (!function_exists('get_contacts_by_property_and_category')) {
+    /**
+     * Fetch contacts by property ID and category ID.
+     *
+     * @param int $propertyId
+     * @param int $categoryId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    function get_contacts_by_property_and_category($propertyId, $categoryId)
+    {
+        return Cache::rememberForever("contacts_{$propertyId}_{$categoryId}", function () use ($propertyId, $categoryId) {
+            return Contact::where('category_id', $categoryId)
+                ->whereRaw("JSON_CONTAINS(selected_properties, ?)", [$propertyId])
+                ->get(['id', 'full_name', 'address_line_1', 'address_line_2', 'postcode', 'city', 'country', 'email', 'phone'])
+                ->map(function ($contact) {
+                    return array_merge($contact->toArray(), [
+                        'full_address' => implode(', ', array_filter([
+                            $contact->address_line_1,
+                            $contact->address_line_2,
+                            $contact->postcode,
+                            $contact->city,
+                            $contact->country
+                        ]))
+                    ]);
+                });
+        });
+    }
+}
+
+if (!function_exists('get_tenants_by_property')) {
+    /**
+     * Fetch tenants by property ID using Eloquent relationships and include property address.
+     *
+     * @param int $propertyId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    function get_tenants_by_property($propertyId)
+    {
+        return Cache::rememberForever("tenants_{$propertyId}", function () use ($propertyId) {
+            $property = Property::where('id', $propertyId)->first(['line_1', 'line_2', 'postcode', 'city', 'country']);
+
+            // Define a default message if address is missing
+            $defaultAddress = "No address available";
+
+            // Check if all address fields are empty
+            $propertyAddress = null;
+            if ($property) {
+                $addressParts = array_filter([
+                    $property->line_1 ?? '',
+                    $property->line_2 ?? '',
+                    $property->postcode ?? '',
+                    $property->city ?? '',
+                    $property->country ?? ''
+                ]);
+
+                // If all address fields are empty, use default message
+                $propertyAddress = empty($addressParts) ? $defaultAddress : implode(', ', $addressParts);
+            } else {
+                $propertyAddress = $defaultAddress; // If no property is found
+            }
+
+            return Contact::whereHas('tenantMembers.tenancy', function ($query) use ($propertyId) {
+                $query->where('property_id', $propertyId);
+            })->get(['id', 'full_name', 'email', 'phone'])->map(function ($tenant) use ($propertyAddress) {
+                return array_merge($tenant->toArray(), [
+                    'full_address' => $propertyAddress
+                ]);
+            });
+        });
+    }
+}

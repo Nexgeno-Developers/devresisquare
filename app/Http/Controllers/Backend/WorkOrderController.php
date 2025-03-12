@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Illuminate\Http\Request;
-use App\Models\WorkOrder;
 use Carbon\Carbon;
 use App\Models\Upload;
+use App\Models\WorkOrder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WorkOrderController
 {
@@ -74,7 +75,7 @@ class WorkOrderController
      * @return string
     */
     // Generate a unique reference number
-    private function generateWorkorderReferenceNumber()
+    /*private function generateWorkorderReferenceNumber()
     {
         // Find the last inserted property
         $lastProperty = WorkOrder::orderBy('id', 'desc')->first();
@@ -88,7 +89,22 @@ class WorkOrderController
 
         // Format the new reference number (e.g., RESISQREP0000001)
         return 'RESISQREWO' . str_pad($number, 7, '0', STR_PAD_LEFT);
+    }*/
+    private function generateWorkorderReferenceNumber()
+    {
+        return DB::transaction(function () {
+            $lastProperty = WorkOrder::orderBy('id', 'desc')->lockForUpdate()->first();
+            
+            if ($lastProperty && preg_match('/RESISQREWO(\d+)/', $lastProperty->works_order_no, $matches)) {
+                $number = (int)$matches[1] + 1;
+            } else {
+                $number = 1;
+            }
+            
+            return 'RESISQREWO' . str_pad($number, 7, '0', STR_PAD_LEFT);
+        });
     }
+    
 
     public function getWorkOrder($repairIssueId)
     {

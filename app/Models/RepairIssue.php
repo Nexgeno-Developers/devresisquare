@@ -19,6 +19,7 @@ class RepairIssue extends Model
         'vat_type',
         'vat_percentage',
         'priority',
+        'sub_status',
         'status',
         'property_id',
         'tenant_id',

@@ -508,18 +508,17 @@
         //     initValidate('#workOrderForm');
         // });
 
+        // Initialize jQuery validation on form load
+        initValidate('#workOrderForm');
+
         $('#workOrderForm').submit(function (e) {
             e.preventDefault();
-            initValidate(this);
-            // let statusValue = $("#statusSelect").val();
-            // if (!statusValue) {
-            //     e.preventDefault();
-            //     $("#statusError").show();
-            //     $("#statusSelect").addClass("is-invalid");
-            // } else {
-            //     $("#statusError").hide();
-            //     $("#statusSelect").removeClass("is-invalid");
-            // }
+                    
+            // Check if form is valid before submitting
+            if (!$(this).valid()) {
+                return;
+            }
+            
             var formData = new FormData(this);
             $.ajax({
                 url: "{{ route('admin.work_orders.store') }}",

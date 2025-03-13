@@ -1,6 +1,8 @@
 <?php
 // app/helpers.php
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Upload;
 use App\Models\Contact;
 use App\Models\Property;
 use Illuminate\Http\Request;
@@ -52,12 +54,11 @@ if (!function_exists('get_setting')) {
 //     }
 // }
 
-
 if (!function_exists('uploaded_asset')) {
     function uploaded_asset($id)
     {
-        $asset = Cache::rememberForever('uploaded_asset_'.$id , function() use ($id) {
-            return \App\Models\Upload::find($id);
+        $asset = Cache::rememberForever('uploaded_asset_' . $id, function () use ($id) {
+            return Upload::find($id);
         });
 
         if ($asset != null) {
@@ -81,12 +82,11 @@ if (!function_exists('my_asset')) {
         } else {
             // return app('url')->asset('public/' . $path, $secure);
 
-            if(env('ENVIRONMENT') == "Production"){
+            if (env('ENVIRONMENT') == 'Production') {
                 return app('url')->asset('public/' . $path, $secure);
             } else {
                 return app('url')->asset('storage/' . $path, $secure);
             }
-
         }
     }
 }
@@ -103,12 +103,11 @@ if (!function_exists('static_asset')) {
     {
         // return app('url')->asset('public/' . $path, $secure);
 
-        if(env('ENVIRONMENT') == "Production"){
+        if (env('ENVIRONMENT') == 'Production') {
             return app('url')->asset('public/' . $path, $secure);
         } else {
             return app('url')->asset($path, $secure);
         }
-
     }
 }
 
@@ -117,7 +116,7 @@ if (!function_exists('getBaseURL')) {
     {
         $root = '//' . $_SERVER['HTTP_HOST'];
 
-        if(env('ENVIRONMENT') == "Production"){
+        if (env('ENVIRONMENT') == 'Production') {
             $root .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
         }
 
@@ -136,12 +135,13 @@ if (!function_exists('getFileBaseURL')) {
     }
 }
 
-//highlights the selected navigation on admin panel
+// highlights the selected navigation on admin panel
 if (!function_exists('areActiveRoutes')) {
-    function areActiveRoutes(array $routes, $output = "active")
+    function areActiveRoutes(array $routes, $output = 'active')
     {
         foreach ($routes as $route) {
-            if (Route::currentRouteName() == $route) return $output;
+            if (Route::currentRouteName() == $route)
+                return $output;
         }
     }
 }
@@ -150,15 +150,15 @@ if (!function_exists('current_user')) {
     /**
      * Get the currently authenticated user.
      *
-     * @return \App\Models\User|null
+     * @return User|null
      */
-    function current_user()
+    function current_user(): ?User
     {
-        return \App\Models\User::find(Auth::id());
+        return Auth::user();  // This is the best way to get the authenticated user
     }
 }
 
-if (! function_exists('formatDate')) {
+if (!function_exists('formatDate')) {
     /**
      * Format date to dd/mm/yyyy.
      *
@@ -171,11 +171,11 @@ if (! function_exists('formatDate')) {
         if ($date) {
             return Carbon::parse($date)->format('d/m/Y');
         }
-        return null; // Return null if no date is provided
+        return null;  // Return null if no date is provided
     }
 }
 
-if (! function_exists('formatDateTime')) {
+if (!function_exists('formatDateTime')) {
     /**
      * Format date & time to dd/mm/yyyy H:i A.
      *
@@ -186,14 +186,13 @@ if (! function_exists('formatDateTime')) {
     {
         // Check if the dateTime is not null or empty
         if ($dateTime) {
-            return \Carbon\Carbon::parse($dateTime)->format('d/m/Y h:i A');
+            return Carbon::parse($dateTime)->format('d/m/Y h:i A');
         }
-        return null; // Return null if no date is provided
+        return null;  // Return null if no date is provided
     }
 }
 
-
-if (! function_exists('booleanToYesNo')) {
+if (!function_exists('booleanToYesNo')) {
     /**
      * Convert 0 or 1 to 'No' or 'Yes'.
      *
@@ -206,7 +205,7 @@ if (! function_exists('booleanToYesNo')) {
     }
 }
 
-if (! function_exists('jsonDecodeAndPrint')) {
+if (!function_exists('jsonDecodeAndPrint')) {
     /**
      * Decode a JSON string and return its values as a string.
      *
@@ -221,7 +220,7 @@ if (! function_exists('jsonDecodeAndPrint')) {
 
         // Check for JSON errors
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return "";  // Return error message if decoding fails
+            return '';  // Return error message if decoding fails
         }
 
         // Return the values as a string with the given separator
@@ -336,7 +335,6 @@ if (!function_exists('capitalize_first_letter')) {
 }
 
 if (!function_exists('searchProperties')) {
-
     function searchProperties(Request $request)
     {
         // Check if we are passing specific property IDs
@@ -361,7 +359,7 @@ if (!function_exists('searchProperties')) {
         }
 
         // Return the properties as JSON response
-        return response()->json($properties->map(function($property) {
+        return response()->json($properties->map(function ($property) {
             return [
                 'id' => $property->id,
                 'address' => trim($property->line_1 . ' ' . $property->line_2 . ', ' . $property->city . ', ' . $property->postcode) ?: 'N/A',
@@ -405,7 +403,7 @@ if (!function_exists('getPropertyDetails')) {
                     $propertyDetails[] = trim($property->$column);
                 } else {
                     // Log if the column doesn't exist or is null
-                    Log::warning("Column does not exist in the Property model or is null:", ['column' => $column, 'property_id' => $propertyId]);
+                    Log::warning('Column does not exist in the Property model or is null:', ['column' => $column, 'property_id' => $propertyId]);
                 }
             }
 
@@ -442,7 +440,7 @@ if (!function_exists('getRepairCategoryDetails')) {
 
         // Return the category name or a default message if not found
         if ($category) {
-            return $category->name; // Ensure that 'name' is the correct column
+            return $category->name;  // Ensure that 'name' is the correct column
         }
 
         Log::warning('Repair Category not found for ID:', ['category_id' => $categoryId]);
@@ -495,7 +493,7 @@ if (!function_exists('get_contacts_by_property_and_category')) {
     {
         return Cache::rememberForever("contacts_{$propertyId}_{$categoryId}", function () use ($propertyId, $categoryId) {
             return Contact::where('category_id', $categoryId)
-                ->whereRaw("JSON_CONTAINS(selected_properties, ?)", [$propertyId])
+                ->whereRaw('JSON_CONTAINS(selected_properties, ?)', [$propertyId])
                 ->get(['id', 'full_name', 'address_line_1', 'address_line_2', 'postcode', 'city', 'country', 'email', 'phone'])
                 ->map(function ($contact) {
                     return array_merge($contact->toArray(), [
@@ -525,7 +523,7 @@ if (!function_exists('get_tenants_by_property')) {
             $property = Property::where('id', $propertyId)->first(['line_1', 'line_2', 'postcode', 'city', 'country']);
 
             // Define a default message if address is missing
-            $defaultAddress = "No address available";
+            $defaultAddress = 'No address available';
 
             // Check if all address fields are empty
             $propertyAddress = null;
@@ -541,7 +539,7 @@ if (!function_exists('get_tenants_by_property')) {
                 // If all address fields are empty, use default message
                 $propertyAddress = empty($addressParts) ? $defaultAddress : implode(', ', $addressParts);
             } else {
-                $propertyAddress = $defaultAddress; // If no property is found
+                $propertyAddress = $defaultAddress;  // If no property is found
             }
 
             return Contact::whereHas('tenantMembers.tenancy', function ($query) use ($propertyId) {
@@ -551,6 +549,35 @@ if (!function_exists('get_tenants_by_property')) {
                     'full_address' => $propertyAddress
                 ]);
             });
+        });
+    }
+}
+
+if (!function_exists('generateReferenceNumber')) {
+    /**
+     * Generate a unique reference number for a given database table.
+     *
+     * This function retrieves the last inserted record from the specified table and column,
+     * extracts the numerical part of the reference number, increments it, and returns a new
+     * reference number formatted with a fixed prefix and zero-padded number.
+     *
+     * @param string $modelClass The Eloquent model class (e.g., Order::class).
+     * @param string $column The column name where the reference number is stored.
+     * @param string $prefix The prefix to use for the reference number.
+     * @return string The newly generated reference number.
+     */
+    function generateReferenceNumber($modelClass, $column, $prefix)
+    {
+        return DB::transaction(function () use ($modelClass, $column, $prefix) {
+            $lastEntry = $modelClass::orderBy('id', 'desc')->lockForUpdate()->first();
+
+            if ($lastEntry && preg_match('/' . preg_quote($prefix) . '(\d+)/', $lastEntry->$column, $matches)) {
+                $number = (int) $matches[1] + 1;
+            } else {
+                $number = 1;
+            }
+
+            return $prefix . str_pad($number, 7, '0', STR_PAD_LEFT);
         });
     }
 }

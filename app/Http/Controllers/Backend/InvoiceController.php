@@ -28,8 +28,9 @@ class InvoiceController
         // $invoiceNumber = 'INV-' . str_pad(Invoice::count() + 1, 6, '0', STR_PAD_LEFT);
 
         // Create the invoice
+        $invoiceNumber = generateReferenceNumber(Invoice::class, 'invoice_no', 'RESISQREINV');
         $invoice = Invoice::create([
-            'invoice_number' => $this->generateInvoiceReferenceNumber(),
+            'invoice_number' => $invoiceNumber,
             'work_order_id' => $workOrder->id,
             'invoice_date' => now(),
             'due_date' => now()->addDays(30), // Default 30 days due
@@ -86,27 +87,5 @@ class InvoiceController
         return response()->json(['message' => 'Invoice marked as paid!']);
     }
 
-
-        /**
-     * Generate a unique and sequential Invoice reference number.
-     *
-     * @return string
-    */
-    // Generate a unique reference number
-
-    private function generateInvoiceReferenceNumber()
-    {
-        return DB::transaction(function () {
-            $lastProperty = Invoice::orderBy('id', 'desc')->lockForUpdate()->first();
-            
-            if ($lastProperty && preg_match('/RESISQREINV(\d+)/', $lastProperty->works_order_no, $matches)) {
-                $number = (int)$matches[1] + 1;
-            } else {
-                $number = 1;
-            }
-            
-            return 'RESISQREINV' . str_pad($number, 7, '0', STR_PAD_LEFT);
-        });
-    }
 
 }

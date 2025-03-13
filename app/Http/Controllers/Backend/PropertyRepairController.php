@@ -9,6 +9,7 @@ use App\Models\Tenancy;
 use App\Models\RepairIssue;
 use App\Models\RepairPhoto;
 use App\Models\TenantMember;
+use App\Models\WorkOrder;
 use Illuminate\Http\Request;
 use App\Models\RepairHistory;
 use App\Models\RepairCategory;
@@ -465,7 +466,8 @@ class PropertyRepairController
         // ]);
 
         // Generate Reference Number using a private function
-        $repairReference = $this->generateRepairReferenceNumber();
+        // $repairReference = $this->generateRepairReferenceNumber();
+        $repairReference = generateReferenceNumber( RepairIssue::class, 'reference_number', 'RESISQRPR');
 
         // Store repair request
         $repair = RepairIssue::create([
@@ -568,21 +570,21 @@ class PropertyRepairController
      * @return string
     */
     // Generate a unique reference number
-    private function generateRepairReferenceNumber()
-    {
-        // Find the last inserted property
-        $lastProperty = RepairIssue::orderBy('id', 'desc')->first();
+    // private function generateRepairReferenceNumber()
+    // {
+    //     // Find the last inserted property
+    //     $lastProperty = RepairIssue::orderBy('id', 'desc')->first();
 
-        // Extract and increment the numeric part
-        if ($lastProperty && preg_match('/RESISQREP(\d+)/', $lastProperty->reference_number, $matches)) {
-            $number = (int)$matches[1] + 1;
-        } else {
-            $number = 1; // Start from 1 if no property exists
-        }
+    //     // Extract and increment the numeric part
+    //     if ($lastProperty && preg_match('/RESISQREP(\d+)/', $lastProperty->reference_number, $matches)) {
+    //         $number = (int)$matches[1] + 1;
+    //     } else {
+    //         $number = 1; // Start from 1 if no property exists
+    //     }
 
-        // Format the new reference number (e.g., RESISQREP0000001)
-        return 'RESISQREP' . str_pad($number, 7, '0', STR_PAD_LEFT);
-    }
+    //     // Format the new reference number (e.g., RESISQREP0000001)
+    //     return 'RESISQREP' . str_pad($number, 7, '0', STR_PAD_LEFT);
+    // }
 
 
     // Additional methods as necessary

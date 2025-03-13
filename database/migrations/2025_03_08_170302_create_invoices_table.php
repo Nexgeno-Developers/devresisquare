@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('subtotal', 10, 2);
             $table->decimal('tax_amount', 10, 2)->default(0);
             $table->decimal('total_amount', 10, 2);
-            $table->foreignId('status_id')->default(1)->constrained('invoice_statuses')->onDelete('set null');
+            $table->foreignId('status_id')->nullable()->constrained('invoice_statuses')->onDelete('set null');
             $table->text('notes')->nullable();
 
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
@@ -32,7 +32,7 @@ return new class extends Migration
 
             // $table->softDeletes();
             // $table->dateTime('deleted_at')->nullable();
-            $table->dateTime('invoiced_date')->nullable();
+            $table->dateTime('invoiced_date_time')->nullable();
 
             $table->timestamps();
         });

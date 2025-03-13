@@ -57,7 +57,10 @@ class WorkOrder extends Model
     {
         return $this->belongsTo(JobType::class, 'job_sub_type_id'); // Assuming both types are from `job_types` table
     }
-
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
     // Relationship with Supplier
     // public function supplier()
     // {

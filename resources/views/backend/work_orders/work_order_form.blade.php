@@ -8,13 +8,13 @@
             <div class="modal-body">
                 <form id="workOrderForm" action="{{ route('admin.work_orders.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="repair_issue_id" value="{{ $repairIssue->id }}">
-                    <input type="hidden" name="work_order_id" value="{{ $repairIssue->workOrder->id ?? '' }}">
+                    <input type="hidden" id="repair_issue_id" name="repair_issue_id" value="{{ $repairIssue->id }}">
+                    <input type="hidden" id="work_order_id" name="work_order_id" value="{{ $repairIssue->workOrder->id ?? '' }}">
 
                     <div class="row">
                         <h6 class="display-6">Job Details</h6>
                         <hr>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <div class="form-group"> 
                                 <label class="form-label">Property Address</label>
                                 <p class="set-property-address"></p>
@@ -130,6 +130,9 @@
                         <!-- Dynamic Dropdown Container -->
                         <div id="invoiceToContainer" class="col-md-4 mb-3"></div>
 
+                        <!-- Hidden Fields -->
+                        <input type="hidden" id="existingInvoiceToId" value="{{ old('invoice_to_id', $repairIssue->workOrder->invoice_to_id ?? '') }}">
+
                         <!-- Contact Details (Hidden Initially) -->
                         <div id="contactDetails" class="mt-3 col-md-4" style="display: none;">
                             {{-- <h6>Contact Details</h6>
@@ -197,14 +200,14 @@
                         <!-- Hidden Field to Store the Preselected Status -->
                         <input type="hidden" id="existingStatus" value="{{ old('status', $repairIssue->workOrder->status ?? '') }}">
 
-                        <div class="col-md-6 mb-3">
+                        {{-- <div class="col-md-6 mb-3">
                             <div class="mb-3">
                                 <div class="form-group"> 
                                     <label class="form-label">Date</label>
                                     <input required type="datetime-local" name="date_time" id="date" class="form-control" value="{{ old('date_time', $repairIssue->workOrder->date_time ?? '') }}" required>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-12 mb-3">
                             <div class="form-group"> 

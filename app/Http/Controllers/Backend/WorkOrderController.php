@@ -39,7 +39,7 @@ class WorkOrderController
         if ($request->has('work_order_id')) {
             // Update existing Work Order
             $workOrder = WorkOrder::findOrFail($request->work_order_id);
-    
+            $invoiceTo = $request->invoice_to;
             $workOrder->update([
                 'repair_issue_id' => $request->repair_issue_id,
                 'job_type_id' => $request->job_type_id,
@@ -49,8 +49,8 @@ class WorkOrderController
                 'tentative_start_date' => $request->tentative_start_date,
                 'tentative_end_date' => $request->tentative_end_date,
                 'booked_date' => $request->booked_date,
-                'invoice_to' => $request->invoice_to,
-                'invoice_to_id' => $request->invoice_to_id ?? $workOrder->invoice_to_id, // Keep existing if not provided
+                'invoice_to' => $invoiceTo,
+                'invoice_to_id' => ($request->invoice_to !== 'Company') ? ($request->invoice_to_id ?? $workOrder->invoice_to_id) : null,
                 'quote_attachment' => $quote_attachment_id ?? $workOrder->quote_attachment, // Keep existing if not updated
                 'actual_cost' => $request->actual_cost,
                 'charge_to_landlord' => $request->charge_to_landlord,

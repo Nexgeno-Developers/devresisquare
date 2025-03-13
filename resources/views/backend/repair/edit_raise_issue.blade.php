@@ -438,7 +438,7 @@
     // Embedding saved contractor assignments from the controller.
     // Each contractor assignment should have at least: contractor_id, cost_price, contractor_preferred_availability.
     var savedContractorAssignments = {!! json_encode($contractorAssignments->toArray()) !!};
-    console.log("Saved Contractor Assignments:", savedContractorAssignments);
+    // console.log("Saved Contractor Assignments:", savedContractorAssignments);
 
 
     $(document).ready(function () {       
@@ -576,66 +576,73 @@
         function loadInvoiceToDetails(invoiceTo, propertyId) {
             let categoryId = null;
             $("#contactDetails").hide();
+            let existingInvoiceToId = $("#existingInvoiceToId").val(); // Get preselected invoice_to_id
+            // console.log('Existing ID: ' + existingInvoiceToId);
+
             if (invoiceTo === "Landlord") {
-                categoryId = 4; // Category ID for Landlord
-                // Build the URL dynamically
+                categoryId = 4; // Landlord
                 var endpoint = "{{ route('admin.getContactsByProperty', ['propertyId' => 'PROPERTYID', 'categoryId' => 'CATEGORYID']) }}";
                 endpoint = endpoint.replace('PROPERTYID', propertyId).replace('CATEGORYID', categoryId);
             } else if (invoiceTo === "Tenant") {
-                // categoryId = 3; // Category ID for Tenant in contacts table
-                // Build the URL dynamically
                 var endpoint = "{{ route('admin.getTenantsByProperty', ['propertyId' => 'PROPERTYID']) }}";
                 endpoint = endpoint.replace('PROPERTYID', propertyId);
             } else {
-                $("#invoiceToContainer").html(''); // If "Company" is selected, remove the dropdown
+                $("#invoiceToContainer").html('');
                 $("#contactDetails").hide();
                 return;
             }
-        
-            // Show loading option
+
             $("#invoiceToContainer").html('<select class="form-control"><option>Loading...</option></select>');
-            if(endpoint){
-                $.ajax({
-                    url: endpoint,
-                    type: 'GET',
-                    success: function (response) {
-                        var dropdown = '<div class="form-group">';
-                        dropdown += '<label class="form-label">Select ' + invoiceTo + '</label>';
-                        dropdown += '<select name="invoice_to_id" id="invoiceToSelect" class="form-control">';
-                        dropdown += '<option value="">Select ' + invoiceTo + '</option>';
 
-                        $.each(response, function (index, item) {
-                            dropdown += '<option value="' + item.id + '" ' +
-                                        'data-email="' + item.email + '" ' +
-                                        'data-phone="' + item.phone + '" ' +
-                                        'data-name="' + item.full_name + '" ' +
-                                        'data-address="' + (item.full_address || '') + '">' + 
-                                        item.full_name +
-                                        '</option>';
+            $.ajax({
+                url: endpoint,
+                type: 'GET',
+                success: function (response) {
+                    var dropdown = '<div class="form-group">';
+                    dropdown += '<label class="form-label">Select ' + invoiceTo + '</label>';
+                    dropdown += '<select name="invoice_to_id" id="invoiceToSelect" class="form-control">';
+                    dropdown += '<option value="">Select ' + invoiceTo + '</option>';
 
-                        });
+                    $.each(response, function (index, item) {
+                        let isSelected = parseInt(item.id) === parseInt(existingInvoiceToId) ? 'selected' : '';
+                        // console.log('Checking ID: ' + item.id + ', Selected: ' + isSelected);
 
-                        dropdown += '</select></div>';
-                        $("#invoiceToContainer").html(dropdown);
-                    },
-                    error: function () {
-                        $("#invoiceToContainer").html('<p class="text-danger">Unable to load details</p>');
+                        dropdown += `<option value="${item.id}" ${isSelected} 
+                                    data-email="${item.email}" 
+                                    data-phone="${item.phone}" 
+                                    data-name="${item.full_name}" 
+                                    data-address="${item.full_address || ''}">
+                                    ${item.full_name}
+                                    </option>`;
+                    });
+
+                    dropdown += '</select></div>';
+                    $("#invoiceToContainer").html(dropdown);
+
+                    if (existingInvoiceToId) {
+                        $("#invoiceToSelect").val(existingInvoiceToId).trigger("change");
+                        // console.log("Final selection applied: " + $("#invoiceToSelect").val());
                     }
-                });
-            }
+                },
+                error: function () {
+                    $("#invoiceToContainer").html('<p class="text-danger">Unable to load details</p>');
+                }
+            });
         }
-        
+
+        var selectedInvoiceTo = $("input[name='invoice_to']:checked").val();
+        var propertyId = $("#property_id").val();
+
         // Listen for changes on the Invoice To radio buttons
         $(document).on("change", "input[name='invoice_to']", function () {
             var invoiceTo = $(this).val();
             var propertyId = $("#property_id").val();
             loadInvoiceToDetails(invoiceTo, propertyId);
+            updateStatusOptions(invoiceTo);
         });
 
         // Preload if Landlord or Tenant is already selected
-        var selectedInvoiceTo = $("input[name='invoice_to']:checked").val();
-        var propertyId = $("#property_id").val();
-        if (selectedInvoiceTo === "Landlord" || selectedInvoiceTo === "Tenant") {
+        if (selectedInvoiceTo) {
             loadInvoiceToDetails(selectedInvoiceTo, propertyId);
             updateStatusOptions(selectedInvoiceTo);
         }
@@ -656,15 +663,7 @@
             } else {
                 $('#contactDetails').hide();
             }
-            /*if (name) {
-                $('#contactName').text(name);
-                $('#contactAddress').text(address);
-                $('#contactDetails').show();
-            } else {
-                $('#contactDetails').hide();
-            }*/
-        });     
-        
+        });
 
         function updateStatusOptions(invoiceTo) {
             let statusOptions = [];
@@ -691,19 +690,23 @@
             // Populate status dropdown
             let statusDropdown = $("#statusSelect");
             statusDropdown.html(""); // Clear existing options
+
             $.each(statusOptions, function (index, option) {
                 statusDropdown.append(new Option(option.text, option.value));
             });
 
-            // Preselect existing status if editing
+            // ✅ Ensure existing status is preselected
             let existingStatus = $("#existingStatus").val();
             if (existingStatus) {
                 statusDropdown.val(existingStatus);
             }
+
+            // console.log("Updated Status Options for:", invoiceTo);
         }
 
         // Listen for changes on the Invoice To radio buttons
         $(document).on("change", "input[name='invoice_to']", function () {
+            loadInvoiceToDetails($(this).val(), $("#property_id").val());
             updateStatusOptions($(this).val());
         });
         
@@ -729,10 +732,10 @@
             async: false,
             success: function(data) {
                 allCategories = data;
-                console.log("All Categories Loaded:", allCategories);
+                // console.log("All Categories Loaded:", allCategories);
             },
             error: function() {
-                console.log("Error fetching categories.");
+                // console.log("Error fetching categories.");
             }
         });
 
@@ -754,7 +757,7 @@
             e.preventDefault();
             // Save the current property and tenant as the "previous" selection.
             window.previousTenantId = $('#tenant-select').val();
-            console.log('Previous Tenant ID:', window.previousTenantId);
+            // console.log('Previous Tenant ID:', window.previousTenantId);
             $('#dynamic_property_table').addClass('d-none'); // Hide the selected property table
             $('#search_property_section').show(); // Show the search input
             $('#cancel_property_change').removeClass('d-none'); // Show the search input
@@ -799,7 +802,7 @@
         function initSelectedProperties() {
             const selectedProperties_f = JSON.parse($('#selected_properties').val()); // Assuming selected properties are stored in a hidden field
             if (selectedProperties_f) {
-                console.log('Selected Properties:', selectedProperties_f);
+                // console.log('Selected Properties:', selectedProperties_f);
                 searchPropertiesByIds(selectedProperties_f); // Call the function to fetch and display selected properties
             }
         }
@@ -978,7 +981,7 @@
                     }
                 },
                 error: function() {
-                    console.log("Error fetching tenants.");
+                    // console.log("Error fetching tenants.");
                 }
             });
         }
@@ -1127,10 +1130,10 @@
                 $(`[data-level="${currentLevel}"]`).hide().find('.row').empty();
                 delete selectedCategories[`level_${currentLevel}`];
                 currentLevel--;
-                console.log(currentLevel);
+                // console.log(currentLevel);
 
                     delete selectedCategories[`level_${currentLevel}`];
-                    console.log(selectedCategories);
+                    // console.log(selectedCategories);
 
                 // Uncheck all radio buttons in the current level before removing the selection.
                 $(`[data-level="${currentLevel}"] input[type="radio"]`).prop('checked', false);
@@ -1455,7 +1458,7 @@
             updateContractorIndexes();
         });
 
-        console.log("Contractor Assignment Script Initialized");
+        // console.log("Contractor Assignment Script Initialized");
 
         // Initialize the VAT type and VAT percentage from the database
         var vatTypeFromDb = '{{ old('vat_type', $repairIssue->vat_type) }}';

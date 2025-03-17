@@ -236,7 +236,7 @@ if (!function_exists('todayDate')) {
      */
     function todayDate()
     {
-        return (new \DateTime())->format('Y-m-d');
+        return (new \DateTime())->format('d-m-Y');
     }
 }
 
@@ -510,6 +510,40 @@ if (!function_exists('get_contacts_by_property_and_category')) {
     }
 }
 
+if (!function_exists('get_contact_address_name_by_id')) {
+    /**
+     * Fetch a contact's full address by its ID.
+     *
+     * @param int $contactId
+     * @return string
+     */
+    function get_contact_address_name_by_id($contactId)
+    {
+        return Cache::rememberForever("contacts_{$contactId}", function () use ($contactId) {
+            $contact = Contact::find($contactId, [
+                'full_name', 'address_line_1', 'address_line_2', 'postcode', 'city', 'country', 'email', 'phone'
+            ]);
+
+            if (!$contact) {
+                return 'N/A';
+            }
+
+            // Build the full address
+            $fullAddress = implode(', ', array_filter([
+                $contact->address_line_1,
+                $contact->address_line_2,
+                $contact->postcode,
+                $contact->city,
+                $contact->country
+            ]));
+
+            // Return formatted contact details as a string
+            return "<strong>{$contact->full_name}</strong><br>{$fullAddress}<br>Email: {$contact->email}<br>Phone: {$contact->phone}";
+        });
+    }
+}
+
+
 if (!function_exists('get_tenants_by_property')) {
     /**
      * Fetch tenants by property ID using Eloquent relationships and include property address.
@@ -579,5 +613,29 @@ if (!function_exists('generateReferenceNumber')) {
 
             return $prefix . str_pad($number, 7, '0', STR_PAD_LEFT);
         });
+    }
+}
+
+if (!function_exists('getInvoiceStatusBadge')) {
+    function getInvoiceStatusBadge($statusId)
+    {
+        return [
+            1 => 'bg-warning',  // Pending
+            2 => 'bg-success',  // Paid
+            3 => 'bg-danger',   // Overdue
+            4 => 'bg-secondary' // Cancelled
+        ][$statusId] ?? 'bg-dark';
+    }
+}
+
+if (!function_exists('getInvoiceStatusText')) {
+    function getInvoiceStatusText($statusId)
+    {
+        return [
+            1 => 'Pending',
+            2 => 'Paid',
+            3 => 'Overdue',
+            4 => 'Cancelled'
+        ][$statusId] ?? 'Unknown';
     }
 }

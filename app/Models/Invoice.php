@@ -14,15 +14,14 @@ class Invoice extends Model
         'invoice_number',
         'work_order_id',
         'property_id',
-        'tenant_id',
-        'landlord_id',
+        'contact_id',
         'invoice_date',
         'due_date',
         'subtotal',
         'tax_amount',
         'total_amount',
         'status_id',
-        'invoiced_date',
+        'invoiced_date_time',
     ];
 
     public function workOrder()
@@ -43,5 +42,10 @@ class Invoice extends Model
     public function status()
     {
         return $this->belongsTo(InvoiceStatuses::class);
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
     }
 }

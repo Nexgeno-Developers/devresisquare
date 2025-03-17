@@ -13,6 +13,42 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf;
 class InvoiceController
 {
     /**
+    * Display a list of all invoices.
+    */
+    public function index(Request $request)
+    {
+        $query = Invoice::with(['workOrder.repairIssue.property', 'contact']);
+
+        // Apply filters if provided
+        if ($request->has('status')) {
+            $statusMap = [
+                'pending' => 1,
+                'paid' => 2,
+                'overdue' => 3,
+                'cancelled' => 4
+            ];
+            if (array_key_exists($request->status, $statusMap)) {
+                $query->where('status_id', $statusMap[$request->status]);
+            }
+        }
+    
+        // if ($request->has('search')) {
+        //     $query->where(function ($q) use ($request) {
+        //         $q->where('invoice_number', 'LIKE', "%{$request->search}%")
+        //           ->orWhereHas('contact', function ($q) use ($request) {
+        //               $q->where('full_name', 'LIKE', "%{$request->search}%");
+        //           })
+        //           ->orWhereHas('workOrder.repairIssue.property', function ($q) use ($request) {
+        //               $q->where('name', 'LIKE', "%{$request->search}%");
+        //           });
+        //     });
+        // }
+    
+        $invoices = $query->latest()->paginate(10); // Pagination with 10 records per page
+        return view('backend.invoices.index', compact('invoices'));
+    }
+
+    /**
      * Generate an invoice from a Work Order.
      */
     public function createFromWorkOrder(Request $request, $workOrderId)
@@ -37,11 +73,14 @@ class InvoiceController
 
         // Create the invoice
         $invoiceNumber = generateReferenceNumber(Invoice::class, 'invoice_no', 'RESISQREINV');
-        
-        $subTotal = $workOrder->actual_cost + $workOrder->charge_to_landlord;
+        if($workOrder->charge_to_landlord > 0){
+            $subTotal = $workOrder->actual_cost + $workOrder->charge_to_landlord;
+        }else{
+            $subTotal = $workOrder->actual_cost;
+        }
         // $taxAmount = ($workOrder->actual_cost * 20) / 100;  // Assume 20% VAT
-        $taxAmount = 0;  // Assume 20% VAT
-        $totalAmount = $workOrder->actual_cost + $taxAmount;
+        $taxAmount = 0;
+        $totalAmount = $subTotal + $taxAmount;
         $notes = $workOrder->extra_notes;
         
         $invoice = Invoice::create([
@@ -60,16 +99,32 @@ class InvoiceController
             'invoiced_date_time' => now(),
         ]);
 
+        // echo "<pre>";
+        // var_dump($invoice);
+        // echo "</pre>";
+        // exit();
+
         // Add Work Order details as an invoice item
         InvoiceItems::create([
             'invoice_id' => $invoice->id,
             'description' => "Work Order #{$workOrder->works_order_no} - " . $workOrder->job_scope,
-            // 'unit_price' => $workOrder->actual_cost,
-            // 'quantity' => 1,
-            // 'total_price' => $workOrder->actual_cost,
+            'unit_price' => $workOrder->actual_cost,
+            'quantity' => 1,
+            'total_price' => $workOrder->actual_cost,
             // 'tax_rate_id' => 1, // Assume Standard VAT (20%)
         ]);
 
+        // 🔹 Add Additional Charge to Landlord (if applicable)
+        if ($workOrder->charge_to_landlord > 0) {
+            InvoiceItems::create([
+                'invoice_id' => $invoice->id,
+                'description' => "Charge to Landlord for Work Order #{$workOrder->works_order_no}",
+                'unit_price' => $workOrder->charge_to_landlord,
+                'quantity' => 1,
+                'total_price' => $workOrder->charge_to_landlord,
+            ]);
+        }
+        
         return response()->json([
             'message' => 'Invoice generated successfully!',
             'invoice_id' => $invoice->id
@@ -81,7 +136,7 @@ class InvoiceController
      */
     public function show($invoiceId)
     {
-        $invoice = Invoice::with(['workOrder', 'items'])->findOrFail($invoiceId);
+        $invoice = Invoice::with(['workOrder.repairIssue.property', 'contact', 'items'])->findOrFail($invoiceId);
         return view('backend.invoices.show', compact('invoice'));
     }
 

@@ -259,6 +259,7 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('/invoices')->group(function () {
             Route::controller(InvoiceController::class)->group(function () {
+                Route::get('/', 'index')->name('invoices.index');
                 Route::post('/generate/{workOrderId}', 'createFromWorkOrder')->name('invoices.generate');
                 Route::get('/view/{id}', 'show')->name('invoices.show');
                 Route::get('/download/{id}', 'download')->name('invoices.download');

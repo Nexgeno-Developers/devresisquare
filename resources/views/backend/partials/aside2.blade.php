@@ -135,7 +135,36 @@
             </ul>
         </li>
 
-
+        @php
+            $invoiceStatuses = [
+                'all' => 'All Invoices',
+                'pending' => 'Pending Invoices',
+                'paid' => 'Paid Invoices',
+                'overdue' => 'Overdue Invoices',
+                'cancelled' => 'Cancelled Invoices'
+            ];
+        @endphp
+        
+        <li class="sidebar-list-item submenu_wrapper">
+            <a href="#invoiceSubmenu" data-bs-toggle="collapse"
+            aria-expanded="{{ request()->is('admin/invoices*') ? 'true' : 'false' }}"
+            class="dropdown-toggle {{ request()->is('admin/invoices*') ? 'active' : '' }}">
+                <i class="fas fa-file-invoice-dollar aiz-side-nav-icon"></i>
+                <span class="aiz-side-nav-text">Invoices</span>
+                <span class="aiz-side-nav-arrow"></span>
+            </a>
+            <ul class="aiz-side-nav-list level-2 collapse {{ request()->is('admin/invoices*') ? 'show' : '' }}" id="invoiceSubmenu">
+                @foreach ($invoiceStatuses as $key => $label)
+                    <li class="sidebar-sub-list-item">
+                        <a href="{{ route('admin.invoices.index', $key !== 'all' ? ['status' => $key] : []) }}"
+                        class="aiz-side-nav-link {{ request('status', 'all') == $key ? 'active' : '' }}">
+                            <span class="aiz-side-nav-text">{{ $label }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </li>
+    
         <li class="sidebar-list-item">
             <a href="#">
                 <i class="fa-solid fa-file-alt"></i> Documents

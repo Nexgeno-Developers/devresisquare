@@ -111,4 +111,9 @@ class RepairIssue extends Model
         return $this->hasOne(WorkOrder::class, 'repair_issue_id');
     }
 
+    // Get the invoice through WorkOrder
+    public function invoice()
+    {
+        return $this->hasOneThrough(Invoice::class, WorkOrder::class, 'repair_issue_id', 'work_order_id');
+    }
 }

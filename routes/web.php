@@ -6,6 +6,12 @@ use App\Http\Controllers\Backend\AuthenticateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Backend\AizUploadController;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
+
+// Route::get('/test-pdf', function() {
+//     $pdf = PDF::loadHTML('<h1>Hello World</h1>');
+//     return $pdf->download('test.pdf');
+// });
 
 // Group for web routes
 Route::group(['middleware' => 'web'], function () {

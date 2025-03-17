@@ -7,8 +7,17 @@
 }
 
 </style>
-<div class="container">
-    <h1>Edit Repair Issue</h1>
+    <div class="row align-items-center m-4">
+        <div class="col-6">
+            <h1>Edit Repair Issue</h1>
+        </div>
+        <div class="col-6">
+            <button class=" float-end btn btn-primary" data-bs-toggle="modal" data-bs-target="#workOrderModal">{{ $repairIssue->workOrder ? 'Edit Work Order' : 'Create Work Order' }}</button>
+        </div>
+    </div>
+
+    <!-- Work Order Modal -->
+    @include('backend.work_orders.work_order_form')
 
     <form id="repair-form-page" action="{{ route('admin.property_repairs.update', $repairIssue->id) }}" method="POST">
         @csrf
@@ -190,12 +199,22 @@
             </div>
             <div class="col-6">
                 <div class="card mb-3 mb-3">
-                    <div class="card-header">Status</div>
+                    <div class="card-header">Repair Statuses</div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="status">Ticket Status</label>
+                        <div class="form-group mb-2">
+                            <label for="sub_status">Job Status(contractor)</label>
+                            <select name="sub_status" id="sub_status" class="form-control">
+                                @foreach(['Pending', 'Quoted', 'Awarded','Work Completed'] as $sub_status)
+                                    <option value="{{ $sub_status }}" {{ $repairIssue->sub_status == $sub_status ? 'selected' : '' }}>
+                                        {{ $sub_status }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="status">Repair Ticket Status</label>
                             <select name="status" id="status" class="form-control">
-                                @foreach(['Pending', 'Reported', 'Under Process', 'Work Completed', 'Invoice Received', 'Invoice Paid', 'Closed'] as $status)
+                                @foreach(['Pending', 'Reported', 'Under Process', 'Work Completed', 'Closed', 'Cancelled'] as $status)
                                     <option value="{{ $status }}" {{ $repairIssue->status == $status ? 'selected' : '' }}>
                                         {{ $status }}
                                     </option>
@@ -256,6 +275,23 @@
                                 </label>
                             </div>
                         </div>
+                        <!-- Exclusive VAT Fields (hidden by default) -->
+                        <div class="form-group mt-3 d-none" id="exclusive_vat_fields">
+                            <label for="vat_percentage">VAT Percentage</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">%</span>
+                                <input type="text" name="vat_percentage" id="vat_percentage" value="{{ old('vat_percentage', $repairIssue->vat_percentage) }}" class="form-control" placeholder="Enter VAT Percentage" aria-label="VAT Percentage" aria-describedby="basic-addon1">
+                              </div>
+                        </div>
+
+                        <!-- VAT Calculation Preview -->
+                        <div class="form-group d-none" id="vat_calculation_preview">
+                            <label for="vat_calculation">VAT Calculation Preview</label>
+                            <div class="form-control" id="vat_calculation">
+                                <!-- Calculation preview will be displayed here -->
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 {{-- @endif --}}
@@ -330,6 +366,65 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Work Order #{{ $repairIssue->workOrder->works_order_no }} Details</h5>
+                    </div>
+                    <div class="card-body">
+                        @if($repairIssue->workOrder)                            
+                            <div class="row">
+                                <div class="col-6">
+                                    <p><strong>Job Status:</strong> {{ $repairIssue->workOrder->job_status }}</p>
+                                    <p><strong>Job Type:</strong> {{ $repairIssue->workOrder->jobType->name ?? 'N/A' }}</p>
+                                    <p><strong>Job Sub Type:</strong> {{ $repairIssue->workOrder->jobSubType->name ?? 'N/A' }}</p>
+                                    <p><strong>Job Scope:</strong> {{ $repairIssue->workOrder->job_scope }}</p>
+                            
+                                    <p><strong>Tentative Start Date:</strong> {{ formatDate($repairIssue->workOrder->tentative_start_date ?? 'N/A') }}</p>
+                                    <p><strong>Tentative End Date:</strong> {{ formatDate($repairIssue->workOrder->tentative_end_date ?? 'N/A') }}</p>
+                                    <p><strong>Booked Date:</strong> {{ formatDate($repairIssue->workOrder->booked_date ?? 'N/A') }}</p>
+                                    <p><strong>Invoice To:</strong> {{ $repairIssue->workOrder->invoice_to }}</p>
+                                    <p><strong>Payment Terms:</strong> {{ $repairIssue->workOrder->payment_by }}</p>
+                                </div>
+                            
+                                <div class="col-6">
+                                
+                                    <p><strong>Estimated Cost:</strong> {{getPoundSymbol()}}{{ number_format($repairIssue->workOrder->estimated_cost, 2) }}</p>
+                                    <p><strong>Actual Cost:</strong> {{getPoundSymbol()}}{{ number_format($repairIssue->workOrder->actual_cost, 2) }}</p>
+                                    <p><strong>Charge to Landlord:</strong> {{getPoundSymbol()}}{{ number_format($repairIssue->workOrder->charge_to_landlord, 2) }}</p>
+                            
+                                    <p><strong>Status:</strong> 
+                                        <span class="badge bg-success">{{ $repairIssue->workOrder->status }}</span>
+                                    </p>
+                            
+                                    <p><strong>Date And Time:</strong> {{ formatDateTime($repairIssue->workOrder->date_time ?? 'N/A') }}</p>
+                                    <p><strong>Extra Notes:</strong> {{ $repairIssue->workOrder->extra_notes }}</p>
+                            
+                                    <!-- Quote Attachment (if available) -->
+                                    @if($repairIssue->workOrder->quote_attachment)
+                                        <p><strong>Quote Attachment:</strong> 
+                                            <a href="{{ asset('storage/' . optional($repairIssue->workOrder->quoteAttachment)->file_name) }}" 
+                                                target="_blank" 
+                                                class="btn btn-sm btn-secondary">
+                                                View File
+                                            </a>
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+                        @if(!$repairIssue->workOrder)
+                            <p class="text-danger">No work order found for this issue.</p>
+                        @endif
+                            
+                    </div>
+                </div>
+            </div>
+        </div>        
+    
+
+        
         <button type="submit" class="float-end btn btn-primary">Update</button>
     </form>
 
@@ -343,7 +438,281 @@
     // Embedding saved contractor assignments from the controller.
     // Each contractor assignment should have at least: contractor_id, cost_price, contractor_preferred_availability.
     var savedContractorAssignments = {!! json_encode($contractorAssignments->toArray()) !!};
-    console.log("Saved Contractor Assignments:", savedContractorAssignments);
+    // console.log("Saved Contractor Assignments:", savedContractorAssignments);
+
+
+    $(document).ready(function () {       
+        function loadJobSubTypes(jobTypeId, selectedSubTypeId = null) {
+            if (!jobTypeId) {
+                $("#jobSubTypeSelect").html('<option disabled value="">Select Job Sub Type</option>');
+                return;
+            }
+
+            var url = "{{ route('admin.job_types.getSubCategories', ':id') }}".replace(':id', jobTypeId);
+
+            $("#jobSubTypeSelect").html('<option value="">Loading...</option>');
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (response) {
+                    $("#jobSubTypeSelect").html('<option disabled value="">Select Job Sub Type</option>');
+                    $.each(response, function (key, value) {
+                        let selected = selectedSubTypeId == value.id ? 'selected' : '';
+                        $("#jobSubTypeSelect").append(`<option value="${value.id}" ${selected}>${value.name}</option>`);
+                    });
+                },
+                error: function () {
+                    $("#jobSubTypeSelect").html('<option disabled value="">No Sub Types Found</option>');
+                }
+            });
+        }
+
+        // When Job Type changes
+        $(document).on("change", "#jobTypeSelect", function () {
+            var jobTypeId = $(this).val();
+            loadJobSubTypes(jobTypeId);
+        });
+
+        // Auto-select job sub-type when editing
+        var existingJobTypeId = $("#jobTypeSelect").val();
+        var existingJobSubTypeId = "{{ $repairIssue->workOrder->job_sub_type_id ?? '' }}";
+        if (existingJobTypeId) {
+            loadJobSubTypes(existingJobTypeId, existingJobSubTypeId);
+        }
+        
+        // $(document).on('change', '#jobTypeSelect', function () {
+        //     var jobTypeId = $(this).val();
+        //     var url = "{{ route('admin.job_types.getSubCategories', ':id') }}"; 
+        //     url = url.replace(':id', jobTypeId);
+
+        //     $('#jobSubTypeSelect').html('<option value="">Loading...</option>');
+
+        //     $.ajax({
+        //         url: url,
+        //         type: 'GET',
+        //         success: function (response) {
+        //             $('#jobSubTypeSelect').html('<option disabled value="">Select Job Sub Type</option>');
+        //             $.each(response, function (key, value) {
+        //                 $('#jobSubTypeSelect').append('<option value="' + value.id + '">' + value.name + '</option>');
+        //             });
+        //         },
+        //         error: function () {
+        //             $('#jobSubTypeSelect').html('<option disabled value="">No Sub Types Found</option>');
+        //         }
+        //     });
+        // });
+        
+        // $("button[id='work_order_save_btn']").on('click', function(e) {
+        //     e.preventDefault();
+        //     initValidate('#workOrderForm');
+        // });
+
+        // Initialize jQuery validation on form load
+        initValidate('#workOrderForm');
+
+        $('#workOrderForm').submit(function (e) {
+            e.preventDefault();
+                    
+            // Check if form is valid before submitting
+            if (!$(this).valid()) {
+                return;
+            }
+            
+            var formData = new FormData(this);
+            $.ajax({
+                url: "{{ route('admin.work_orders.store') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    AIZ.plugins.notify('success', response.message);
+                    $('#workOrderModal').modal('hide');
+                    location.reload(); // Refresh the page to show new work orders
+                },
+                error: function (error) {
+                    console.error(error);
+                    let errorMessage = error.responseJSON?.message || 'Error Creating Work Order';
+                    AIZ.plugins.notify('danger', errorMessage);
+                }
+                // error: function (xhr) {
+                //     alert("Error Creating Work Order: " + xhr.responseJSON.message);
+                // }
+            });
+        });
+
+        $(document).on("click", "#generateInvoiceBtn", function () {
+            let workOrderId = $("#work_order_id").val();
+
+            // Build the URL using the named route and replace the placeholder with the work order ID
+            var url = "{{ route('admin.invoices.generate', ['workOrderId' => 'id']) }}".replace('id', workOrderId);
+
+            
+            if (!workOrderId) {
+                alert("No Work Order found!");
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function (response) {
+                    alert(response.message);
+
+                    // Freeze the form
+                    $("#workOrderForm :input").prop("disabled", true);
+                    $("#generateInvoiceBtn").text("Invoice Generated").prop("disabled", true);
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+
+        function loadInvoiceToDetails(invoiceTo, propertyId) {
+            let categoryId = null;
+            $("#contactDetails").hide();
+            let existingInvoiceToId = $("#existingInvoiceToId").val(); // Get preselected invoice_to_id
+            // console.log('Existing ID: ' + existingInvoiceToId);
+
+            if (invoiceTo === "Landlord") {
+                categoryId = 4; // Landlord
+                var endpoint = "{{ route('admin.getContactsByProperty', ['propertyId' => 'PROPERTYID', 'categoryId' => 'CATEGORYID']) }}";
+                endpoint = endpoint.replace('PROPERTYID', propertyId).replace('CATEGORYID', categoryId);
+            } else if (invoiceTo === "Tenant") {
+                var endpoint = "{{ route('admin.getTenantsByProperty', ['propertyId' => 'PROPERTYID']) }}";
+                endpoint = endpoint.replace('PROPERTYID', propertyId);
+            } else {
+                $("#invoiceToContainer").html('');
+                $("#contactDetails").hide();
+                return;
+            }
+
+            $("#invoiceToContainer").html('<select class="form-control"><option>Loading...</option></select>');
+
+            $.ajax({
+                url: endpoint,
+                type: 'GET',
+                success: function (response) {
+                    var dropdown = '<div class="form-group">';
+                    dropdown += '<label class="form-label">Select ' + invoiceTo + '</label>';
+                    dropdown += '<select name="invoice_to_id" id="invoiceToSelect" class="form-control">';
+                    dropdown += '<option value="">Select ' + invoiceTo + '</option>';
+
+                    $.each(response, function (index, item) {
+                        let isSelected = parseInt(item.id) === parseInt(existingInvoiceToId) ? 'selected' : '';
+                        // console.log('Checking ID: ' + item.id + ', Selected: ' + isSelected);
+
+                        dropdown += `<option value="${item.id}" ${isSelected} 
+                                    data-email="${item.email}" 
+                                    data-phone="${item.phone}" 
+                                    data-name="${item.full_name}" 
+                                    data-address="${item.full_address || ''}">
+                                    ${item.full_name}
+                                    </option>`;
+                    });
+
+                    dropdown += '</select></div>';
+                    $("#invoiceToContainer").html(dropdown);
+
+                    if (existingInvoiceToId) {
+                        $("#invoiceToSelect").val(existingInvoiceToId).trigger("change");
+                        // console.log("Final selection applied: " + $("#invoiceToSelect").val());
+                    }
+                },
+                error: function () {
+                    $("#invoiceToContainer").html('<p class="text-danger">Unable to load details</p>');
+                }
+            });
+        }
+
+        var selectedInvoiceTo = $("input[name='invoice_to']:checked").val();
+        var propertyId = $("#property_id").val();
+
+        // Listen for changes on the Invoice To radio buttons
+        $(document).on("change", "input[name='invoice_to']", function () {
+            var invoiceTo = $(this).val();
+            var propertyId = $("#property_id").val();
+            loadInvoiceToDetails(invoiceTo, propertyId);
+            updateStatusOptions(invoiceTo);
+        });
+
+        // Preload if Landlord or Tenant is already selected
+        if (selectedInvoiceTo) {
+            loadInvoiceToDetails(selectedInvoiceTo, propertyId);
+            updateStatusOptions(selectedInvoiceTo);
+        }
+
+        // Show Contact Details When a Contact is Selected
+        $(document).on("change", "#invoiceToSelect", function () {
+            var selectedOption = $(this).find(':selected');
+            // var name = selectedOption.data('name');
+            var address = selectedOption.data('address');
+            var phone = selectedOption.data('phone');
+            var email = selectedOption.data('email');
+
+            if (address) {
+                $('#contactAddress').text(address);
+                $('#contactPhone').text(phone);
+                $('#contactEmail').text(email);
+                $('#contactDetails').show();
+            } else {
+                $('#contactDetails').hide();
+            }
+        });
+
+        function updateStatusOptions(invoiceTo) {
+            let statusOptions = [];
+            if (invoiceTo === "Company") {
+                statusOptions = [
+                    { value: "Raised", text: "Raised" },
+                    { value: "Sent to Contractor", text: "Sent to Contractor" },
+                    { value: "Completed", text: "Completed" },
+                    { value: "Cancelled", text: "Cancelled" }
+                ];
+            } else if (invoiceTo === "Landlord" || invoiceTo === "Tenant") {
+                statusOptions = [
+                    { value: "Raised", text: "Raised" },
+                    { value: "Sent to Contractor", text: "Sent to Contractor" },
+                    { value: "Work Completed - Invoice Received From Contractor", text: "Work Completed - Invoice Received From Contractor" },
+                    { value: "Work Completed - Invoice Generated to Landlord", text: "Work Completed - Invoice Generated to Landlord (If landlord paying)" },
+                    { value: "Work Completed - Invoice Generated to Tenant", text: "Work Completed - Invoice Generated to Tenant (If tenant paying)" },
+                    { value: "Completed - Invoice Generated", text: "Completed - Invoice Generated (to Landlord-Tenant)" },
+                    { value: "Work Completed - Invoice Paid To Contractor", text: "Work Completed - Invoice Paid To Contractor" },
+                    { value: "Cancelled", text: "Cancelled" }
+                ];
+            }
+
+            // Populate status dropdown
+            let statusDropdown = $("#statusSelect");
+            statusDropdown.html(""); // Clear existing options
+
+            $.each(statusOptions, function (index, option) {
+                statusDropdown.append(new Option(option.text, option.value));
+            });
+
+            // ✅ Ensure existing status is preselected
+            let existingStatus = $("#existingStatus").val();
+            if (existingStatus) {
+                statusDropdown.val(existingStatus);
+            }
+
+            // console.log("Updated Status Options for:", invoiceTo);
+        }
+
+        // Listen for changes on the Invoice To radio buttons
+        $(document).on("change", "input[name='invoice_to']", function () {
+            loadInvoiceToDetails($(this).val(), $("#property_id").val());
+            updateStatusOptions($(this).val());
+        });
+        
+    });
+
+
 </script>
 <script>
     $(document).ready(function () {
@@ -363,10 +732,10 @@
             async: false,
             success: function(data) {
                 allCategories = data;
-                console.log("All Categories Loaded:", allCategories);
+                // console.log("All Categories Loaded:", allCategories);
             },
             error: function() {
-                console.log("Error fetching categories.");
+                // console.log("Error fetching categories.");
             }
         });
 
@@ -388,7 +757,7 @@
             e.preventDefault();
             // Save the current property and tenant as the "previous" selection.
             window.previousTenantId = $('#tenant-select').val();
-            console.log('Previous Tenant ID:', window.previousTenantId);
+            // console.log('Previous Tenant ID:', window.previousTenantId);
             $('#dynamic_property_table').addClass('d-none'); // Hide the selected property table
             $('#search_property_section').show(); // Show the search input
             $('#cancel_property_change').removeClass('d-none'); // Show the search input
@@ -433,7 +802,7 @@
         function initSelectedProperties() {
             const selectedProperties_f = JSON.parse($('#selected_properties').val()); // Assuming selected properties are stored in a hidden field
             if (selectedProperties_f) {
-                console.log('Selected Properties:', selectedProperties_f);
+                // console.log('Selected Properties:', selectedProperties_f);
                 searchPropertiesByIds(selectedProperties_f); // Call the function to fetch and display selected properties
             }
         }
@@ -469,7 +838,18 @@
         }
 
         initSelectedProperties();
+        
+        // Function to get the selected property address from the table
+        function getSelectedPropertyAddress() {
+            var selectedProperty = $('#dynamic_property_table tbody tr:first td:first').text(); // Get first row's address column
+            return selectedProperty ? selectedProperty.trim() : 'N/A';
+        }
 
+        // When the Work Order modal is opened, set the property address
+        $(document).on('click', '#workOrderModal', function () {
+            var propertyAddress = getSelectedPropertyAddress();
+            $('.set-property-address').text(propertyAddress); // Set address in modal
+        });
 
         $(document).on('keyup keydown', '#search_property1', function () {
             var query = $(this).val().trim();
@@ -601,7 +981,7 @@
                     }
                 },
                 error: function() {
-                    console.log("Error fetching tenants.");
+                    // console.log("Error fetching tenants.");
                 }
             });
         }
@@ -750,10 +1130,10 @@
                 $(`[data-level="${currentLevel}"]`).hide().find('.row').empty();
                 delete selectedCategories[`level_${currentLevel}`];
                 currentLevel--;
-                console.log(currentLevel);
+                // console.log(currentLevel);
 
                     delete selectedCategories[`level_${currentLevel}`];
-                    console.log(selectedCategories);
+                    // console.log(selectedCategories);
 
                 // Uncheck all radio buttons in the current level before removing the selection.
                 $(`[data-level="${currentLevel}"] input[type="radio"]`).prop('checked', false);
@@ -1078,8 +1458,75 @@
             updateContractorIndexes();
         });
 
-        console.log("Contractor Assignment Script Initialized");
+        // console.log("Contractor Assignment Script Initialized");
+
+        // Initialize the VAT type and VAT percentage from the database
+        var vatTypeFromDb = '{{ old('vat_type', $repairIssue->vat_type) }}';
+        var vatPercentageFromDb = '{{ old('vat_percentage', $repairIssue->vat_percentage) }}';
+
+        // Set the VAT type radio button based on the value from the database
+        if (vatTypeFromDb === 'exclusive') {
+            $("#vat_type_exclusive").prop('checked', true);
+            $("#exclusive_vat_fields").removeClass('d-none'); // Show VAT percentage field
+            if (vatPercentageFromDb > 0) {
+                $("#vat_calculation_preview").removeClass('d-none'); // Show VAT calculation preview
+                $("#vat_percentage").val(vatPercentageFromDb); // Set VAT percentage
+                // Call the VAT calculation function to update the preview
+                calculateVAT();
+            }
+            $("#vat_percentage").prop('required', true); // Make VAT percentage required
+        } else {
+            $("#vat_type_inclusive").prop('checked', true);
+            $("#exclusive_vat_fields").addClass('d-none'); // Hide VAT percentage field
+            $("#vat_calculation_preview").addClass('d-none'); // Hide VAT calculation preview
+            $("#vat_percentage").prop('required', false); // Remove the required attribute
+        }
+
+        // Show/hide exclusive VAT fields based on VAT type selection
+        $("input[name='vat_type']").on('change', function () {
+            if ($("#vat_type_exclusive").is(':checked')) {
+                $("#exclusive_vat_fields").removeClass('d-none');
+                // Make VAT percentage required if Exclusive VAT is selected
+                $("#vat_percentage").prop('required', true);
+                // Show the VAT calculation preview only if VAT percentage is not empty
+                if ($("#vat_percentage").val().length > 0 && $("#vat_percentage").val() > 0) {
+                    $("#vat_calculation_preview").removeClass('d-none');
+                }
+                calculateVAT();
+            } else {
+                $("#exclusive_vat_fields").addClass('d-none');
+                $("#vat_calculation_preview").addClass('d-none');
+                $("#vat_percentage").val(''); // Clear VAT percentage input if switching to inclusive VAT
+                $("#vat_percentage").prop('required', false); // Remove the required attribute
+            }
+        });
+
+        // Calculate VAT preview when percentage is entered
+        $("#vat_percentage").on('input', function () {
+            // Show the VAT calculation preview when the VAT percentage has a value and is greater than 0
+            if ($(this).val().length > 0 && $(this).val() > 0) {
+                $("#vat_calculation_preview").removeClass('d-none');
+            } else {
+                $("#vat_calculation_preview").addClass('d-none');
+            }
+            calculateVAT();
+        });
+
+        // Function to calculate and show VAT preview
+        function calculateVAT() {
+            var estimatedPrice = parseFloat($("#estimated_price").val()) || 0;
+            var vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+            if (estimatedPrice > 0 && vatPercentage > 0) {
+                var vatAmount = estimatedPrice * (vatPercentage / 100);
+                var totalPrice = estimatedPrice + vatAmount;
+                $("#vat_calculation").html(`VAT Amount: $${vatAmount.toFixed(2)}<br>Total Price (including VAT): $${totalPrice.toFixed(2)}`);
+            } else {
+                $("#vat_calculation").html(""); // Clear calculation if invalid or empty values
+            }
+        }
     });
+
+
 
 </script>
 @endsection

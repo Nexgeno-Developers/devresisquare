@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             PropertiesTableSeeder::class,
             PropertyResponsibilitySeeder::class,
             ComplianceTypeSeeder::class,
+            JobTypesSeeder::class,
         ]);
 
         // User::factory()->create([

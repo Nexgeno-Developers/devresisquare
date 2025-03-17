@@ -2,11 +2,21 @@
 <html>
 
 <head>
-    <title>Backend Dashboard</title>
+    <title>{{ get_setting('website_name') }} - Backend Dashboard</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="app-url" content="{{ getBaseURL() }}">
 	<meta name="file-base-url" content="{{ getFileBaseURL() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{-- <title>@yield('meta_title', get_setting('website_name').' | '.get_setting('site_motto'))</title> --}}
+
+    <meta charset="utf-8">
+    <meta name="description" content="@yield('meta_description', get_setting('meta_description') )" />
+    <meta name="keywords" content="@yield('meta_keywords', get_setting('meta_keywords') )">
+
+    <!-- Favicon -->
+	<link rel="icon" href="{{ uploaded_asset(get_setting('site_icon')) }}">
+	<title>{{ get_setting('website_name').' | '.get_setting('site_motto') }}</title>
 
     <!-- Use asset() to generate the correct URL -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -23,7 +33,7 @@
     @stack('styles')
 
 
-    {{-- <link href="{{ asset('asset/backend/css/aiz-core.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('asset/backend/css/aiz-main.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('asset/backend/css/media.css') }}" rel="stylesheet"> --}}
     {{-- <link href="{{ asset('asset/backend/css/vendors.css') }}" rel="stylesheet"> --}}
 </head>
@@ -43,7 +53,7 @@
             {{-- @include('backend.partials.aside') --}}
 
             <div id="wrapper" class="main_content">
-                <div class="alert_wrapper">
+                {{-- <div class="alert_wrapper">
                     <!-- Display success message -->
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -68,7 +78,7 @@
                             </ul>
                         </div>
                     @endif
-                </div>
+                </div> --}}
 
                 @yield('content')
             </div>
@@ -86,7 +96,7 @@
     </script>
     @yield('page.scripts')
     @yield('quickstepform.scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function () {
             @if(session('error'))
                 toastr.error("{{ session('error') }}", "Login Failed", {
@@ -113,7 +123,35 @@
             };
         });
 
+    </script> --}}
+    <script>
+        $(document).ready(function () {
+            // Check if there are validation errors
+            @if($errors->any())
+                @foreach ($errors->all() as $error)
+                    AIZ.plugins.notify('error', "{{ $error }}", {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "timeOut": 7000,
+                        "extendedTimeOut": 1000
+                    });
+                @endforeach
+            @endif
+
+            // Check if a custom error message is present
+            @if(session('error'))
+                AIZ.plugins.notify('error', "{{ session('error') }}", {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "timeOut": 7000,
+                    "extendedTimeOut": 1000
+                });
+            @endif
+        });
     </script>
+
 </body>
 
 </html>

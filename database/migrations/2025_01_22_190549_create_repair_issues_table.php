@@ -32,9 +32,10 @@ return new class extends Migration
             $table->enum('vat_type', ['inclusive', 'exclusive'])->nullable();
 
             $table->enum('priority', ['low', 'medium', 'high', 'critical']);
+            $table->string('sub_status');
             $table->string('status');
-
             $table->foreignId('final_contractor_id')->constrained('contacts');
+            $table->string('reference_number', 255);
 
             $table->timestamps();
         });

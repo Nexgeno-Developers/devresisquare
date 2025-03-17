@@ -21,8 +21,8 @@
                 <!-- Company Logo -->
                 <div class="mb-4">
                     <a href="{{ url('/') }}" class="logo">
-                        <img class="img-fluid" width="250" src="{{ uploaded_asset(get_setting('header_logo')) }}" alt="Resisquare logo">
-                        {{-- <img class="img-fluid" width="250" src="{{ asset('asset/images/resisquare-logo.svg') }}" alt="Resisquare logo"> --}}
+                        {{-- <img class="img-fluid" width="250" src="{{ uploaded_asset(get_setting('header_logo')) }}" alt="Resisquare logo"> --}}
+                        <img class="img-fluid" width="250" src="{{ asset('asset/images/resisquare-logo.svg') }}" alt="Resisquare logo">
                     </a>
                 </div>
                 {{-- <h3 class="fw-bold mb-0">

@@ -70,6 +70,9 @@
                     </span>
                 </td>
                 <td>
+                    <a href="{{ route('admin.invoices.edit', $invoice->id) }}" class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </a>
                     <a href="{{ route('admin.invoices.show', $invoice->id) }}" class="btn btn-info btn-sm">View</a>
                 </td>
             </tr>

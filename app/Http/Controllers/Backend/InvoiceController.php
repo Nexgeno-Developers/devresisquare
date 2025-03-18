@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Contact;
 use App\Models\Invoice;
 use App\Models\WorkOrder;
 use App\Models\InvoiceItems;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 
@@ -145,11 +145,34 @@ class InvoiceController
      */
     public function download($invoiceId)
     {
-        $invoice = Invoice::with('workOrder')->findOrFail($invoiceId);
-        $pdf = Pdf::loadView('invoices.invoice_template', compact('invoice'));
+        $invoice = Invoice::with('items', 'contact')->findOrFail($invoiceId);
+    
+        // if (Language::where('code', $language_code)->first()->rtl == 1) {
+        //     $direction = 'rtl';
+        //     $text_align = 'right';
+        //     $not_text_align = 'left';
+        // } else {
+            $direction = 'ltr';
+            $text_align = 'left';
+            $not_text_align = 'right';
+        // }
 
+        $pdf = Pdf::loadView('backend.invoices.invoice_pdf',[
+
+                'direction' => $direction,
+                'text_align' => $text_align,
+                'not_text_align' => $not_text_align
+        ], compact('invoice'));
+    
         return $pdf->download("invoice-{$invoice->invoice_number}.pdf");
     }
+    // public function download($invoiceId)
+    // {
+    //     $invoice = Invoice::with('workOrder')->findOrFail($invoiceId);
+    //     $pdf = Pdf::loadView('invoices.invoice_template', compact('invoice'));
+
+    //     return $pdf->download("invoice-{$invoice->invoice_number}.pdf");
+    // }
 
     /**
      * Mark Invoice as Paid.
@@ -162,5 +185,51 @@ class InvoiceController
         return response()->json(['message' => 'Invoice marked as paid!']);
     }
 
+    public function edit($invoiceId)
+    {
+        $invoice = Invoice::with('items')->findOrFail($invoiceId);
+        $contacts = Contact::all(); // Fetch clients
+
+        return view('backend.invoices.edit', compact('invoice', 'contacts'));
+    }
+
+    public function update(Request $request, $invoiceId)
+    {
+        $request->validate([
+            'invoice_number' => 'required|string|max:255',
+            'invoice_date' => 'required|date',
+            'due_date' => 'required|date',
+            'contact_id' => 'required|exists:contacts,id',
+            'items.*.description' => 'required|string|max:255',
+            'items.*.unit_price' => 'required|numeric|min:0',
+            'items.*.quantity' => 'required|integer|min:1',
+        ]);
+
+        // Fetch invoice
+        $invoice = Invoice::findOrFail($invoiceId);
+
+        // Update invoice details
+        $invoice->update([
+            'invoice_number' => $request->invoice_number,
+            'invoice_date' => $request->invoice_date,
+            'due_date' => $request->due_date,
+            'contact_id' => $request->contact_id,
+            'notes' => $request->notes,
+        ]);
+
+        // Update invoice items
+        $invoice->items()->delete(); // Remove existing items
+        foreach ($request->items as $item) {
+            InvoiceItems::create([
+                'invoice_id' => $invoice->id,
+                'description' => $item['description'],
+                'unit_price' => $item['unit_price'],
+                'quantity' => $item['quantity'],
+                'total_price' => $item['unit_price'] * $item['quantity'],
+            ]);
+        }
+
+        return redirect()->route('admin.invoices.index')->with('success', 'Invoice updated successfully!');
+    }
 
 }

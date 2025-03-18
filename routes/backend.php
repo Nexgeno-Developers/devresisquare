@@ -264,6 +264,9 @@ Route::middleware('auth')->group(function () {
                 Route::get('/view/{id}', 'show')->name('invoices.show');
                 Route::get('/download/{id}', 'download')->name('invoices.download');
                 Route::post('/mark-paid/{id}', 'markAsPaid')->name('invoices.mark_paid');
+
+                Route::get('/edit/{invoice}', 'edit')->name('invoices.edit');
+                Route::put('/update/{invoice}', 'update')->name('invoices.update');
             });
         });
     });

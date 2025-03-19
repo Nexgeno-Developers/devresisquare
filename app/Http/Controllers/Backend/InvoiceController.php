@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Contact;
 use App\Models\Invoice;
+use App\Models\TaxRates;
 use App\Models\WorkOrder;
 use App\Models\InvoiceItems;
 use Illuminate\Http\Request;
@@ -189,8 +190,9 @@ class InvoiceController
     {
         $invoice = Invoice::with('items')->findOrFail($invoiceId);
         $contacts = Contact::all(); // Fetch clients
+        $taxRates = TaxRates::all(); // Fetch all tax rates from the database
 
-        return view('backend.invoices.edit', compact('invoice', 'contacts'));
+        return view('backend.invoices.edit', compact('invoice', 'contacts', 'taxRates'));
     }
 
     public function update(Request $request, $invoiceId)

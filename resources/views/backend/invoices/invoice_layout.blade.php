@@ -47,7 +47,9 @@
 		.text-right{
 			text-align:<?php echo  $not_text_align ?>;
 		}
-		
+		.text-muted {
+            color: #595c5f !important;
+        }
 		.text-center{
 			text-align:center;
 		}
@@ -69,8 +71,49 @@
 		    border-bottom:1px solid #f4f4f4;
 		    border-left:1px solid #f4f4f4;
 		}
+        .table-dark th {
+            background-color: #000; /* Dark black */
+            color: white; /* White text */
+        }
+
+        .status-paid {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .status-overdue {
+            color: red;
+            font-weight: bold;
+        }
+
+        .status-cancelled, .status-cancel {
+            color: gray;
+            font-weight: bold;
+            text-decoration: line-through;
+        }
+
+        .status-drafted, .status-draft {
+            color: blue;
+            font-weight: bold;
+        }
+        .background-dark {
+            background-color: #000;
+            color: white;
+        }
+        .background-light {
+            background-color: #f4f4f4;
+        }
+        .background-gray {
+            background-color: #e9ecef;
+        }
 	</style>
     <style>
+        
         body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; }
         .invoice-container { max-width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; }
         .header { text-align: center; margin-bottom: 20px; }
@@ -85,6 +128,7 @@
 <body>
 
 <div class="invoice-container">
+    <!-- Invoice Header -->
     <!-- Company Header -->
     <div class="header">
         @php
@@ -95,52 +139,48 @@
                 <tr>
                     <td>
                         @if($logo != null)
-                            <img loading="lazy"  src="https://laravel.resisquare.co.uk/asset/images/resisquare-logo.svg" height="40" style="display:inline-block;">
+                            {{-- <img class="img-fluid" width="250" src="{{ uploaded_asset(get_setting('header_logo')) }}" alt="Resisquare logo"> --}}
+                            <img loading="lazy" src="https://laravel.resisquare.co.uk/asset/images/resisquare-logo.svg" height="40" style="display:inline-block;">
                         @else
-                            <img loading="lazy"  src="https://laravel.resisquare.co.uk/asset/images/resisquare-logo.svg" height="40" style="display:inline-block;">
+                            <img loading="lazy" src="https://laravel.resisquare.co.uk/asset/images/resisquare-logo.svg" height="40" style="display:inline-block;">
                         @endif
+                    </td>
+                    <td class="text-right">
+                        <h1>@yield('invoice_title', 'Invoice')</h2>
+                        <p># @yield('invoice_number')</p>
+                        <p>@yield('invoice_status')</p>
                     </td>
                 </tr>
             </table>
+            <div style="margin-top:3.2rem;"></div>
             <table>
                 <tr>
-                    <td style="font-size: 1.2rem;" class="strong">@yield('company_name', get_setting('company_name') ?: 'Resisquare' )</td>
-                    <td class="text-right"></td>
+                    <td style="font-size: 1.2rem;" class="strong">@yield('invoice_from', get_setting('company_name') ?: 'Resisquare' )</td>
+                    <td style="font-size: 1.2rem;" class="text-right strong">@yield('invoice_to', '')</td>
                 </tr>
                 <tr>
-                    <td class="gry-color small">
-                        @yield('company_address', get_setting('company_address') ?: '123 Business Street, City, Country')
-                    </td>                
-                    <td class="text-right"></td>
+                    <td class="gry-color small"></td>
+                    <td class="text-right small" style="padding-top: 2rem;"><span class="gry-color small">Invoice Date:</span> <span class=" strong">@yield('invoice_date')</span></td>
                 </tr>
                 <tr>
-                    <td class="gry-color small">Email: @yield('company_email', get_setting('company_email') ?: 'contact@company.com' )</td>
-                    <td class="text-right small"><span class="gry-color small">Order ID:</span> <span class="strong">{{ $order->code }}</span></td>
-                </tr>
-                <tr>
-                    <td class="gry-color small">Phone: @yield('company_phone', get_setting('company_phone') ?: '+21316541541' )</td>
-                    <td class="text-right small"><span class="gry-color small">Order Date:</span> <span class=" strong">{{ date('d-m-Y', $order->date) }}</span></td>
+                    <td class="gry-color small"></td>
+                    <td class="text-right small"><span class="gry-color small">Invoice Due Date:</span> <span class=" strong">@yield('invoice_due_date')</span></td>
                 </tr>
             </table>
-
         </div>
     </div>
-
-    
-    <!-- Invoice Header -->
-    <h2>@yield('invoice_title', 'Invoice')</h2>
-    <p><strong>Invoice Number:</strong> @yield('invoice_number')</p>
-    <p><strong>Invoice Date:</strong> @yield('invoice_date')</p>
-
-    @yield('additional_invoice_info')
 
     <!-- Invoice Content -->
     <div class="invoice-details">
         @yield('invoice_content')
     </div>
 
-    <!-- Total Amount -->
-    <p><strong>Total Amount:</strong> @yield('total_amount')</p>
+    <!-- Invoice Price Breakup-->
+    <div class="invoice-price-details">
+        @yield('invoice_total')
+    </div>
+    
+    @yield('additional_invoice_info')
 
     <!-- Footer -->
     <div class="footer">

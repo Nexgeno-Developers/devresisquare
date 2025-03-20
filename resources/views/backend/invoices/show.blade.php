@@ -2,42 +2,42 @@
 
 @section('content')
 <div class="container">
-    <div class="d-flex justify-content-end gap-3">
-            <a href="{{ route('admin.invoices.index') }}" class="btn btn-secondary">
-                <i class="me-2 fa-solid fa-arrow-left"></i> Back
-            </a>
-            {{-- <button class="btn btn-primary" onclick="window.print();">
-                <i class="me-2 fa-solid fa-print"></i> Print
-            </button> --}}
-            <a href="#" class="btn btn-success">
-                <i class="me-2 fa-regular fa-file-pdf"></i> Download PDF
-            </a>
-        </div>
+    <div class="d-flex justify-content-end gap-3 mt-3">
+        <a href="{{ route('admin.invoices.index') }}" class="btn btn-secondary">
+            <i class="me-2 fa-solid fa-arrow-left"></i> Back
+        </a>
+        {{-- <button class="btn btn-primary" onclick="window.print();">
+            <i class="me-2 fa-solid fa-print"></i> Print
+        </button> --}}
+        
+        <a href="{{ route('admin.invoices.edit', $invoice->id) }}" class="btn btn-warning">
+            <i class="me-2 fa-solid fa-pen-to-square"></i> Edit
+        </a>
 
-    <!-- Sticky Header -->
-    <div class="top shadow-sm bg-white py-3 mb-4">
+        <a href="{{ route('admin.invoices.download', $invoice->id) }}" class="btn btn-success">
+            <i class="me-2 fa-regular fa-file-pdf"></i> Download PDF
+        </a>        
+    </div>
+
+        
+    {{-- <img class="img-fluid" width="250" src="{{ uploaded_asset(get_setting('header_logo')) }}" alt="Resisquare logo"> --}}
+    {{-- <div class="top shadow-sm bg-white py-3 mb-4">
         <div class="container d-flex justify-content-between align-items-center">
             <div>
-                <!-- Company Logo -->
                 <div class="mb-4">
                     <a href="{{ url('/') }}" class="logo">
-                        {{-- <img class="img-fluid" width="250" src="{{ uploaded_asset(get_setting('header_logo')) }}" alt="Resisquare logo"> --}}
                         <img class="img-fluid" width="250" src="{{ asset('asset/images/resisquare-logo.svg') }}" alt="Resisquare logo">
                     </a>
                 </div>
-                {{-- <h3 class="fw-bold mb-0">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    <span class="text-muted">Invoice #</span> {{ $invoice->invoice_number }}
-                </h3> --}}
                 <span class="badge {{ getInvoiceStatusBadge($invoice->status_id) }}">
                     {{ getInvoiceStatusText($invoice->status_id) }}
                 </span>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Invoice Card -->
-    <div class="card shadow-lg invoice-card invoice-card-print">
+    <div class="card shadow-lg invoice-card invoice-card-print p-2 my-4">
         <div class="card-body">
             <div class="row">
                 <!-- Company Info -->

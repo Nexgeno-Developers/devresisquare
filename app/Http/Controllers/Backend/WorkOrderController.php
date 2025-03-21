@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Upload;
 use App\Models\WorkOrder;
 use Illuminate\Http\Request;
+use App\Models\WorkOrderItem;
 use Illuminate\Support\Facades\DB;
 
 class WorkOrderController
@@ -38,7 +39,8 @@ class WorkOrderController
 
         if ($request->has('work_order_id')) {
             // Update existing Work Order
-            $workOrder = WorkOrder::findOrFail($request->work_order_id);
+            $workOrderId = $request->work_order_id;
+            $workOrder = WorkOrder::findOrFail($workOrderId);
             $invoiceTo = $request->invoice_to;
             $workOrder->update([
                 'repair_issue_id' => $request->repair_issue_id,
@@ -59,7 +61,26 @@ class WorkOrderController
                 'extra_notes' => $request->extra_notes,
                 'date_time' => $request->date_time ? Carbon::parse($request->date_time)->format('Y-m-d H:i:s') : $workOrder->date_time,
             ]);
-    
+              
+            // Delete existing Work Order Items
+            $workOrder->items()->delete();
+            // WorkOrderItem::where('work_order_id', $workOrder->id)->delete();
+
+            foreach ($request->items as $item) {
+                $subTotal = $item['unit_price'] * $item['quantity'];
+                $taxAmount = ($subTotal * $item['tax_rate']) / 100;
+                $total = $subTotal + $taxAmount;
+        
+                WorkOrderItem::create([
+                    'work_order_id' => $workOrder->id,
+                    'description' => $item['description'],
+                    'unit_price' => $item['unit_price'],
+                    'quantity' => $item['quantity'],
+                    'tax_rate' => $item['tax_rate'],
+                    'total_price' => $total,
+                ]);
+            }
+            
             return response()->json([
                 'message' => 'Work Order Updated Successfully!',
                 'workOrder' => $workOrder
@@ -89,6 +110,22 @@ class WorkOrderController
                 'extra_notes' => $request->extra_notes,
                 'date_time' => Carbon::parse($request->date_time)->format('Y-m-d H:i:s'),
             ]);
+
+            foreach ($request->items as $item) {
+                $subTotal = $item['unit_price'] * $item['quantity'];
+                $taxAmount = ($subTotal * $item['tax_rate']) / 100;
+                $total = $subTotal + $taxAmount;
+        
+                WorkOrderItem::create([
+                    'work_order_id' => $workOrder->id,
+                    'description' => $item['description'],
+                    'unit_price' => $item['unit_price'],
+                    'quantity' => $item['quantity'],
+                    'tax_rate' => $item['tax_rate'],
+                    'total_price' => $total,
+                ]);
+            }
+
             return response()->json(['message' => 'Work Order Created Successfully!', 'workOrder' => $workOrder]);
             // flash('Work Order Created Successfully!')->success();
             // return back()->json(['workOrder' => $workOrder]);

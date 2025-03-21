@@ -639,3 +639,37 @@ if (!function_exists('getInvoiceStatusText')) {
         ][$statusId] ?? 'Unknown';
     }
 }
+
+if (!function_exists('get_property_address_by_id')) {
+    /**
+     * Fetch the address of a property by its ID and cache the result.
+     *
+     * @param int $propertyId
+     * @return string
+     */
+    function get_property_address_by_id($propertyId)
+    {
+        return Cache::rememberForever("property_address_{$propertyId}", function () use ($propertyId) {
+            $property = Property::where('id', $propertyId)->first(['line_1', 'line_2', 'postcode', 'city', 'country']);
+
+            // Define a default message if address is missing
+            $defaultAddress = 'No address available';
+
+            // Check if all address fields are empty
+            if ($property) {
+                $addressParts = array_filter([
+                    $property->line_1 ?? '',
+                    $property->line_2 ?? '',
+                    $property->postcode ?? '',
+                    $property->city ?? '',
+                    $property->country ?? ''
+                ]);
+
+                // If all address fields are empty, use default message
+                return empty($addressParts) ? $defaultAddress : implode(', ', $addressParts);
+            }
+
+            return $defaultAddress;  // If no property is found
+        });
+    }
+}

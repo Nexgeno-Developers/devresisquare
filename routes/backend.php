@@ -231,6 +231,7 @@ Route::middleware('auth')->group(function () {
                 Route::post('/repair/check-last-step', 'checkLastStep')->name('repair.checkLastStep');
                 Route::get('/get-repair-categories', 'getCategories')->name('get.repair.categories');
                 Route::get('/selected-property/tenants', 'getPropertyTenants')->name('get.property_repairs.tenants');
+                Route::get('/repair/{repair}/workorder-invoice', 'workOrderInvoice')->name('repair.workorder.invoice');
             });
         });
 
